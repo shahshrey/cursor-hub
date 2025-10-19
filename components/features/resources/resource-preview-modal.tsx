@@ -184,7 +184,7 @@ export function ResourcePreviewModal({ resource, isOpen, onClose }: ResourcePrev
                     {frontmatter.category}
                   </Badge>
                 )}
-                {frontmatter.tags && (
+                {frontmatter.tags && typeof frontmatter.tags === 'string' && (
                   <>
                     {frontmatter.tags.split(',').slice(0, 5).map((tag: string, i: number) => (
                       <Badge key={i} variant="outline">

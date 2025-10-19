@@ -55,11 +55,7 @@ export async function signIn(data: SignInData) {
 export async function signOut() {
   const supabase = await createClient()
 
-  const { error } = await supabase.auth.signOut()
-
-  if (error) {
-    return { error: error.message }
-  }
+  await supabase.auth.signOut()
 
   revalidatePath('/', 'layout')
   redirect('/')

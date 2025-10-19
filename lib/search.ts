@@ -1,4 +1,4 @@
-import Fuse from 'fuse.js'
+import Fuse, { type IFuseOptions } from 'fuse.js'
 import type { ResourceMetadata, ResourceType } from '@/types/resources'
 
 export interface SearchOptions {
@@ -13,7 +13,7 @@ export interface SearchResult {
   score?: number
 }
 
-const FUSE_OPTIONS: Fuse.IFuseOptions<ResourceMetadata> = {
+const FUSE_OPTIONS: IFuseOptions<ResourceMetadata> = {
   keys: [
     { name: 'title', weight: 0.4 },
     { name: 'description', weight: 0.3 },

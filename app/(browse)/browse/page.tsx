@@ -1,8 +1,10 @@
+import { Suspense } from 'react'
 import { getResourceIndex } from '@/lib/resources'
 import { ResourceBrowser } from '@/components/features/resources/resource-browser'
 import { Badge } from '@/components/ui/badge'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
+import { ResourceGridSkeleton } from '@/components/features/resources/resource-card-skeleton'
 
 export default async function BrowsePage() {
   const index = getResourceIndex()
@@ -31,10 +33,12 @@ export default async function BrowsePage() {
       </div>
 
       <section className="container mx-auto px-4 py-8">
-        <ResourceBrowser 
-          initialResources={index.resources} 
-          categories={index.categories}
-        />
+        <Suspense fallback={<ResourceGridSkeleton />}>
+          <ResourceBrowser 
+            initialResources={index.resources} 
+            categories={index.categories}
+          />
+        </Suspense>
       </section>
     </div>
   )

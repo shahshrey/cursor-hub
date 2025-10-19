@@ -76,7 +76,7 @@ export async function getFavorites(): Promise<
       .order('created_at', { ascending: false })
 
     if (error || !data) return []
-    return data
+    return data as Array<{ resource_slug: string; resource_type: ResourceType; created_at: string }>
   } catch (error) {
     console.error('Get favorites error:', error)
     return []
@@ -102,7 +102,7 @@ export async function getFavoritesByType(
       .order('created_at', { ascending: false })
 
     if (error || !data) return []
-    return data
+    return data as Array<{ resource_slug: string; resource_type: ResourceType; created_at: string }>
   } catch (error) {
     console.error('Get favorites by type error:', error)
     return []

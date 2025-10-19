@@ -43,7 +43,8 @@ export function ResourceBrowser({ initialResources, categories }: ResourceBrowse
 
   const debouncedSearch = useMemo(
     () =>
-      debounce((query: string) => {
+      debounce((...args: unknown[]) => {
+        const query = args[0] as string
         setDebouncedQuery(query)
         setIsSearching(false)
       }, 300),
