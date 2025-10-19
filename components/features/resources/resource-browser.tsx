@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Fuse from 'fuse.js'
 import type { ResourceMetadata, ResourceIndex, ResourceType } from '@/types/resources'
 import { ResourceCard } from './resource-card'
@@ -17,12 +18,26 @@ interface ResourceBrowserProps {
 type SortOption = 'name' | 'downloads' | 'recent'
 
 export function ResourceBrowser({ initialResources, categories }: ResourceBrowserProps) {
+  const searchParams = useSearchParams()
+  const urlType = searchParams?.get('type') as ResourceType | null
+  const urlCategory = searchParams?.get('category') || ''
+  
   const [searchQuery, setSearchQuery] = useState('')
   const [debouncedQuery, setDebouncedQuery] = useState('')
-  const [activeType, setActiveType] = useState<ResourceType | 'all'>('all')
-  const [activeCategory, setActiveCategory] = useState('')
+  const [activeType, setActiveType] = useState<ResourceType | 'all'>(urlType || 'all')
+  const [activeCategory, setActiveCategory] = useState(urlCategory)
   const [sortBy, setSortBy] = useState<SortOption>('name')
   const [isSearching, setIsSearching] = useState(false)
+  
+  // Update filters when URL params change
+  useEffect(() => {
+    if (urlType) {
+      setActiveType(urlType)
+    }
+    if (urlCategory) {
+      setActiveCategory(urlCategory)
+    }
+  }, [urlType, urlCategory])
   const [previewResource, setPreviewResource] = useState<ResourceMetadata | null>(null)
   const [isPreviewOpen, setIsPreviewOpen] = useState(false)
 

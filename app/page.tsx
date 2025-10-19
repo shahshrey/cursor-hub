@@ -1,10 +1,10 @@
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
-import { Sparkles, FileCode, FileText, Terminal, Zap } from "lucide-react"
+import { Sparkles, FileCode, FileText, Terminal, Zap, Search } from "lucide-react"
 import { getResourceIndex } from '@/lib/resources'
-import { ResourceBrowser } from '@/components/features/resources/resource-browser'
 import { PopularResources } from '@/components/features/resources/popular-resources'
+import { CategoryNavigation } from '@/components/features/resources/category-navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { Button } from '@/components/ui/button'
@@ -40,13 +40,21 @@ export default async function Home() {
             {user && <span className="block mt-2 text-primary-300">Save your favorites for quick access.</span>}
           </p>
 
-          {user && (
-            <Link href="/dashboard">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <Link href="/browse">
               <Button size="lg" className="bg-white text-gray-900 hover:bg-gray-100 hover:scale-105 transition-all shadow-lg">
-                View My Favorites
+                <Search className="w-5 h-5 mr-2" />
+                Browse All Resources
               </Button>
             </Link>
-          )}
+            {user && (
+              <Link href="/dashboard">
+                <Button size="lg" variant="outline" className="hover:scale-105 transition-all">
+                  View My Favorites
+                </Button>
+              </Link>
+            )}
+          </div>
         </div>
       </section>
 
@@ -89,11 +97,41 @@ export default async function Home() {
         <PopularResources limit={10} />
       </Suspense>
 
-      <section className="container mx-auto px-4 py-12">
-        <ResourceBrowser 
-          initialResources={index.resources} 
-          categories={index.categories}
+      <section className="container mx-auto px-4 py-16">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            Explore by <span className="text-primary-300">Category</span>
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Choose a category to discover the resources you need
+          </p>
+        </div>
+        
+        <CategoryNavigation 
+          counts={{
+            commands: index.resources.filter(r => r.type === 'command').length,
+            rules: index.resources.filter(r => r.type === 'rule').length,
+            mcps: index.resources.filter(r => r.type === 'mcp').length,
+            hooks: index.resources.filter(r => r.type === 'hook').length,
+          }}
         />
+      </section>
+
+      <section className="border-t py-16 bg-gradient-to-b from-transparent to-card/30">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-2xl md:text-3xl font-bold mb-4">
+            Can't find what you're looking for?
+          </h2>
+          <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
+            Use our powerful search and filtering tools to find exactly what you need
+          </p>
+          <Link href="/browse">
+            <Button size="lg" variant="outline" className="group">
+              <Search className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+              Search All Resources
+            </Button>
+          </Link>
+        </div>
       </section>
     </div>
   )
