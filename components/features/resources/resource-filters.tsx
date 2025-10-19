@@ -82,7 +82,7 @@ export function ResourceFilters({
       <div className="flex items-center justify-between">
         <div className="flex gap-2 items-center">
           <span className="text-sm text-muted-foreground">Sort by:</span>
-          <Tabs value={sortBy} onValueChange={(v) => onSortChange(v as any)}>
+          <Tabs value={sortBy} onValueChange={(v) => onSortChange(v as 'name' | 'downloads' | 'recent')}>
             <TabsList>
               <TabsTrigger value="name">Name</TabsTrigger>
               <TabsTrigger value="downloads">Downloads</TabsTrigger>

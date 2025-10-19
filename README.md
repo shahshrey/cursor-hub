@@ -36,7 +36,7 @@ A comprehensive platform for browsing, searching, previewing, and downloading 45
 
 ```bash
 git clone <your-repo-url>
-cd next-supabase-starter-main
+cd cursor-resources-hub
 npm install
 ```
 

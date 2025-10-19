@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  /* Instructa Design System Colors */
+  /* Instructa Design System Colors - Original Palette */
   --color-bg-primary: 12 18 23;
   --color-bg-secondary: 15 17 19;
   --color-bg-card: 0 0 0;
@@ -15,6 +15,26 @@
   --color-border-primary: 109 197 255;
   --color-border-secondary: 93 130 168;
   
+  /* shadcn/ui Color Mapping (using Instructa palette) */
+  --color-background: oklch(0.08 0.01 240);
+  --color-foreground: oklch(0.985 0 0);
+  --color-card: oklch(0.11 0.01 240);
+  --color-card-foreground: oklch(0.985 0 0);
+  --color-popover: oklch(0.11 0.01 240);
+  --color-popover-foreground: oklch(0.985 0 0);
+  --color-primary: oklch(0.77 0.12 230);
+  --color-primary-foreground: oklch(0.08 0.01 240);
+  --color-secondary: oklch(0.2 0.01 240);
+  --color-secondary-foreground: oklch(0.985 0 0);
+  --color-muted: oklch(0.2 0.01 240);
+  --color-muted-foreground: oklch(0.65 0.01 240);
+  --color-accent: oklch(0.25 0.01 240);
+  --color-accent-foreground: oklch(0.985 0 0);
+  --color-destructive: oklch(0.577 0.245 27.325);
+  --color-border: oklch(0.77 0.12 230 / 0.3);
+  --color-input: oklch(0.77 0.12 230 / 0.3);
+  --color-ring: oklch(0.77 0.12 230);
+  
   /* Border Radius */
   --radius: 0.75rem;
   --radius-sm: 6px;
@@ -26,42 +46,83 @@
   --shadow-card-hover: 0 8px 24px rgb(0 0 0 / 0.15);
 }
 
+/* CSS Variables for compatibility with RGB fallbacks for Brave */
 :root {
-  --background: oklch(0.08 0.01 240);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.11 0.01 240);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.11 0.01 240);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.77 0.12 230);
-  --primary-foreground: oklch(0.08 0.01 240);
-  --secondary: oklch(0.2 0.01 240);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.2 0.01 240);
-  --muted-foreground: oklch(0.65 0.01 240);
-  --accent: oklch(0.25 0.01 240);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.77 0.12 230 / 0.3);
-  --input: oklch(0.77 0.12 230 / 0.3);
-  --ring: oklch(0.77 0.12 230);
-}
-
-@layer base {
-  * {
-    border-color: var(--border);
-    outline-color: color-mix(in oklch, var(--ring), transparent 50%);
-  }
+  /* Background colors */
+  --background: rgb(12, 18, 23);
+  --foreground: rgb(255, 255, 255);
   
-  body {
-    background-color: var(--background);
-    color: var(--foreground);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  /* Card colors */
+  --card: rgb(15, 17, 19);
+  --card-foreground: rgb(255, 255, 255);
+  
+  /* Popover colors */
+  --popover: rgb(15, 17, 19);
+  --popover-foreground: rgb(255, 255, 255);
+  
+  /* Primary colors - Blue theme */
+  --primary: rgb(109, 197, 255);
+  --primary-foreground: rgb(12, 18, 23);
+  
+  /* Secondary colors */
+  --secondary: rgb(30, 35, 40);
+  --secondary-foreground: rgb(255, 255, 255);
+  
+  /* Muted colors */
+  --muted: rgb(30, 35, 40);
+  --muted-foreground: rgb(165, 186, 207);
+  
+  /* Accent colors */
+  --accent: rgb(40, 45, 50);
+  --accent-foreground: rgb(255, 255, 255);
+  
+  /* Destructive colors - Only for errors */
+  --destructive: rgb(239, 68, 68);
+  
+  /* Border and input */
+  --border: rgba(109, 197, 255, 0.3);
+  --input: rgba(109, 197, 255, 0.3);
+  --ring: rgb(109, 197, 255);
+}
+
+/* Modern browser support with oklch fallback */
+@supports (color: oklch(0 0 0)) {
+  :root {
+    --background: var(--color-background);
+    --foreground: var(--color-foreground);
+    --card: var(--color-card);
+    --card-foreground: var(--color-card-foreground);
+    --popover: var(--color-popover);
+    --popover-foreground: var(--color-popover-foreground);
+    --primary: var(--color-primary);
+    --primary-foreground: var(--color-primary-foreground);
+    --secondary: var(--color-secondary);
+    --secondary-foreground: var(--color-secondary-foreground);
+    --muted: var(--color-muted);
+    --muted-foreground: var(--color-muted-foreground);
+    --accent: var(--color-accent);
+    --accent-foreground: var(--color-accent-foreground);
+    --destructive: var(--color-destructive);
+    --border: var(--color-border);
+    --input: var(--color-input);
+    --ring: var(--color-ring);
   }
 }
 
-/* Instructa Component Classes */
+/* Base Styles */
+* {
+  border-color: var(--border);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-feature-settings: "rlig" 1, "calt" 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Instructa Component Classes - Original Design */
 .card {
   background-color: transparent;
   border: 1px solid rgb(var(--color-border-primary) / 0.3);

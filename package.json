@@ -1,7 +1,8 @@
 {
-  "name": "my-app",
-  "version": "0.1.0",
+  "name": "cursor-resources-hub",
+  "version": "1.0.0",
   "private": true,
+  "description": "A comprehensive platform for browsing, searching, and downloading Cursor commands, rules, MCP tools, and shell scripts",
   "scripts": {
     "dev": "next dev --turbo",
     "build": "npm run resources:index && next build",

@@ -1,5 +1,8 @@
 # Next.js 15.3 + Supabase + TypeScript Best Practices
 
+> **Technical Documentation for Cursor Resources Hub**  
+> This document outlines the development patterns and best practices used in building the Cursor Resources Hub - a platform for browsing, searching, and downloading Cursor commands, rules, MCP tools, and shell scripts.
+
 ## 🚀 Core Principles
 
 ### 1. Type Generation is Non-Negotiable

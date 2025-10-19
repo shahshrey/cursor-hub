@@ -21,7 +21,7 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
 interface ParsedMarkdown {
-  frontmatter: Record<string, any>
+  frontmatter: Record<string, string | boolean>
   content: string
   type: 'rule' | 'command' | 'plain'
 }
@@ -33,7 +33,7 @@ function parseMarkdownWithFrontmatter(text: string): ParsedMarkdown {
   
   if (yamlMatch) {
     const [, frontmatterText, content] = yamlMatch
-    const frontmatter: Record<string, any> = {}
+    const frontmatter: Record<string, string | boolean> = {}
     
     // Simple YAML parser
     frontmatterText.split('\n').forEach(line => {
@@ -54,7 +54,7 @@ function parseMarkdownWithFrontmatter(text: string): ParsedMarkdown {
   
   if (taskMatch) {
     const [, taskName, taskObjective = '', detailedSteps = ''] = taskMatch
-    const frontmatter: Record<string, any> = {
+    const frontmatter: Record<string, string | boolean> = {
       name: taskName,
       objective: taskObjective.trim(),
     }
@@ -202,21 +202,21 @@ export function ResourcePreviewModal({ resource, isOpen, onClose }: ResourcePrev
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               components={{
-                h1: ({ node, ...props }) => <h1 className="text-2xl font-semibold mb-4 mt-6" {...props} />,
-                h2: ({ node, ...props }) => <h2 className="text-xl font-semibold mb-3 mt-8 border-b pb-2" {...props} />,
-                h3: ({ node, ...props }) => <h3 className="text-lg font-semibold mb-2 mt-6" {...props} />,
-                h4: ({ node, ...props }) => <h4 className="text-base font-semibold mb-2 mt-4" {...props} />,
-                p: ({ node, ...props }) => <p className="mb-4 leading-7" {...props} />,
-                ul: ({ node, ...props }) => <ul className="list-disc list-inside space-y-2 mb-4 ml-4" {...props} />,
-                ol: ({ node, ...props }) => <ol className="list-decimal list-inside space-y-2 mb-4 ml-4" {...props} />,
-                li: ({ node, ...props }) => <li className="leading-7" {...props} />,
-                strong: ({ node, ...props }) => <strong className="font-semibold text-foreground" {...props} />,
-                em: ({ node, ...props }) => <em className="italic" {...props} />,
-                blockquote: ({ node, ...props }) => (
+                h1: ({ ...props }) => <h1 className="text-2xl font-semibold mb-4 mt-6" {...props} />,
+                h2: ({ ...props }) => <h2 className="text-xl font-semibold mb-3 mt-8 border-b pb-2" {...props} />,
+                h3: ({ ...props }) => <h3 className="text-lg font-semibold mb-2 mt-6" {...props} />,
+                h4: ({ ...props }) => <h4 className="text-base font-semibold mb-2 mt-4" {...props} />,
+                p: ({ ...props }) => <p className="mb-4 leading-7" {...props} />,
+                ul: ({ ...props }) => <ul className="list-disc list-inside space-y-2 mb-4 ml-4" {...props} />,
+                ol: ({ ...props }) => <ol className="list-decimal list-inside space-y-2 mb-4 ml-4" {...props} />,
+                li: ({ ...props }) => <li className="leading-7" {...props} />,
+                strong: ({ ...props }) => <strong className="font-semibold text-foreground" {...props} />,
+                em: ({ ...props }) => <em className="italic" {...props} />,
+                blockquote: ({ ...props }) => (
                   <blockquote className="border-l-4 border-primary/50 pl-4 py-2 my-4 italic text-muted-foreground" {...props} />
                 ),
-                hr: ({ node, ...props }) => <hr className="my-8 border-border" {...props} />,
-                code: ({ node, inline, className, children, ...props }: any) => {
+                hr: ({ ...props }) => <hr className="my-8 border-border" {...props} />,
+                code: ({ inline, className, children, ...props }: { inline?: boolean; className?: string; children?: React.ReactNode }) => {
                   const match = /language-(\w+)/.exec(className || '')
                   const codeContent = String(children).replace(/\n$/, '')
                   

@@ -3,7 +3,7 @@
 import { useState, useMemo, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Fuse from 'fuse.js'
-import type { ResourceMetadata, ResourceIndex, ResourceType } from '@/types/resources'
+import type { ResourceMetadata, ResourceType } from '@/types/resources'
 import { ResourceCard } from './resource-card'
 import { ResourceFilters } from './resource-filters'
 import { ResourceGridSkeleton } from './resource-card-skeleton'

@@ -120,7 +120,7 @@ export default async function Home() {
       <section className="border-t py-16 bg-gradient-to-b from-transparent to-card/30">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-2xl md:text-3xl font-bold mb-4">
-            Can't find what you're looking for?
+            Can&apos;t find what you&apos;re looking for?
           </h2>
           <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
             Use our powerful search and filtering tools to find exactly what you need
