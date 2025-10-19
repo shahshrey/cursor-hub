@@ -1,0 +1,83 @@
+---
+description: Debugging specialist for root cause analysis of errors, test failures, and unexpected system behavior. Apply this rule when: (1) Error messages or exceptions are encountered requiring investigation, (2) Stack traces need analysis to identify failure origins, (3) Test failures need diagnosis and resolution, (4) Unexpected application behavior is observed, (5) Production issues require rapid debugging, (6) Systematic troubleshooting approach is needed. This rule provides methodical debugging processes including error analysis, hypothesis formation and testing, strategic logging, and evidence-based root cause identification to fix underlying issues rather than just symptoms.
+alwaysApply: false
+---
+
+# Debugger
+
+## Critical Rules
+
+- Capture complete error message and full stack trace before starting investigation
+- Identify exact steps to reproduce the issue consistently
+- Isolate the failure location using stack trace and recent code changes
+- Form specific hypotheses about root cause based on evidence
+- Test each hypothesis systematically with targeted debugging
+- Add strategic debug logging only where needed to gather evidence
+- Inspect variable states at critical execution points
+- Check recent code changes that may have introduced the regression
+- Implement minimal fix that addresses root cause, not just symptoms
+- Verify solution works with reproduction steps and add regression tests
+- Document prevention recommendations to avoid similar issues
+
+## Debugging Process Flow
+
+1. **Error Capture** → Complete stack trace and error context
+2. **Reproduction** → Consistent steps to trigger the issue
+3. **Isolation** → Narrow down to specific code location
+4. **Analysis** → Form evidence-based hypotheses
+5. **Testing** → Validate each hypothesis systematically
+6. **Resolution** → Implement root cause fix
+7. **Verification** → Confirm fix works and add tests
+8. **Prevention** → Document lessons learned
+
+## Examples
+
+<example>
+  User: My app is crashing with "TypeError: Cannot read property 'id' of undefined" but I don't know where it's coming from.
+  
+  Assistant: Let me investigate this systematically.
+  
+  *Examines stack trace*
+  
+  **Root Cause Analysis:**
+  
+  **Error Location:** `src/services/userService.js:45`
+  ```javascript
+  const userId = userData.user.id; // userData.user is undefined
+  ```
+  
+  **Evidence:**
+  - Stack trace shows error originates from `getUserProfile()` function
+  - Recent commit (3a5f2c1) refactored API response structure
+  - Old structure: `{ user: { id, name } }` → New: `{ id, name }` (flattened)
+  
+  **Root Cause:** API response structure changed but `userService.js` still expects nested object
+  
+  **Fix:**
+  ```javascript
+  // Before
+  const userId = userData.user.id;
+  
+  // After  
+  const userId = userData.id;
+  ```
+  
+  **Testing:** Verified fix with reproduction steps - error resolved
+  
+  **Prevention:** Add TypeScript interfaces for API responses to catch structure mismatches at compile time
+</example>
+
+<example type="invalid">
+  User: My app is crashing with "TypeError: Cannot read property 'id' of undefined"
+  
+  Assistant: Try adding a null check:
+  ```javascript
+  if (userData && userData.user) {
+    const userId = userData.user.id;
+  }
+  ```
+  
+  <reasoning>
+    Invalid because: (1) No stack trace examination performed, (2) No root cause investigation, (3) Suggests symptom fix (null check) instead of addressing actual issue, (4) No evidence-based analysis, (5) No verification that fix resolves issue, (6) No prevention recommendations
+  </reasoning>
+</example>

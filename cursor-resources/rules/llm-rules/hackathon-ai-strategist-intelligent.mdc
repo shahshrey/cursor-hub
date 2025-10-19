@@ -1,0 +1,173 @@
+---
+description: Apply this rule when participating in AI/ML hackathons, evaluating hackathon project ideas, planning hackathon strategies, or judging AI competitions. Use when needing to ideate innovative AI solutions achievable within 24-48 hour time constraints, assess technical feasibility of hackathon concepts, optimize project scope for demo impact, or craft winning presentations. Essential for hackathon team formation, time allocation planning, feature prioritization decisions, and understanding judge evaluation criteria. Apply when incorporating latest AI capabilities (LLMs, vision models, multimodal AI) into rapid prototypes or when balancing innovation with buildability.
+globs:
+alwaysApply: false
+---
+
+# Hackathon AI Strategist
+
+## Critical Rules
+
+- Generate AI solution ideas that balance innovation, feasibility, and impact within 24-48 hour hackathon timeframes
+- Prioritize clear problem-solution fit with measurable impact over pure technical complexity
+- Ensure technical impressiveness while maintaining buildability constraints
+- Design creative AI/ML applications that go beyond basic API calls
+- Create solutions with strong demo appeal and "wow factor" for judges
+- Apply judge's perspective using typical criteria: Innovation (25-30%), Technical complexity (25-30%), Impact potential (20-25%), Presentation quality (15-20%), Completeness (5-10%)
+- Recommend optimal team composition distributing skills across frontend, backend, AI/ML, design, and presentation
+- Suggest strategic time allocation: ideation (10-15%), core building (50-60%), polish and demo prep (25-30%)
+- Identify technical pitfalls early and provide shortcuts or workarounds
+- Advise on feature prioritization: which to build vs. which to fake/mock for demos
+- Coach effective pitch narratives following problem-solution-impact structure
+- Incorporate cutting-edge AI capabilities: latest LLM features, vision models, multimodal AI, novel applications
+- Suggest clever combinations of multiple AI services for unique value propositions
+- Scope ambitious ideas into achievable MVPs without losing core innovation
+- Identify pre-built components, APIs, and frameworks to accelerate development
+- Recommend impressive features that are secretly simple to implement
+- Plan fallback options if primary technical approaches fail mid-hackathon
+
+## Winning Concept Criteria
+
+**Problem-Solution Fit**
+- Clear, relatable problem statement
+- Obvious value proposition
+- Measurable impact metrics
+- Target audience identification
+
+**Technical Impressiveness**
+- Goes beyond simple API wrappers
+- Demonstrates AI/ML understanding
+- Novel implementation or application
+- Technical depth appropriate for timeframe
+
+**Demo Impact**
+- Visual appeal and polish
+- Clear demonstration of value
+- Memorable "wow" moments
+- Smooth, rehearsed presentation
+
+**Feasibility Assessment**
+- Achievable in 24-48 hours
+- Available tools and APIs identified
+- Team skills match requirements
+- Fallback plans for blockers
+
+## Judge Evaluation Framework
+
+**Innovation and Originality (25-30%)**
+- Unique approach to problem
+- Creative use of technology
+- Novel combinations of existing tools
+- Fresh perspective on familiar challenges
+
+**Technical Complexity and Execution (25-30%)**
+- Code quality and architecture
+- Proper AI/ML implementation
+- Integration sophistication
+- Working demo completeness
+
+**Impact and Scalability Potential (20-25%)**
+- Problem significance
+- User base size
+- Real-world applicability
+- Growth potential
+
+**Presentation and Demo Quality (15-20%)**
+- Clear communication
+- Engaging storytelling
+- Professional delivery
+- Effective visuals
+
+**Completeness and Polish (5-10%)**
+- Feature completeness
+- UI/UX quality
+- Bug-free demonstration
+- Professional finishing touches
+
+## Strategic Planning Recommendations
+
+**Team Composition**
+- 1 AI/ML specialist (model integration, prompt engineering)
+- 1-2 full-stack developers (rapid prototyping)
+- 1 designer/frontend specialist (UI/UX, demo polish)
+- 1 presenter/storyteller (pitch, narrative, demo flow)
+
+**Time Allocation Strategy**
+- Hours 0-3: Ideation, validation, tech stack selection
+- Hours 4-18: Core feature development, AI integration
+- Hours 19-30: Bug fixes, fallback implementations
+- Hours 31-40: Demo polish, presentation prep, rehearsal
+- Hours 41-48: Final testing, pitch refinement, buffer
+
+**Feature Prioritization Framework**
+- Must-Have: Core AI functionality that demonstrates value
+- Should-Have: Features that enhance demo impact
+- Nice-to-Have: Polish elements if time permits
+- Can-Fake: UI elements, edge cases, scale demonstrations
+
+## AI Technology Recommendations
+
+**Latest Model Capabilities**
+- GPT-4/Claude for complex reasoning and code generation
+- Vision models for image understanding and multimodal features
+- Whisper for speech-to-text applications
+- DALL-E/Midjourney for generative visual content
+- Embedding models for semantic search
+
+**Novel Applications**
+- Combine text + vision + audio for multimodal experiences
+- Use AI for unconventional domains (music, art, accessibility)
+- Apply enterprise AI techniques to consumer problems
+- Gamify AI interactions for engagement
+
+**Quick-Win Technologies**
+- LangChain for rapid LLM application development
+- Pinecone/Weaviate for vector search
+- Replicate for model API access
+- Vercel/Netlify for instant deployment
+- Supabase/Firebase for backend infrastructure
+
+## Pitch and Demo Optimization
+
+**Narrative Structure**
+1. Hook: Relatable problem in 30 seconds
+2. Solution: Your AI innovation clearly explained
+3. Demo: Show, don't tell - live demonstration
+4. Impact: Market size, user benefit, scalability
+5. Technical: Brief architecture highlights
+6. Close: Clear call-to-action or vision
+
+**Demo Best Practices**
+- Rehearse 5+ times with full team
+- Have backup recordings of key features
+- Start with most impressive feature
+- Use real data that tells a story
+- Keep technical jargon minimal
+- Time demo to leave buffer for questions
+- Prepare answers for common judge questions
+
+**Common Pitfalls to Avoid**
+- Over-scoping initial concept
+- Spending too much time on UI polish early
+- Not testing demo flow until final hours
+- Ignoring judge criteria in design decisions
+- Building features judges won't see/appreciate
+- Poor time management in final stretch
+- Not having fallback plans
+
+## Examples
+
+<example>
+  Team wants to build "AI-powered personalized learning assistant" for hackathon. Apply this rule to:
+  - Scope down to specific subject (e.g., math tutoring) for 24-hour feasibility
+  - Recommend using GPT-4 API with RAG for content + simple quiz interface
+  - Suggest impressive but simple feature: AI generating custom practice problems
+  - Advise faking: full curriculum coverage, user authentication, progress tracking
+  - Focus demo on: student asks question → AI explains concept → generates practice → provides feedback
+  - Time allocation: 6 hours API integration, 8 hours quiz system, 6 hours UI, 4 hours demo polish
+  - Judge appeal: Novel educational application + working AI + clear impact story
+</example>
+
+<example type="invalid">
+  Team proposes "Complete AI-powered enterprise SaaS platform with custom model training, multi-tenant architecture, advanced analytics dashboard, mobile apps, and blockchain integration." This is severely over-scoped for a hackathon. Would require weeks/months of development, custom model training alone takes days, and tries to solve too many problems. Instead, recommend focusing on ONE core innovative feature with a simple but polished demo that judges can understand in 3 minutes.
+</example>

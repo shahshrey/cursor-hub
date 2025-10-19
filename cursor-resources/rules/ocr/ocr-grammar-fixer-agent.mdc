@@ -1,0 +1,89 @@
+---
+description: Apply this rule when cleaning up and correcting OCR-processed text. Use when working with text that has character recognition errors, word boundary issues, punctuation problems, or grammar inconsistencies from optical character recognition. Critical for post-processing OCR output to fix common OCR artifacts like character confusion (rn/m, l/I/1, 0/O, cl/d), missing or extra spaces, punctuation displacement, random capitalization, and letter substitutions in business terminology. Apply when transforming garbled OCR output into clean professional text while preserving original meaning and context.
+globs: 
+alwaysApply: false
+---
+
+# OCR Grammar Fixer
+
+## Critical Rules
+
+- Identify and correct common OCR character confusion patterns: 'rn' ↔ 'm', 'l' ↔ 'I' ↔ '1', '0' ↔ 'O', 'cl' ↔ 'd', 'li' ↔ 'h'
+- Fix word boundary errors: missing spaces, extra spaces, incorrectly merged or split words
+- Correct punctuation displacement, duplication, and missing punctuation
+- Resolve case sensitivity issues and random capitalization
+- Restore common letter substitutions in business, marketing, and technical terms
+- Use five-pass correction methodology:
+  1. First pass: Scan for unusual letter combinations and spacing patterns (OCR artifacts)
+  2. Context analysis: Use surrounding words and sentence structure to determine intended meaning
+  3. Industry terminology check: Recognize and restore marketing, business, technical terms correctly
+  4. Grammar restoration: Fix punctuation, capitalization, ensure sentence coherence
+  5. Final validation: Verify corrected text reads naturally with professional tone
+- Prioritize preserving meaning over literal character-by-character fixes
+- Apply knowledge of common marketing phrases and business terminology
+- Maintain consistent formatting and style throughout the text
+- Fix spacing issues while respecting intentional formatting like bullet points or headers
+- Correct obvious typos that resulted from OCR misreading
+- For ambiguous cases: consider most likely interpretation based on context
+- Choose corrections that result in standard business/marketing terminology
+- Ensure final text is appropriate for professional communication
+- Output only corrected text without explanations unless specifically asked for reasoning
+- Result should appear to have been typed correctly from the start with no OCR artifacts
+
+## Examples
+
+<example>
+  Input OCR Text:
+  ```
+  Wel come to our Cornpany
+  We spedalize in providlng innovative solutions for your buslness needs. Our team has over 20 years of experien ce in the rnarket.
+  
+  Keybeneflts:
+  - High quahty service
+  - 24I7 support
+  - Compelitive pricing
+  ```
+  
+  Corrected Output:
+  ```
+  Welcome to our Company
+  We specialize in providing innovative solutions for your business needs. Our team has over 20 years of experience in the market.
+  
+  Key benefits:
+  - High quality service
+  - 24/7 support
+  - Competitive pricing
+  ```
+  
+  Corrections Made:
+  - "Wel come" → "Welcome" (merged incorrectly split word)
+  - "Cornpany" → "Company" (rn → m confusion)
+  - "spedalize" → "specialize" (d → ci correction)
+  - "providlng" → "providing" (l → i correction)
+  - "buslness" → "business" (l → i correction)
+  - "experien ce" → "experience" (removed extra space)
+  - "rnarket" → "market" (rn → m confusion)
+  - "Keybeneflts" → "Key benefits" (added space, fl → fi correction)
+  - "quahty" → "quality" (h → li correction)
+  - "24I7" → "24/7" (I → / correction)
+  - "Compelitive" → "Competitive" (l → t correction)
+</example>
+
+<example type="invalid">
+  Input OCR Text:
+  ```
+  The rnarketlng team will meet tomorrcw at 3pm
+  ```
+  
+  Invalid Output:
+  ```
+  The rnarketlng team will meet tomorrcw at 3pm [OCR ERRORS DETECTED: rnarketlng, tomorrcw]
+  ```
+  
+  Why Invalid:
+  - Did not actually correct the errors, just flagged them
+  - "rnarketlng" should be corrected to "marketing" (rn → m)
+  - "tomorrcw" should be corrected to "tomorrow" (rcw → rrow)
+  - Added annotations instead of providing clean corrected text
+  - Does not follow the requirement to output clean text without explanations
+</example>

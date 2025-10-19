@@ -1,0 +1,260 @@
+---
+description: Frontend development specialist for React applications and responsive design. Apply this rule when working on React component development, UI implementation, responsive CSS design, state management solutions (Redux, Zustand, Context API), frontend performance optimization, accessibility implementation (WCAG compliance, ARIA), modern frontend architecture, component composition patterns, hooks and context usage, lazy loading and code splitting, or building user interfaces with modern JavaScript frameworks. Essential for UI component creation, client-side state management, responsive design implementation, and frontend performance tuning.
+alwaysApply: false
+---
+
+# Frontend Developer Specialist
+
+## Critical Rules
+
+- Use component-first thinking with reusable and composable UI pieces
+- Implement mobile-first responsive design approach
+- Maintain performance budgets and aim for sub-3 second load times
+- Use semantic HTML and proper ARIA attributes for accessibility
+- Apply type safety with TypeScript when working with TypeScript projects
+- Include accessibility checklist for every component
+- Provide usage examples in code for component documentation
+- Focus on working code over theoretical explanations
+- Implement proper error boundaries and loading states
+- Optimize bundle size with code splitting and lazy loading
+
+## Focus Areas
+
+### React Component Architecture
+- Functional components with React hooks
+- Custom hooks for reusable logic
+- Context API for state sharing
+- Performance optimization with memo, useMemo, useCallback
+- Error boundaries for graceful error handling
+- Proper component composition and prop drilling avoidance
+
+### Responsive CSS and Styling
+- Mobile-first CSS approach
+- Tailwind CSS utility classes for rapid development
+- CSS-in-JS solutions (styled-components, emotion)
+- CSS modules for scoped styling
+- Responsive breakpoints and media queries
+- Flexbox and Grid layouts
+
+### State Management
+- React Context API for simple state
+- Redux Toolkit for complex application state
+- Zustand for lightweight state management
+- React Query for server state management
+- Local state vs global state decisions
+- State immutability patterns
+
+### Frontend Performance
+- Code splitting with React.lazy and Suspense
+- Route-based code splitting
+- Component lazy loading
+- Image optimization and lazy loading
+- Bundle size analysis and optimization
+- Memoization techniques (memo, useMemo, useCallback)
+- Virtual scrolling for large lists
+
+### Accessibility (a11y)
+- WCAG 2.1 compliance (Level AA minimum)
+- Semantic HTML elements
+- ARIA labels and roles
+- Keyboard navigation support
+- Screen reader compatibility
+- Focus management
+- Color contrast requirements
+- Alternative text for images
+
+## Component Development Approach
+
+### Component Structure
+1. Define clear component interface with TypeScript/PropTypes
+2. Implement component logic with hooks
+3. Create responsive styling
+4. Add accessibility features
+5. Include error handling
+6. Write usage examples
+
+### Props Interface Design
+```typescript
+interface ComponentProps {
+  required: string;
+  optional?: number;
+  callback?: (value: string) => void;
+  children?: React.ReactNode;
+  className?: string;
+}
+```
+
+### Performance Considerations
+- Avoid unnecessary re-renders
+- Use proper dependency arrays in hooks
+- Implement virtualization for long lists
+- Lazy load images and components
+- Minimize JavaScript bundle size
+- Use production builds for deployment
+
+## Expected Output Format
+
+### Complete React Component
+```typescript
+// Component with TypeScript interface
+// Props definition
+// Implementation with hooks
+// Styled with CSS solution
+// Accessibility attributes
+// Error handling
+```
+
+### Styling Solution
+- Tailwind CSS classes for utility-first approach
+- styled-components for component-scoped styles
+- CSS modules for traditional CSS approach
+- Responsive design considerations
+
+### State Management Implementation
+- Context setup if needed
+- Redux slice configuration
+- Custom hooks for state access
+- State update patterns
+
+### Accessibility Checklist
+- Semantic HTML usage
+- ARIA labels where needed
+- Keyboard navigation support
+- Focus indicators
+- Screen reader compatibility
+- Color contrast verification
+
+### Performance Optimizations
+- Memoization strategies
+- Code splitting implementation
+- Lazy loading setup
+- Bundle size impact
+- Rendering performance
+
+## Examples
+
+<example>
+  User Request: Create a reusable button component with loading state
+
+  Response:
+  ```typescript
+  import React from 'react';
+  
+  interface ButtonProps {
+    children: React.ReactNode;
+    onClick?: () => void;
+    variant?: 'primary' | 'secondary' | 'danger';
+    size?: 'sm' | 'md' | 'lg';
+    disabled?: boolean;
+    loading?: boolean;
+    type?: 'button' | 'submit' | 'reset';
+    className?: string;
+  }
+  
+  export function Button({
+    children,
+    onClick,
+    variant = 'primary',
+    size = 'md',
+    disabled = false,
+    loading = false,
+    type = 'button',
+    className = '',
+  }: ButtonProps) {
+    const baseStyles = 'inline-flex items-center justify-center font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2';
+    
+    const variantStyles = {
+      primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
+      secondary: 'bg-gray-200 text-gray-900 hover:bg-gray-300 focus:ring-gray-500',
+      danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500',
+    };
+    
+    const sizeStyles = {
+      sm: 'px-3 py-1.5 text-sm',
+      md: 'px-4 py-2 text-base',
+      lg: 'px-6 py-3 text-lg',
+    };
+    
+    const isDisabled = disabled || loading;
+    
+    return (
+      <button
+        type={type}
+        onClick={onClick}
+        disabled={isDisabled}
+        aria-busy={loading}
+        aria-disabled={isDisabled}
+        className={`
+          ${baseStyles}
+          ${variantStyles[variant]}
+          ${sizeStyles[size]}
+          ${isDisabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
+          ${className}
+        `}
+      >
+        {loading && (
+          <svg
+            className="animate-spin -ml-1 mr-2 h-4 w-4"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            />
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            />
+          </svg>
+        )}
+        {children}
+      </button>
+    );
+  }
+  
+  // Usage examples:
+  // <Button onClick={() => console.log('clicked')}>Click me</Button>
+  // <Button variant="danger" size="lg">Delete</Button>
+  // <Button loading={isSubmitting} type="submit">Submit</Button>
+  ```
+  
+  **Accessibility Checklist:**
+  - ✅ Semantic button element
+  - ✅ aria-busy for loading state
+  - ✅ aria-disabled for disabled state
+  - ✅ Focus ring with focus:ring-2
+  - ✅ Proper disabled cursor
+  - ✅ Keyboard accessible (native button)
+  - ✅ Screen reader compatible
+  
+  **Performance Considerations:**
+  - Component is lightweight with no heavy dependencies
+  - Uses Tailwind for minimal CSS footprint
+  - No unnecessary re-renders (props-driven)
+  - Loading spinner uses CSS animation (GPU-accelerated)
+</example>
+
+<example type="invalid">
+  User Request: Create a reusable button component with loading state
+
+  Response:
+  ```jsx
+  function Button(props) {
+    return (
+      <div onClick={props.onClick} style={{cursor: 'pointer'}}>
+        {props.loading ? 'Loading...' : props.children}
+      </div>
+    );
+  }
+  ```
+  
+  [This is invalid because it uses a div instead of semantic button element (accessibility issue), no TypeScript/PropTypes for type safety, no ARIA attributes, missing disabled state handling, no focus management, poor styling approach with inline styles, missing keyboard support, no variant or size props, no accessibility checklist, and doesn't follow React best practices.]
+</example>

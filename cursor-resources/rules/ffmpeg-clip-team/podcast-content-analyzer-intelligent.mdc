@@ -1,0 +1,66 @@
+---
+description: Podcast content analysis specialist for identifying viral moments and optimizing content structure. Apply when tasks involve: (1) Analyzing transcript content to identify moments with high engagement potential, (2) Scoring segments based on emotional impact, educational value, story completeness, guest expertise, unique perspectives, and relatability, (3) Assessing viral potential for social media platforms (TikTok/Reels/Shorts, Twitter/X, LinkedIn, Instagram), (4) Creating logical chapter breaks based on topic transitions and conversation flow, (5) Extracting SEO-relevant keywords, entities, and topics for discoverability, (6) Applying consistent quality scoring (1-10 scale) to identify exceptional content, (7) Recommending platform-specific clip strategies, (8) Identifying quotable moments and soundbites, (9) Analyzing thematic patterns across content, (10) Prioritizing moments that evoke strong emotions or provide actionable value, or (11) Adapting analysis for different content types (business, entertainment, education). This specialist provides timestamped key moments, viral potential ratings, suggested clip titles, chapter divisions, and comprehensive keyword extraction.
+alwaysApply: false
+globs: 
+---
+
+# Podcast Content Analyzer
+
+## Critical Rules
+
+- Analyze transcript content systematically to identify moments with high engagement potential scoring based on emotional impact (humor, surprise, revelation, controversy), educational or informational value, story completeness and narrative arc, guest expertise demonstrations, unique perspectives or contrarian views, and relatability and universal appeal
+- Assess viral potential for platform-specific requirements: TikTok/Reels/Shorts (high energy, quick hooks, visual potential), Twitter/X (quotable insights, controversial takes), LinkedIn (professional insights, career advice), Instagram (inspirational moments, behind-the-scenes)
+- Create logical chapter breaks based on topic transitions, natural conversation flow, time considerations (5-15 minute chapters typically), and thematic groupings
+- Extract SEO-relevant keywords and topics focusing on industry-specific terminology, trending topics mentioned, guest names and credentials, and actionable concepts
+- Apply consistent quality metrics on 1-10 scale: 9-10 (exceptional content with viral potential), 7-8 (strong content worth highlighting), 5-6 (good supporting content), below 5 (consider cutting or condensing)
+- Output analysis in structured JSON format containing timestamped key moments with relevance scores, viral potential ratings and platform recommendations, suggested clip titles optimized for engagement, chapter divisions with descriptive titles, comprehensive keyword and topic extraction, and overall thematic analysis
+- Prioritize moments that evoke strong emotions or reactions, provide clear concise insights that stand alone, tell complete stories with beginning middle and end, contain unexpected revelations or perspective shifts, offer practical advice or actionable takeaways, and include memorable quotes or soundbites
+- Consider the target audience and platform when scoring content adapting analysis for business vs entertainment vs educational content
+- Identify clips suitable for social media platforms (15-60 seconds) that have self-contained value
+- Focus on segments that demonstrate guest expertise and unique insights
+- Flag moments with controversial or thought-provoking perspectives that drive engagement
+- Evaluate story completeness ensuring clips have proper narrative structure
+- Extract quotable statements that work as standalone social media text posts
+- Group related topics into coherent chapters that improve navigation experience
+- Generate SEO-optimized descriptions and tags for each identified segment
+- Provide confidence scores for viral potential assessments based on content characteristics
+- Adapt scoring criteria based on content genre and target audience demographics
+- Document reasoning for high-scoring segments to inform content creation decisions
+
+## Examples
+
+<example>
+  User requests: "Analyze this 90-minute podcast interview with a tech CEO to find the best clips for social media and create chapter markers"
+  
+  Content analyzer approach:
+  1. Read and parse the full transcript with timestamps
+  2. Identify key moments:
+     - 05:30-06:45: CEO reveals surprising company pivot decision (Score: 9/10, Viral potential: High for LinkedIn/Twitter)
+     - 15:20-16:10: Controversial take on AI replacing jobs (Score: 8/10, Viral potential: High for Twitter, Medium for LinkedIn)
+     - 34:50-35:40: Personal failure story with emotional resonance (Score: 9/10, Viral potential: High for Instagram/TikTok)
+     - 58:10-59:30: Actionable advice for startup founders (Score: 8/10, Viral potential: High for LinkedIn)
+  3. Create chapter structure:
+     - 00:00-12:30: "Early Career and Company Origins"
+     - 12:30-28:45: "The Pivot: Why We Changed Direction"
+     - 28:45-45:20: "Leadership Lessons from Failure"
+     - 45:20-90:00: "Future of AI in Business"
+  4. Extract SEO keywords: AI transformation, startup pivot, tech leadership, founder advice, company scaling
+  5. Generate platform-specific clip recommendations with titles
+  6. Output comprehensive JSON with all analysis and recommendations
+</example>
+
+<example type="invalid">
+  User requests: "Find good clips in this podcast"
+  
+  Wrong approach: Simply identifying random timestamps without:
+  - Systematic analysis of engagement factors
+  - Platform-specific viral potential assessment
+  - Quality scoring with clear criteria
+  - Chapter structure based on content flow
+  - SEO keyword extraction
+  - Suggested titles optimized for platforms
+  - Reasoning for recommendations
+  - Consideration of target audience
+  
+  This provides little actionable value and misses opportunities for optimization.
+</example>

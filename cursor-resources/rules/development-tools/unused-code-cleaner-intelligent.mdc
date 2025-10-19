@@ -1,0 +1,175 @@
+---
+description: Detects and safely removes unused code including imports, functions, classes, and variables across multiple programming languages. Apply this rule when: (1) Codebase refactoring or feature removal has left unused code, (2) Production deployment preparation requires cleanup, (3) Code quality improvement through dead code removal is needed, (4) Bundle size optimization by removing unused imports is required, (5) Maintenance burden from unused code needs reduction, (6) Technical debt cleanup is scheduled. This rule provides safe dead code removal through static analysis, dependency graph building, dynamic usage pattern detection, and incremental removal with validation. Critical for maintaining clean, efficient codebases while preserving framework-specific patterns and preventing accidental removal of dynamically-used code.
+alwaysApply: false
+---
+
+# Unused Code Cleaner
+
+## Critical Rules
+
+- Create comprehensive backup before any code removal operations
+- Build complete dependency graph to map all code usage
+- Identify all entry points and critical paths before analysis
+- Preserve framework-specific patterns (decorators, hooks, event handlers)
+- Never remove code with dynamic usage patterns (getattr, eval, reflection)
+- Validate syntax after each removal before proceeding
+- Run full test suite after each removal batch to ensure no breakage
+- Execute removals incrementally with validation checkpoints
+- Check for string references in templates, configs, and documentation
+- Preserve configuration files, migrations, and test fixtures
+- Provide detailed report of analyzed, removed, and preserved code
+- Focus on safety over aggressive cleanup when uncertain
+
+## Detection Strategy by Category
+
+**Unused Imports:**
+- Track all import/require statements
+- Map to actual usage in code
+- Skip dynamic imports (importlib, lazy loading)
+
+**Unused Functions/Classes:**
+- Identify all declared functions and classes
+- Track direct calls, inheritance, callbacks
+- Preserve entry points, framework hooks, event handlers
+
+**Unused Variables:**
+- Detect declared but never referenced variables
+- Skip variables used in dynamic access patterns
+- Preserve exported variables and constants
+
+## Framework Preservation Rules
+
+**Python:**
+- Django: Models, migrations, admin registrations, management commands
+- Flask: Routes, blueprints, app factory functions
+- FastAPI: Endpoints, dependencies, middleware
+
+**JavaScript/TypeScript:**
+- React: Components, hooks, context providers
+- Vue: Components, directives, mixins, composables
+- Angular: Decorators, services, modules
+- Next.js: Pages, API routes, middleware
+
+**Java:**
+- Spring: @Component, @Service, @Controller, @Repository annotations
+- JPA: @Entity, @Repository interfaces
+
+## Dynamic Usage Safety Patterns
+
+**Never remove if detected:**
+
+Python:
+```python
+getattr(obj, 'method_name')
+eval(expression)
+globals()['function_name']
+__import__(module_name)
+```
+
+JavaScript:
+```javascript
+window['functionName']
+this['methodName']
+import(dynamicPath)
+```
+
+Java:
+```java
+Class.forName(className)
+@Reflective annotations
+```
+
+## Examples
+
+<example>
+  User: We removed the old authentication system but there's probably leftover code. Can you clean it up?
+  
+  Assistant: *Creates backup and analyzes codebase*
+  
+  **Unused Code Analysis Report:**
+  
+  **Backup Created:** `./unused_code_backup_20241019_143052/`
+  
+  **Files Analyzed:** 247 files
+  - Python: 156 files
+  - JavaScript: 78 files
+  - TypeScript: 13 files
+  
+  **Unused Code Detected:**
+  
+  1. **Unused Imports (23 instances):**
+  ```python
+  # src/auth/legacy_auth.py
+  - import bcrypt  # Not used after OAuth migration
+  - from .session_manager import SessionManager  # Not used
+  ```
+  
+  2. **Unused Functions (8 instances):**
+  ```python
+  # src/auth/legacy_auth.py:45-67
+  def validate_session_token(token):  # No callers found
+      # ... 23 lines of unused code
+  ```
+  
+  3. **Unused Classes (3 instances):**
+  ```python
+  # src/auth/session_manager.py:12-89
+  class SessionManager:  # No instantiations found
+      # ... 78 lines of unused code
+  ```
+  
+  **Safety Checks Performed:**
+  ✅ Entry points preserved (main.py, app.py)
+  ✅ Framework patterns preserved (Flask routes, decorators)
+  ✅ No dynamic usage patterns detected
+  ✅ Test files excluded from removal
+  ✅ Migration files preserved
+  
+  **Removal Execution:**
+  
+  **Batch 1: Remove unused imports**
+  - Removed 23 unused import statements
+  - Syntax validation: ✅ Passed
+  - Test suite: ✅ All tests passing (127/127)
+  
+  **Batch 2: Remove unused functions**
+  - Removed 8 unused functions
+  - Syntax validation: ✅ Passed
+  - Test suite: ✅ All tests passing (127/127)
+  
+  **Batch 3: Remove unused classes**
+  - Removed 3 unused classes
+  - Syntax validation: ✅ Passed
+  - Test suite: ✅ All tests passing (127/127)
+  
+  **Preserved (Safety):**
+  - `src/auth/utils.py:generate_token()` - Referenced in config template
+  - `src/auth/middleware.py` - Used by decorator pattern
+  - `src/auth/__init__.py` - Package entry point
+  
+  **Impact Metrics:**
+  - Lines removed: 487 lines
+  - Files cleaned: 15 files
+  - Files deleted: 3 files (completely unused)
+  - Size reduction: 24.3 KB
+  
+  **Validation:**
+  ✅ All tests passing (127/127)
+  ✅ Linter checks passed
+  ✅ Type checks passed
+  ✅ Application starts successfully
+  
+  Backup available at: `./unused_code_backup_20241019_143052/`
+</example>
+
+<example type="invalid">
+  User: We removed the old authentication system. Clean up unused code.
+  
+  Assistant: *Deletes auth directory*
+  
+  Removed the entire auth/ directory since it's not used anymore.
+  
+  <reasoning>
+    Invalid because: (1) No backup created before removal, (2) No dependency analysis performed, (3) Aggressive batch removal without validation, (4) No test suite execution to verify safety, (5) No incremental removal strategy, (6) Didn't check for string references or dynamic usage, (7) May have removed code used by other modules, (8) No detailed report of what was removed
+  </reasoning>
+</example>

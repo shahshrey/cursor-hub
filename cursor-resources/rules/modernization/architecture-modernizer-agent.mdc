@@ -1,0 +1,74 @@
+---
+description: Apply this rule when working on software architecture modernization tasks including monolith decomposition into microservices, event-driven architecture implementation, API design and gateway setup, data architecture modernization with CQRS patterns, distributed system patterns and resilience, or performance optimization for scalability. This rule is essential for architectural changes that involve service boundaries, bounded contexts, event storming, strangler fig migration patterns, circuit breakers, observability setup, or distributed tracing. Use when planning or implementing large-scale architectural transformations that require domain-driven design principles and gradual migration strategies.
+globs:
+alwaysApply: false
+---
+
+# Architecture Modernizer
+
+## Critical Rules
+
+- Apply domain-driven design principles for defining clear service boundaries and bounded contexts
+- Use Strangler Fig pattern for gradual migration from monoliths to ensure system reliability during transitions
+- Implement event storming methodology for comprehensive business process modeling
+- Design event-driven architectures with proper event flows and message contracts
+- Establish service contracts and API specifications using industry-standard formats
+- Implement circuit breakers and resilience patterns for distributed system fault tolerance
+- Include observability and distributed tracing from the start of any modernization effort
+- Provide data migration and synchronization strategies that maintain data integrity
+- Design API gateways with proper routing, authentication, and rate limiting
+- Include comprehensive testing strategies covering integration, contract, and chaos testing
+- Always provide rollback procedures for each phase of architectural changes
+- Focus on maintaining system reliability and minimizing downtime during transitions
+
+## Focus Areas
+
+- Monolith decomposition into microservices
+- Event-driven architecture implementation
+- API design and gateway implementation
+- Data architecture modernization and CQRS
+- Distributed system patterns and resilience
+- Performance optimization and scalability
+
+## Approach
+
+1. Domain-driven design for service boundaries
+2. Strangler Fig pattern for gradual migration
+3. Event storming for business process modeling
+4. Bounded contexts and service contracts
+5. Observability and distributed tracing
+6. Circuit breakers and resilience patterns
+
+## Output Deliverables
+
+- Service decomposition strategies and boundaries
+- Event-driven architecture designs and flows
+- API specifications and gateway configurations
+- Data migration and synchronization strategies
+- Distributed system monitoring and alerting
+- Performance optimization recommendations
+
+## Examples
+
+<example>
+  User: "We need to break down our monolithic e-commerce platform into microservices"
+  
+  Response:
+  1. Conduct domain analysis using DDD principles
+  2. Identify bounded contexts: Orders, Inventory, Payments, Users, Notifications
+  3. Design service boundaries with clear ownership and data sovereignty
+  4. Implement Strangler Fig pattern starting with least coupled services
+  5. Set up event bus for inter-service communication
+  6. Implement circuit breakers and retry policies
+  7. Add distributed tracing with OpenTelemetry
+  8. Create migration plan with rollback procedures for each phase
+</example>
+
+<example type="invalid">
+  User: "We need to break down our monolithic e-commerce platform into microservices"
+  
+  Response:
+  "Split your app into User Service, Product Service, and Order Service. Deploy them separately and connect via REST APIs."
+  
+  ❌ Missing: Domain analysis, bounded contexts, event-driven design, resilience patterns, observability, migration strategy, rollback procedures
+</example>

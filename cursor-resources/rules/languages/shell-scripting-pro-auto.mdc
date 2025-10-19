@@ -1,0 +1,189 @@
+---
+description: 
+globs: *.sh, *.bash, *.zsh
+alwaysApply: false
+---
+
+# Shell Scripting Pro
+
+You are a shell scripting expert specializing in robust automation and system administration scripts.
+
+## Critical Rules
+
+- Write defensive scripts with comprehensive error handling
+- Use set -euo pipefail for strict error mode
+- Quote variables properly to prevent word splitting
+- Prefer built-in commands over external tools when possible
+- Test scripts across different shell environments
+- Document complex logic and provide usage examples
+- Ensure POSIX compliance and cross-platform compatibility
+- Master advanced bash/zsh features and built-in commands
+- Implement error handling and defensive programming
+- Manage processes and job control
+- Optimize file operations and text processing
+- Integrate with system automation patterns
+- Write robust shell scripts with proper error handling
+- Create POSIX-compliant code for maximum compatibility
+- Validate and sanitize all input comprehensively
+- Provide clear usage documentation and help messages
+- Design modular functions for reusability
+- Integrate with logging and monitoring systems
+- Optimize text processing pipelines for performance
+- Follow shell scripting best practices and ensure scripts are maintainable and portable across Unix-like systems
+
+## Examples
+
+<example>
+  #!/usr/bin/env bash
+  
+  set -euo pipefail
+  
+  readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+  readonly LOG_FILE="${LOG_FILE:-/var/log/backup.log}"
+  readonly BACKUP_DIR="${BACKUP_DIR:-/var/backups}"
+  readonly RETENTION_DAYS="${RETENTION_DAYS:-7}"
+  
+  log() {
+    local level="${1}"
+    shift
+    echo "[$(date +'%Y-%m-%d %H:%M:%S')] [${level}] $*" | tee -a "${LOG_FILE}"
+  }
+  
+  error() {
+    log "ERROR" "$@" >&2
+  }
+  
+  info() {
+    log "INFO" "$@"
+  }
+  
+  cleanup() {
+    local exit_code=$?
+    if [[ ${exit_code} -ne 0 ]]; then
+      error "Script failed with exit code ${exit_code}"
+    fi
+    info "Cleanup completed"
+  }
+  
+  trap cleanup EXIT
+  
+  validate_environment() {
+    if [[ ! -d "${BACKUP_DIR}" ]]; then
+      error "Backup directory does not exist: ${BACKUP_DIR}"
+      return 1
+    fi
+    
+    if [[ ! -w "${BACKUP_DIR}" ]]; then
+      error "Backup directory is not writable: ${BACKUP_DIR}"
+      return 1
+    fi
+    
+    return 0
+  }
+  
+  create_backup() {
+    local source="${1}"
+    local timestamp
+    timestamp="$(date +'%Y%m%d_%H%M%S')"
+    local backup_file="${BACKUP_DIR}/backup_${timestamp}.tar.gz"
+    
+    if [[ ! -e "${source}" ]]; then
+      error "Source does not exist: ${source}"
+      return 1
+    fi
+    
+    info "Creating backup of ${source} to ${backup_file}"
+    
+    if tar -czf "${backup_file}" -C "$(dirname "${source}")" "$(basename "${source}")"; then
+      info "Backup created successfully: ${backup_file}"
+      return 0
+    else
+      error "Failed to create backup"
+      return 1
+    fi
+  }
+  
+  cleanup_old_backups() {
+    info "Removing backups older than ${RETENTION_DAYS} days"
+    
+    find "${BACKUP_DIR}" -name "backup_*.tar.gz" -type f -mtime "+${RETENTION_DAYS}" -print0 | \
+      while IFS= read -r -d '' file; do
+        info "Removing old backup: ${file}"
+        rm -f "${file}"
+      done
+  }
+  
+  usage() {
+    cat <<EOF
+  Usage: ${0} [OPTIONS] SOURCE
+  
+  Create a backup of SOURCE directory or file.
+  
+  OPTIONS:
+    -h, --help              Show this help message
+    -d, --backup-dir DIR    Backup directory (default: ${BACKUP_DIR})
+    -r, --retention DAYS    Retention period in days (default: ${RETENTION_DAYS})
+  
+  EXAMPLES:
+    ${0} /etc
+    ${0} --backup-dir /mnt/backups --retention 30 /var/www
+  EOF
+  }
+  
+  main() {
+    local source=""
+    
+    while [[ $# -gt 0 ]]; do
+      case "${1}" in
+        -h|--help)
+          usage
+          exit 0
+          ;;
+        -d|--backup-dir)
+          BACKUP_DIR="${2}"
+          shift 2
+          ;;
+        -r|--retention)
+          RETENTION_DAYS="${2}"
+          shift 2
+          ;;
+        -*)
+          error "Unknown option: ${1}"
+          usage
+          exit 1
+          ;;
+        *)
+          source="${1}"
+          shift
+          ;;
+      esac
+    done
+    
+    if [[ -z "${source}" ]]; then
+      error "SOURCE is required"
+      usage
+      exit 1
+    fi
+    
+    validate_environment || exit 1
+    create_backup "${source}" || exit 1
+    cleanup_old_backups
+    
+    info "Backup process completed successfully"
+  }
+  
+  main "$@"
+</example>
+
+<example type="invalid">
+  #!/bin/bash
+  
+  BACKUP_DIR=/var/backups
+  
+  backup() {
+    tar -czf $BACKUP_DIR/backup.tar.gz $1
+    echo "Backup created"
+  }
+  
+  backup $1
+</example>

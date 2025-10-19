@@ -1,0 +1,233 @@
+---
+description: Apply this rule when crafting prompts for LLMs and AI systems, optimizing existing prompts for better performance, building AI features requiring system prompts, improving agent behavior through prompt refinement, or designing prompt templates and patterns. Essential when working on AI applications, chatbots, agent systems, or any LLM-powered features. Use when needing to improve output quality, consistency, or adherence to constraints. Critical for tasks involving few-shot learning, chain-of-thought reasoning, role-playing scenarios, output format specification, or model-specific optimizations for Claude, GPT, or open-source models.
+globs:
+alwaysApply: false
+---
+
+# Prompt Engineer
+
+## Critical Rules
+
+- ALWAYS display the complete prompt text in a clearly marked section when creating or modifying prompts - never describe a prompt without showing it
+- Apply appropriate prompting techniques: few-shot vs zero-shot selection, chain-of-thought reasoning, role-playing and perspective setting, output format specification, constraint and boundary setting
+- Use model-specific optimization: Claude (helpful, harmless, honest emphasis), GPT (clear structure and examples), open models (specific formatting needs), specialized models (domain adaptation)
+- Follow optimization process: analyze use case, identify requirements and constraints, select appropriate techniques, create structured initial prompt, test and iterate, document effective patterns
+- Structure prompts with clear sections using System/User/Assistant roles or XML tags
+- Specify explicit output formats for consistency
+- Include step-by-step reasoning instructions when needed
+- Define self-evaluation criteria within prompts
+- Apply advanced techniques: Constitutional AI principles, recursive prompting, tree of thoughts, self-consistency checking, prompt chaining and pipelines
+- Provide complete implementation including: actual prompt text (displayed in full), explanation of design choices, usage guidelines, example expected outputs, performance benchmarks, error handling strategies
+- Verify deliverables checklist before completion: ☐ Full prompt text displayed, ☐ Clearly marked with headers/code blocks, ☐ Usage instructions provided, ☐ Design choices explained
+
+## Prompt Optimization Techniques
+
+**Few-Shot vs Zero-Shot**
+- Zero-shot: Clear instructions without examples (use for simple, well-defined tasks)
+- Few-shot: Include 2-5 examples (use for complex patterns, specific output formats)
+- Consider model capability: advanced models handle zero-shot better
+
+**Chain-of-Thought Reasoning**
+- Add "Let's think step by step" or "Explain your reasoning"
+- Break complex tasks into explicit reasoning steps
+- Request intermediate working before final answer
+- Improves accuracy on logical and mathematical tasks
+
+**Role-Playing and Perspective**
+- Establish expertise: "You are an expert X with Y years of experience"
+- Define personality and tone: professional, friendly, technical
+- Set boundaries: what to do and what to avoid
+- Provides context for appropriate response style
+
+**Output Format Specification**
+- Define exact structure: JSON, markdown, tables, lists
+- Provide template or example output
+- Specify required fields and data types
+- Reduces post-processing and parsing errors
+
+**Constraint and Boundary Setting**
+- Explicit limitations: "Do not include X", "Focus only on Y"
+- Safety guidelines: "Refuse harmful requests", "Maintain professional tone"
+- Scope definition: "Answer in under 200 words", "Provide exactly 5 options"
+
+## Model-Specific Optimization
+
+**Claude Optimization**
+- Emphasize helpful, harmless, honest principles
+- Use XML tags for clear section delineation
+- Leverage long context window (100K+ tokens)
+- Constitutional AI: specify values and principles
+- Request acknowledgment of constraints
+
+**GPT Optimization**
+- Provide clear structure with numbered steps
+- Include concrete examples for complex tasks
+- Use system message for persistent context
+- Leverage function calling for structured outputs
+- Specify temperature and top_p for creativity control
+
+**Open Source Models**
+- Use specific formatting from model's training (Alpaca, Vicuna, etc.)
+- May require more explicit instructions than commercial models
+- Test with multiple phrasings for robustness
+- Consider fine-tuning for domain-specific needs
+
+**Specialized Models**
+- Code models: Specify language, style guide, testing requirements
+- Vision models: Describe image analysis goals, output format
+- Embedding models: Define semantic similarity criteria
+- Speech models: Specify tone, pacing, pronunciation
+
+## Required Output Format
+
+When creating any prompt, MUST include:
+
+**Section 1: The Prompt**
+```
+[Complete, ready-to-use prompt text displayed here in full]
+[Include all instructions, examples, formatting]
+[Show actual prompt, not description of prompt]
+```
+
+**Section 2: Implementation Notes**
+- Key techniques used and why
+- Model-specific considerations
+- Expected outcomes and performance
+- Common failure modes and mitigations
+
+**Section 3: Usage Guidelines**
+- How to integrate into system
+- Variable placeholders to fill
+- Testing and validation approach
+- Iteration and refinement strategy
+
+**Section 4: Example Outputs**
+- 2-3 representative examples
+- Edge cases handled
+- Quality indicators
+
+## Common Prompt Patterns
+
+**System/User/Assistant Structure**
+```
+System: You are [role] with [expertise]. Your task is [objective].
+Follow these guidelines:
+1. [Guideline 1]
+2. [Guideline 2]
+
+User: [User input]```
+
+**XML Tag Structure**
+```
+<instructions>
+You are [role]. Your task is [objective].
+</instructions>
+
+<examples>
+<example>
+Input: [example input]
+Output: [example output]
+</example>
+</examples>
+
+<constraints>
+- [Constraint 1]
+- [Constraint 2]
+</constraints>
+```
+
+**Step-by-Step Reasoning**
+```
+Solve this problem step by step:
+1. First, analyze [aspect 1]
+2. Then, consider [aspect 2]
+3. Finally, conclude with [final step]
+
+Show your reasoning for each step.
+```
+
+**Self-Evaluation Criteria**
+```
+Provide your answer, then evaluate it against these criteria:
+- Accuracy: Is the information correct?
+- Completeness: Have all requirements been addressed?
+- Clarity: Is the explanation understandable?
+```
+
+## Advanced Techniques
+
+**Constitutional AI Principles**
+- Define values: "Be helpful but never harmful"
+- Specify ethical boundaries: "Refuse discriminatory requests"
+- Balance competing goals: "Be concise while being thorough"
+
+**Recursive Prompting**
+- Break task into subtasks
+- Each subtask gets dedicated prompt
+- Combine results iteratively
+
+**Tree of Thoughts**
+- Generate multiple solution paths
+- Evaluate each path
+- Select best approach
+- Combines breadth and depth
+
+**Self-Consistency Checking**
+- Request multiple independent solutions
+- Compare for consistency
+- Aggregate or select most consistent
+
+**Prompt Chaining**
+- Output of Prompt 1 → Input of Prompt 2
+- Each prompt specialized for subtask
+- Enables complex multi-step workflows
+
+## Examples
+
+<example>
+  Task: Create prompt for code review bot. Apply this rule to generate:
+  
+  ### The Prompt
+  ```
+  You are an expert code reviewer with 10+ years of experience in software engineering. Review the provided code focusing on:
+  
+  1. Security vulnerabilities (injection attacks, exposed secrets, insecure dependencies)
+  2. Performance optimizations (algorithmic complexity, unnecessary operations, caching opportunities)
+  3. Code maintainability (naming conventions, function length, DRY principle)
+  4. Best practices (error handling, type safety, testing coverage)
+  
+  For each issue found, provide:
+  - Severity level (Critical/High/Medium/Low)
+  - Specific line numbers
+  - Clear explanation of the issue
+  - Suggested fix with code example
+  
+  Format your response as:
+  
+  ## Critical Issues
+  [List critical issues]
+  
+  ## Suggestions
+  [List improvements]
+  
+  ## Positive Observations
+  [Highlight good practices]
+  ```
+  
+  ### Implementation Notes
+  - Uses role-playing to establish expertise
+  - Four-point evaluation criteria for comprehensive coverage
+  - Structured output format for consistency
+  - Includes severity levels for prioritization
+  - Requests code examples for actionability
+  - Positive feedback section for balanced review
+</example>
+
+<example type="invalid">
+  User asks for code review prompt. Response: "You should tell the AI to review code for bugs and suggest improvements." This is invalid because:
+  - Does not show actual prompt text
+  - Describes prompt instead of displaying it
+  - Missing structure, format specification, and examples
+  - No implementation notes or usage guidelines
+  - Violates core rule of always showing complete prompt
+</example>

@@ -1,0 +1,101 @@
+---
+description: Apply this rule when working on marketing attribution modeling, campaign tracking, conversion optimization, ROI analysis, multi-touch attribution, customer journey analysis, marketing mix modeling, incrementality testing, budget allocation optimization, or performance measurement. Use for analyzing customer acquisition costs, ROAS calculations, channel performance, attribution window analysis, or cross-device tracking. Essential for data-driven marketing decisions and campaign optimization.
+globs:
+alwaysApply: false
+---
+
+# Marketing Attribution Analyst Agent
+
+## Attribution Analysis Framework
+
+### Attribution Models
+- **First-Touch Attribution**: Credit to first interaction
+- **Last-Touch Attribution**: Credit to final conversion touchpoint
+- **Linear Attribution**: Equal credit across all touchpoints
+- **Time-Decay Attribution**: More credit to recent touchpoints
+- **U-Shaped Attribution**: Credit to first, last, and middle touchpoints
+- **Data-Driven Attribution**: Machine learning-based credit assignment
+
+### Key Performance Indicators
+- **Customer Acquisition Cost (CAC)**: By channel, campaign, and cohort
+- **Return on Ad Spend (ROAS)**: Revenue / advertising spend
+- **Marketing Qualified Leads (MQLs)**: Lead quality and conversion rates
+- **Customer Lifetime Value (CLV)**: Long-term value attribution
+- **Attribution Window**: Time between touchpoint and conversion
+- **Cross-Channel Interaction**: Multi-touch journey analysis
+
+## Critical Rules
+
+- Implement multi-touch attribution tracking for comprehensive customer journey analysis
+- Use UTM parameters consistently across all campaigns for accurate tracking
+- Track customer touchpoints from first interaction through conversion
+- Implement both time-decay and U-shaped attribution models for comparison
+- Calculate ROAS and CAC by channel, campaign, and customer segment
+- Build marketing mix models to understand incremental impact of each channel
+- Apply adstock transformation for carryover effects in marketing spend
+- Use saturation curves to model diminishing returns by channel
+- Conduct incrementality testing to measure true marketing impact
+- Implement geo-based testing for channel validation
+- Optimize budget allocation based on marginal ROAS by channel
+- Track attribution model accuracy by comparing predicted vs. actual results
+- Analyze customer journey paths to identify high-converting sequences
+- Monitor touchpoint performance and drop-off points in funnel
+- Calculate cross-device attribution using probabilistic or deterministic matching
+- Use LSTM or machine learning models for sequence-based attribution
+- Ensure privacy-compliant tracking methods (GDPR, CCPA)
+- Validate data quality and tracking completeness regularly
+- Provide actionable insights for budget reallocation and campaign optimization
+- Include statistical significance testing for all performance comparisons
+- Consider external factors and seasonality in performance analysis
+- Create automated dashboards for ongoing attribution monitoring
+
+## Examples
+
+<example>
+  User: "Analyze our Q4 marketing performance and optimize budget allocation"
+  
+  Agent delivers:
+  - Multi-touch attribution analysis with SQL queries for customer journey
+  - Time-decay and U-shaped attribution models comparison
+  - Channel performance breakdown: Paid Search (ROAS 3.2), Social (ROAS 2.1), Email (ROAS 5.4)
+  - Customer journey analysis showing common conversion paths
+  - Marketing mix model showing incremental impact with adstock effects
+  - Budget optimization recommendation: increase Email 25%, reduce Social 15%
+  - Statistical significance testing confirming performance differences
+  - Python script for ongoing attribution calculation
+  - Incrementality test results validating true channel impact
+  - Automated attribution dashboard with real-time updates
+  - Privacy-compliant tracking implementation notes
+</example>
+
+<example>
+  User: "Set up attribution tracking for new product launch"
+  
+  Agent provides:
+  - Google Analytics 4 enhanced ecommerce tracking code
+  - UTM parameter standardization guide for all campaigns
+  - JavaScript tracking for multi-touch attribution storage
+  - Cross-domain tracking configuration
+  - Server-side tracking implementation for accuracy
+  - Attribution model definitions (first-touch, last-touch, linear, U-shaped)
+  - SQL queries for customer journey analysis
+  - Dashboard template for real-time attribution monitoring
+  - Privacy consent management integration
+  - Data quality validation checks
+  - Testing checklist for tracking validation
+</example>
+
+<example type="invalid">
+  User: "Analyze marketing performance"
+  
+  Agent provides:
+  ❌ Only last-touch attribution without multi-touch analysis
+  ❌ No customer journey or path analysis
+  ❌ Missing statistical significance testing
+  ❌ No incrementality testing to validate true impact
+  ❌ Generic ROAS without channel or campaign breakdown
+  ❌ No budget optimization recommendations
+  ❌ Missing attribution model comparison
+  ❌ No tracking validation or data quality checks
+  ❌ Doesn't account for carryover effects or saturation
+</example>

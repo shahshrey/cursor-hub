@@ -1,0 +1,86 @@
+---
+description: Core Web Vitals optimization specialist rule for improving measurable web performance metrics that enhance user experience and search rankings. Apply this rule when: (1) optimizing Largest Contentful Paint (LCP) for faster perceived load times, (2) improving First Input Delay (FID) and interaction responsiveness, (3) preventing Cumulative Layout Shift (CLS) and layout instability, (4) reducing Time to First Byte (TTFB) through server optimizations, (5) optimizing First Contentful Paint (FCP) for faster initial rendering, (6) setting up performance monitoring and Real User Monitoring (RUM), (7) creating performance budgets and regression testing for web vitals, (8) implementing resource loading strategies and critical path optimization, (9) optimizing images and assets for better performance, or (10) implementing progressive enhancement strategies. Always provide specific metrics targets and measurable improvements focusing on both technical optimizations and user experience enhancements.
+globs: 
+alwaysApply: false
+---
+
+# Web Vitals Optimizer
+
+## Critical Rules
+
+- Measure current Web Vitals performance using tools like Lighthouse, PageSpeed Insights, and web-vitals library before optimizing
+- Target Core Web Vitals thresholds: LCP < 2.5s, FID < 100ms, CLS < 0.1
+- Identify specific optimization opportunities through performance audits and real user monitoring
+- Implement targeted improvements addressing the most impactful bottlenecks first
+- Validate all improvements with before/after metrics from both lab and field data
+- Set up continuous monitoring and alerting for Core Web Vitals degradation
+- Create performance budgets for JavaScript, CSS, images, and total page weight
+- Optimize Largest Contentful Paint by prioritizing critical resources and reducing render-blocking assets
+- Improve First Input Delay through code splitting, reducing JavaScript execution time, and using web workers
+- Prevent Cumulative Layout Shift by specifying dimensions for images/videos and avoiding dynamic content insertion
+- Reduce Time to First Byte through server optimization, CDN usage, and efficient caching strategies
+- Optimize First Contentful Paint by inlining critical CSS and deferring non-critical resources
+- Implement resource loading strategies: preload critical assets, prefetch likely next pages, lazy load below-fold content
+- Optimize images with modern formats (WebP, AVIF), appropriate sizing, and responsive images
+- Use progressive enhancement to ensure fast, functional experiences for all users
+- Include specific numeric targets and measurable improvements in all recommendations
+- Focus on real user metrics (RUM) alongside lab metrics for comprehensive optimization
+- Set up performance regression testing in CI/CD to prevent performance degradation
+
+## Examples
+
+<example>
+  User requests: "Our e-commerce site has poor Core Web Vitals scores affecting SEO rankings"
+  
+  Agent applies web-vitals-optimizer rule and provides:
+  1. Current metrics audit using Lighthouse and PageSpeed Insights:
+     - LCP: 4.2s (poor) - hero image is render-blocking
+     - FID: 180ms (poor) - heavy JavaScript execution
+     - CLS: 0.25 (poor) - images without dimensions, dynamic content shifts
+     - TTFB: 1.8s (needs improvement) - slow server response
+  2. Prioritized optimization plan:
+     Priority 1: LCP improvements
+       - Preload hero image: <link rel="preload" as="image" href="hero.webp">
+       - Convert images to WebP with appropriate sizes
+       - Implement responsive images with srcset
+     Priority 2: CLS prevention
+       - Add explicit width/height to all images and videos
+       - Reserve space for dynamic content with min-height
+       - Font loading with font-display: swap
+     Priority 3: FID improvements
+       - Code split main bundle (350KB → 80KB initial)
+       - Defer non-critical JavaScript
+       - Use requestIdleCallback for heavy computations
+     Priority 4: TTFB reduction
+       - Enable CDN caching with 1-year cache for static assets
+       - Implement Redis caching for product data
+       - Enable HTTP/2 and compression
+  3. Performance budget: JavaScript < 200KB, Images < 500KB, Total < 1MB
+  4. After optimization metrics:
+     - LCP: 4.2s → 1.8s (good)
+     - FID: 180ms → 45ms (good)
+     - CLS: 0.25 → 0.05 (good)
+     - TTFB: 1.8s → 0.6s (good)
+  5. Real User Monitoring setup with web-vitals library
+  6. Performance regression testing in CI with Lighthouse CI
+  
+  This demonstrates comprehensive Web Vitals optimization with specific targets, measurable improvements, and ongoing monitoring.
+</example>
+
+<example type="invalid">
+  User requests: "Our e-commerce site has poor Core Web Vitals scores affecting SEO rankings"
+  
+  Agent responds with:
+  - Generic advice to "optimize images" without measuring current performance first
+  - No specific Core Web Vitals targets or current metrics
+  - Recommendations without priority ranking based on impact
+  - No before/after measurements to validate improvements
+  - Missing performance budget definition
+  - No continuous monitoring or alerting setup
+  - Lacks specific implementation details for optimizations
+  - Doesn't address all three Core Web Vitals (LCP, FID, CLS)
+  - No performance regression testing strategy
+  - Focuses only on technical metrics without considering user experience
+  
+  This is invalid because it lacks systematic measurement, specific targets, prioritized recommendations, before/after validation, performance budgets, continuous monitoring, and comprehensive coverage of all Core Web Vitals metrics.
+</example>

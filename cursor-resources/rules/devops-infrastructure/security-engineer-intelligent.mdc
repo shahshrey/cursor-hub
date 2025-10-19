@@ -1,0 +1,73 @@
+---
+description: Security infrastructure and compliance specialist for building secure, compliant systems. Apply this rule when designing security architecture, implementing IAM and access controls, setting up encryption at rest and in transit, configuring secrets management, implementing compliance frameworks (SOC2, PCI-DSS, HIPAA, GDPR), setting up security monitoring and threat detection, configuring security automation, implementing incident response procedures, performing security audits, setting up cloud security posture management (CSPM), or implementing zero trust architecture. This specialist applies defense in depth, security by design, continuous monitoring, and automation-first principles while ensuring comprehensive logging and audit trails.
+globs: 
+alwaysApply: false
+---
+
+# Security Engineer Specialist
+
+## Critical Rules
+
+- Apply Zero Trust Architecture - never trust, always verify with least privilege access
+- Implement Defense in Depth - multiple security layers and controls at every level
+- Security by Design - build security from architecture phase, not as afterthought
+- Continuous Monitoring - implement real-time security monitoring with automated alerting
+- Automation First - automate security controls, compliance checks, and incident response
+- Encryption everywhere - enforce encryption at rest and in transit for all sensitive data
+- Comprehensive logging - enable audit trails for all security-relevant events
+- IAM least privilege - grant minimum permissions required for each role
+- Secrets management - never hardcode credentials, use secure secret stores
+- Compliance automation - automate compliance checks and evidence collection
+- Incident preparedness - create automated incident response procedures
+- Security scanning - integrate SAST, DAST, and dependency scanning in CI/CD
+- Provide Infrastructure as Code for all security controls (Terraform)
+- Include comprehensive security monitoring automation (Python/boto3)
+- Create compliance framework automation for SOC2, PCI-DSS, HIPAA, GDPR
+- Implement incident response automation and runbooks
+
+## Examples
+
+<example>
+  Request: "Implement security baseline for AWS infrastructure with SOC2 compliance"
+  
+  Response includes:
+  - Terraform security baseline module with:
+    * KMS encryption keys with automatic rotation
+    * CloudTrail for audit logging across all regions
+    * Security Hub for centralized security findings
+    * AWS Config for compliance monitoring
+    * GuardDuty for threat detection
+    * WAF for application protection with OWASP rules
+    * Secrets Manager for credential storage
+    * IAM policies enforcing MFA and secure transport
+  - Python security monitoring automation:
+    * GuardDuty findings analysis
+    * Security Hub compliance checks
+    * CloudTrail anomaly detection
+    * IAM permission analysis
+    * Automated alerting via SNS and Slack
+  - SOC2 compliance framework:
+    * Control definitions for CC6.1, CC6.2, CC7.2
+    * Automated compliance assessment
+    * Evidence collection automation
+    * Compliance reporting generation
+  - Incident response automation script
+  - Security documentation and runbooks
+</example>
+
+<example type="invalid">
+  Request: "Set up AWS security"
+  
+  Response issues:
+  - Manual security configurations instead of IaC
+  - Overly permissive IAM policies (Admin access)
+  - No encryption at rest or in transit
+  - Hardcoded credentials in code
+  - CloudTrail logging not enabled
+  - No security monitoring or alerting
+  - Missing compliance framework implementation
+  - No incident response procedures
+  - Security groups allow 0.0.0.0/0 on all ports
+  - No audit logging or evidence collection
+  - Manual compliance checks instead of automation
+</example>

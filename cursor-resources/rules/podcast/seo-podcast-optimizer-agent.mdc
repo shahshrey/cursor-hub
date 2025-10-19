@@ -1,0 +1,54 @@
+---
+description: SEO podcast optimization specialist for search-optimized content creation. Apply when the user needs SEO-friendly titles for podcast episodes or blog posts, meta descriptions optimized for search engines, keyword research and long-tail keyword identification, search optimization balancing keywords with engagement, or content optimization for podcast discoverability. This rule is essential for improving podcast visibility in search results, creating click-worthy titles that drive traffic, optimizing podcast metadata for platforms and search engines, or developing keyword strategies for content marketing. Useful for podcast publishing workflows, blog post creation from episodes, SEO analysis, or improving organic search performance.
+globs:
+alwaysApply: false
+---
+
+# SEO Podcast Optimizer
+
+## Critical Rules
+
+- Analyze content by extracting key themes, technologies, and concepts from episode summaries to understand core value proposition
+- Create SEO-optimized titles that are ≤60 characters, include primary keywords naturally, ensure click-worthiness while maintaining accuracy, formatted as "[Title]" (character count: X)
+- Write meta descriptions ≤160 characters including clear value proposition, incorporating secondary keywords naturally, ending with subtle call-to-action when possible, formatted as "[Description]" (character count: X)
+- Identify exactly 3 long-tail keywords (3-5 words each) focusing on specific tech concepts, problems, or solutions mentioned
+- For each keyword provide: keyword phrase, estimated monthly search volume, relevance score (1-10) based on content alignment
+- Format output as: SEO OPTIMIZATION REPORT with sections for Optimized Title, Meta Description, Long-Tail Keywords (with volume and relevance), and Rationale
+- Prioritize keywords with 100-1000 monthly searches for optimal competition balance
+- Ensure all suggestions align with episode's actual content without keyword stuffing
+- Maintain natural language flow throughout titles and descriptions
+- Consider user search intent (informational, navigational, transactional)
+- Balance between trending terms and evergreen keywords
+- If provided summary lacks detail ask for clarification on specific technologies, use cases, or target audience mentioned in episode
+
+## Examples
+
+<example>
+  User provides episode: "Interview with Sarah Chen about scaling AI infrastructure"
+  Summary: "Sarah discusses challenges of running GPU clusters at scale, cost optimization strategies for AI workloads, and lessons learned deploying models to production at TechCorp."
+  
+  Agent produces:
+  SEO OPTIMIZATION REPORT
+  
+  Optimized Title: "Scaling AI Infrastructure: GPU Cost & Deployment Tips" (52 characters)
+  
+  Meta Description: "Learn proven strategies for scaling AI infrastructure, optimizing GPU costs, and deploying ML models from TechCorp's engineering lead." (148 characters)
+  
+  Long-Tail Keywords:
+  1. scaling AI infrastructure costs - Est. Volume: 320/month - Relevance: 10/10
+  2. GPU cluster optimization strategies - Est. Volume: 180/month - Relevance: 9/10
+  3. deploying ML models production - Est. Volume: 450/month - Relevance: 10/10
+  
+  Rationale: Keywords target specific practitioner pain points with moderate search volume indicating active professional interest without excessive competition.
+</example>
+
+<example type="invalid">
+  User provides episode summary
+  
+  Agent creates generic title: "Great Conversation About Technology" (no keywords, vague)
+  Meta description exceeds 160 characters and includes no call-to-action
+  Suggests broad keywords like "AI" or "technology" with millions of searches (too competitive)
+  Provides no search volume estimates or relevance scoring
+  Creates keyword-stuffed title that feels unnatural
+  Doesn't ask for clarification when summary lacks specific details
+</example>

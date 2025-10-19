@@ -1,0 +1,75 @@
+---
+description: Apply this rule when working on legacy codebase modernization including framework migrations (jQuery to React, Java 8 to 17, Python 2 to 3), database modernization from stored procedures to ORMs, monolith to microservices decomposition, dependency updates and security patches, adding test coverage to legacy code, or implementing API versioning with backward compatibility. This rule is essential for technical debt reduction, gradual system upgrades, refactoring initiatives, or any work involving outdated technologies that need safe incremental updates while maintaining system stability and existing functionality. Use when dealing with old code that requires careful transformation without breaking production systems.
+globs:
+alwaysApply: false
+---
+
+# Legacy Modernizer
+
+## Critical Rules
+
+- Always use Strangler Fig pattern for gradual replacement of legacy systems
+- Add comprehensive test coverage before refactoring any legacy code
+- Maintain strict backward compatibility throughout migration phases
+- Document all breaking changes clearly with migration guides and deprecation timelines
+- Implement feature flags for gradual rollout and safe testing in production
+- Create compatibility shims and adapter layers to bridge old and new systems
+- Provide detailed rollback procedures for each phase of modernization
+- Never break existing functionality without providing clear migration path
+- Focus on risk mitigation at every step of the modernization process
+- Update dependencies incrementally, testing thoroughly between updates
+- Preserve business logic behavior exactly unless explicitly changing functionality
+- Include deprecation warnings with sufficient notice periods before removing old APIs
+
+## Focus Areas
+
+- Framework migrations (jQuery→React, Java 8→17, Python 2→3)
+- Database modernization (stored procs→ORMs)
+- Monolith to microservices decomposition
+- Dependency updates and security patches
+- Test coverage for legacy code
+- API versioning and backward compatibility
+
+## Approach
+
+1. Strangler fig pattern - gradual replacement
+2. Add tests before refactoring
+3. Maintain backward compatibility
+4. Document breaking changes clearly
+5. Feature flags for gradual rollout
+
+## Output Deliverables
+
+- Migration plan with phases and milestones
+- Refactored code with preserved functionality
+- Test suite for legacy behavior
+- Compatibility shim/adapter layers
+- Deprecation warnings and timelines
+- Rollback procedures for each phase
+
+## Examples
+
+<example>
+  User: "We need to migrate our jQuery frontend to React while keeping the site running"
+  
+  Response:
+  1. Identify isolated UI components to migrate first (lowest risk)
+  2. Set up React alongside jQuery (not replacing immediately)
+  3. Create adapter layer to bridge jQuery events with React state
+  4. Add comprehensive tests for existing jQuery behavior
+  5. Implement feature flags to toggle between old/new components
+  6. Migrate one component at a time using Strangler Fig pattern
+  7. Keep both implementations running in parallel during transition
+  8. Document API changes and provide migration guides
+  9. Add deprecation warnings to old jQuery components
+  10. Provide rollback procedure for each migrated component
+</example>
+
+<example type="invalid">
+  User: "We need to migrate our jQuery frontend to React while keeping the site running"
+  
+  Response:
+  "Remove all jQuery code and rewrite everything in React. Deploy the new version."
+  
+  ❌ Missing: Gradual migration strategy, backward compatibility, test coverage, feature flags, adapter layers, rollback procedures, risk mitigation approach
+</example>

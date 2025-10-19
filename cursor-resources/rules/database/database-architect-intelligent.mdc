@@ -1,0 +1,326 @@
+---
+description: Database architecture and design specialist for complex database systems. Apply this rule when designing database schemas and data models, planning scalability strategies (horizontal vs vertical scaling, sharding), selecting database technologies (SQL vs NoSQL, polyglot persistence), implementing microservices data patterns (database per service, shared database, event sourcing, CQRS), designing database migration strategies, planning data modeling frameworks (entity-relationship design, normalization, dimensional modeling), implementing read replica configurations, designing horizontal sharding strategies, creating polyglot persistence architectures, or making architecture decisions about database boundaries and consistency models. This rule provides comprehensive guidance on database architecture patterns, technology selection, performance optimization, and production-ready solutions for scalable database systems.
+globs:
+alwaysApply: false
+---
+
+# Database Architecture and Design Specialist
+
+## Critical Rules
+
+- Align database structure with business domains using Domain-Driven Design principles
+- Design databases with scalability path from day one, but start simple
+- Choose consistency models based on business requirements, not technical preferences
+- Create database boundaries that match business boundaries in microservices
+- Provide concrete architecture diagrams, data flow documentation, and migration strategies for all complex designs
+- Include proper error handling and rollback mechanisms in all migration scripts
+- Design for operational simplicity - prefer managed services and standard patterns
+- Optimize for cost by right-sizing databases and using appropriate storage tiers
+- Always include monitoring and observability in architecture designs
+- Document technology selection decisions with clear rationale
+- Plan for both read and write scaling patterns
+- Design with failure scenarios in mind - implement circuit breakers and fallbacks
+- Include comprehensive testing strategies for all architectural changes
+
+## Core Architecture Framework
+
+### Database Design Philosophy
+- Domain-Driven Design: Align database structure with business domains
+- Data Modeling: Entity-relationship design, normalization strategies, dimensional modeling
+- Scalability Planning: Horizontal vs vertical scaling, sharding strategies
+- Technology Selection: SQL vs NoSQL, polyglot persistence, CQRS patterns
+- Performance by Design: Query patterns, access patterns, data locality
+
+### Architecture Patterns
+- Single Database: Monolithic applications with centralized data
+- Database per Service: Microservices with bounded contexts
+- Shared Database Anti-pattern: Legacy system integration challenges
+- Event Sourcing: Immutable event logs with projections
+- CQRS: Command Query Responsibility Segregation
+
+## Technical Implementation
+
+### Data Modeling Framework
+- Design core entities with business rules embedded using constraints
+- Implement proper relationships with foreign keys and cascade rules
+- Use check constraints for business rule enforcement
+- Design for versioning and audit trails
+- Implement soft deletes where appropriate
+- Create composite keys for natural business identifiers
+- Use enums for fixed value sets
+- Design for concurrent access with appropriate locking strategies
+
+### Microservices Data Architecture
+- Implement event-driven communication between services
+- Use domain events for cross-service data consistency
+- Design saga patterns for distributed transactions
+- Implement event stores for event sourcing
+- Create projection tables for read optimization
+- Use message queues for asynchronous processing
+- Design idempotent operations for retry safety
+- Implement correlation IDs for distributed tracing
+
+### Polyglot Persistence Strategy
+- Relational DB for transactional data with ACID guarantees
+- Document DB for flexible schemas and nested data
+- Key-value store for caching and session storage
+- Search engine for full-text search and analytics
+- Time-series DB for metrics and monitoring data
+- Graph DB for relationship-heavy data
+- Design data synchronization between stores
+- Implement eventual consistency patterns
+
+### Database Migration Strategy
+- Create checkpoint-based migrations with rollback support
+- Wrap all migrations in transactions for atomicity
+- Record migration history with detailed metadata
+- Implement automatic rollback on failure
+- Test migrations in staging before production
+- Design zero-downtime migration strategies
+- Version control all migration scripts
+- Document dependencies between migrations
+
+## Scalability Architecture Patterns
+
+### Read Replica Configuration
+- Configure write-ahead logging (WAL) for replication
+- Create replication users with appropriate permissions
+- Set up standby mode for read replicas
+- Configure primary connection info and restore commands
+- Monitor replication lag with alerts
+- Implement connection pooling for read replicas
+- Design read/write splitting in application layer
+- Plan for replica promotion to master
+
+### Horizontal Sharding Strategy
+- Implement consistent hashing for data distribution
+- Design shard-aware application logic
+- Create shard routing mechanisms
+- Plan for cross-shard queries and analytics
+- Implement shard rebalancing procedures
+- Design for shard failure scenarios
+- Document shard key selection rationale
+- Monitor shard distribution and hotspots
+
+## Architecture Decision Framework
+
+### Database Technology Selection Matrix
+
+#### Relational Databases
+- Use Cases: ACID transactions, complex relationships, reporting
+- PostgreSQL: Best for complex queries, JSON support, extensive extensions
+- MySQL: High performance, wide ecosystem, simple setup
+- SQL Server: Enterprise features, Windows integration, BI tools
+
+#### Document Databases
+- Use Cases: Flexible schema, rapid development, JSON documents
+- MongoDB: Rich query language, horizontal scaling, aggregation pipelines
+- CouchDB: Eventual consistency, offline-first, HTTP API
+- Amazon DocumentDB: Managed MongoDB-compatible, AWS integration
+
+#### Key-Value Stores
+- Use Cases: Caching, session storage, real-time features
+- Redis: In-memory, data structures, pub/sub, clustering
+- Amazon DynamoDB: Managed, serverless, predictable performance
+- Cassandra: Wide-column, high availability, linear scalability
+
+#### Search Engines
+- Use Cases: Full-text search, analytics, log analysis
+- Elasticsearch: Full-text search, analytics, REST API
+- Apache Solr: Enterprise search, faceting, highlighting
+- Amazon CloudSearch: Managed search, auto-scaling, simple setup
+
+#### Time-Series Databases
+- Use Cases: Metrics, IoT data, monitoring, analytics
+- InfluxDB: Purpose-built for time series, SQL-like queries
+- TimescaleDB: PostgreSQL extension, SQL compatibility
+- Amazon Timestream: Managed, serverless, built-in analytics
+
+## Performance and Monitoring
+
+### Database Health Monitoring
+- Monitor connection states and durations
+- Track lock contention and deadlocks
+- Analyze query performance with execution statistics
+- Measure cache hit ratios
+- Monitor replication lag and throughput
+- Track index usage and efficiency
+- Measure table and index bloat
+- Alert on anomalous patterns
+
+### Performance Optimization
+- Design indexes based on query patterns
+- Implement query result caching
+- Use connection pooling appropriately
+- Optimize transaction scopes
+- Implement read/write splitting
+- Use materialized views for expensive aggregations
+- Partition large tables strategically
+- Archive historical data
+
+## Architecture Priorities
+
+1. **Business Domain Alignment** - Database boundaries should match business boundaries
+2. **Scalability Path** - Plan for growth from day one, but start simple
+3. **Data Consistency Requirements** - Choose consistency models based on business requirements
+4. **Operational Simplicity** - Prefer managed services and standard patterns
+5. **Cost Optimization** - Right-size databases and use appropriate storage tiers
+
+## Example
+
+<example>
+  E-commerce domain model with proper relationships and constraints:
+  
+  ```sql
+  CREATE TABLE customers (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    email VARCHAR(255) UNIQUE NOT NULL,
+    encrypted_password VARCHAR(255) NOT NULL,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    phone VARCHAR(20),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    is_active BOOLEAN DEFAULT true,
+    
+    CONSTRAINT valid_email CHECK (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'),
+    CONSTRAINT valid_phone CHECK (phone IS NULL OR phone ~* '^\+?[1-9]\d{1,14}$')
+  );
+  
+  CREATE TABLE addresses (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    customer_id UUID NOT NULL REFERENCES customers(id) ON DELETE CASCADE,
+    address_type VARCHAR(20) NOT NULL DEFAULT 'shipping',
+    street_line1 VARCHAR(255) NOT NULL,
+    city VARCHAR(100) NOT NULL,
+    postal_code VARCHAR(20),
+    country_code CHAR(2) NOT NULL,
+    is_default BOOLEAN DEFAULT false,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    
+    UNIQUE(customer_id, address_type, is_default) WHERE is_default = true
+  );
+  
+  CREATE TYPE order_status AS ENUM (
+    'pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled', 'refunded'
+  );
+  
+  CREATE TABLE orders (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    order_number VARCHAR(50) UNIQUE NOT NULL,
+    customer_id UUID NOT NULL REFERENCES customers(id),
+    status order_status NOT NULL DEFAULT 'pending',
+    subtotal DECIMAL(10,2) NOT NULL CHECK (subtotal >= 0),
+    tax_amount DECIMAL(10,2) NOT NULL DEFAULT 0 CHECK (tax_amount >= 0),
+    shipping_amount DECIMAL(10,2) NOT NULL DEFAULT 0 CHECK (shipping_amount >= 0),
+    total_amount DECIMAL(10,2) NOT NULL CHECK (total_amount >= 0),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    
+    CONSTRAINT valid_total CHECK (total_amount = subtotal + tax_amount + shipping_amount)
+  );
+  
+  CREATE INDEX idx_orders_customer ON orders(customer_id, created_at DESC);
+  CREATE INDEX idx_orders_status ON orders(status, created_at DESC);
+  ```
+  
+  Event-driven microservices with event sourcing:
+  
+  ```python
+  class OrderService:
+    async def place_order(self, order_data):
+      order_id = str(uuid.uuid4())
+      
+      events = [
+        {
+          'event_id': str(uuid.uuid4()),
+          'stream_id': order_id,
+          'event_type': 'order.initiated',
+          'event_data': {
+            'customer_id': order_data['customer_id'],
+            'items': order_data['items']
+          },
+          'version': 1,
+          'timestamp': datetime.utcnow()
+        }
+      ]
+      
+      inventory_reserved = await self._reserve_inventory(order_data['items'])
+      if inventory_reserved:
+        events.append({
+          'event_id': str(uuid.uuid4()),
+          'stream_id': order_id,
+          'event_type': 'inventory.reserved',
+          'event_data': {'items': order_data['items']},
+          'version': 2,
+          'timestamp': datetime.utcnow()
+        })
+      
+      payment_processed = await self._process_payment(order_data['payment'])
+      if payment_processed:
+        events.append({
+          'event_id': str(uuid.uuid4()),
+          'stream_id': order_id,
+          'event_type': 'payment.processed',
+          'event_data': {'amount': order_data['total']},
+          'version': 3,
+          'timestamp': datetime.utcnow()
+        })
+        
+        events.append({
+          'event_id': str(uuid.uuid4()),
+          'stream_id': order_id,
+          'event_type': 'order.confirmed',
+          'event_data': {'order_id': order_id},
+          'version': 4,
+          'timestamp': datetime.utcnow()
+        })
+      
+      await self.event_store.append_events(order_id, events)
+      
+      return order_id
+  ```
+  
+  Horizontal sharding with consistent hashing:
+  
+  ```python
+  class ShardManager:
+    def get_shard_for_customer(self, customer_id):
+      hash_value = hashlib.md5(str(customer_id).encode()).hexdigest()
+      shard_number = int(hash_value[:8], 16) % len(self.shards)
+      return f"shard_{shard_number}"
+    
+    async def get_customer_orders(self, customer_id):
+      shard_key = self.get_shard_for_customer(customer_id)
+      shard_db = self.shards[shard_key]
+      
+      return await shard_db.fetch_all("""
+        SELECT * FROM orders 
+        WHERE customer_id = %(customer_id)s 
+        ORDER BY created_at DESC
+      """, {'customer_id': customer_id})
+  ```
+</example>
+
+<example type="invalid">
+  Poor schema design without constraints:
+  
+  ```sql
+  CREATE TABLE orders (
+    id INT PRIMARY KEY,
+    customer_id INT,
+    total FLOAT,
+    status VARCHAR(50)
+  );
+  ```
+  
+  This is invalid because:
+  - No foreign key constraint on customer_id (referential integrity not enforced)
+  - Using FLOAT for currency (precision issues with monetary values)
+  - No check constraints on total (allows negative values)
+  - No enum for status (allows invalid status values)
+  - No timestamps for audit trail
+  - No indexes for common query patterns
+  - No default values defined
+  - Missing ON DELETE/UPDATE clauses for foreign keys
+</example>

@@ -1,0 +1,526 @@
+---
+description: NoSQL database specialist for document stores, key-value databases, and distributed data systems. Apply this rule when working with MongoDB for flexible document storage and aggregation pipelines, implementing Redis for caching and real-time features with data structures, designing Cassandra schemas for time-series data and high availability, implementing DynamoDB single-table design patterns, designing data models for document databases with embedded vs referenced data, implementing caching strategies with tag-based invalidation, designing time-series data models with proper partitioning, implementing distributed locking and session management, optimizing NoSQL query patterns and aggregations, or selecting appropriate NoSQL technologies based on use case requirements. This rule provides comprehensive implementation guidance for MongoDB, Redis, Cassandra, DynamoDB, and other NoSQL systems with performance optimization strategies.
+globs:
+alwaysApply: false
+---
+
+# NoSQL Database Specialist
+
+## Critical Rules
+
+- Choose NoSQL technology based on actual use case requirements, not trends
+- Design data models based on access patterns, not normalized relational thinking
+- Implement proper indexing strategies for document and key-value stores
+- Use appropriate data structures for each NoSQL type (documents, key-value, column-family, graph)
+- Design for eventual consistency when using distributed NoSQL systems
+- Implement proper error handling and retry logic for distributed operations
+- Monitor NoSQL-specific metrics (throughput, latency, partition distribution)
+- Use connection pooling and optimize for network round trips
+- Design efficient aggregation pipelines in document databases
+- Implement proper caching invalidation strategies
+- Plan for data growth and partition strategies upfront
+- Test performance with realistic data volumes and access patterns
+- Document technology selection rationale and tradeoffs
+
+## Core NoSQL Technologies
+
+### Document Databases
+- **MongoDB**: Flexible documents, rich query language, horizontal scaling, aggregation framework
+- **CouchDB**: HTTP API, eventual consistency, offline-first design, conflict resolution
+- **Amazon DocumentDB**: MongoDB-compatible managed service, AWS integration
+- **Azure Cosmos DB**: Multi-model database, global distribution, SLA guarantees
+
+### Key-Value Stores
+- **Redis**: In-memory data structures, pub/sub messaging, clustering, persistence options
+- **Amazon DynamoDB**: Managed serverless, predictable performance, single-table design
+- **Apache Cassandra**: Wide-column store, linear scalability, high availability, tunable consistency
+- **Riak**: Eventually consistent, high availability, conflict resolution, multi-datacenter
+
+### Graph Databases
+- **Neo4j**: Native graph storage, Cypher query language, relationship-first design
+- **Amazon Neptune**: Managed graph service, Gremlin and SPARQL support
+- **ArangoDB**: Multi-model with graph capabilities, AQL query language
+
+### Time-Series Databases
+- **InfluxDB**: Purpose-built for time-series, SQL-like queries, retention policies
+- **TimescaleDB**: PostgreSQL extension for time-series, SQL compatibility
+- **Amazon Timestream**: Managed serverless time-series, built-in analytics
+
+## MongoDB Implementation
+
+### Schema Design with Validation
+```javascript
+const userSchema = {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["email", "profile", "createdAt"],
+      properties: {
+        _id: { bsonType: "objectId" },
+        email: {
+          bsonType: "string",
+          pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+        },
+        profile: {
+          bsonType: "object",
+          required: ["firstName", "lastName"],
+          properties: {
+            firstName: { bsonType: "string", maxLength: 50 },
+            lastName: { bsonType: "string", maxLength: 50 },
+            avatar: { bsonType: "string" },
+            preferences: {
+              bsonType: "object",
+              properties: {
+                theme: { enum: ["light", "dark", "auto"] },
+                language: { bsonType: "string", maxLength: 5 }
+              }
+            }
+          }
+        },
+        addresses: {
+          bsonType: "array",
+          maxItems: 5,
+          items: {
+            bsonType: "object",
+            required: ["type", "street", "city", "country"],
+            properties: {
+              type: { enum: ["home", "work", "billing", "shipping"] },
+              street: { bsonType: "string" },
+              city: { bsonType: "string" },
+              country: { bsonType: "string", maxLength: 2 },
+              isDefault: { bsonType: "bool" }
+            }
+          }
+        },
+        status: { enum: ["active", "inactive", "suspended"] },
+        tags: {
+          bsonType: "array",
+          items: { bsonType: "string" }
+        },
+        createdAt: { bsonType: "date" },
+        updatedAt: { bsonType: "date" }
+      }
+    }
+  }
+};
+
+db.createCollection("users", userSchema);
+
+db.users.createIndex({ "email": 1 }, { unique: true });
+db.users.createIndex({ "status": 1, "createdAt": -1 });
+db.users.createIndex({ "tags": 1, "totalSpent": -1 });
+```
+
+### Advanced Aggregation Pipeline
+```javascript
+const userAnalyticsPipeline = [
+  {
+    $match: {
+      status: "active",
+      createdAt: { $gte: new Date(Date.now() - 6 * 30 * 24 * 60 * 60 * 1000) }
+    }
+  },
+  {
+    $addFields: {
+      registrationMonth: { $dateToString: { format: "%Y-%m", date: "$createdAt" } },
+      isHighValueCustomer: { $gte: ["$totalSpent", 1000] }
+    }
+  },
+  {
+    $group: {
+      _id: "$registrationMonth",
+      totalUsers: { $sum: 1 },
+      highValueUsers: {
+        $sum: { $cond: ["$isHighValueCustomer", 1, 0] }
+      },
+      avgSpent: { $avg: "$totalSpent" }
+    }
+  },
+  { $sort: { _id: 1 } },
+  {
+    $addFields: {
+      highValuePercentage: {
+        $multiply: [{ $divide: ["$highValueUsers", "$totalUsers"] }, 100]
+      }
+    }
+  }
+];
+
+const results = db.users.aggregate(userAnalyticsPipeline);
+```
+
+### Transaction Handling
+```javascript
+const session = db.getMongo().startSession();
+
+session.startTransaction();
+try {
+  db.users.updateOne(
+    { _id: userId },
+    { 
+      $set: { "profile.lastName": "NewLastName", updatedAt: new Date() },
+      $inc: { version: 1 }
+    },
+    { session: session }
+  );
+  
+  db.auditLog.insertOne({
+    userId: userId,
+    action: "profile_update",
+    changes: { lastName: "NewLastName" },
+    timestamp: new Date()
+  }, { session: session });
+  
+  session.commitTransaction();
+} catch (error) {
+  session.abortTransaction();
+  throw error;
+} finally {
+  session.endSession();
+}
+```
+
+## Redis Implementation
+
+### Data Structures and Patterns
+```python
+import redis
+import json
+import time
+from typing import Dict, List
+
+class RedisDataManager:
+  def __init__(self, redis_url="redis://localhost:6379"):
+    self.redis_client = redis.from_url(redis_url, decode_responses=True)
+  
+  async def create_session(self, user_id: str, session_data: Dict, ttl_seconds: int = 3600):
+    session_id = f"session:{user_id}:{int(time.time())}"
+    session_key = f"user_session:{session_id}"
+    
+    await self.redis_client.hmset(session_key, {
+      'user_id': user_id,
+      'created_at': time.time(),
+      'data': json.dumps(session_data)
+    })
+    
+    await self.redis_client.expire(session_key, ttl_seconds)
+    
+    await self.redis_client.zadd(
+      f"user_sessions:{user_id}", 
+      {session_id: time.time()}
+    )
+    
+    return session_id
+  
+  async def track_user_activity(self, user_id: str, activity_type: str):
+    timestamp = time.time()
+    
+    await self.redis_client.zadd(
+      "global_activity", 
+      {f"{user_id}:{activity_type}": timestamp}
+    )
+    
+    await self.redis_client.zadd(
+      f"user_activity:{user_id}", 
+      {activity_type: timestamp}
+    )
+    
+    await self.redis_client.zremrangebyrank("global_activity", 0, -1001)
+  
+  async def cache_with_tags(self, key: str, value: Dict, ttl: int, tags: List[str]):
+    cache_key = f"cache:{key}"
+    await self.redis_client.setex(cache_key, ttl, json.dumps(value))
+    
+    for tag in tags:
+      await self.redis_client.sadd(f"tag:{tag}", cache_key)
+    
+    await self.redis_client.sadd(f"cache_tags:{key}", *tags)
+  
+  async def invalidate_by_tag(self, tag: str):
+    cache_keys = await self.redis_client.smembers(f"tag:{tag}")
+    
+    if cache_keys:
+      await self.redis_client.delete(*cache_keys)
+      
+      for cache_key in cache_keys:
+        key_name = cache_key.replace("cache:", "")
+        tags = await self.redis_client.smembers(f"cache_tags:{key_name}")
+        
+        for tag_name in tags:
+          await self.redis_client.srem(f"tag:{tag_name}", cache_key)
+        
+        await self.redis_client.delete(f"cache_tags:{key_name}")
+```
+
+### Distributed Locking
+```python
+async def acquire_lock(self, lock_name: str, timeout: int = 10):
+  lock_key = f"lock:{lock_name}"
+  identifier = f"{time.time()}:{os.getpid()}"
+  
+  end_time = time.time() + timeout
+  
+  while time.time() < end_time:
+    if await self.redis_client.set(lock_key, identifier, nx=True, ex=timeout):
+      return identifier
+    
+    await asyncio.sleep(0.1)
+  
+  return None
+
+async def release_lock(self, lock_name: str, identifier: str):
+  lock_key = f"lock:{lock_name}"
+  
+  lua_script = """
+  if redis.call("get", KEYS[1]) == ARGV[1] then
+    return redis.call("del", KEYS[1])
+  else
+    return 0
+  end
+  """
+  
+  return await self.redis_client.eval(lua_script, 1, lock_key, identifier)
+```
+
+## Cassandra Implementation
+
+### Time-Series Data Modeling
+```cql
+CREATE KEYSPACE iot_data WITH replication = {
+  'class': 'NetworkTopologyStrategy',
+  'datacenter1': 3,
+  'datacenter2': 2
+} AND durable_writes = true;
+
+USE iot_data;
+
+CREATE TABLE sensor_readings (
+  device_id UUID,
+  time_bucket text,
+  reading_time timestamp,
+  sensor_type text,
+  value decimal,
+  unit text,
+  metadata map<text, text>,
+  PRIMARY KEY ((device_id, time_bucket), reading_time, sensor_type)
+) WITH CLUSTERING ORDER BY (reading_time DESC, sensor_type ASC)
+  AND compaction = {
+    'class': 'TimeWindowCompactionStrategy',
+    'compaction_window_unit': 'HOURS',
+    'compaction_window_size': 24
+  }
+  AND gc_grace_seconds = 604800
+  AND default_time_to_live = 2592000;
+
+CREATE MATERIALIZED VIEW latest_readings AS
+  SELECT device_id, sensor_type, reading_time, value, unit
+  FROM sensor_readings
+  WHERE device_id IS NOT NULL 
+    AND time_bucket IS NOT NULL 
+    AND reading_time IS NOT NULL 
+    AND sensor_type IS NOT NULL
+  PRIMARY KEY ((device_id), sensor_type, reading_time)
+  WITH CLUSTERING ORDER BY (sensor_type ASC, reading_time DESC);
+
+SELECT * FROM sensor_readings 
+WHERE device_id = ? AND time_bucket = '2024-01-15-10'
+ORDER BY reading_time DESC
+LIMIT 100;
+```
+
+## DynamoDB Implementation
+
+### Single-Table Design Pattern
+```python
+import boto3
+from decimal import Decimal
+import uuid
+from datetime import datetime
+
+class DynamoDBManager:
+  def __init__(self, region_name='us-east-1'):
+    self.dynamodb = boto3.resource('dynamodb', region_name=region_name)
+  
+  def single_table_design(self):
+    table = self.dynamodb.Table('UserOrders')
+    
+    user_item = {
+      'PK': 'USER#12345',
+      'SK': 'USER#12345',
+      'EntityType': 'User',
+      'Email': 'user@example.com',
+      'FirstName': 'John',
+      'LastName': 'Doe',
+      'Status': 'Active'
+    }
+    
+    order_item = {
+      'PK': 'USER#12345',
+      'SK': 'ORDER#67890',
+      'EntityType': 'Order',
+      'OrderId': '67890',
+      'Status': 'Processing',
+      'Total': Decimal('99.99'),
+      'GSI1PK': 'ORDER_STATUS#Processing',
+      'GSI1SK': datetime.utcnow().isoformat()
+    }
+    
+    with table.batch_writer() as batch:
+      batch.put_item(Item=user_item)
+      batch.put_item(Item=order_item)
+  
+  def query_patterns(self):
+    table = self.dynamodb.Table('UserOrders')
+    
+    response = table.query(
+      KeyConditionExpression=Key('PK').eq('USER#12345')
+    )
+    
+    response = table.query(
+      IndexName='GSI1',
+      KeyConditionExpression=Key('GSI1PK').eq('ORDER_STATUS#Processing')
+    )
+    
+    table.update_item(
+      Key={'PK': 'ORDER#67890', 'SK': 'ORDER#67890'},
+      UpdateExpression='SET OrderStatus = :new_status',
+      ConditionExpression=Attr('OrderStatus').eq('Processing'),
+      ExpressionAttributeValues={':new_status': 'Shipped'}
+    )
+```
+
+## Performance Optimization
+
+### MongoDB Optimization
+```javascript
+db.users.createIndex(
+  { "status": 1, "lastLoginDate": -1, "totalSpent": -1 },
+  { 
+    name: "user_analytics_idx",
+    background: true,
+    partialFilterExpression: { "status": "active" }
+  }
+);
+
+db.orders.aggregate([
+  { $match: { createdAt: { $gte: ISODate("2024-01-01") } } },
+  { $project: { customerId: 1, total: 1, items: 1 } },
+  { $group: { _id: "$customerId", totalSpent: { $sum: "$total" } } }
+], { allowDiskUse: true });
+```
+
+### Redis Optimization
+```python
+pipe = redis_client.pipeline()
+for i in range(1000):
+  pipe.set(f"key:{i}", f"value:{i}")
+  pipe.expire(f"key:{i}", 3600)
+pipe.execute()
+
+redis_client.hmset("user:123", {
+  "name": "John",
+  "email": "john@example.com"
+})
+```
+
+## Example
+
+<example>
+  MongoDB schema with aggregation pipeline:
+  
+  ```javascript
+  const orderSchema = {
+    validator: {
+      $jsonSchema: {
+        bsonType: "object",
+        required: ["customerId", "items", "total", "status"],
+        properties: {
+          customerId: { bsonType: "objectId" },
+          orderNumber: { bsonType: "string" },
+          items: {
+            bsonType: "array",
+            items: {
+              bsonType: "object",
+              required: ["productId", "quantity", "price"],
+              properties: {
+                productId: { bsonType: "objectId" },
+                quantity: { bsonType: "int", minimum: 1 },
+                price: { bsonType: "decimal" }
+              }
+            }
+          },
+          total: { bsonType: "decimal", minimum: 0 },
+          status: { enum: ["pending", "confirmed", "shipped", "delivered"] },
+          createdAt: { bsonType: "date" }
+        }
+      }
+    }
+  };
+  
+  db.createCollection("orders", orderSchema);
+  
+  db.orders.createIndex({ "customerId": 1, "createdAt": -1 });
+  db.orders.createIndex({ "status": 1, "createdAt": -1 });
+  
+  const customerOrders = db.orders.aggregate([
+    { $match: { customerId: ObjectId("...") } },
+    { $unwind: "$items" },
+    {
+      $group: {
+        _id: "$items.productId",
+        totalQuantity: { $sum: "$items.quantity" },
+        totalSpent: { $sum: { $multiply: ["$items.quantity", "$items.price"] } }
+      }
+    },
+    { $sort: { totalSpent: -1 } },
+    { $limit: 10 }
+  ]);
+  ```
+  
+  Redis caching with tag invalidation:
+  
+  ```python
+  redis_manager = RedisDataManager()
+  
+  await redis_manager.cache_with_tags(
+    key="user:123:dashboard",
+    value={"stats": {...}},
+    ttl=1800,
+    tags=["user:123", "dashboard", "stats"]
+  )
+  
+  await redis_manager.invalidate_by_tag("user:123")
+  ```
+</example>
+
+<example type="invalid">
+  Poor NoSQL design with relational thinking:
+  
+  ```javascript
+  // WRONG: Over-normalizing in MongoDB
+  db.users.insertOne({ _id: 1, name: "John" });
+  db.addresses.insertOne({ _id: 1, userId: 1, street: "123 Main" });
+  db.phones.insertOne({ _id: 1, userId: 1, number: "555-0100" });
+  
+  // WRONG: Not using appropriate data structures in Redis
+  redis.set("user:1:name", "John");
+  redis.set("user:1:email", "john@example.com");
+  redis.set("user:1:age", "30");
+  
+  // WRONG: Inefficient Cassandra partition key
+  CREATE TABLE events (
+    event_type text,
+    event_id uuid,
+    timestamp timestamp,
+    PRIMARY KEY (event_type, event_id)
+  );
+  ```
+  
+  This is invalid because:
+  - Over-normalizing in MongoDB defeats purpose of document store
+  - Multiple Redis keys instead of hash wastes memory
+  - Poor Cassandra partition key causes hotspots
+  - Missing indexes for query patterns
+  - No schema validation in MongoDB
+  - Not leveraging NoSQL strengths
+</example>

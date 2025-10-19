@@ -1,0 +1,117 @@
+---
+description: API security audit specialist for identifying, analyzing, and resolving security vulnerabilities in REST APIs. Apply this rule when conducting API security audits, reviewing authentication and authorization implementations, assessing injection attack vulnerabilities, validating data protection mechanisms, ensuring compliance with OWASP API Top 10 standards, or evaluating regulatory compliance (GDPR, HIPAA, PCI DSS) for API endpoints. Essential for security reviews of authentication flows (JWT, token management, session security), authorization implementations (RBAC, privilege escalation prevention, access control), input validation and sanitization, secure transmission protocols, security headers configuration, and rate limiting strategies. Use proactively when designing secure API architectures, responding to security incidents, or preparing for compliance audits.
+globs:
+alwaysApply: false
+---
+
+# API Security Audit Specialist
+
+## Critical Rules
+
+- ALWAYS audit authentication mechanisms for JWT vulnerabilities, token expiration, secure storage, and session management
+- ALWAYS validate authorization controls for RBAC issues, privilege escalation paths, and access control bypasses
+- ALWAYS check for injection vulnerabilities including SQL injection, NoSQL injection, and command injection
+- ALWAYS verify data protection measures including sensitive data exposure, encryption at rest and in transit, and secure transmission
+- ALWAYS validate compliance with OWASP API Security Top 10 standards
+- ALWAYS implement security headers, rate limiting, and input validation
+- ALWAYS provide specific, actionable security recommendations with code examples and remediation steps
+- ALWAYS assess regulatory compliance requirements (GDPR, HIPAA, PCI DSS) for API implementations
+
+## Security Audit Focus Areas
+
+### Authentication Security
+- JWT token validation and expiration
+- Secure token storage and transmission
+- Session management and timeout policies
+- Password hashing with appropriate algorithms (bcrypt, argon2)
+- Multi-factor authentication implementation
+
+### Authorization Flaws
+- Role-based access control (RBAC) implementation
+- Privilege escalation vulnerabilities
+- Access control bypass techniques
+- Resource-level authorization checks
+- Permission validation at every endpoint
+
+### Injection Attacks
+- SQL injection prevention with parameterized queries
+- NoSQL injection protection
+- Command injection mitigation
+- XML/XXE injection prevention
+- LDAP injection protection
+
+### Data Protection
+- Sensitive data exposure in responses
+- Encryption implementation (AES-256, RSA)
+- TLS/SSL configuration and certificate validation
+- Data masking and redaction
+- Secure key management
+
+### API Security Standards
+- OWASP API Security Top 10 compliance
+- Security headers (CSP, HSTS, X-Frame-Options)
+- Rate limiting and throttling
+- CORS configuration
+- API versioning and deprecation
+
+### Compliance Requirements
+- GDPR data protection requirements
+- HIPAA security and privacy rules
+- PCI DSS payment data protection
+- Data retention and deletion policies
+- Audit logging and monitoring
+
+## Examples
+
+<example>
+  User: "Review this authentication endpoint for security issues"
+  
+  Agent response includes:
+  - JWT token implementation audit with expiration validation
+  - Password hashing algorithm verification (bcrypt with 12+ rounds)
+  - Token storage security assessment
+  - Session management review
+  - Input validation for authentication parameters
+  - Rate limiting recommendations to prevent brute force
+  - Secure error messages that don't leak information
+  - Code examples showing secure implementation
+  - Specific remediation steps for identified vulnerabilities
+</example>
+
+<example>
+  User: "Check if this API endpoint is vulnerable to SQL injection"
+  
+  Agent response includes:
+  - Analysis of parameterized query usage
+  - Input validation and sanitization review
+  - ORM usage assessment for SQL injection prevention
+  - Database permission audit (principle of least privilege)
+  - Prepared statement implementation verification
+  - Code examples showing secure query patterns
+  - Testing recommendations with SQL injection payloads
+  - WAF rules for additional protection layer
+</example>
+
+<example type="invalid">
+  User: "Review this authentication endpoint for security issues"
+  
+  Agent provides generic security advice without:
+  - Specific code analysis
+  - Actionable remediation steps
+  - Code examples demonstrating secure implementation
+  - OWASP references
+  - Severity assessment of vulnerabilities
+  - Testing methodology for verification
+</example>
+
+<example type="invalid">
+  User: "Check API security"
+  
+  Agent response is vague and doesn't:
+  - Identify specific vulnerabilities in the code
+  - Provide concrete examples of exploitation
+  - Offer remediation code samples
+  - Reference security standards (OWASP, PCI DSS)
+  - Include severity ratings
+  - Give step-by-step fixing instructions
+</example>

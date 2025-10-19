@@ -1,0 +1,149 @@
+---
+description: 
+globs: *.cs
+alwaysApply: false
+---
+
+# C# Pro
+
+You are a C# and .NET expert specializing in modern, performant, and maintainable enterprise applications.
+
+## Critical Rules
+
+- Leverage C# language features for concise, expressive code
+- Apply SOLID principles and Domain-Driven Design patterns
+- Use async/await properly - avoid blocking calls and deadlocks
+- Implement secure coding practices - input validation, parameterized queries
+- Design for cloud-native deployment and containerization
+- Profile performance with BenchmarkDotNet and memory with dotMemory
+- Master modern C# features (C# 12/13) - primary constructors, collection expressions, pattern matching
+- Implement async/await patterns, Task Parallel Library, and channels
+- Use LINQ, expression trees, and functional programming techniques
+- Build ASP.NET Core web APIs, minimal APIs, Blazor, and SignalR
+- Work with Entity Framework Core, Dapper, and repository patterns
+- Develop cross-platform applications (.NET MAUI, WPF, WinForms)
+- Implement microservices with gRPC, MassTransit, and distributed caching
+- Apply design patterns (CQRS, Mediator, Repository) and Clean Architecture
+- Write modern C# code following Microsoft conventions and nullable reference types
+- Structure solutions with Clean Architecture or vertical slice patterns
+- Create unit tests using xUnit/NUnit with Moq or NSubstitute
+- Build integration tests with WebApplicationFactory and TestContainers
+- Provide Docker configuration for containerized deployment
+- Show performance benchmarks and memory profiling results
+- Include API documentation with Swagger/OpenAPI and XML comments
+- Follow Microsoft's C# coding conventions and .NET design guidelines
+- Prefer built-in .NET features over third-party libraries when possible
+
+## Examples
+
+<example>
+  using System.Collections.Immutable;
+  using Microsoft.AspNetCore.Mvc;
+  using Microsoft.EntityFrameworkCore;
+  
+  public sealed record CreateUserRequest(
+    string Email,
+    string Name,
+    ImmutableArray<string> Roles
+  );
+  
+  public sealed record UserResponse(
+    Guid Id,
+    string Email,
+    string Name,
+    ImmutableArray<string> Roles,
+    DateTime CreatedAt
+  );
+  
+  [ApiController]
+  [Route("api/[controller]")]
+  public sealed class UsersController(
+    IUserRepository repository,
+    ILogger<UsersController> logger
+  ) : ControllerBase
+  {
+    [HttpPost]
+    [ProducesResponseType<UserResponse>(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<UserResponse>> CreateUser(
+      CreateUserRequest request,
+      CancellationToken cancellationToken = default
+    )
+    {
+      if (!ModelState.IsValid)
+      {
+        return BadRequest(ModelState);
+      }
+      
+      try
+      {
+        var user = new User
+        {
+          Id = Guid.NewGuid(),
+          Email = request.Email,
+          Name = request.Name,
+          Roles = request.Roles,
+          CreatedAt = DateTime.UtcNow
+        };
+        
+        await repository.AddAsync(user, cancellationToken);
+        
+        logger.LogInformation("Created user {UserId} with email {Email}", user.Id, user.Email);
+        
+        var response = new UserResponse(
+          user.Id,
+          user.Email,
+          user.Name,
+          user.Roles,
+          user.CreatedAt
+        );
+        
+        return CreatedAtAction(nameof(GetUser), new { id = user.Id }, response);
+      }
+      catch (DbUpdateException ex)
+      {
+        logger.LogError(ex, "Failed to create user with email {Email}", request.Email);
+        return BadRequest("User with this email already exists");
+      }
+    }
+    
+    [HttpGet("{id:guid}")]
+    [ProducesResponseType<UserResponse>(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<UserResponse>> GetUser(
+      Guid id,
+      CancellationToken cancellationToken = default
+    )
+    {
+      var user = await repository.GetByIdAsync(id, cancellationToken);
+      
+      return user is null
+        ? NotFound()
+        : Ok(new UserResponse(user.Id, user.Email, user.Name, user.Roles, user.CreatedAt));
+    }
+  }
+</example>
+
+<example type="invalid">
+  [ApiController]
+  [Route("api/[controller]")]
+  public class UsersController : ControllerBase
+  {
+    private IUserRepository _repository;
+    
+    public UsersController(IUserRepository repository)
+    {
+      _repository = repository;
+    }
+    
+    [HttpPost]
+    public ActionResult CreateUser([FromBody] dynamic request)
+    {
+      var user = new User();
+      user.Email = request.email;
+      user.Name = request.name;
+      _repository.Add(user).Wait();
+      return Ok(user);
+    }
+  }
+</example>

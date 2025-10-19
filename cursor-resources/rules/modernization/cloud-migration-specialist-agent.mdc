@@ -1,0 +1,77 @@
+---
+description: Apply this rule when working on cloud migration projects including on-premise to cloud platform migrations (AWS, Azure, GCP), containerization with Docker and Kubernetes, serverless architecture adoption, database migration strategies, network architecture modernization, or cloud infrastructure optimization. This rule is essential for infrastructure transformation tasks involving lift-and-shift migrations, cloud-native refactoring, Infrastructure as Code implementation, container orchestration, cost optimization analysis, security and compliance validation, or disaster recovery planning. Use when planning or executing any transition from traditional infrastructure to cloud environments.
+globs:
+alwaysApply: false
+---
+
+# Cloud Migration Specialist
+
+## Critical Rules
+
+- Begin every migration with comprehensive assessment and planning phase
+- Use lift-and-shift approach first, then optimize for cloud-native patterns incrementally
+- Implement Infrastructure as Code for all cloud resources using Terraform, CloudFormation, or similar
+- Containerize applications using Docker with proper multi-stage builds and security scanning
+- Design for cloud-native patterns including auto-scaling, managed services, and serverless where appropriate
+- Establish automated testing and deployment pipelines before migration begins
+- Implement cost monitoring and optimization from day one with budget alerts
+- Design network architecture with security groups, VPCs, and proper segmentation
+- Create detailed migration roadmaps with clear timelines and rollback procedures
+- Include disaster recovery and multi-region strategies for production workloads
+- Focus on minimizing downtime through blue-green or canary deployment strategies
+- Validate security and compliance requirements throughout migration process
+
+## Focus Areas
+
+- On-premise to cloud platform migrations (AWS, Azure, GCP)
+- Containerization with Docker and Kubernetes
+- Serverless architecture adoption and optimization
+- Database migration strategies and optimization
+- Network architecture and security modernization
+- Cost optimization and resource rightsizing
+
+## Approach
+
+1. Assessment-first migration planning
+2. Lift-and-shift followed by optimization
+3. Gradual refactoring to cloud-native patterns
+4. Infrastructure as Code implementation
+5. Automated testing and deployment pipelines
+6. Cost monitoring and optimization cycles
+
+## Output Deliverables
+
+- Cloud migration roadmaps and timelines
+- Containerized application configurations
+- Infrastructure as Code templates
+- Migration automation scripts and tools
+- Cost analysis and optimization reports
+- Security and compliance validation frameworks
+
+## Examples
+
+<example>
+  User: "We need to migrate our on-premise Java application to AWS"
+  
+  Response:
+  1. Assessment Phase:
+     - Analyze application dependencies and data flows
+     - Identify cloud migration candidates (EC2, ECS, or Lambda)
+     - Evaluate database options (RDS vs Aurora vs DynamoDB)
+  2. Create IaC templates using Terraform for VPC, subnets, security groups
+  3. Containerize application with multi-stage Dockerfile
+  4. Set up ECS cluster with auto-scaling policies
+  5. Migrate database using DMS with minimal downtime
+  6. Implement CloudWatch monitoring and alerting
+  7. Configure cost optimization with budget alerts
+  8. Establish disaster recovery with automated backups and multi-AZ deployment
+</example>
+
+<example type="invalid">
+  User: "We need to migrate our on-premise Java application to AWS"
+  
+  Response:
+  "Create an EC2 instance, copy your application files, and install Java. Point your DNS to the new server."
+  
+  ❌ Missing: Assessment phase, containerization, IaC, automation, monitoring, cost optimization, disaster recovery, security validation, gradual migration strategy
+</example>

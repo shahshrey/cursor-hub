@@ -1,0 +1,113 @@
+---
+description: Apply this rule when extracting and analyzing text content from images. Use for OCR processing of document images, converting visual content to text while preserving formatting and structure, recognizing document hierarchy, and translating visual elements to markdown. Critical for high-accuracy text extraction including headers, lists, special characters, emphasis, and complex layouts. Apply when analyzing PNG/JPG/image files for text content, performing initial OCR extraction, mapping visual structure to semantic meaning, identifying heading levels and list structures, or converting document images to clean markdown format while maintaining the original document's visual hierarchy and formatting.
+globs: 
+alwaysApply: false
+---
+
+# Visual Analysis OCR
+
+## Critical Rules
+
+- Perform high-accuracy OCR to extract every piece of text from images including:
+  * Main body text
+  * Headers and subheaders at all levels
+  * Bullet points and numbered lists
+  * Captions, footnotes, and marginalia
+  * Special characters, symbols, and mathematical notation
+- Identify and map visual elements to their semantic meaning:
+  * Detect heading levels based on font size, weight, and positioning
+  * Recognize list structures (ordered, unordered, nested)
+  * Identify text emphasis (bold, italic, underline)
+  * Detect code blocks, quotes, and special formatting regions
+  * Map indentation and spacing to logical hierarchy
+- Translate visual structure into clean, properly formatted markdown:
+  * Use appropriate heading levels (# ## ### etc.)
+  * Format lists with correct markers (-, *, 1., etc.)
+  * Apply emphasis markers (**bold**, *italic*, `code`)
+  * Preserve line breaks and paragraph spacing
+  * Handle special characters that may need escaping
+- Perform quality assurance by:
+  * Cross-checking extracted text for completeness
+  * Ensuring no formatting elements are missed
+  * Validating markdown structure accurately represents visual hierarchy
+  * Flagging any ambiguous or unclear sections
+- Follow systematic analysis workflow:
+  1. Perform comprehensive scan to understand overall document structure
+  2. Extract text in reading order, maintaining logical flow
+  3. Pay special attention to edge cases: rotated text, watermarks, background elements
+  4. Handle multi-column layouts by preserving intended reading sequence
+  5. Identify and preserve special formatting: tables, diagram labels, callout boxes
+- Handle special cases appropriately:
+  * Unclear or ambiguous text: Note uncertainty and provide best interpretation
+  * Complex layouts: Describe structure and provide most logical markdown representation
+  * Non-text elements: Acknowledge presence and describe relationship to text
+  * Poor image quality: Indicate confidence levels for extracted text
+- Always prioritize accuracy and structure preservation over assumptions
+- Output clean, well-structured markdown that faithfully represents original document
+- Preserve original document's content and formatting with high fidelity
+
+## Examples
+
+<example>
+  Input: Image of documentation page with header, subheadings, bullet lists, and code example
+  
+  Visual Analysis:
+  - Document structure identified: Title (large bold) → 2 sections (medium bold) → bullet lists → code block
+  - Font sizes: Title (24pt) → Section headers (18pt) → Body text (12pt)
+  - Emphasis detected: Bold for "Important" in second bullet, inline code for `function_name`
+  - Code block identified by monospace font and light background
+  
+  Extracted Markdown:
+  ```markdown
+  # API Documentation
+  
+  ## Getting Started
+  
+  To use this API, you need to:
+  
+  - Register for an API key
+  - **Important**: Store your key securely
+  - Use the `authenticate()` function before making requests
+  
+  ## Example Usage
+  
+  Here's a basic example:
+  
+  ```python
+  import api_client
+  
+  client = api_client.authenticate(api_key)
+  result = client.fetch_data()
+  ```
+  
+  ## Next Steps
+  
+  - Review the full documentation
+  - Try the interactive examples
+  - Join our developer community
+  ```
+  
+  Confidence: High (95%) - Clear text, good image quality, standard layout
+</example>
+
+<example type="invalid">
+  Input: Image of technical document with headers and lists
+  
+  Invalid Output:
+  ```
+  API Documentation Getting Started To use this API you need to Register for an API key Important Store your key securely Use the authenticate function before making requests...
+  ```
+  
+  Why Invalid:
+  - All text extracted in one continuous block without structure
+  - No markdown formatting applied
+  - Heading levels not identified or marked
+  - List structure not preserved (no bullet markers)
+  - Emphasis markers (bold, code) not recognized or applied
+  - No line breaks or paragraph separation
+  - Code block not identified or formatted
+  - Does not preserve visual hierarchy
+  - Output is not clean markdown
+  - Cannot determine document structure from output
+  - Not usable without significant manual reformatting
+</example>

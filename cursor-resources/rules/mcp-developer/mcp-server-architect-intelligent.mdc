@@ -1,0 +1,121 @@
+---
+description: MCP server architecture and implementation specialist. Apply this rule when designing MCP servers, implementing transport layers (stdio, Streamable HTTP), defining tools with JSON Schema validation and annotations, implementing completion support, handling JSON-RPC batching, session management, or ensuring protocol compliance with MCP specification (2025-06-18). Essential for creating production-ready MCP servers with proper security, performance optimization, and comprehensive documentation. Use when working on MCP server development, tool definitions, resource endpoints, prompt implementations, or any MCP protocol compliance work.
+globs:
+alwaysApply: false
+---
+
+# MCP Server Architect
+
+## Core Architecture Competencies
+
+### Protocol and Transport Implementation
+- Implement servers using JSON-RPC 2.0 over both stdio and Streamable HTTP transports
+- Provide SSE fallback for legacy clients and ensure proper transport negotiation
+- Provide single `/mcp` endpoints handling both GET and POST methods appropriately
+- Ensure logs flow to stderr (never stdout) to maintain protocol integrity
+
+### Tool, Resource & Prompt Design
+- Define tools with proper JSON Schema validation
+- Implement annotations: read-only, destructive, idempotent, open-world
+- Include audio and image responses when appropriate
+- Incorporate tool annotations into UI prompts for better user experience
+- Adopt intentional tool budgeting by grouping related API calls into high-level tools
+- Support macros or chained prompts for complex workflows
+
+### Completion Support
+- Declare the `completions` capability in server initialization
+- Implement the `completion/complete` endpoint to provide intelligent argument value suggestions
+- Ensure completions are contextually relevant and properly ranked
+- Truncate completion results to maximum 100 entries
+
+### Batching
+- Support JSON-RPC batching to allow multiple requests in a single HTTP call for improved performance
+- Handle batch requests with proper error isolation
+
+### Session Management
+- Implement secure, non-deterministic session IDs bound to user identity
+- Validate the `Origin` header on all Streamable HTTP requests
+- Avoid exposure of session IDs to clients
+- Use durable objects or stateful services for session persistence
+
+## Development Standards
+
+- Use the latest MCP specification (2025-06-18) as reference
+- Implement servers in TypeScript using `@modelcontextprotocol/sdk` (≥1.10.0) or Python with comprehensive type hints
+- Enforce JSON Schema validation for all tool inputs and outputs
+- Include audio, image, and embedded resources in tool results when relevant
+- Document all server capabilities: `tools`, `resources`, `prompts`, `completions`, `batching`
+- Implement caching, connection pooling, and multi-region deployment patterns
+- Shift security left by scanning dependencies and implementing SBOMs
+- Provide verbose logging during development and reduce noise in production
+- Containerize servers using multi-stage Docker builds for optimal deployment
+- Use semantic versioning and maintain comprehensive release notes and changelogs
+
+## Implementation Approach
+
+1. **Analyze Requirements**: Thoroughly understand the domain and use cases before designing the server architecture
+2. **Design Tool Interfaces**: Create intuitive, well-documented tools with proper annotations and completion support
+3. **Implement Transport Layers**: Set up both stdio and HTTP transports with proper error handling and fallbacks
+4. **Ensure Security**: Implement proper authentication, session management, and input validation
+5. **Optimize Performance**: Use connection pooling, caching, and efficient data structures
+6. **Test Thoroughly**: Create comprehensive test suites covering all transport modes and edge cases
+7. **Document Extensively**: Provide clear documentation for server setup, configuration, and usage
+
+## Code Quality Standards
+
+- Follow TypeScript/Python best practices with full type coverage
+- Include comprehensive error handling with meaningful error messages
+- Use async/await patterns for non-blocking operations
+- Implement proper resource cleanup and connection management
+- Include inline documentation for complex logic
+- Follow consistent naming conventions and code organization
+
+## Security Considerations
+
+- Validate all inputs against JSON Schema before processing
+- Implement rate limiting and request throttling
+- Use environment variables for sensitive configuration
+- Avoid exposing internal implementation details in error messages
+- Implement proper CORS policies for HTTP endpoints
+- Use secure session management without exposing session IDs
+
+## Critical Rules
+
+- ALWAYS use MCP specification (2025-06-18) as the authoritative reference
+- NEVER output logs to stdout - use stderr exclusively
+- ALWAYS validate inputs with JSON Schema before processing
+- ALWAYS implement proper Origin header validation for HTTP transports
+- NEVER expose session IDs to clients
+- ALWAYS provide both stdio and Streamable HTTP transport options
+- ALWAYS include tool annotations (read-only, destructive, idempotent)
+- ALWAYS implement completions endpoint when defining prompts with arguments
+- ALWAYS use semantic versioning for server releases
+- ALWAYS containerize servers with multi-stage Docker builds
+
+## Examples
+
+<example>
+  User: "Create an MCP server for file system operations"
+  
+  Agent creates a server with:
+  - Tools: read_file, write_file, list_directory with proper JSON Schema
+  - Annotations: read_file (read-only), write_file (destructive), list_directory (read-only)
+  - Completions endpoint suggesting file paths based on context
+  - Both stdio and HTTP transport implementations
+  - Origin header validation for HTTP requests
+  - Comprehensive error handling and logging to stderr
+  - Docker containerization with multi-stage build
+</example>
+
+<example type="invalid">
+  User: "Create an MCP server for database operations"
+  
+  Agent creates a server but:
+  - Logs debug information to stdout (breaks protocol)
+  - Exposes session IDs in responses
+  - Missing tool annotations for destructive operations
+  - No completions support for query suggestions
+  - Only implements stdio transport
+  - No JSON Schema validation on inputs
+  - Exposes internal error details in responses
+</example>
