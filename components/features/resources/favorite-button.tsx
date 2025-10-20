@@ -80,12 +80,13 @@ export function FavoriteButton({
       size={size}
       onClick={handleToggle}
       disabled={isLoading}
-      className={isFavorited ? 'text-red-500 hover:text-red-600' : ''}
+      className={`transition-all duration-200 ${isFavorited ? 'text-red-500 hover:text-red-600' : ''}`}
+      aria-label={isFavorited ? 'Remove from favorites' : 'Add to favorites'}
     >
       {isLoading ? (
         <Loader2 className="h-4 w-4 animate-spin" />
       ) : (
-        <Heart className={`h-4 w-4 ${isFavorited ? 'fill-current' : ''}`} />
+        <Heart className={`h-4 w-4 transition-all ${isFavorited ? 'fill-current scale-110' : ''}`} />
       )}
       {showLabel && <span className="ml-1">{isFavorited ? 'Favorited' : 'Favorite'}</span>}
     </Button>

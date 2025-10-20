@@ -11,6 +11,7 @@ interface DownloadButtonProps {
   variant?: 'default' | 'outline' | 'ghost'
   size?: 'default' | 'sm' | 'lg' | 'icon'
   showLabel?: boolean
+  className?: string
 }
 
 export function DownloadButton({
@@ -18,6 +19,7 @@ export function DownloadButton({
   variant = 'default',
   size = 'default',
   showLabel = true,
+  className = '',
 }: DownloadButtonProps) {
   const [isDownloading, setIsDownloading] = useState(false)
 
@@ -51,7 +53,14 @@ export function DownloadButton({
   }
 
   return (
-    <Button variant={variant} size={size} onClick={handleDownload} disabled={isDownloading}>
+    <Button 
+      variant={variant} 
+      size={size} 
+      onClick={handleDownload} 
+      disabled={isDownloading}
+      className={className}
+      aria-label={`Download ${resource.fileName}`}
+    >
       {isDownloading ? (
         <Loader2 className="h-4 w-4 animate-spin mr-1" />
       ) : (

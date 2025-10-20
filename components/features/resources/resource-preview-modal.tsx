@@ -136,23 +136,23 @@ export function ResourcePreviewModal({ resource, isOpen, onClose }: ResourcePrev
         <div className="space-y-6">
           {/* Command-specific header */}
           {type === 'command' && frontmatter.name && (
-            <div className="space-y-4 pb-6 border-b">
-              <div className="flex items-start gap-3">
-                <div className="p-2 rounded-lg bg-primary/10 text-primary">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="space-y-5 pb-6 border-b">
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-xl bg-primary/10 text-primary">
+                  <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-xl font-semibold mb-1">{frontmatter.name}</h3>
-                  <Badge>Command</Badge>
+                  <h3 className="text-xl font-bold mb-2">{frontmatter.name}</h3>
+                  <Badge className="font-medium">Command</Badge>
                 </div>
               </div>
               
               {frontmatter.objective && (
-                <div className="rounded-lg bg-accent/50 border border-accent p-4">
-                  <h4 className="text-sm font-semibold mb-2 flex items-center gap-2">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="rounded-xl bg-accent/50 border border-accent p-5">
+                  <h4 className="text-sm font-bold mb-3 flex items-center gap-2">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     Objective
@@ -165,22 +165,22 @@ export function ResourcePreviewModal({ resource, isOpen, onClose }: ResourcePrev
 
           {/* Rule-specific header */}
           {type === 'rule' && Object.keys(frontmatter).length > 0 && (
-            <div className="space-y-3 pb-6 border-b">
+            <div className="space-y-4 pb-6 border-b">
               {frontmatter.description && (
-                <div>
-                  <h4 className="text-sm font-semibold text-muted-foreground mb-2">Description</h4>
+                <div className="rounded-xl bg-accent/30 border border-accent/50 p-5">
+                  <h4 className="text-sm font-bold text-foreground mb-3">Description</h4>
                   <p className="text-sm text-foreground/90 leading-relaxed">{frontmatter.description}</p>
                 </div>
               )}
               
-              <div className="flex flex-wrap gap-3 text-xs">
+              <div className="flex flex-wrap gap-2 text-xs">
                 {frontmatter.alwaysApply !== undefined && (
-                  <Badge variant={frontmatter.alwaysApply ? 'default' : 'secondary'}>
+                  <Badge variant={frontmatter.alwaysApply ? 'default' : 'secondary'} className="font-medium">
                     {frontmatter.alwaysApply ? '✓ Auto-apply' : 'Manual trigger'}
                   </Badge>
                 )}
                 {frontmatter.category && (
-                  <Badge variant="outline">
+                  <Badge variant="outline" className="font-medium">
                     {frontmatter.category}
                   </Badge>
                 )}
@@ -244,14 +244,14 @@ export function ResourcePreviewModal({ resource, isOpen, onClose }: ResourcePrev
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
-        <DialogHeader>
+      <DialogContent className="max-w-5xl max-h-[90vh] overflow-hidden flex flex-col gap-0 p-0">
+        <DialogHeader className="px-6 pt-6 pb-4 border-b bg-card/50">
           <div className="flex items-start justify-between gap-4">
             <div className="flex-1 min-w-0">
-              <DialogTitle className="text-2xl mb-2">{resource.title}</DialogTitle>
+              <DialogTitle className="text-2xl font-bold mb-3">{resource.title}</DialogTitle>
               <DialogDescription className="text-sm">
                 <div className="flex flex-wrap gap-2 items-center">
-                  <Badge variant="secondary">{resource.type}</Badge>
+                  <Badge variant="secondary" className="font-medium">{resource.type}</Badge>
                   <Badge variant="outline">{resource.category}</Badge>
                   <span className="text-muted-foreground">
                     {resource.extension} • {formatBytes(resource.fileSize)}
@@ -262,17 +262,17 @@ export function ResourcePreviewModal({ resource, isOpen, onClose }: ResourcePrev
           </div>
         </DialogHeader>
 
-        <div className="flex-1 overflow-y-auto -mx-6 px-6">{renderContent()}</div>
+        <div className="flex-1 overflow-y-auto px-6 py-6">{renderContent()}</div>
 
-        <div className="flex items-center justify-between gap-2 pt-4 border-t">
-          <Button variant="outline" onClick={handleCopyAll} disabled={!content}>
-            <Copy className="h-4 w-4 mr-1" />
+        <div className="flex items-center justify-between gap-3 px-6 py-4 border-t bg-card/50">
+          <Button variant="outline" onClick={handleCopyAll} disabled={!content} className="h-10">
+            <Copy className="h-4 w-4 mr-2" />
             {copied ? 'Copied!' : 'Copy Entire File'}
           </Button>
-          <div className="flex gap-2">
-            <DownloadButton resource={resource} variant="default" />
-            <Button variant="ghost" onClick={onClose}>
-              <X className="h-4 w-4 mr-1" />
+          <div className="flex gap-3">
+            <DownloadButton resource={resource} variant="default" className="h-10 px-6 font-semibold" />
+            <Button variant="ghost" onClick={onClose} className="h-10">
+              <X className="h-4 w-4 mr-2" />
               Close
             </Button>
           </div>

@@ -26,29 +26,31 @@ export function ResourceCard({
   const typeIcon = getResourceTypeIcon(resource.type)
 
   return (
-    <Card className="group hover:shadow-lg hover:shadow-primary-300/20 hover:-translate-y-1 transition-all duration-200 flex flex-col h-full border-primary-300/30 hover:border-primary-300/50 hover:bg-card/80">
-      <CardHeader className="space-y-2">
+    <Card className="group hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1 transition-all duration-300 flex flex-col h-full border-primary-300/30 hover:border-primary/60 hover:bg-card/80 relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+      
+      <CardHeader className="space-y-3 relative z-10">
         <div className="flex items-start justify-between gap-2">
-          <div className="flex items-center gap-2 min-w-0">
-            <FileIconComponent className="h-5 w-5 shrink-0 text-muted-foreground" />
+          <div className="flex items-center gap-2.5 min-w-0">
+            <FileIconComponent className="h-5 w-5 shrink-0 text-muted-foreground group-hover:text-primary transition-colors" />
             <span className="text-2xl shrink-0">{typeIcon}</span>
           </div>
           <div className="flex items-center gap-2 shrink-0">
+            <Badge variant="secondary" className="text-xs font-medium">
+              {resource.type}
+            </Badge>
             <FavoriteButton
               resourceSlug={resource.slug}
               resourceType={resource.type}
               initialIsFavorited={isFavorited}
               size="icon"
             />
-            <Badge variant="secondary" className="text-xs">
-              {resource.type}
-            </Badge>
           </div>
         </div>
-        <CardTitle className="text-lg line-clamp-2 min-h-[3.5rem]">
+        <CardTitle className="text-lg font-semibold line-clamp-2 min-h-[3.5rem] group-hover:text-primary transition-colors">
           {resource.title}
         </CardTitle>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 items-center">
           <Badge variant="outline" className="text-xs">
             {resource.category}
           </Badge>
@@ -58,12 +60,12 @@ export function ResourceCard({
         </div>
       </CardHeader>
 
-      <CardContent className="flex-1">
-        <CardDescription className="line-clamp-3 text-sm">
+      <CardContent className="flex-1 relative z-10">
+        <CardDescription className="line-clamp-3 text-sm leading-relaxed">
           {resource.description || resource.excerpt}
         </CardDescription>
         {resource.tags.length > 0 && (
-          <div className="flex flex-wrap gap-1 mt-3">
+          <div className="flex flex-wrap gap-1.5 mt-4">
             {resource.tags.slice(0, 3).map((tag, index) => (
               <Badge key={index} variant="outline" className="text-xs">
                 {tag}
@@ -78,17 +80,16 @@ export function ResourceCard({
         )}
       </CardContent>
 
-      <CardFooter className="flex items-center justify-between gap-2 pt-4 border-t">
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+      <CardFooter className="flex flex-col gap-3 pt-4 border-t relative z-10">
+        <div className="flex items-center gap-2 text-sm text-muted-foreground w-full">
           <Download className="h-4 w-4" />
-          <span>{downloadCount}</span>
+          <span>{downloadCount} downloads</span>
         </div>
-        <div className="flex gap-2">
-          <Button variant="outline" size="sm" onClick={onPreview}>
-            <Eye className="h-4 w-4 mr-1" />
-            Preview
+        <div className="flex gap-2 w-full">
+          <DownloadButton resource={resource} size="sm" className="flex-1 font-semibold" />
+          <Button variant="outline" size="sm" onClick={onPreview} className="px-4">
+            <Eye className="h-4 w-4" />
           </Button>
-          <DownloadButton resource={resource} size="sm" />
         </div>
       </CardFooter>
     </Card>

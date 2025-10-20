@@ -9,6 +9,7 @@ import { ResourceFilters } from './resource-filters'
 import { ResourceGridSkeleton } from './resource-card-skeleton'
 import { ResourcePreviewModal } from './resource-preview-modal'
 import { debounce } from '@/lib/search'
+import { Button } from '@/components/ui/button'
 
 interface ResourceBrowserProps {
   initialResources: ResourceMetadata[]
@@ -136,7 +137,7 @@ export function ResourceBrowser({ initialResources, categories }: ResourceBrowse
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-10">
       <ResourceFilters
         searchQuery={searchQuery}
         onSearchChange={handleSearchChange}
@@ -151,23 +152,32 @@ export function ResourceBrowser({ initialResources, categories }: ResourceBrowse
       />
 
       <div>
-        <div className="flex items-center justify-between mb-4">
-          <p className="text-sm text-muted-foreground">
+        <div className="flex items-center justify-between mb-6">
+          <div>
             {isSearching ? (
-              'Searching...'
+              <p className="text-base text-muted-foreground">Searching...</p>
             ) : (
-              <>
-                Showing <span className="font-semibold">{filteredResources.length}</span> of{' '}
-                <span className="font-semibold">{initialResources.length}</span> resources
-              </>
+              <div className="space-y-1">
+                <p className="text-base font-medium text-foreground">
+                  Showing <span className="text-primary font-bold">{filteredResources.length}</span> of{' '}
+                  <span className="font-semibold">{initialResources.length}</span> resources
+                </p>
+                {(searchQuery || activeType !== 'all' || activeCategory) && (
+                  <p className="text-sm text-muted-foreground">
+                    {searchQuery && `Searching for "${searchQuery}"`}
+                    {activeType !== 'all' && ` • Type: ${activeType}`}
+                    {activeCategory && ` • Category: ${activeCategory}`}
+                  </p>
+                )}
+              </div>
             )}
-          </p>
+          </div>
         </div>
 
         {isSearching ? (
           <ResourceGridSkeleton count={8} />
         ) : filteredResources.length > 0 ? (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {filteredResources.map((resource) => (
               <ResourceCard
                 key={resource.slug}
@@ -178,12 +188,15 @@ export function ResourceBrowser({ initialResources, categories }: ResourceBrowse
             ))}
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center py-16 text-center">
-            <div className="mb-4 text-6xl">🔍</div>
-            <h3 className="text-lg font-semibold mb-2">No resources found</h3>
-            <p className="text-sm text-muted-foreground mb-4">
-              Try adjusting your filters or search query
+          <div className="flex flex-col items-center justify-center py-20 text-center">
+            <div className="mb-6 text-7xl">🔍</div>
+            <h3 className="text-xl font-bold mb-3">No resources found</h3>
+            <p className="text-base text-muted-foreground mb-6 max-w-md">
+              Try adjusting your filters or search query to find what you&apos;re looking for
             </p>
+            <Button onClick={handleClearFilters} variant="outline">
+              Clear All Filters
+            </Button>
           </div>
         )}
       </div>
