@@ -1,7 +1,7 @@
-import { createClient } from '@/lib/supabase/server'
+import { auth, currentUser } from '@clerk/nextjs/server'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { signOut } from '@/server/actions/auth'
+import { SignOutButton } from '@clerk/nextjs'
 import { getFavorites } from '@/server/actions/favorites'
 import { getResourceIndex } from '@/lib/resources'
 import { FavoritesDashboard } from '@/components/features/resources/favorites-dashboard'
@@ -9,8 +9,8 @@ import Link from 'next/link'
 import { Separator } from '@/components/ui/separator'
 
 export default async function DashboardPage() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const { userId } = await auth()
+  const user = await currentUser()
   
   const favorites = await getFavorites()
   const resourcesIndex = getResourceIndex()
@@ -23,11 +23,11 @@ export default async function DashboardPage() {
           <Link href="/">
             <Button variant="outline">Browse Resources</Button>
           </Link>
-          <form action={signOut}>
-            <Button variant="outline" type="submit">
+          <SignOutButton>
+            <Button variant="outline">
               Sign Out
             </Button>
-          </form>
+          </SignOutButton>
         </div>
       </div>
       
@@ -35,12 +35,12 @@ export default async function DashboardPage() {
         <CardHeader>
           <CardTitle>Welcome!</CardTitle>
           <CardDescription>
-            You are signed in as {user?.email}
+            You are signed in as {user?.emailAddresses[0]?.emailAddress}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <p className="text-sm text-muted-foreground">
-            User ID: {user?.id}
+            User ID: {userId}
           </p>
         </CardContent>
       </Card>

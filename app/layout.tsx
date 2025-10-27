@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/sonner";
+import { LightRays } from "@/components/ui/light-rays";
 import "./globals.css";
 
 const inter = Inter({
@@ -19,7 +21,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
+    <ClerkProvider
+      appearance={{
+        variables: {
+          colorPrimary: 'hsl(var(--primary))',
+        }
+      }}
+      localization={{
+        applicationName: "Cursor Resources Hub"
+      }}
+    >
+      <html lang="en" className="dark" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -33,18 +45,34 @@ export default function RootLayout({
         <style
           dangerouslySetInnerHTML={{
             __html: `
-              html.dark, html.dark body {
+              html.dark {
                 background-color: rgb(12, 18, 23) !important;
+              }
+              html.dark body {
+                background: transparent !important;
                 color: rgb(255, 255, 255) !important;
               }
             `,
           }}
         />
       </head>
-      <body className={`${inter.variable} font-sans antialiased`}>
-        {children}
+      <body className={`${inter.variable} font-sans antialiased relative min-h-screen`}>
+        <div className="fixed inset-0 z-0">
+          <div className="absolute inset-0 bg-[rgb(12,18,23)]" />
+          <LightRays 
+            count={15}
+            color="rgba(255, 255, 255, 0.15)"
+            blur={32}
+            speed={12}
+            length="100vh"
+          />
+        </div>
+        <div className="relative z-10">
+          {children}
+        </div>
         <Toaster />
       </body>
     </html>
+    </ClerkProvider>
   );
 }

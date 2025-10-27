@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { after } from 'next/server'
 import { getResourceBySlug, getResourceContent } from '@/lib/resources'
 import { incrementDownload } from '@/server/actions/resources'
 
@@ -22,7 +23,9 @@ export async function GET(
     try {
       const content = getResourceContent(resource.filePath)
 
-      incrementDownload(slug)
+      after(async () => {
+      await incrementDownload(slug)
+      })
 
       return new NextResponse(content, {
         status: 200,

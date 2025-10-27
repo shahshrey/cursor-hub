@@ -8,6 +8,8 @@ import type { ResourceMetadata } from '@/types/resources'
 import { getFileIcon, getResourceTypeIcon, formatBytes } from '@/lib/file-utils'
 import { DownloadButton } from './download-button'
 import { FavoriteButton } from './favorite-button'
+import { AddToCursorButton } from './add-to-cursor-button'
+import { MagicCard } from '@/components/ui/magic-card'
 
 interface ResourceCardProps {
   resource: ResourceMetadata
@@ -26,10 +28,13 @@ export function ResourceCard({
   const typeIcon = getResourceTypeIcon(resource.type)
 
   return (
-    <Card className="group hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1 transition-all duration-300 flex flex-col h-full border-primary-300/30 hover:border-primary/60 hover:bg-card/80 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-      
-      <CardHeader className="space-y-3 relative z-10">
+    <MagicCard
+      className="h-full rounded-xl hover:-translate-y-1 transition-transform duration-300"
+      gradientSize={250}
+      gradientOpacity={0.6}
+    >
+      <Card className="group hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 flex flex-col h-full border-transparent bg-transparent relative overflow-hidden">
+        <CardHeader className="space-y-3 relative z-10">
         <div className="flex items-start justify-between gap-2">
           <div className="flex items-center gap-2.5 min-w-0">
             <FileIconComponent className="h-5 w-5 shrink-0 text-muted-foreground group-hover:text-primary transition-colors" />
@@ -86,13 +91,25 @@ export function ResourceCard({
           <span>{downloadCount} downloads</span>
         </div>
         <div className="flex gap-2 w-full">
+          {resource.type === 'mcp' ? (
+            <>
+              <AddToCursorButton resource={resource} size="sm" className="flex-1 font-semibold" />
+              <Button variant="outline" size="sm" onClick={onPreview} className="px-4">
+                <Eye className="h-4 w-4" />
+              </Button>
+            </>
+          ) : (
+            <>
           <DownloadButton resource={resource} size="sm" className="flex-1 font-semibold" />
           <Button variant="outline" size="sm" onClick={onPreview} className="px-4">
             <Eye className="h-4 w-4" />
           </Button>
+            </>
+          )}
         </div>
       </CardFooter>
-    </Card>
+      </Card>
+    </MagicCard>
   )
 }
 

@@ -4,7 +4,7 @@ import { useState, useMemo, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Fuse from 'fuse.js'
 import type { ResourceMetadata, ResourceType } from '@/types/resources'
-import { ResourceCard } from './resource-card'
+import { AnimatedResourceGrid } from './animated-resource-grid'
 import { ResourceFilters } from './resource-filters'
 import { ResourceGridSkeleton } from './resource-card-skeleton'
 import { ResourcePreviewModal } from './resource-preview-modal'
@@ -177,16 +177,10 @@ export function ResourceBrowser({ initialResources, categories }: ResourceBrowse
         {isSearching ? (
           <ResourceGridSkeleton count={8} />
         ) : filteredResources.length > 0 ? (
-          <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {filteredResources.map((resource) => (
-              <ResourceCard
-                key={resource.slug}
-                resource={resource}
-                downloadCount={0}
-                onPreview={() => handlePreview(resource)}
-              />
-            ))}
-          </div>
+          <AnimatedResourceGrid 
+            resources={filteredResources}
+            onPreview={handlePreview}
+          />
         ) : (
           <div className="flex flex-col items-center justify-center py-20 text-center">
             <div className="mb-6 text-7xl">🔍</div>

@@ -5,9 +5,18 @@ import { createClient } from '@/lib/supabase/server'
 export async function incrementDownload(slug: string): Promise<void> {
   try {
     const supabase = await createClient()
-    await supabase.rpc('increment_download_count', { resource_slug_param: slug })
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error('Timeout')), 1000)
+    )
+    
+    await Promise.race([
+      supabase.rpc('increment_download_count', { resource_slug_param: slug }),
+      timeoutPromise
+    ])
   } catch (error) {
-    console.error('Failed to increment download count:', error)
+    if (error instanceof Error && error.message === 'Timeout') {
+      console.warn('Download count update skipped (database unavailable)')
+    }
   }
 }
 

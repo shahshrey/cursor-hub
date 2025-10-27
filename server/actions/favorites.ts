@@ -1,5 +1,6 @@
 'use server'
 
+import { auth } from '@clerk/nextjs/server'
 import { createClient } from '@/lib/supabase/server'
 import type { ResourceType } from '@/types/resources'
 import { revalidatePath } from 'next/cache'
@@ -9,19 +10,18 @@ export async function toggleFavorite(
   type: ResourceType
 ): Promise<{ success: boolean; isFavorited: boolean; error?: string }> {
   try {
-    const supabase = await createClient()
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
-
-    if (!user) {
+    const { userId } = await auth()
+    
+    if (!userId) {
       return { success: false, isFavorited: false, error: 'Not authenticated' }
     }
+
+    const supabase = await createClient()
 
     const { data: existing } = await supabase
       .from('favorites')
       .select('id')
-      .eq('user_id', user.id)
+      .eq('user_id', userId)
       .eq('resource_slug', slug)
       .single()
 
@@ -36,7 +36,7 @@ export async function toggleFavorite(
       return { success: true, isFavorited: false }
     } else {
       const { error } = await supabase.from('favorites').insert({
-        user_id: user.id,
+        user_id: userId,
         resource_slug: slug,
         resource_type: type,
       })
@@ -62,17 +62,16 @@ export async function getFavorites(): Promise<
   Array<{ resource_slug: string; resource_type: ResourceType; created_at: string }>
 > {
   try {
-    const supabase = await createClient()
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
+    const { userId } = await auth()
+    
+    if (!userId) return []
 
-    if (!user) return []
+    const supabase = await createClient()
 
     const { data, error } = await supabase
       .from('favorites')
       .select('resource_slug, resource_type, created_at')
-      .eq('user_id', user.id)
+      .eq('user_id', userId)
       .order('created_at', { ascending: false })
 
     if (error || !data) return []
@@ -87,17 +86,16 @@ export async function getFavoritesByType(
   type: ResourceType
 ): Promise<Array<{ resource_slug: string; resource_type: ResourceType; created_at: string }>> {
   try {
-    const supabase = await createClient()
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
+    const { userId } = await auth()
+    
+    if (!userId) return []
 
-    if (!user) return []
+    const supabase = await createClient()
 
     const { data, error } = await supabase
       .from('favorites')
       .select('resource_slug, resource_type, created_at')
-      .eq('user_id', user.id)
+      .eq('user_id', userId)
       .eq('resource_type', type)
       .order('created_at', { ascending: false })
 
@@ -111,17 +109,16 @@ export async function getFavoritesByType(
 
 export async function isFavorited(slug: string): Promise<boolean> {
   try {
-    const supabase = await createClient()
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
+    const { userId } = await auth()
+    
+    if (!userId) return false
 
-    if (!user) return false
+    const supabase = await createClient()
 
     const { data, error } = await supabase
       .from('favorites')
       .select('id')
-      .eq('user_id', user.id)
+      .eq('user_id', userId)
       .eq('resource_slug', slug)
       .single()
 

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import {
   Dialog,
   DialogContent,
@@ -243,42 +244,53 @@ export function ResourcePreviewModal({ resource, isOpen, onClose }: ResourcePrev
   }
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-5xl max-h-[90vh] overflow-hidden flex flex-col gap-0 p-0">
-        <DialogHeader className="px-6 pt-6 pb-4 border-b bg-card/50">
-          <div className="flex items-start justify-between gap-4">
-            <div className="flex-1 min-w-0">
-              <DialogTitle className="text-2xl font-bold mb-3">{resource.title}</DialogTitle>
-              <DialogDescription className="text-sm">
-                <div className="flex flex-wrap gap-2 items-center">
-                  <Badge variant="secondary" className="font-medium">{resource.type}</Badge>
-                  <Badge variant="outline">{resource.category}</Badge>
-                  <span className="text-muted-foreground">
-                    {resource.extension} • {formatBytes(resource.fileSize)}
-                  </span>
+    <AnimatePresence mode="wait">
+      {isOpen && (
+        <Dialog open={isOpen} onOpenChange={onClose}>
+          <DialogContent className="max-w-5xl max-h-[90vh] overflow-hidden flex flex-col gap-0 p-0">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <DialogHeader className="px-6 pt-6 pb-4 border-b bg-card/50">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex-1 min-w-0">
+                    <DialogTitle className="text-2xl font-bold mb-3">{resource.title}</DialogTitle>
+                    <DialogDescription className="text-sm">
+                      <div className="flex flex-wrap gap-2 items-center">
+                        <Badge variant="secondary" className="font-medium">{resource.type}</Badge>
+                        <Badge variant="outline">{resource.category}</Badge>
+                        <span className="text-muted-foreground">
+                          {resource.extension} • {formatBytes(resource.fileSize)}
+                        </span>
+                      </div>
+                    </DialogDescription>
+                  </div>
                 </div>
-              </DialogDescription>
-            </div>
-          </div>
-        </DialogHeader>
+              </DialogHeader>
 
-        <div className="flex-1 overflow-y-auto px-6 py-6">{renderContent()}</div>
+              <div className="flex-1 overflow-y-auto px-6 py-6">{renderContent()}</div>
 
-        <div className="flex items-center justify-between gap-3 px-6 py-4 border-t bg-card/50">
-          <Button variant="outline" onClick={handleCopyAll} disabled={!content} className="h-10">
-            <Copy className="h-4 w-4 mr-2" />
-            {copied ? 'Copied!' : 'Copy Entire File'}
-          </Button>
-          <div className="flex gap-3">
-            <DownloadButton resource={resource} variant="default" className="h-10 px-6 font-semibold" />
-            <Button variant="ghost" onClick={onClose} className="h-10">
-              <X className="h-4 w-4 mr-2" />
-              Close
-            </Button>
-          </div>
-        </div>
-      </DialogContent>
-    </Dialog>
+              <div className="flex items-center justify-between gap-3 px-6 py-4 border-t bg-card/50">
+                <Button variant="outline" onClick={handleCopyAll} disabled={!content} className="h-10">
+                  <Copy className="h-4 w-4 mr-2" />
+                  {copied ? 'Copied!' : 'Copy Entire File'}
+                </Button>
+                <div className="flex gap-3">
+                  <DownloadButton resource={resource} variant="default" className="h-10 px-6 font-semibold" />
+                  <Button variant="ghost" onClick={onClose} className="h-10">
+                    <X className="h-4 w-4 mr-2" />
+                    Close
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
+          </DialogContent>
+        </Dialog>
+      )}
+    </AnimatePresence>
   )
 }
 

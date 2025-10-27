@@ -51,3 +51,6 @@ supabase-local-credentials.txt
 
 # generated files
 /public/data/
+
+# clerk configuration (can include secrets)
+/.clerk/

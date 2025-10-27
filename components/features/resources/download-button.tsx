@@ -44,6 +44,10 @@ export function DownloadButton({
       document.body.removeChild(a)
 
       toast.success(`Downloaded ${resource.fileName}`)
+      
+      window.dispatchEvent(new CustomEvent('resource-downloaded', { 
+        detail: { slug: resource.slug } 
+      }))
     } catch (error) {
       console.error('Download error:', error)
       toast.error('Failed to download resource')

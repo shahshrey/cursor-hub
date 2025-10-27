@@ -9,6 +9,13 @@ export default defineConfig({
     setupFiles: './test/setup.ts',
     globals: true,
     passWithNoTests: true,
+    exclude: [
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/tests/**',
+      '**/*.spec.ts',
+      '**/public/**',
+    ],
   },
   resolve: {
     alias: {

@@ -1,12 +1,13 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ResourceCard } from './resource-card'
 import type { ResourceMetadata, ResourceType } from '@/types/resources'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Search } from 'lucide-react'
+import { createClient } from '@/lib/supabase/client'
 
 interface Favorite {
   resource_slug: string
@@ -20,6 +21,8 @@ interface FavoritesDashboardProps {
 }
 
 export function FavoritesDashboard({ favorites, resourcesIndex }: FavoritesDashboardProps) {
+  const [downloadCounts, setDownloadCounts] = useState<Record<string, number>>({})
+
   const favoritedResources = useMemo(() => {
     return favorites
       .map((fav) => {
@@ -28,6 +31,61 @@ export function FavoritesDashboard({ favorites, resourcesIndex }: FavoritesDashb
       })
       .filter((r): r is ResourceMetadata & { favoritedAt: string } => r !== null)
   }, [favorites, resourcesIndex])
+
+  useEffect(() => {
+    const fetchDownloadCounts = async () => {
+      if (favoritedResources.length === 0) return
+
+      const supabase = createClient()
+      const slugs = favoritedResources.map(r => r.slug)
+      
+      const { data, error } = await supabase
+        .from('resources')
+        .select('slug, download_count')
+        .in('slug', slugs)
+      
+      if (data && !error) {
+        const counts: Record<string, number> = {}
+        data.forEach(item => {
+          counts[item.slug] = item.download_count
+        })
+        setDownloadCounts(counts)
+      }
+    }
+
+    fetchDownloadCounts()
+  }, [favoritedResources])
+
+  useEffect(() => {
+    const handleDownloadEvent = async (event: Event) => {
+      const customEvent = event as CustomEvent<{ slug: string }>
+      const slug = customEvent.detail.slug
+      
+      setDownloadCounts(prev => ({
+        ...prev,
+        [slug]: (prev[slug] || 0) + 1
+      }))
+      
+      setTimeout(async () => {
+        const supabase = createClient()
+        const { data, error } = await supabase
+          .from('resources')
+          .select('download_count')
+          .eq('slug', slug)
+          .single()
+        
+        if (data && !error) {
+          setDownloadCounts(prev => ({
+            ...prev,
+            [slug]: data.download_count
+          }))
+        }
+      }, 100)
+    }
+
+    window.addEventListener('resource-downloaded', handleDownloadEvent)
+    return () => window.removeEventListener('resource-downloaded', handleDownloadEvent)
+  }, [])
 
   const groupedByType = useMemo(() => {
     const groups: Record<ResourceType | 'all', (ResourceMetadata & { favoritedAt: string })[]> = {
@@ -74,7 +132,7 @@ export function FavoritesDashboard({ favorites, resourcesIndex }: FavoritesDashb
                 <ResourceCard
                   key={resource.slug}
                   resource={resource}
-                  downloadCount={0}
+                  downloadCount={downloadCounts[resource.slug] || 0}
                   isFavorited={true}
                   onPreview={() => console.log('Preview:', resource.slug)}
                 />

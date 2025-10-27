@@ -6,7 +6,7 @@ import { Heart, Loader2 } from 'lucide-react'
 import type { ResourceType } from '@/types/resources'
 import { toggleFavorite } from '@/server/actions/favorites'
 import { toast } from 'sonner'
-import { createClient } from '@/lib/supabase/client'
+import { useAuth } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation'
 
 interface FavoriteButtonProps {
@@ -28,18 +28,14 @@ export function FavoriteButton({
 }: FavoriteButtonProps) {
   const [isFavorited, setIsFavorited] = useState(initialIsFavorited)
   const [isLoading, setIsLoading] = useState(false)
+  const { isSignedIn } = useAuth()
   const router = useRouter()
 
   const handleToggle = async () => {
     try {
       setIsLoading(true)
 
-      const supabase = createClient()
-      const {
-        data: { user },
-      } = await supabase.auth.getUser()
-
-      if (!user) {
+      if (!isSignedIn) {
         toast.info('Please sign in to save favorites', {
           action: {
             label: 'Sign In',
