@@ -27,9 +27,6 @@ export default function RootLayout({
           colorPrimary: 'hsl(var(--primary))',
         }
       }}
-      localization={{
-        applicationName: "Cursor Resources Hub"
-      }}
     >
       <html lang="en" className="dark" suppressHydrationWarning>
       <head>

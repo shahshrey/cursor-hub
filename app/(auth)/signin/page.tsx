@@ -60,14 +60,6 @@ export default function SignInPage() {
               socialButtonsPlacement: "top",
             }
           }}
-          localization={{
-            signIn: {
-              start: {
-                title: "Sign in to Cursor Resources Hub",
-                subtitle: "Welcome back! Please sign in to continue"
-              }
-            }
-          }}
         />
           </div>
     </div>

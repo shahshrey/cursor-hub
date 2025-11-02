@@ -60,14 +60,6 @@ export default function SignUpPage() {
               socialButtonsPlacement: "top",
             }
           }}
-          localization={{
-            signUp: {
-              start: {
-                title: "Create your Cursor Resources Hub account",
-                subtitle: "Welcome! Please fill in the details to get started"
-              }
-            }
-          }}
         />
           </div>
     </div>
