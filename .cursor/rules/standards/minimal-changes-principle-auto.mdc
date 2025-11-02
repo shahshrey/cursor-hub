@@ -1,0 +1,86 @@
+---
+globs: *.py, **/*.py, **/*.ts, **/*.tsx
+alwaysApply: false
+---
+# Minimal Changes Principle
+
+<rule>
+name: minimal_changes_principle
+
+description: |
+  Standards for making minimal, focused code changes that only address the specific task at hand. Applies to all code edits unless a task or project-specific rule overrides it.
+
+filters:
+  - type: any_file
+    pattern: ".*"
+  - type: event
+    pattern: "file_edit"
+
+actions:
+  - type: suggest
+    message: |
+      **These rules MUST be followed for all code changes unless a task or project-specific rule explicitly overrides them.**
+      **Agents must continue iterating and applying these rules until the user's code task is fully and correctly resolved.**
+      **If unsure about code context or requirements, use available tools to gather information before making changes. Do not guess.**
+      **Before making changes, plan the minimal set of edits required. After each change, reflect on whether the rules have been fully satisfied and if further action is needed.**
+
+      ## Core Principle
+      - Only change what is absolutely necessary to complete the task.
+      - Resist the urge to "improve" unrelated code while making changes.
+      - Keep changes focused and atomic.
+      - Each change should have a clear, direct purpose.
+
+      ## Guidelines
+      - Before making a change, clearly identify:
+        1. What specifically needs to change
+        2. Why it needs to change
+        3. The minimal scope required for the change
+      - Don't reformat unrelated lines or fix unrelated issues.
+      - Don't update unrelated dependencies or change indentation of unchanged code.
+      - Don't reorganize imports unless directly related to your change.
+
+      ## When Fixing Bugs
+      - Focus only on the specific bug.
+      - Don't refactor surrounding code or add new features while fixing bugs.
+      - Don't change error handling unless directly related to the bug.
+      - Document why the minimal change fixes the bug.
+
+      ## When Adding Features
+      - Add only the code needed for the new feature.
+      - Don't refactor existing code unless absolutely necessary for integration.
+      - Keep new code isolated where possible.
+      - Only modify existing code where direct integration is required.
+
+      ## When Reviewing Code
+      - Look for changes that aren't directly related to the task.
+      - Question any formatting changes to unchanged lines.
+      - Verify each change has a clear purpose.
+      - Check that bug fixes are focused only on the bug.
+      - Ensure feature additions don't include unnecessary changes.
+
+      ## Exceptions
+      - If a change requires refactoring for integration, exposes a critical bug, or breaks existing functionality, document why and keep additional changes minimal.
+
+      ### Example
+      # Task: Add error logging
+      # Bad: Making unrelated changes
+      def process_data(data: List[str]) -> None:  # Added type hint (unrelated)
+          try:
+              for item in data:
+                  result = transform(item)
+                  save_to_db(result)
+          except Exception:
+              logger.exception("Error processing data")  # The only necessary change
+      # Good: Only making required changes
+      def process_data(data):
+          try:
+              for i in data:
+                  res = transform(i)
+                  save_to_db(res)
+          except Exception:
+              logger.exception("Error processing data")  # Only change what's needed
+
+metadata:
+  priority: high
+  version: 2.0
+</rule>

@@ -1,0 +1,224 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+
+# TypeScript Coding Standard (Next.js 15.3 + Supabase)
+
+This rule enforces consistent TypeScript patterns across the entire project for type safety, code clarity, and maintainability.
+
+## Critical Rules
+
+### Type Definitions & Interfaces
+
+- **Define interfaces for component props** - All React component props must be defined using explicit interfaces or types
+- **Use `type` for union types and complex aliases** - Use `type` keyword for discriminated unions, function types, and type aliases
+- **Use `interface` for object shapes** - Especially for component props, data models, and public APIs
+- **Always add return type annotations to functions** - Except for React components (implicit React.ReactNode or JSX.Element)
+- **Export types at module level** - Define and export types/interfaces in dedicated files or at the top of files
+- **Use `type` imports for types only** - Always use `import type { MyType }` for importing types to avoid runtime bundle bloat
+
+### Server vs Client Code
+
+- **Mark Server Actions with `'use server'`** - All server-side functions must have this directive at the top
+- **Mark Client Components with `'use client'`** - Browser-only components must have this directive
+- **Separate server and client imports** - Never mix server-specific imports (like `fs`, node libraries) in client components
+- **Use separate Supabase clients** - Import `createClient` from appropriate path (`@/lib/supabase/server` or `@/lib/supabase/client`)
+
+### Import Organization
+
+```typescript
+// Order: built-ins, external packages, internal types, internal modules, relative imports
+
+// Built-in imports
+import { promises as fs } from 'fs'
+
+// External packages (sorted alphabetically)
+import { createClient } from '@supabase/ssr'
+import { z } from 'zod'
+
+// Internal type imports
+import type { Database } from '@/types/supabase'
+import type { ResourceMetadata } from '@/types/resources'
+
+// Internal module imports
+import { getResourceIndex } from '@/lib/resources'
+import { cn } from '@/lib/utils'
+
+// Relative imports
+import { SomeComponent } from './components'
+```
+
+### Async & Error Handling
+
+- **Always explicitly handle promises** - Use `await` or `.catch()` for all async operations
+- **Wrap try-catch blocks around async operations** - Especially in Server Actions
+- **Return explicit error objects** - Use `{ error: message }` pattern in Server Actions, not thrown errors
+- **Handle Supabase responses properly** - Always check `error` property in Supabase responses
+
+```typescript
+const { data, error } = await supabase.from('table').select()
+if (error) {
+  return { error: error.message }
+}
+```
+
+### Naming Conventions
+
+- **Use camelCase for variables and functions** - `const myVariable = ...`
+- **Use PascalCase for components, interfaces, types, and classes** - `function MyComponent()`, `interface MyProps`
+- **Use UPPER_SNAKE_CASE for constants** - `const API_KEY = process.env.KEY`
+- **Prefix boolean values with `is`, `has`, or `can`** - `const isActive = true`, `const hasError = false`
+- **Use descriptive names** - Avoid single letters except for loop indexes (`for (let i = 0; ...)`)
+
+### React Component Patterns
+
+- **Define component types above component declaration** - Use `interface ComponentNameProps`
+- **Use destructuring in component parameters** - Extract props explicitly
+- **Export named functions, not arrow functions** - `export function MyComponent()` not `export const MyComponent = () =>`
+- **Use default export for default routes** - Page components should use `export default`
+
+```typescript
+interface ResourceCardProps {
+  resource: ResourceMetadata
+  onPreview?: () => void
+  isFavorited?: boolean
+}
+
+export function ResourceCard({ resource, onPreview, isFavorited = false }: ResourceCardProps) {
+  return <div>{resource.title}</div>
+}
+```
+
+### Optional & Default Values
+
+- **Use optional chaining (`?.`) for safe property access** - Never assume nested properties exist
+- **Use nullish coalescing (`??`) for null/undefined defaults** - Not logical OR (`||`)
+- **Provide default values for optional props in destructuring** - `{ isActive = false, onClose = () => {} }`
+
+### Const Assertions & Type Safety
+
+- **Use `as const` for literal types** - Especially for variant strings and discriminated unions
+- **Use non-null assertion (`!`) sparingly** - Only when you're 100% certain a value exists
+- **Validate environment variables at startup** - Use Zod schema validation
+
+```typescript
+const envSchema = z.object({
+  NEXT_PUBLIC_SUPABASE_URL: z.string().url(),
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1),
+})
+export const env = envSchema.parse(process.env)
+```
+
+### Generic Types & Type Parameters
+
+- **Use generics for reusable functions** - Especially for data fetching and transformations
+- **Name type parameters clearly** - Use `T`, `K`, `V` only when obvious; prefer `TItem`, `TResponse`
+
+```typescript
+export async function fetchData<T>(endpoint: string): Promise<T> {
+  const response = await fetch(endpoint)
+  return response.json() as T
+}
+```
+
+## Examples
+
+<example>
+✅ **CORRECT - Proper type definitions and server action pattern**:
+```typescript
+'use server'
+
+import type { SignUpData } from '@/types/auth'
+
+export async function signUp(data: SignUpData) {
+  const supabase = await createClient()
+
+  const { error } = await supabase.auth.signUp({
+    email: data.email,
+    password: data.password,
+  })
+
+  if (error) {
+    return { error: error.message }
+  }
+
+  return { success: true }
+}
+```
+</example>
+
+<example>
+✅ **CORRECT - Component with proper typing**:
+```typescript
+'use client'
+
+import type { ResourceMetadata } from '@/types/resources'
+import { Card } from '@/components/ui/card'
+
+interface ResourceCardProps {
+  resource: ResourceMetadata
+  onPreview?: () => void
+}
+
+export function ResourceCard({ resource, onPreview }: ResourceCardProps) {
+  return (
+    <Card>
+      <h3>{resource.title}</h3>
+      <p>{resource.description}</p>
+    </Card>
+  )
+}
+```
+</example>
+
+<example type="invalid">
+❌ **WRONG - Missing type annotations**:
+```typescript
+export function getResource(slug) {
+  return resources.find(r => r.slug === slug)
+}
+```
+Should have explicit parameter and return types.
+</example>
+
+<example type="invalid">
+❌ **WRONG - Mixing server and client code**:
+```typescript
+'use client'
+
+import fs from 'fs'
+
+export function MyComponent() {
+  const data = fs.readFileSync('file.txt')
+  return <div>{data}</div>
+}
+```
+Client components cannot use Node.js APIs like `fs`.
+</example>
+
+<example type="invalid">
+❌ **WRONG - Improper error handling**:
+```typescript
+const { data, error } = await supabase.from('table').select()
+console.log(data.id)
+```
+Missing error check before accessing data properties.
+</example>
+
+<example type="invalid">
+❌ **WRONG - Using `||` instead of `??` for nullish values**:
+```typescript
+const variant = props.variant || 'default'
+```
+Should use `??` to properly handle empty strings: `props.variant ?? 'default'`
+</example>
+
+---
+
+**Note:** This standard leverages ESLint with Next.js TypeScript preset (`next/core-web-vitals`, `next/typescript`) and TypeScript strict mode for enforcement.
+
+metadata:
+  priority: high
+  version: 1.0

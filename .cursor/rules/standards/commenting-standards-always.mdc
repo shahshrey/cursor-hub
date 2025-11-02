@@ -1,0 +1,100 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+<rule>
+name: commenting_standards
+description: Guidelines for writing effective and maintainable comments.
+
+filters:
+  - type: any_file
+    pattern: ".*"
+  - type: event
+    pattern: "file_edit"
+
+actions:
+  - type: suggest
+        message: |
+      **🚨 MANDATORY: COMMENTS ON PRECEDING LINE ONLY 🚨**
+
+      Comments **MUST ALWAYS** be placed on the line immediately preceding the code they describe. End-of-line comments are **STRICTLY FORBIDDEN** except for type pragmas (`# type: ignore`, `// @ts-ignore`) and brief HTTP status codes.
+
+      ## ✅ CORRECT - Preceding Line Placement
+      ```python
+      # Retry with exponential backoff to handle transient API failures
+      retry_count = 0
+
+      # Cache results to avoid repeated expensive database queries
+      cached_results = {}
+      ```
+
+      ```typescript
+      // Calculate progressive discount rates to encourage larger purchases
+      const discount = calculateDiscount(user, amount);
+
+      // Batch operations to reduce database round trips
+      const userPromises = userIds.map(id => fetchUser(id));
+      ```
+
+      ## ❌ FORBIDDEN - End-of-Line Comments
+      ```python
+      retry_count = 0  # WRONG: End-of-line comment
+      cached_results = {}  # WRONG: End-of-line comment
+      ```
+
+      ```typescript
+      const discount = calculateDiscount(user, amount); // WRONG: End-of-line comment
+      const userPromises = userIds.map(id => fetchUser(id)); // WRONG: End-of-line comment
+      ```
+
+      ## Documentation Standards
+
+      **Python Functions:**
+      ```python
+      def process_payment(*, user_id: str, amount: int) -> TransactionResult:
+          """
+          Processes payment using the selected provider with retry logic.
+
+          Args:
+              user_id: The ID of the user making the payment
+              amount: Payment amount in cents
+
+          Returns:
+              TransactionResult: The transaction result or raises an error
+          """
+          # Validate user permissions before processing payment
+          if not user_has_payment_access(user_id):
+              raise PermissionError("User lacks payment access")
+      ```
+
+      **TypeScript Functions:**
+      ```typescript
+      /**
+       * Processes payment using the selected provider with retry logic.
+       * @param userId The ID of the user making the payment
+       * @param amount Payment amount in cents
+       * @returns The transaction result or throws an error
+       */
+      async function processPayment(userId: string, amount: number): Promise<TransactionResult> {
+        // Validate user permissions before processing payment
+        if (!await userHasPaymentAccess(userId)) {
+          throw new Error('User lacks payment access');
+        }
+      }
+      ```
+
+      ## Comment Quality Guidelines
+      - **Explain WHY, not WHAT**: Focus on reasoning, intent, and purpose
+      - **Keep Updated**: Synchronize comments with code changes
+      - **Avoid Obvious**: Don't restate what code clearly does
+      - **We are smart people**: Only write comments that a Sr developer would need
+      - **Use JSDoc/PEP 257**: Standard documentation formats with `@param` and `@returns`
+
+      ## 🔥 REMEMBER: PRECEDING LINE ALWAYS 🔥
+      Every explanatory comment must be on the line immediately before the code. No exceptions for end-of-line explanatory comments across ALL programming languages.
+
+metadata:
+  priority: high
+  version: 2.0
+</rule>
