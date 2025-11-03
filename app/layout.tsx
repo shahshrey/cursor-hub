@@ -48,10 +48,10 @@ export default async function RootLayout({
   const bodyContent = (
     <>
       <div className="fixed inset-0 z-0">
-        <div className="absolute inset-0 bg-black" />
+        <div className="absolute inset-0" style={{ backgroundColor: '#000000' }} />
         <LightRays 
           count={15}
-          color="rgba(255, 255, 255, 0.15)"
+          color="rgba(255, 255, 255, 0.05)"
           blur={32}
           speed={12}
           length="100vh"
