@@ -1,14 +1,7 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { X, Copy, Loader2 } from 'lucide-react'
@@ -17,6 +10,7 @@ import { CodeBlock } from './code-block'
 import { DownloadButton } from './download-button'
 import { formatBytes, getLanguageFromExtension } from '@/lib/file-utils'
 import { useCopyToClipboard } from '@/hooks/use-copy-to-clipboard'
+import { useOutsideClick } from '@/hooks/use-outside-click'
 import { toast } from 'sonner'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -81,6 +75,26 @@ export function ResourcePreviewModal({ resource, isOpen, onClose }: ResourcePrev
   const [content, setContent] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const { copied, copy } = useCopyToClipboard()
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        onClose()
+      }
+    }
+
+    if (isOpen) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = "auto"
+    }
+
+    window.addEventListener("keydown", onKeyDown)
+    return () => window.removeEventListener("keydown", onKeyDown)
+  }, [isOpen, onClose])
+
+  useOutsideClick(ref, onClose)
 
   useEffect(() => {
     if (isOpen && resource) {
@@ -246,21 +260,45 @@ export function ResourcePreviewModal({ resource, isOpen, onClose }: ResourcePrev
   }
 
   return (
-    <AnimatePresence mode="wait">
-      {isOpen && (
-        <Dialog open={isOpen} onOpenChange={onClose}>
-          <DialogContent className="max-w-5xl max-h-[90vh] h-[90vh] overflow-hidden flex flex-col gap-0 p-0">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="flex flex-col h-full min-h-0"
+    <>
+      <AnimatePresence>
+        {isOpen && resource && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/20 backdrop-blur-sm h-full w-full z-50"
+          />
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {isOpen && resource ? (
+          <div className="fixed inset-0 grid place-items-center z-[100]">
+            <motion.button
+              key={`button-${resource.slug}`}
+              layout
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0, transition: { duration: 0.05 } }}
+              className="flex absolute top-2 right-2 lg:hidden items-center justify-center bg-white dark:bg-neutral-800 rounded-full h-6 w-6 z-10"
+              onClick={onClose}
             >
-              <DialogHeader className="px-6 pt-6 pb-4 border-b bg-card/50 flex-shrink-0">
+              <X className="h-4 w-4 text-black dark:text-white" />
+            </motion.button>
+            <motion.div
+              layoutId={`card-${resource.slug}`}
+              ref={ref}
+              className="w-full max-w-5xl h-full md:h-[90vh] flex flex-col bg-background dark:bg-neutral-900 md:rounded-3xl overflow-hidden shadow-2xl"
+            >
+              <div className="px-6 pt-6 pb-4 border-b bg-card/50 flex-shrink-0">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1 min-w-0">
-                    <DialogTitle className="text-2xl font-bold mb-3">{resource.title}</DialogTitle>
+                    <motion.h3
+                      layoutId={`title-${resource.slug}`}
+                      className="text-2xl font-bold mb-3"
+                    >
+                      {resource.title}
+                    </motion.h3>
                     <div className="text-sm text-muted-foreground">
                       <div className="flex flex-wrap gap-2 items-center">
                         <Badge variant="secondary" className="font-medium">{resource.type}</Badge>
@@ -272,9 +310,11 @@ export function ResourcePreviewModal({ resource, isOpen, onClose }: ResourcePrev
                     </div>
                   </div>
                 </div>
-              </DialogHeader>
+              </div>
 
-              <div className="flex-1 min-h-0 overflow-y-auto px-6 py-6">{renderContent()}</div>
+              <div className="flex-1 min-h-0 overflow-y-auto px-6 py-6 [scrollbar-width:thin]">
+                {renderContent()}
+              </div>
 
               <div className="flex items-center justify-between gap-3 px-6 py-4 border-t bg-card/50 flex-shrink-0">
                 <Button variant="outline" onClick={handleCopyAll} disabled={!content} className="h-10">
@@ -290,10 +330,10 @@ export function ResourcePreviewModal({ resource, isOpen, onClose }: ResourcePrev
                 </div>
               </div>
             </motion.div>
-          </DialogContent>
-        </Dialog>
-      )}
-    </AnimatePresence>
+          </div>
+        ) : null}
+      </AnimatePresence>
+    </>
   )
 }
 

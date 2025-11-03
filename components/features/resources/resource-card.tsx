@@ -1,5 +1,6 @@
 'use client'
 
+import { motion } from 'framer-motion'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -28,32 +29,35 @@ export function ResourceCard({
   const typeIcon = getResourceTypeIcon(resource.type)
 
   return (
-    <Card className="w-full max-w-sm border-none p-0 shadow-none">
-      <MagicCard
-        gradientColor="#262626"
-        className="p-0"
-      >
-        <CardHeader className="border-b p-4">
-          <div className="flex items-start justify-between gap-2 mb-3">
-            <div className="flex items-center gap-2.5 min-w-0">
-              <FileIconComponent className="h-5 w-5 shrink-0 text-muted-foreground" />
-              <span className="text-2xl shrink-0">{typeIcon}</span>
+    <motion.div layoutId={`card-${resource.slug}`}>
+      <Card className="w-full max-w-sm border-none p-0 shadow-none">
+        <MagicCard
+          gradientColor="#262626"
+          className="p-0"
+        >
+          <CardHeader className="border-b p-4">
+            <div className="flex items-start justify-between gap-2 mb-3">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <FileIconComponent className="h-5 w-5 shrink-0 text-muted-foreground" />
+                <span className="text-2xl shrink-0">{typeIcon}</span>
+              </div>
+              <div className="flex items-center gap-2 shrink-0">
+                <Badge variant="secondary" className="text-xs font-medium">
+                  {resource.type}
+                </Badge>
+                <FavoriteButton
+                  resourceSlug={resource.slug}
+                  resourceType={resource.type}
+                  initialIsFavorited={isFavorited}
+                  size="icon"
+                />
+              </div>
             </div>
-            <div className="flex items-center gap-2 shrink-0">
-              <Badge variant="secondary" className="text-xs font-medium">
-                {resource.type}
-              </Badge>
-              <FavoriteButton
-                resourceSlug={resource.slug}
-                resourceType={resource.type}
-                initialIsFavorited={isFavorited}
-                size="icon"
-              />
-            </div>
-          </div>
-          <CardTitle className="text-lg font-semibold line-clamp-2">
-            {resource.title}
-          </CardTitle>
+            <motion.div layoutId={`title-${resource.slug}`}>
+              <CardTitle className="text-lg font-semibold line-clamp-2">
+                {resource.title}
+              </CardTitle>
+            </motion.div>
           <CardDescription className="text-xs">
             <div className="flex flex-wrap gap-2 items-center">
               <Badge variant="outline" className="text-xs">
@@ -111,6 +115,7 @@ export function ResourceCard({
         </CardFooter>
       </MagicCard>
     </Card>
+    </motion.div>
   )
 }
 

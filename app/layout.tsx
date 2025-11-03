@@ -48,7 +48,7 @@ export default async function RootLayout({
   const bodyContent = (
     <>
       <div className="fixed inset-0 z-0">
-        <div className="absolute inset-0 bg-[rgb(12,18,23)]" />
+        <div className="absolute inset-0 bg-black" />
         <LightRays 
           count={15}
           color="rgba(255, 255, 255, 0.15)"
