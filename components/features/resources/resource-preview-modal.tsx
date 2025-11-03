@@ -8,6 +8,7 @@ import { X, Copy, Loader2 } from 'lucide-react'
 import type { ResourceMetadata } from '@/types/resources'
 import { CodeBlock } from './code-block'
 import { DownloadButton } from './download-button'
+import { AddToCursorButton } from './add-to-cursor-button'
 import { formatBytes, getLanguageFromExtension } from '@/lib/file-utils'
 import { useCopyToClipboard } from '@/hooks/use-copy-to-clipboard'
 import { useOutsideClick } from '@/hooks/use-outside-click'
@@ -322,7 +323,11 @@ export function ResourcePreviewModal({ resource, isOpen, onClose }: ResourcePrev
                   {copied ? 'Copied!' : 'Copy Entire File'}
                 </Button>
                 <div className="flex gap-3">
+                  {resource.type === 'hook' ? (
                   <DownloadButton resource={resource} variant="default" className="h-10 px-6 font-semibold" />
+                  ) : (
+                    <AddToCursorButton resource={resource} variant="default" className="h-10 px-6 font-semibold" />
+                  )}
                   <Button variant="ghost" onClick={onClose} className="h-10">
                     <X className="h-4 w-4 mr-2" />
                     Close

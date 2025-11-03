@@ -1,10 +1,13 @@
 'use client'
 
 import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Plus, Loader2, Copy, Check } from 'lucide-react'
+import { Loader2 } from 'lucide-react'
+import { CursorLogo } from '@/components/ui/cursor-logo'
+import { ShimmerButton } from '@/components/ui/shimmer-button'
+import { cn } from '@/lib/utils'
 import type { ResourceMetadata } from '@/types/resources'
 import { toast } from 'sonner'
+import { copyToClipboard } from '@/lib/clipboard'
 
 interface AddToCursorButtonProps {
   resource: ResourceMetadata
@@ -12,6 +15,24 @@ interface AddToCursorButtonProps {
   size?: 'default' | 'sm' | 'lg' | 'icon'
   showLabel?: boolean
   className?: string
+}
+
+function sanitizeName(name: string): string {
+  return name
+    .trim()
+    .replace(/\s+/g, '_')
+    .replace(/[^a-zA-Z0-9._-]/g, '_')
+    .replace(/_+/g, '_')
+    .replace(/^_|_$/g, '')
+}
+
+function sanitizeText(text: string): string {
+  return text
+    .trim()
+    .replace(/\0/g, '')
+    .replace(/[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F]/g, '')
+    .replace(/\r\n/g, '\n')
+    .replace(/\r/g, '\n')
 }
 
 export function AddToCursorButton({
@@ -22,10 +43,10 @@ export function AddToCursorButton({
   className = '',
 }: AddToCursorButtonProps) {
   const [isLoading, setIsLoading] = useState(false)
-  const [isCopied, setIsCopied] = useState(false)
 
   const generateDeepLink = async (): Promise<string | null> => {
     try {
+      if (resource.type === 'mcp') {
       const response = await fetch(`/api/resources/download/${resource.slug}`)
       if (!response.ok) throw new Error('Failed to fetch MCP config')
 
@@ -48,6 +69,47 @@ export function AddToCursorButton({
       const encodedName = encodeURIComponent(firstServerKey)
       
       return `cursor://anysphere.cursor-deeplink/mcp/install?name=${encodedName}&config=${base64Config}`
+      }
+
+      if (resource.type === 'command') {
+        const response = await fetch(`/api/resources/download/${resource.slug}`)
+        if (!response.ok) throw new Error('Failed to fetch command content')
+
+        const rawText = await response.text()
+        const taskNameMatch = rawText.match(/<task\s+name=["']([^"']+)["']>/i)
+        const rawName = taskNameMatch ? taskNameMatch[1] : resource.title
+        const sanitizedName = sanitizeName(rawName)
+        
+        const fullTaskMatch = rawText.match(/<task\s+name=["'][^"']*["']>([\s\S]*?)<\/task>/i)
+        let promptText = rawText
+        
+        if (fullTaskMatch) {
+          const taskContent = fullTaskMatch[0]
+          promptText = taskContent
+        }
+        
+        const sanitizedText = sanitizeText(promptText)
+        const encodedName = encodeURIComponent(sanitizedName)
+        const encodedText = encodeURIComponent(sanitizedText).replace(/%20/g, '+')
+        
+        return `cursor://anysphere.cursor-deeplink/command?name=${encodedName}&text=${encodedText}`
+      }
+
+      if (resource.type === 'rule') {
+        const response = await fetch(`/api/resources/download/${resource.slug}`)
+        if (!response.ok) throw new Error('Failed to fetch rule content')
+
+        const rawText = await response.text()
+        const sanitizedText = sanitizeText(rawText)
+        const rawName = resource.frontmatter?.name || resource.title
+        const sanitizedName = sanitizeName(rawName)
+        const encodedName = encodeURIComponent(sanitizedName)
+        const encodedText = encodeURIComponent(sanitizedText).replace(/%20/g, '+')
+        
+        return `cursor://anysphere.cursor-deeplink/rule?name=${encodedName}&text=${encodedText}`
+      }
+
+      return null
     } catch (error) {
       console.error('Error generating deep link:', error)
       return null
@@ -64,8 +126,17 @@ export function AddToCursorButton({
         return
       }
 
+      console.log('Generated deep link:', deepLink)
+      console.log('Decoded name:', decodeURIComponent(deepLink.match(/name=([^&]+)/)?.[1] || ''))
+      console.log('Text length:', decodeURIComponent(deepLink.match(/text=(.+)$/)?.[1] || '').length)
+
       window.location.href = deepLink
-      toast.success('Opening Cursor to install MCP server...')
+      const message = resource.type === 'mcp' 
+        ? 'Opening Cursor to install MCP server...'
+        : resource.type === 'command'
+        ? 'Opening Cursor to add command...'
+        : 'Opening Cursor to add rule...'
+      toast.success(message)
     } catch (error) {
       console.error('Add to Cursor error:', error)
       toast.error('Failed to open Cursor')
@@ -74,67 +145,72 @@ export function AddToCursorButton({
     }
   }
 
-  const handleCopyLink = async (e: React.MouseEvent) => {
-    e.stopPropagation()
-    
+  const handleContextMenu = async (e: React.MouseEvent) => {
+    e.preventDefault()
     try {
-      setIsLoading(true)
       const deepLink = await generateDeepLink()
-      
       if (!deepLink) {
-        toast.error('Failed to generate installation link')
+        toast.error('Failed to generate deep link')
         return
       }
-
-      await navigator.clipboard.writeText(deepLink)
-      setIsCopied(true)
-      toast.success('Installation link copied to clipboard')
       
-      setTimeout(() => setIsCopied(false), 2000)
+      const success = await copyToClipboard(deepLink, true)
+      if (success) {
+        toast.success('Deep link copied to clipboard')
+      } else {
+        toast.error('Failed to copy to clipboard')
+      }
     } catch (error) {
-      console.error('Copy error:', error)
-      toast.error('Failed to copy link')
-    } finally {
-      setIsLoading(false)
+      console.error('Copy deep link error:', error)
+      toast.error('Failed to copy deep link')
     }
   }
 
-  if (resource.type !== 'mcp') return null
+  if (resource.type === 'hook') return null
+
+  const getPaddingClasses = () => {
+    if (size === 'sm') return 'px-4 py-2'
+    if (size === 'lg') return 'px-6 py-2.5'
+    if (size === 'icon') return 'p-0'
+    return 'px-4 py-2'
+  }
+
+  const getFontSizeClasses = () => {
+    if (size === 'sm' || size === 'icon') return 'text-sm'
+    if (size === 'lg') return 'text-base'
+    return 'text-sm'
+  }
 
   return (
-    <div className="flex gap-2 w-full">
-      <Button 
-        variant={variant} 
-        size={size} 
-        onClick={handleAddToCursor} 
-        disabled={isLoading}
-        className={className}
-        aria-label="Add to Cursor"
-      >
-        {isLoading ? (
-          <Loader2 className="h-4 w-4 animate-spin mr-1" />
-        ) : (
-          <Plus className="h-4 w-4 mr-1" />
-        )}
-        {showLabel && 'Add to Cursor'}
-      </Button>
-      
-      <Button
-        variant="outline"
-        size={size}
-        onClick={handleCopyLink}
-        disabled={isLoading}
-        className="px-3"
-        aria-label="Copy installation link"
-        title="Copy installation link"
-      >
-        {isCopied ? (
-          <Check className="h-4 w-4 text-green-500" />
-        ) : (
-          <Copy className="h-4 w-4" />
-        )}
-      </Button>
-    </div>
+    <ShimmerButton
+      onClick={handleAddToCursor}
+      onContextMenu={handleContextMenu}
+      disabled={isLoading}
+      shimmerColor="rgba(255, 255, 255, 0.8)"
+      shimmerSize="0.05em"
+      shimmerDuration="3s"
+      borderRadius="6px"
+      background="rgba(0, 0, 0, 1)"
+      className={cn(
+        'gap-2',
+        getPaddingClasses(),
+        getFontSizeClasses(),
+        className
+      )}
+      aria-label="Add to Cursor"
+    >
+      {isLoading ? (
+        <>
+          <Loader2 className="h-4 w-4 animate-spin shrink-0" />
+          {showLabel && size !== 'icon' && <span>Loading...</span>}
+        </>
+      ) : (
+        <>
+          <CursorLogo size={22} className="shrink-0" />
+          {showLabel && size !== 'icon' && <span>Add to Cursor</span>}
+        </>
+      )}
+    </ShimmerButton>
   )
 }
 

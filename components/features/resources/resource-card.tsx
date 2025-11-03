@@ -96,16 +96,16 @@ export function ResourceCard({
             <span>{downloadCount} downloads</span>
           </div>
           <div className="flex gap-2 w-full">
-            {resource.type === 'mcp' ? (
+            {resource.type === 'hook' ? (
               <>
-                <AddToCursorButton resource={resource} size="sm" className="flex-1 font-semibold" />
+                <DownloadButton resource={resource} size="sm" className="flex-1 font-semibold" />
                 <Button variant="outline" size="sm" onClick={onPreview} className="px-4">
                   <Eye className="h-4 w-4" />
                 </Button>
               </>
             ) : (
               <>
-                <DownloadButton resource={resource} size="sm" className="flex-1 font-semibold" />
+                <AddToCursorButton resource={resource} size="sm" className="flex-1 font-semibold" />
                 <Button variant="outline" size="sm" onClick={onPreview} className="px-4">
                   <Eye className="h-4 w-4" />
                 </Button>
