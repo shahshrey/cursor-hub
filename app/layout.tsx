@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { headers } from 'next/headers';
 import dynamic from 'next/dynamic';
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/sonner";
@@ -27,24 +26,11 @@ export function reportWebVitals(metric: { id: string; name: string; value: numbe
   }
 }
 
-async function shouldUseClerk() {
-  const headersList = await headers();
-  const pathname = headersList.get('x-pathname') || '';
-  return pathname.startsWith('/dashboard') || 
-         pathname.startsWith('/browse') ||
-         pathname.startsWith('/signin') ||
-         pathname.startsWith('/sign-in') ||
-         pathname.startsWith('/signup') ||
-         pathname.startsWith('/sign-up');
-}
-
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const useClerk = await shouldUseClerk();
-  
   const bodyContent = (
     <>
       <div className="fixed inset-0 z-0">
@@ -100,19 +86,15 @@ export default async function RootLayout({
         />
       </head>
       <body className={`${inter.variable} font-sans antialiased relative min-h-screen`}>
-        {useClerk ? (
-          <ClerkProvider
-            appearance={{
-              variables: {
-                colorPrimary: 'hsl(var(--primary))',
-              }
-            }}
-          >
-            {bodyContent}
-          </ClerkProvider>
-        ) : (
-          bodyContent
-        )}
+        <ClerkProvider
+          appearance={{
+            variables: {
+              colorPrimary: 'hsl(var(--primary))',
+            }
+          }}
+        >
+          {bodyContent}
+        </ClerkProvider>
       </body>
     </html>
   );
