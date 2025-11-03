@@ -20,6 +20,7 @@ import { useCopyToClipboard } from '@/hooks/use-copy-to-clipboard'
 import { toast } from 'sonner'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import rehypeRaw from 'rehype-raw'
 
 interface ParsedMarkdown {
   frontmatter: Record<string, string | boolean>
@@ -84,7 +85,11 @@ export function ResourcePreviewModal({ resource, isOpen, onClose }: ResourcePrev
   useEffect(() => {
     if (isOpen && resource) {
       setIsLoading(true)
-      fetch(`/api/resources/download/${resource.slug}`)
+      fetch(`/api/resources/download/${resource.slug}`, {
+        headers: {
+          'x-preview-mode': 'true',
+        },
+      })
         .then((res) => res.text())
         .then((text) => {
           setContent(text)
@@ -202,6 +207,7 @@ export function ResourcePreviewModal({ resource, isOpen, onClose }: ResourcePrev
           <div className="prose prose-sm dark:prose-invert max-w-none prose-headings:font-semibold prose-h1:text-2xl prose-h2:text-xl prose-h2:mt-8 prose-h2:mb-4 prose-h3:text-lg prose-p:text-foreground/90 prose-li:text-foreground/90 prose-strong:text-foreground prose-code:text-foreground prose-pre:bg-muted">
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
+              rehypePlugins={[rehypeRaw]}
               components={{
                 h1: ({ ...props }) => <h1 className="text-2xl font-semibold mb-4 mt-6" {...props} />,
                 h2: ({ ...props }) => <h2 className="text-xl font-semibold mb-3 mt-8 border-b pb-2" {...props} />,

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { headers } from 'next/headers';
 import dynamic from 'next/dynamic';
-import { ConditionalClerk } from "@/components/conditional-clerk";
+import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
@@ -25,20 +26,45 @@ export function reportWebVitals(metric: { id: string; name: string; value: numbe
   }
 }
 
-export default function RootLayout({
+async function shouldUseClerk() {
+  const headersList = await headers();
+  const pathname = headersList.get('x-pathname') || '';
+  return pathname.startsWith('/dashboard') || 
+         pathname.startsWith('/browse') ||
+         pathname.startsWith('/signin') ||
+         pathname.startsWith('/sign-in') ||
+         pathname.startsWith('/signup') ||
+         pathname.startsWith('/sign-up');
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const useClerk = await shouldUseClerk();
+  
+  const bodyContent = (
+    <>
+      <div className="fixed inset-0 z-0">
+        <div className="absolute inset-0 bg-[rgb(12,18,23)]" />
+        <LightRays 
+          count={15}
+          color="rgba(255, 255, 255, 0.15)"
+          blur={32}
+          speed={12}
+          length="100vh"
+        />
+      </div>
+      <div className="relative z-10">
+        {children}
+      </div>
+      <Toaster />
+    </>
+  );
+
   return (
-    <ConditionalClerk
-      appearance={{
-        variables: {
-          colorPrimary: 'hsl(var(--primary))',
-        }
-      }}
-    >
-      <html lang="en" className="dark" suppressHydrationWarning>
+    <html lang="en" className="dark" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -64,22 +90,20 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.variable} font-sans antialiased relative min-h-screen`}>
-        <div className="fixed inset-0 z-0">
-          <div className="absolute inset-0 bg-[rgb(12,18,23)]" />
-          <LightRays 
-            count={15}
-            color="rgba(255, 255, 255, 0.15)"
-            blur={32}
-            speed={12}
-            length="100vh"
-          />
-        </div>
-        <div className="relative z-10">
-          {children}
-        </div>
-        <Toaster />
+        {useClerk ? (
+          <ClerkProvider
+            appearance={{
+              variables: {
+                colorPrimary: 'hsl(var(--primary))',
+              }
+            }}
+          >
+            {bodyContent}
+          </ClerkProvider>
+        ) : (
+          bodyContent
+        )}
       </body>
     </html>
-    </ConditionalClerk>
   );
 }

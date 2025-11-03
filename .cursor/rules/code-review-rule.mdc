@@ -1,5 +1,0 @@
----
-alwaysApply: true
----
-
-After you have written your code and before you finish writing your code or finish writing all the tasks, always create a task at the end to invoke .cursor/commands/commit-changes-linear-to-github.md workflow to review your own code
