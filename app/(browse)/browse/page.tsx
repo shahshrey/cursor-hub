@@ -7,10 +7,12 @@ import Link from 'next/link'
 import { ResourceGridSkeleton } from '@/components/features/resources/resource-card-skeleton'
 import Image from 'next/image'
 
-export const revalidate = 3600
+export const revalidate = 86400
 
 export default async function BrowsePage() {
   const index = getResourceIndex()
+
+  const initialData = index.resources.slice(0, 24)
 
   return (
     <div className="min-h-screen bg-background">
@@ -57,7 +59,8 @@ export default async function BrowsePage() {
       <section className="container mx-auto px-4 py-10">
         <Suspense fallback={<ResourceGridSkeleton />}>
           <TerminalResourceBrowser 
-            initialResources={index.resources} 
+            initialResources={initialData}
+            totalCount={index.totalCount}
             categories={index.categories}
           />
         </Suspense>

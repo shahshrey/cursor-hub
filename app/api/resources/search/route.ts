@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Fuse from 'fuse.js'
 import { getResourceIndex } from '@/lib/resources'
-import type { ResourceType } from '@/types/resources'
+import type { ResourceType, ResourceMetadata } from '@/types/resources'
 
 const FUSE_OPTIONS = {
   keys: [
@@ -50,9 +50,8 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       const searchResults = fuse.search(query)
       
       results = searchResults
-        .map((r) => r.item)
-        .filter((item: unknown) => {
-          const resource = item as { type: string; category: string }
+        .map((r) => r.item as ResourceMetadata)
+        .filter((resource) => {
           if (type && resource.type !== type) return false
           if (category && resource.category !== category) return false
           return true
