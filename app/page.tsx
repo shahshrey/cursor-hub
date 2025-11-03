@@ -8,7 +8,7 @@ import { getHomePageData } from '@/server/queries/home'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Sparkles } from 'lucide-react'
-import Image from 'next/image'
+import { CursorLogo } from '@/components/ui/cursor-logo'
 
 export const revalidate = 3600
 
@@ -78,14 +78,7 @@ export default async function Home() {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <Image
-                src="/cursor-branding/icon-192x192.png"
-                alt="Cursor"
-                width={32}
-                height={32}
-                className="rounded-lg"
-                loading="lazy"
-              />
+              <CursorLogo size={32} className="text-foreground" />
               <span className="text-muted-foreground">© 2025 Cursor Resources. Built with Cursor.</span>
             </div>
             <div className="flex items-center gap-6">

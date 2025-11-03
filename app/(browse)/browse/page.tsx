@@ -5,7 +5,7 @@ import { Header } from '@/components/features/home/header'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { ResourceGridSkeleton } from '@/components/features/resources/resource-card-skeleton'
-import Image from 'next/image'
+import { CursorLogo } from '@/components/ui/cursor-logo'
 
 export const revalidate = 86400
 
@@ -30,14 +30,7 @@ export default async function BrowsePage() {
           
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <Image
-                src="/cursor-branding/icon-192x192.png"
-                alt="Cursor"
-                width={48}
-                height={48}
-                className="rounded-lg"
-                priority
-              />
+              <CursorLogo size={48} className="text-foreground" />
             <div>
                 <div className="flex items-center gap-2 mb-1">
                   <h1 className="text-3xl md:text-4xl font-bold terminal-font">

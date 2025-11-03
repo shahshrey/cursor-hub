@@ -7,6 +7,7 @@ import { Sparkles, Search } from 'lucide-react'
 import Link from 'next/link'
 import { staggerContainer, staggerItem } from '@/lib/animations'
 import { ResourceMarquee } from './resource-marquee'
+import { CursorLogo } from '@/components/ui/cursor-logo'
 
 interface HeroSectionProps {
   totalCount: number
@@ -30,10 +31,9 @@ export function HeroSection({ totalCount, user }: HeroSectionProps) {
           className="flex flex-col items-center gap-6 mb-10"
           variants={staggerItem}
         >
-          <img 
-            src="/cursor.png" 
-            alt="Cursor" 
-            className="h-20 md:h-24 w-auto drop-shadow-2xl"
+          <CursorLogo 
+            size={96}
+            className="text-foreground drop-shadow-2xl"
           />
           <Badge variant="outline" className="px-5 py-2.5 border-primary-300/30 bg-primary-300/10 text-primary-300 text-sm backdrop-blur-sm">
             <Sparkles className="w-4 h-4 mr-2" />

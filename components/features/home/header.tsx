@@ -4,13 +4,14 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 import { Home } from 'lucide-react'
+import { CursorLogo } from '@/components/ui/cursor-logo'
 
 export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between px-4">
         <Link href="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
-          <img src="/cursor.png" alt="Cursor" className="h-8 w-auto" />
+          <CursorLogo size={32} className="text-foreground" />
           <span className="font-bold text-lg hidden sm:inline-block">Cursor Resources</span>
         </Link>
         
