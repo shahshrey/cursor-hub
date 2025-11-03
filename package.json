@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "next dev --turbo",
     "build": "npm run resources:index && next build",
+    "build:analyze": "ANALYZE=true npm run build",
     "start": "next start",
     "lint": "next lint",
     "test": "vitest",
@@ -17,6 +18,7 @@
     "db:types": "npx supabase gen types --local > types/supabase.ts",
     "db:push": "npx supabase db push",
     "resources:index": "tsx scripts/index-resources.ts",
+    "perf:check": "npm run build && du -sh .next/static/chunks/*.js | sort -rh | head -10",
     "prepare": "husky"
   },
   "dependencies": {

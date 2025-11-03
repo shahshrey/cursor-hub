@@ -15,6 +15,7 @@ export interface ResourceMetadata {
   frontmatter: Record<string, any> | null
   searchContent: string
   createdAt: string
+  downloadCount?: number
 }
 
 export interface ResourceIndex {

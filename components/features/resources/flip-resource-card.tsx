@@ -26,7 +26,7 @@ export function FlipResourceCard({ resource, onPreview, onAddToStack, isInStack 
     }
   }
 
-  const downloadCount = Math.floor(Math.random() * 5000) + 100
+  const downloadCount = resource.downloadCount ?? 0
 
   return (
     <div className="flip-card min-h-[280px] h-full">

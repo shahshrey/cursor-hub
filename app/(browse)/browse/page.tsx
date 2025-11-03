@@ -7,6 +7,8 @@ import Link from 'next/link'
 import { ResourceGridSkeleton } from '@/components/features/resources/resource-card-skeleton'
 import Image from 'next/image'
 
+export const revalidate = 3600
+
 export default async function BrowsePage() {
   const index = getResourceIndex()
 
@@ -32,6 +34,7 @@ export default async function BrowsePage() {
                 width={48}
                 height={48}
                 className="rounded-lg"
+                priority
               />
             <div>
                 <div className="flex items-center gap-2 mb-1">

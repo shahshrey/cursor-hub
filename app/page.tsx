@@ -26,6 +26,7 @@ export default async function Home() {
                 width={40}
                 height={40}
                 className="rounded-lg"
+                priority
               />
               <span className="text-xl font-semibold text-[#EDECEC]">
                 Resources Hub
@@ -225,6 +226,7 @@ export default async function Home() {
                 width={32}
                 height={32}
                 className="rounded-lg"
+                loading="lazy"
               />
               <span className="text-[#EDECEC]/80">© 2025 Cursor Resources. Built with Cursor.</span>
             </div>

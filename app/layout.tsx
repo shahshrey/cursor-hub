@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { ClerkProvider } from "@clerk/nextjs";
+import { ConditionalClerk } from "@/components/conditional-clerk";
 import { Toaster } from "@/components/ui/sonner";
 import { LightRays } from "@/components/ui/light-rays";
 import "./globals.css";
@@ -8,6 +8,8 @@ import "./globals.css";
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
+  weight: ['400', '600', '700'],
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -15,13 +17,19 @@ export const metadata: Metadata = {
   description: "Discover, browse, and download 450+ Cursor resources including commands, rules, MCP tools, and shell scripts. Search, preview, and save your favorites.",
 };
 
+export function reportWebVitals(metric: { id: string; name: string; value: number; label: 'web-vital' | 'custom' }) {
+  if (metric.label === 'web-vital') {
+    console.log(`[Web Vitals] ${metric.name}:`, Math.round(metric.value))
+  }
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider
+    <ConditionalClerk
       appearance={{
         variables: {
           colorPrimary: 'hsl(var(--primary))',
@@ -70,6 +78,6 @@ export default function RootLayout({
         <Toaster />
       </body>
     </html>
-    </ClerkProvider>
+    </ConditionalClerk>
   );
 }

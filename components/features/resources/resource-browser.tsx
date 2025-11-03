@@ -100,7 +100,7 @@ export function ResourceBrowser({ initialResources, categories }: ResourceBrowse
         case 'name':
           return a.title.localeCompare(b.title)
         case 'downloads':
-          return 0
+          return (b.downloadCount ?? 0) - (a.downloadCount ?? 0)
         case 'recent':
           return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         default:

@@ -16,6 +16,8 @@ export async function incrementDownload(slug: string): Promise<void> {
   } catch (error) {
     if (error instanceof Error && error.message === 'Timeout') {
       console.warn('Download count update skipped (database unavailable)')
+    } else {
+      console.error('Failed to increment download count:', error)
     }
   }
 }
