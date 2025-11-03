@@ -91,17 +91,29 @@ function processFile(filePath: string, resourceType: ResourceType, category: str
     let tags: string[] = []
 
     if (extension === '.md') {
-      const parsed = matter(content)
-      frontmatter = Object.keys(parsed.data).length > 0 ? parsed.data : null
-      title = frontmatter?.title || extractTitleFromMd(content, fileName)
-      description = frontmatter?.description || extractDescriptionFromMd(content)
-      tags = frontmatter?.tags || []
+      try {
+        const parsed = matter(content)
+        frontmatter = Object.keys(parsed.data).length > 0 ? parsed.data : null
+        title = frontmatter?.title || extractTitleFromMd(content, fileName)
+        description = frontmatter?.description || extractDescriptionFromMd(content)
+        tags = frontmatter?.tags || []
+      } catch (parseError) {
+        title = extractTitleFromMd(content, fileName)
+        description = extractDescriptionFromMd(content)
+        tags = []
+      }
     } else if (extension === '.mdc') {
-      const parsed = matter(content)
-      frontmatter = parsed.data
-      title = frontmatter?.title || fileName.replace(/\.mdc$/, '').replace(/-/g, ' ')
-      description = frontmatter?.description || parsed.content.substring(0, 300)
-      tags = frontmatter?.tags || []
+      try {
+        const parsed = matter(content)
+        frontmatter = parsed.data
+        title = frontmatter?.title || fileName.replace(/\.mdc$/, '').replace(/-/g, ' ')
+        description = frontmatter?.description || parsed.content.substring(0, 300)
+        tags = frontmatter?.tags || []
+      } catch (parseError) {
+        title = fileName.replace(/\.mdc$/, '').replace(/-/g, ' ')
+        description = content.substring(0, 300)
+        tags = []
+      }
     } else if (extension === '.json') {
       try {
         const json = JSON.parse(content)
