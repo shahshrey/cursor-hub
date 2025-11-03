@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import dynamic from 'next/dynamic';
 import { ConditionalClerk } from "@/components/conditional-clerk";
 import { Toaster } from "@/components/ui/sonner";
-import { LightRays } from "@/components/ui/light-rays";
 import "./globals.css";
+
+const LightRays = dynamic(() => import("@/components/ui/light-rays").then(m => m.LightRays));
 
 const inter = Inter({
   subsets: ["latin"],

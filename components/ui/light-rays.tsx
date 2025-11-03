@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState, type CSSProperties } from "react"
-import { motion } from "framer-motion"
+import { motion, useReducedMotion } from "framer-motion"
 
 import { cn } from "@/lib/utils"
 
@@ -99,11 +99,20 @@ export function LightRays({
   ...props
 }: LightRaysProps) {
   const [rays, setRays] = useState<LightRay[]>([])
+  const [shouldRender, setShouldRender] = useState(false)
+  const shouldReduceMotion = useReducedMotion()
   const cycleDuration = Math.max(speed, 0.1)
 
   useEffect(() => {
-    setRays(createRays(count, cycleDuration))
+    if (typeof window !== 'undefined' && window.innerWidth >= 1024) {
+      setShouldRender(true)
+      setRays(createRays(count, cycleDuration))
+    }
   }, [count, cycleDuration])
+
+  if (!shouldRender || shouldReduceMotion) {
+    return null
+  }
 
   return (
     <div
