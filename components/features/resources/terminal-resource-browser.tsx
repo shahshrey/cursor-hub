@@ -4,16 +4,15 @@ import { useState, useMemo, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import dynamic from 'next/dynamic'
 import type { ResourceMetadata, ResourceType } from '@/types/resources'
-import { FlipResourceCard } from './flip-resource-card'
+import { ResourceCard } from './resource-card'
 import { ChipFilters } from './chip-filters'
 import { TerminalSearch } from './terminal-search'
 import { CuratedStacks } from './curated-stacks'
-import { StackBuilder } from './stack-builder'
-import { StackBuilderButton } from './stack-builder-button'
 import { ResourceGridSkeleton } from './resource-card-skeleton'
 import { debounce } from '@/lib/search'
 import { Button } from '@/components/ui/button'
 import { ArrowUpDown } from 'lucide-react'
+import { createClient } from '@/lib/supabase/client'
 
 const ResourcePreviewModal = dynamic(() => import('./resource-preview-modal').then(m => m.ResourcePreviewModal), {
   ssr: false,
@@ -44,13 +43,12 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
   const [activeCategory, setActiveCategory] = useState(urlCategory)
   const [sortBy, setSortBy] = useState<SortOption>('downloads')
   const [isSearching, setIsSearching] = useState(false)
-  const [stack, setStack] = useState<ResourceMetadata[]>([])
-  const [isStackOpen, setIsStackOpen] = useState(false)
   const [previewResource, setPreviewResource] = useState<ResourceMetadata | null>(null)
   const [isPreviewOpen, setIsPreviewOpen] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage] = useState(24)
   const [searchResults, setSearchResults] = useState<ResourceMetadata[]>(initialResources)
+  const [downloadCounts, setDownloadCounts] = useState<Record<string, number>>({})
   
   useEffect(() => {
     if (urlType) setActiveType(urlType)
@@ -64,6 +62,61 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
   useEffect(() => {
     window.scrollTo({ top: 300, behavior: 'smooth' })
   }, [currentPage])
+
+  useEffect(() => {
+    const fetchDownloadCounts = async () => {
+      const supabase = createClient()
+      const slugs = searchResults.map(r => r.slug)
+      
+      const { data, error } = await supabase
+        .from('resources')
+        .select('slug, download_count')
+        .in('slug', slugs)
+      
+      if (data && !error) {
+        const counts: Record<string, number> = {}
+        data.forEach(item => {
+          counts[item.slug] = item.download_count
+        })
+        setDownloadCounts(counts)
+      }
+    }
+
+    if (searchResults.length > 0) {
+      fetchDownloadCounts()
+    }
+  }, [searchResults])
+
+  useEffect(() => {
+    const handleDownloadEvent = async (event: Event) => {
+      const customEvent = event as CustomEvent<{ slug: string }>
+      const slug = customEvent.detail.slug
+      
+      setDownloadCounts(prev => ({
+        ...prev,
+        [slug]: (prev[slug] || 0) + 1
+      }))
+      
+      setTimeout(async () => {
+        const supabase = createClient()
+        const { data, error } = await supabase
+          .from('resources')
+          .select('download_count')
+          .eq('slug', slug)
+          .single()
+        
+        if (data && !error) {
+          setDownloadCounts(prev => ({
+            ...prev,
+            [slug]: data.download_count
+          }))
+        }
+      }, 100)
+    }
+
+    window.addEventListener('resource-downloaded', handleDownloadEvent)
+    return () => window.removeEventListener('resource-downloaded', handleDownloadEvent)
+  }, [])
 
   useEffect(() => {
     const fetchResults = async () => {
@@ -153,20 +206,6 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
     setTimeout(() => setPreviewResource(null), 200)
   }
 
-  const handleAddToStack = (resource: ResourceMetadata) => {
-    if (!stack.find(r => r.slug === resource.slug)) {
-      setStack([...stack, resource])
-    }
-  }
-
-  const handleRemoveFromStack = (resourceSlug: string) => {
-    setStack(stack.filter(r => r.slug !== resourceSlug))
-  }
-
-  const handleClearStack = () => {
-    setStack([])
-  }
-
   const cycleSortOption = () => {
     const options: SortOption[] = ['downloads', 'name', 'recent']
     const currentIndex = options.indexOf(sortBy)
@@ -225,17 +264,14 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
         ) : filteredResources.length > 0 ? (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {paginatedResources.map((resource) => {
-                return (
-                  <FlipResourceCard
-                    key={resource.slug}
-                    resource={resource}
-                    onPreview={handlePreview}
-                    onAddToStack={handleAddToStack}
-                    isInStack={stack.some(r => r.slug === resource.slug)}
-                  />
-                )
-              })}
+              {paginatedResources.map((resource) => (
+                <ResourceCard
+                  key={resource.slug}
+                  resource={resource}
+                  downloadCount={downloadCounts[resource.slug] || 0}
+                  onPreview={() => handlePreview(resource)}
+                />
+              ))}
             </div>
             
             {totalPages > 1 && (
@@ -286,19 +322,6 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
           <CuratedStacks />
         </div>
       </div>
-
-      <StackBuilder
-        isOpen={isStackOpen}
-        onClose={() => setIsStackOpen(false)}
-        stack={stack}
-        onRemoveFromStack={handleRemoveFromStack}
-        onClearStack={handleClearStack}
-      />
-
-      <StackBuilderButton
-        count={stack.length}
-        onClick={() => setIsStackOpen(true)}
-      />
 
       <ResourcePreviewModal
         resource={previewResource}

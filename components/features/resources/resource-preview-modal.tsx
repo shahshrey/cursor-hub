@@ -140,9 +140,9 @@ export function ResourcePreviewModal({ resource, isOpen, onClose }: ResourcePrev
       
       return (
         <div className="space-y-6">
-          {/* Command-specific header */}
-          {type === 'command' && frontmatter.name && (
+          {Object.keys(frontmatter).length > 0 && (
             <div className="space-y-5 pb-6 border-b">
+              {frontmatter.name && (
               <div className="flex items-start gap-4">
                 <div className="p-3 rounded-xl bg-primary/10 text-primary">
                   <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -154,6 +154,7 @@ export function ResourcePreviewModal({ resource, isOpen, onClose }: ResourcePrev
                   <Badge className="font-medium">Command</Badge>
                 </div>
               </div>
+              )}
               
               {frontmatter.objective && (
                 <div className="rounded-xl bg-accent/50 border border-accent p-5">
@@ -164,14 +165,9 @@ export function ResourcePreviewModal({ resource, isOpen, onClose }: ResourcePrev
                     Objective
                   </h4>
                   <p className="text-sm leading-relaxed text-foreground/90">{frontmatter.objective}</p>
-                </div>
-              )}
             </div>
           )}
 
-          {/* Rule-specific header */}
-          {type === 'rule' && Object.keys(frontmatter).length > 0 && (
-            <div className="space-y-4 pb-6 border-b">
               {frontmatter.description && (
                 <div className="rounded-xl bg-accent/30 border border-accent/50 p-5">
                   <h4 className="text-sm font-bold text-foreground mb-3">Description</h4>

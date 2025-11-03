@@ -26,6 +26,14 @@ export function MagicCard({
 }: MagicCardProps) {
   const mouseX = useMotionValue(-gradientSize)
   const mouseY = useMotionValue(-gradientSize)
+  const updatePosition = useCallback(
+    (clientX: number, clientY: number, currentTarget: EventTarget & Element) => {
+      const rect = currentTarget.getBoundingClientRect()
+      mouseX.set(clientX - rect.left)
+      mouseY.set(clientY - rect.top)
+    },
+    [mouseX, mouseY]
+  )
   const reset = useCallback(() => {
     mouseX.set(-gradientSize)
     mouseY.set(-gradientSize)
@@ -33,11 +41,16 @@ export function MagicCard({
 
   const handlePointerMove = useCallback(
     (e: React.PointerEvent<HTMLDivElement>) => {
-      const rect = e.currentTarget.getBoundingClientRect()
-      mouseX.set(e.clientX - rect.left)
-      mouseY.set(e.clientY - rect.top)
+      updatePosition(e.clientX, e.clientY, e.currentTarget)
     },
-    [mouseX, mouseY]
+    [updatePosition]
+  )
+
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      updatePosition(e.clientX, e.clientY, e.currentTarget)
+    },
+    [updatePosition]
   )
 
   useEffect(() => {
@@ -72,8 +85,11 @@ export function MagicCard({
     <div
       className={cn("group relative rounded-[inherit]", className)}
       onPointerMove={handlePointerMove}
+      onMouseMove={handleMouseMove}
       onPointerLeave={reset}
       onPointerEnter={reset}
+      onMouseLeave={reset}
+      onMouseEnter={reset}
     >
       <motion.div
         className="bg-border pointer-events-none absolute inset-0 rounded-[inherit] duration-300 group-hover:opacity-100"
@@ -101,4 +117,3 @@ export function MagicCard({
     </div>
   )
 }
-

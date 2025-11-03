@@ -1,7 +1,8 @@
 'use client'
 
 import { ArrowRight } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import { MagicCard } from '@/components/ui/magic-card'
 
 interface CuratedStack {
   id: string
@@ -38,22 +39,6 @@ const curatedStacks: CuratedStack[] = [
     category: 'development'
   },
   {
-    id: 'nodejs',
-    icon: '🟢',
-    name: 'Node.js',
-    description: 'Backend & API development',
-    resourceCount: 10,
-    category: 'development'
-  },
-  {
-    id: 'python',
-    icon: '🐍',
-    name: 'Python',
-    description: 'Data science & web development',
-    resourceCount: 14,
-    category: 'development'
-  },
-  {
     id: 'database',
     icon: '🗄️',
     name: 'Database',
@@ -61,22 +46,6 @@ const curatedStacks: CuratedStack[] = [
     resourceCount: 8,
     category: 'database'
   },
-  {
-    id: 'testing',
-    icon: '🧪',
-    name: 'Testing',
-    description: 'Testing frameworks & tools',
-    resourceCount: 11,
-    category: 'testing'
-  },
-  {
-    id: 'deployment',
-    icon: '🚀',
-    name: 'Deployment',
-    description: 'CI/CD & deployment automation',
-    resourceCount: 7,
-    category: 'deployment'
-  }
 ]
 
 export function CuratedStacks() {
@@ -90,46 +59,46 @@ export function CuratedStacks() {
   return (
     <div className="space-y-6">
       <div className="space-y-2">
-        <div className="flex items-center gap-2">
-          <span className="text-terminal-green terminal-font text-sm">$</span>
-          <h3 className="text-xl font-bold text-foreground terminal-font">
-            Popular Collections
-          </h3>
-        </div>
-        <p className="text-sm text-muted-foreground pl-5">
+        <h3 className="text-xl font-bold text-foreground terminal-font">
+          Popular Collections
+        </h3>
+        <p className="text-sm text-muted-foreground">
           Curated resource collections for major frameworks and technologies
         </p>
       </div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
         {curatedStacks.map((stack) => (
-          <button
-            key={stack.id}
-            onClick={() => handleStackClick(stack.category)}
-            className="group bg-card/60 border border-border rounded-xl p-5 hover:border-primary/30 transition-all hover:-translate-y-1 cursor-pointer text-left"
-          >
-            <div className="flex items-start justify-between mb-3">
-              <div className="text-3xl font-bold">
-                {stack.icon}
-              </div>
-              <span className="terminal-font text-xs text-terminal-green bg-terminal-green/10 px-2 py-1 rounded border border-terminal-green/30">
-                ~{stack.resourceCount}
-              </span>
-            </div>
+          <Card key={stack.id} className="border-none p-0 shadow-none">
+            <MagicCard gradientColor="#262626" className="p-0">
+              <button
+                onClick={() => handleStackClick(stack.category)}
+                className="bg-card/60 rounded-xl p-5 cursor-pointer text-left w-full h-full"
+              >
+                <div className="flex items-start justify-between mb-3">
+                  <div className="text-3xl font-bold">
+                    {stack.icon}
+                  </div>
+                  <span className="terminal-font text-xs text-terminal-green bg-terminal-green/10 px-2 py-1 rounded border border-terminal-green/30">
+                    ~{stack.resourceCount}
+                  </span>
+                </div>
 
-            <h4 className="text-lg font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
-              {stack.name}
-            </h4>
-            
-            <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
-              {stack.description}
-            </p>
+                <h4 className="text-lg font-bold text-foreground mb-2">
+                  {stack.name}
+                </h4>
+                
+                <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+                  {stack.description}
+                </p>
 
-            <div className="flex items-center gap-2 text-sm text-primary group-hover:gap-3 transition-all">
-              <span className="terminal-font">Browse Collection</span>
-              <ArrowRight className="w-4 h-4" />
-            </div>
-          </button>
+                <div className="flex items-center gap-2 text-sm text-primary">
+                  <span className="terminal-font">Browse Collection</span>
+                  <ArrowRight className="w-4 h-4" />
+                </div>
+              </button>
+            </MagicCard>
+          </Card>
         ))}
       </div>
     </div>

@@ -2,8 +2,9 @@
 
 import { Marquee } from '@/components/ui/marquee'
 import { Badge } from '@/components/ui/badge'
+import { Card } from '@/components/ui/card'
 import { FileText, Terminal, Code2, Wrench } from 'lucide-react'
-import { motion } from 'framer-motion'
+import { MagicCard } from '@/components/ui/magic-card'
 
 interface ResourceItem {
   name: string
@@ -57,10 +58,16 @@ function ResourceCard({ resource }: { resource: ResourceItem }) {
   const colorClass = getColorClass(resource.type)
   
   return (
-    <motion.div
-      whileHover={{ scale: 1.05, y: -2 }}
-      className="flex items-center gap-3 px-5 py-3 rounded-xl bg-card/50 border border-border/50 backdrop-blur-sm min-w-fit"
-    >
+    <Card className="border-none p-0 shadow-none">
+      <MagicCard 
+        className="rounded-xl p-0" 
+        gradientSize={150}
+        gradientColor="#262626"
+        gradientOpacity={0.8}
+        gradientFrom="#9E7AFF"
+        gradientTo="#FE8BBB"
+      >
+        <div className="flex items-center gap-3 px-5 py-3 rounded-xl bg-card/50 backdrop-blur-sm min-w-fit">
       <div className={`p-2 rounded-lg ${colorClass}`}>
         <Icon className="w-4 h-4" />
       </div>
@@ -74,10 +81,12 @@ function ResourceCard({ resource }: { resource: ResourceItem }) {
           </span>
         )}
       </div>
-      <Badge variant="outline" className="ml-2 text-xs capitalize">
-        {resource.type}
-      </Badge>
-    </motion.div>
+        <Badge variant="outline" className="ml-2 text-xs capitalize">
+          {resource.type}
+        </Badge>
+        </div>
+      </MagicCard>
+    </Card>
   )
 }
 
