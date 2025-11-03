@@ -131,7 +131,7 @@
 }
 
 body {
-  background-color: var(--background);
+  background: transparent;
   color: var(--foreground);
   font-feature-settings: "rlig" 1, "calt" 1;
   -webkit-font-smoothing: antialiased;

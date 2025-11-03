@@ -15,7 +15,7 @@ export default async function BrowsePage() {
   const initialData = index.resources.slice(0, 24)
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <Header />
       
       <div className="border-b border-border backdrop-blur-xl bg-card/30 sticky top-16 z-10">

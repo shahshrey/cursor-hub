@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
 const LightRays = dynamic(() => import("@/components/ui/light-rays").then(m => m.LightRays));
+const Particles = dynamic(() => import("@/components/ui/particles").then(m => ({ default: m.Particles })));
 
 const inter = Inter({
   subsets: ["latin"],
@@ -55,6 +56,15 @@ export default async function RootLayout({
           speed={12}
           length="100vh"
         />
+        <Particles 
+          className="absolute inset-0"
+          quantity={100}
+          ease={50}
+          size={0.4}
+          staticity={50}
+          color="#ffffff"
+          refresh={false}
+        />
       </div>
       <div className="relative z-10">
         {children}
@@ -79,7 +89,7 @@ export default async function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
               html.dark {
-                background-color: rgb(12, 18, 23) !important;
+                background: transparent !important;
               }
               html.dark body {
                 background: transparent !important;

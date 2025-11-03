@@ -8,7 +8,7 @@ export default async function Home() {
   const { userId } = await auth()
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-[#1B1913]">
+    <div className="min-h-screen relative overflow-hidden">
       
       <div className="absolute inset-0 opacity-20">
         <div className="absolute top-20 left-10 w-96 h-96 bg-[#EDECEC] rounded-full mix-blend-soft-light filter blur-3xl animate-float" />
@@ -16,7 +16,7 @@ export default async function Home() {
         <div className="absolute bottom-20 left-1/3 w-96 h-96 bg-[#EDECEC]/40 rounded-full mix-blend-soft-light filter blur-3xl animate-float animation-delay-400" />
       </div>
 
-      <nav className="relative z-10 backdrop-blur-xl bg-[#1B1913]/80 border-b border-[#EDECEC]/10">
+      <nav className="relative z-10 backdrop-blur-xl bg-transparent border-b border-[#EDECEC]/10">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
@@ -216,7 +216,7 @@ export default async function Home() {
         </section>
       </main>
 
-      <footer className="relative z-10 backdrop-blur-xl bg-[#1B1913]/80 border-t border-[#EDECEC]/10 py-12">
+      <footer className="relative z-10 backdrop-blur-xl bg-transparent border-t border-[#EDECEC]/10 py-12">
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
