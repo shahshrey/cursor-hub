@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Fuse from 'fuse.js'
 import { getResourceIndex } from '@/lib/resources'
-import type { ResourceType, ResourceMetadata } from '@/types/resources'
+import { rateLimit, rateLimitConfigs } from '@/lib/middleware/rate-limit'
+import { handleApiError } from '@/lib/errors'
+import { searchParamsSchema } from '@/lib/validation'
+import type { ResourceMetadata } from '@/types/resources'
 
 const FUSE_OPTIONS = {
   keys: [
@@ -28,11 +31,19 @@ function getFuseInstance(): Fuse<unknown> {
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
   try {
+    const rateLimitResponse = rateLimit(request, rateLimitConfigs.search)
+    if (rateLimitResponse) return rateLimitResponse
+
     const searchParams = request.nextUrl.searchParams
-    const query = searchParams.get('q')
-    const type = searchParams.get('type') as ResourceType | null
-    const category = searchParams.get('category')
-    const limit = parseInt(searchParams.get('limit') || '100')
+    const rawParams = {
+      q: searchParams.get('q'),
+      type: searchParams.get('type'),
+      category: searchParams.get('category'),
+      limit: searchParams.get('limit'),
+    }
+
+    const validated = searchParamsSchema.parse(rawParams)
+    const { q: query, type, category, limit } = validated
 
     const index = getResourceIndex()
     let results = index.resources
@@ -45,7 +56,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       results = results.filter((r) => r.category === category)
     }
 
-    if (query && query.trim().length >= 2) {
+    if (query && query.length >= 2) {
       const fuse = getFuseInstance()
       const searchResults = fuse.search(query)
       
@@ -64,22 +75,19 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       {
         results: limitedResults,
         total: results.length,
-        query,
-        type,
-        category,
+        query: query || null,
+        type: type || null,
+        category: category || null,
       },
       {
         headers: {
           'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
+          'X-RateLimit-Limit': rateLimitConfigs.search.maxRequests.toString(),
         },
       }
     )
   } catch (error) {
-    console.error('Search API error:', error)
-    return NextResponse.json(
-      { error: 'Failed to perform search' },
-      { status: 500 }
-    )
+    return handleApiError(error)
   }
 }
 

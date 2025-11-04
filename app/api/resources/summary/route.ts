@@ -1,8 +1,13 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { getResourceIndex } from '@/lib/resources'
+import { rateLimit, rateLimitConfigs } from '@/lib/middleware/rate-limit'
+import { handleApiError } from '@/lib/errors'
 
-export async function GET(): Promise<NextResponse> {
+export async function GET(request: NextRequest): Promise<NextResponse> {
   try {
+    const rateLimitResponse = rateLimit(request, rateLimitConfigs.api)
+    if (rateLimitResponse) return rateLimitResponse
+
     const index = getResourceIndex()
 
     const summary = {
@@ -22,11 +27,7 @@ export async function GET(): Promise<NextResponse> {
       },
     })
   } catch (error) {
-    console.error('Summary API error:', error)
-    return NextResponse.json(
-      { error: 'Failed to get resource summary' },
-      { status: 500 }
-    )
+    return handleApiError(error)
   }
 }
 

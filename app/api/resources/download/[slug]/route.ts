@@ -2,62 +2,68 @@ import { NextRequest, NextResponse } from 'next/server'
 import { after } from 'next/server'
 import { getResourceBySlug, getResourceContent } from '@/lib/resources'
 import { incrementDownload } from '@/server/actions/resources'
+import { rateLimit, rateLimitConfigs } from '@/lib/middleware/rate-limit'
+import { handleApiError, NotFoundError, ValidationError, logError } from '@/lib/errors'
+import { validateSlug, MAX_SLUG_LENGTH } from '@/lib/validation'
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
-    const { slug } = await params
-    console.log('[API] Fetching resource:', slug)
+    const rateLimitResponse = rateLimit(request, rateLimitConfigs.download)
+    if (rateLimitResponse) return rateLimitResponse
 
-    if (!/^[a-z0-9-]+$/.test(slug)) {
-      console.log('[API] Invalid slug format:', slug)
-      return NextResponse.json({ error: 'Invalid slug format' }, { status: 400 })
+    const { slug } = await params
+
+    if (!slug || slug.length > MAX_SLUG_LENGTH || !validateSlug(slug)) {
+      throw new ValidationError(
+        `Invalid slug: ${slug}`,
+        'Invalid resource identifier'
+      )
     }
 
     const resource = getResourceBySlug(slug)
-    console.log('[API] Resource found:', resource ? 'YES' : 'NO')
 
     if (!resource) {
-      console.log('[API] Resource not found in index for slug:', slug)
-      return NextResponse.json({ error: 'Resource not found' }, { status: 404 })
+      throw new NotFoundError(
+        `Resource not found: ${slug}`,
+        'Resource not found'
+      )
     }
 
-    try {
-      const content = getResourceContent(resource.filePath)
+    const content = getResourceContent(resource.filePath)
 
-      after(async () => {
-      await incrementDownload(slug)
-      })
-
-      const isPreview = request.headers.get('x-preview-mode') === 'true'
-      
-      if (isPreview) {
-        return new NextResponse(content, {
-          status: 200,
-          headers: {
-            'Content-Type': 'text/plain; charset=utf-8',
-            'Content-Length': content.length.toString(),
-          },
-        })
+    after(async () => {
+      try {
+        await incrementDownload(slug)
+      } catch (error) {
+        logError(error, 'incrementDownload')
       }
+    })
 
+    const isPreview = request.headers.get('x-preview-mode') === 'true'
+    
+    if (isPreview) {
       return new NextResponse(content, {
         status: 200,
         headers: {
-          'Content-Type': 'application/octet-stream',
-          'Content-Disposition': `attachment; filename="${resource.fileName}"`,
+          'Content-Type': 'text/plain; charset=utf-8',
           'Content-Length': content.length.toString(),
         },
       })
-    } catch (error) {
-      console.error('File read error:', error)
-      return NextResponse.json({ error: 'Failed to read resource file' }, { status: 500 })
     }
+
+    return new NextResponse(content, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/octet-stream',
+        'Content-Disposition': `attachment; filename="${resource.fileName}"`,
+        'Content-Length': content.length.toString(),
+      },
+    })
   } catch (error) {
-    console.error('Download error:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return handleApiError(error)
   }
 }
 
