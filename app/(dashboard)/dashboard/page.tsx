@@ -38,11 +38,6 @@ export default async function DashboardPage() {
             You are signed in as {user?.emailAddresses[0]?.emailAddress}
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <p className="text-sm text-muted-foreground">
-            User ID: {userId}
-          </p>
-        </CardContent>
       </Card>
 
       <Separator className="my-8" />
