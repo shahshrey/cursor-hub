@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -11,6 +11,8 @@ import { DownloadButton } from './download-button'
 import { FavoriteButton } from './favorite-button'
 import { AddToCursorButton } from './add-to-cursor-button'
 import { MagicCard } from '@/components/ui/magic-card'
+import { ANIMATIONS, countRollUp } from '@/lib/animations'
+import { useEffect, useState } from 'react'
 
 interface ResourceCardProps {
   resource: ResourceMetadata
@@ -27,9 +29,26 @@ export function ResourceCard({
 }: ResourceCardProps) {
   const FileIconComponent = getFileIcon(resource.extension)
   const typeIcon = getResourceTypeIcon(resource.type)
+  const shouldReduceMotion = useReducedMotion()
+  const [displayCount, setDisplayCount] = useState(downloadCount)
+
+  useEffect(() => {
+    if (downloadCount !== displayCount) {
+      setDisplayCount(downloadCount)
+    }
+  }, [downloadCount])
+
+  const cardVariants = shouldReduceMotion ? {} : {
+    hover: ANIMATIONS.cardHover,
+    tap: ANIMATIONS.tap
+  }
 
   return (
-    <motion.div layoutId={`card-${resource.slug}`}>
+    <motion.div 
+      layoutId={`card-${resource.slug}`}
+      whileHover={cardVariants.hover}
+      whileTap={cardVariants.tap}
+    >
       <Card className="w-full max-w-sm border-none p-0 shadow-none">
         <MagicCard
           gradientColor="#262626"
@@ -93,7 +112,14 @@ export function ResourceCard({
         <CardFooter className="border-t p-4 flex-col gap-3">
           <div className="flex items-center gap-2 text-sm text-muted-foreground w-full">
             <Download className="h-4 w-4" />
-            <span>{downloadCount} downloads</span>
+            <motion.span
+              key={displayCount}
+              variants={shouldReduceMotion ? {} : countRollUp}
+              initial="hidden"
+              animate="visible"
+            >
+              {displayCount} downloads
+            </motion.span>
           </div>
           <div className="flex gap-2 w-full">
             {resource.type === 'hook' ? (

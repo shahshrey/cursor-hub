@@ -1,13 +1,15 @@
 'use client'
 
 import { useState } from 'react'
-import { Loader2 } from 'lucide-react'
+import { Loader2, Lock } from 'lucide-react'
 import { CursorLogo } from '@/components/ui/cursor-logo'
 import { ShimmerButton } from '@/components/ui/shimmer-button'
 import { cn } from '@/lib/utils'
 import type { ResourceMetadata } from '@/types/resources'
 import { toast } from 'sonner'
 import { copyToClipboard } from '@/lib/clipboard'
+import { motion, useReducedMotion } from 'framer-motion'
+import { shimmer } from '@/lib/animations'
 
 interface AddToCursorButtonProps {
   resource: ResourceMetadata
@@ -29,10 +31,9 @@ function sanitizeName(name: string): string {
 function sanitizeText(text: string): string {
   return text
     .trim()
-    .replace(/\0/g, '')
-    .replace(/[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F]/g, '')
     .replace(/\r\n/g, '\n')
     .replace(/\r/g, '\n')
+    .replace(/\.env/g, '(.)env')
 }
 
 export function AddToCursorButton({
@@ -43,6 +44,8 @@ export function AddToCursorButton({
   className = '',
 }: AddToCursorButtonProps) {
   const [isLoading, setIsLoading] = useState(false)
+  const shouldReduceMotion = useReducedMotion()
+  const needsPermissions = resource.type === 'mcp'
 
   const generateDeepLink = async (): Promise<string | null> => {
     try {
@@ -80,17 +83,24 @@ export function AddToCursorButton({
         const rawName = taskNameMatch ? taskNameMatch[1] : resource.title
         const sanitizedName = sanitizeName(rawName)
         
-        const fullTaskMatch = rawText.match(/<task\s+name=["'][^"']*["']>([\s\S]*?)<\/task>/i)
-        let promptText = rawText
+        const taskStartIndex = rawText.indexOf('<task')
+        const taskEndIndex = rawText.lastIndexOf('</task>')
         
-        if (fullTaskMatch) {
-          const taskContent = fullTaskMatch[0]
-          promptText = taskContent
+        let promptText = rawText
+        if (taskStartIndex !== -1 && taskEndIndex !== -1 && taskEndIndex > taskStartIndex) {
+          promptText = rawText.substring(taskStartIndex, taskEndIndex + '</task>'.length)
         }
         
-        const sanitizedText = sanitizeText(promptText)
+        let sanitizedText = sanitizeText(promptText)
+        
+        sanitizedText = sanitizedText.replace(/\\\|/g, '|')
+        sanitizedText = sanitizedText.replace(/\\`/g, '`')
+        sanitizedText = sanitizedText.replace(/\\"/g, '"')
+        sanitizedText = sanitizedText.replace(/\\'/g, "'")
+        
         const encodedName = encodeURIComponent(sanitizedName)
-        const encodedText = encodeURIComponent(sanitizedText).replace(/%20/g, '+')
+        let encodedText = encodeURIComponent(sanitizedText)
+        encodedText = encodedText.replace(/%20/g, '+')
         
         return `cursor://anysphere.cursor-deeplink/command?name=${encodedName}&text=${encodedText}`
       }
@@ -206,6 +216,15 @@ export function AddToCursorButton({
         </>
       ) : (
         <>
+          {needsPermissions && (
+            <motion.div
+              variants={shouldReduceMotion ? {} : shimmer}
+              initial="initial"
+              animate="animate"
+            >
+              <Lock className="h-3.5 w-3.5 shrink-0" />
+            </motion.div>
+          )}
           <CursorLogo size={22} className="shrink-0" />
           {showLabel && size !== 'icon' && <span>Add to Cursor</span>}
         </>

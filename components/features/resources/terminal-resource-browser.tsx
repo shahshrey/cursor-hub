@@ -5,14 +5,19 @@ import { useSearchParams } from 'next/navigation'
 import dynamic from 'next/dynamic'
 import type { ResourceMetadata, ResourceType } from '@/types/resources'
 import { ResourceCard } from './resource-card'
-import { ChipFilters } from './chip-filters'
-import { TerminalSearch } from './terminal-search'
+import { HorizontalFilterBar } from './horizontal-filter-bar'
+import { FilterSidebar } from './filter-sidebar'
 import { CuratedStacks } from './curated-stacks'
+import { ActiveFilters } from './active-filters'
 import { ResourceGridSkeleton } from './resource-card-skeleton'
 import { debounce } from '@/lib/search'
 import { Button } from '@/components/ui/button'
-import { ArrowUpDown } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
+import { calculateFilterCounts, type FilterCounts } from '@/lib/filter-counts'
+import { useFilterPresets } from '@/hooks/use-filter-presets'
+import { SavePresetModal } from './save-preset-modal'
+import { parseUrlFilters } from '@/lib/preset-url-encoding'
+import { toast } from 'sonner'
 
 const ResourcePreviewModal = dynamic(() => import('./resource-preview-modal').then(m => m.ResourcePreviewModal), {
   ssr: false,
@@ -48,12 +53,59 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage] = useState(24)
   const [searchResults, setSearchResults] = useState<ResourceMetadata[]>(initialResources)
+  const [allResourcesForCounts, setAllResourcesForCounts] = useState<ResourceMetadata[] | null>(null)
   const [downloadCounts, setDownloadCounts] = useState<Record<string, number>>({})
+  const [isSavePresetOpen, setIsSavePresetOpen] = useState(false)
+  
+  useEffect(() => {
+    const hasActiveFilters = debouncedQuery.trim().length >= 2 || activeType !== 'all' || activeCategory
+    
+    if (hasActiveFilters) {
+      setAllResourcesForCounts(null)
+    } else if (!allResourcesForCounts) {
+      const fetchAllForCounts = async () => {
+        try {
+          const params = new URLSearchParams()
+          params.set('limit', '1000')
+          
+          const response = await fetch(`/api/resources/search?${params}`)
+          const data = await response.json()
+          setAllResourcesForCounts(data.results || [])
+        } catch (error) {
+          console.error('Failed to fetch all resources for counts:', error)
+        }
+      }
+      
+      fetchAllForCounts()
+    }
+  }, [debouncedQuery, activeType, activeCategory, allResourcesForCounts])
+  
+  const filterCounts = useMemo(() => {
+    const hasActiveFilters = debouncedQuery.trim().length >= 2 || activeType !== 'all' || activeCategory
+    const resourcesForCounts = hasActiveFilters ? searchResults : (allResourcesForCounts || initialResources)
+    return calculateFilterCounts(resourcesForCounts)
+  }, [searchResults, allResourcesForCounts, debouncedQuery, activeType, activeCategory, initialResources])
+  
+  const { presets, createPreset, removePreset, modifyPreset, usePreset } = useFilterPresets()
   
   useEffect(() => {
     if (urlType) setActiveType(urlType)
     if (urlCategory) setActiveCategory(urlCategory)
-  }, [urlType, urlCategory])
+    
+    if (searchParams) {
+      const urlFilters = parseUrlFilters(searchParams)
+      if (urlFilters) {
+        if (urlFilters.type) setActiveType(urlFilters.type)
+        if (urlFilters.category) setActiveCategory(urlFilters.category)
+        if (urlFilters.searchQuery) {
+          setSearchQuery(urlFilters.searchQuery)
+          setDebouncedQuery(urlFilters.searchQuery)
+        }
+        if (urlFilters.sortBy) setSortBy(urlFilters.sortBy)
+        toast.success('Filters loaded from shared link')
+      }
+    }
+  }, [urlType, urlCategory, searchParams])
 
   useEffect(() => {
     setCurrentPage(1)
@@ -196,6 +248,19 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
     setSortBy('downloads')
   }
 
+  const handleClearType = () => {
+    setActiveType('all')
+  }
+
+  const handleClearCategory = () => {
+    setActiveCategory('')
+  }
+
+  const handleClearSearch = () => {
+    setSearchQuery('')
+    setDebouncedQuery('')
+  }
+
   const handlePreview = (resource: ResourceMetadata) => {
     setPreviewResource(resource)
     setIsPreviewOpen(true)
@@ -213,6 +278,46 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
     setSortBy(options[nextIndex])
   }
 
+  const handleSavePreset = (name: string, isStarred: boolean) => {
+    const preset = createPreset({
+      name,
+      type: activeType,
+      category: activeCategory,
+      searchQuery,
+      sortBy,
+      isStarred,
+    })
+    
+    if (preset) {
+      toast.success(`Preset "${name}" saved successfully`)
+    } else {
+      toast.error('Failed to save preset. Maximum 10 presets allowed.')
+    }
+  }
+
+  const handleLoadPreset = (preset: typeof presets[0]) => {
+    setActiveType(preset.type)
+    setActiveCategory(preset.category)
+    setSearchQuery(preset.searchQuery)
+    setDebouncedQuery(preset.searchQuery)
+    setSortBy(preset.sortBy)
+    usePreset(preset.id)
+    toast.success(`Preset "${preset.name}" applied`)
+  }
+
+  const handleDeletePreset = (presetId: string) => {
+    const success = removePreset(presetId)
+    if (success) {
+      toast.success('Preset deleted')
+    } else {
+      toast.error('Failed to delete preset')
+    }
+  }
+
+  const handleToggleStarPreset = (presetId: string, isStarred: boolean) => {
+    modifyPreset(presetId, { isStarred })
+  }
+
   const paginatedResources = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage
     const endIndex = startIndex + itemsPerPage
@@ -223,103 +328,125 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
 
   return (
     <>
-      <div className="space-y-10">
-        <TerminalSearch 
-          value={searchQuery}
-          onChange={handleSearchChange}
-          resultsCount={filteredResources.length}
-          totalCount={initialResources.length}
-        />
+      <div className="space-y-6">
+        {!searchQuery && activeType === 'all' && !activeCategory && (
+          <div className="pb-4">
+            <CuratedStacks />
+          </div>
+        )}
 
-        <ChipFilters
+        <HorizontalFilterBar
+          searchQuery={searchQuery}
+          onSearchChange={handleSearchChange}
+          resultsCount={filteredResources.length}
+          totalCount={totalCount}
           activeType={activeType}
           onTypeChange={setActiveType}
           activeCategory={activeCategory}
           categories={availableCategories}
           onCategoryChange={setActiveCategory}
+          sortBy={sortBy}
+          onSortClick={cycleSortOption}
+          filterCounts={filterCounts}
+          presets={presets}
+          onSavePreset={() => setIsSavePresetOpen(true)}
+          onLoadPreset={handleLoadPreset}
+          onDeletePreset={handleDeletePreset}
+          onToggleStarPreset={handleToggleStarPreset}
         />
 
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm text-muted-foreground terminal-font">
-              <span className="text-terminal-green">⎿</span> Displaying{' '}
-              <span className="text-foreground font-bold">{filteredResources.length}</span> of{' '}
-              <span className="text-foreground font-semibold">{totalCount}</span> resources
-            </p>
-          </div>
+        <div className="flex flex-col lg:flex-row gap-6">
+          <FilterSidebar
+            activeCategory={activeCategory}
+            categories={availableCategories}
+            onCategoryChange={setActiveCategory}
+            filterCounts={filterCounts}
+            activeType={activeType}
+          />
           
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={cycleSortOption}
-            className="terminal-font"
-          >
-            <ArrowUpDown className="w-4 h-4 mr-2" />
-            {sortLabels[sortBy]}
-          </Button>
-        </div>
+          <div className="flex-1 min-w-0">
+            <ActiveFilters
+              activeType={activeType}
+              activeCategory={activeCategory}
+              searchQuery={searchQuery}
+              onClearType={handleClearType}
+              onClearCategory={handleClearCategory}
+              onClearSearch={handleClearSearch}
+            />
 
-        {isSearching ? (
-          <ResourceGridSkeleton count={8} />
-        ) : filteredResources.length > 0 ? (
-          <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {paginatedResources.map((resource) => (
-                <ResourceCard
-                  key={resource.slug}
-                  resource={resource}
-                  downloadCount={downloadCounts[resource.slug] || 0}
-                  onPreview={() => handlePreview(resource)}
-                />
-              ))}
+            <div className="mt-4 mb-2">
+              <p className="text-xs text-muted-foreground terminal-font">
+                <span className="text-terminal-green">⎿</span> Showing{' '}
+                <span className="text-foreground font-bold">{filteredResources.length}</span> of{' '}
+                <span className="text-foreground font-semibold">{totalCount}</span> resources
+                {activeType !== 'all' && filterCounts && (
+                  <span className="ml-2">
+                    ({filterCounts.byType[activeType]} {activeType}s
+                    {activeCategory && ` in ${activeCategory}`})
+                  </span>
+                )}
+              </p>
             </div>
-            
-            {totalPages > 1 && (
-              <div className="flex items-center justify-center gap-2 pt-8">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                  disabled={currentPage === 1}
-                  className="terminal-font"
-                >
-                  ← Previous
-                </Button>
-                
-                <div className="flex items-center gap-2 terminal-font text-sm">
-                  <span className="text-muted-foreground">Page</span>
-                  <span className="text-terminal-green font-bold">{currentPage}</span>
-                  <span className="text-muted-foreground">of</span>
-                  <span className="text-foreground font-semibold">{totalPages}</span>
+
+            {isSearching ? (
+              <ResourceGridSkeleton count={8} />
+            ) : filteredResources.length > 0 ? (
+              <>
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
+                  {paginatedResources.map((resource) => (
+                    <ResourceCard
+                      key={resource.slug}
+                      resource={resource}
+                      downloadCount={downloadCounts[resource.slug] || 0}
+                      onPreview={() => handlePreview(resource)}
+                    />
+                  ))}
                 </div>
                 
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                  disabled={currentPage === totalPages}
-                  className="terminal-font"
-                >
-                  Next →
+                {totalPages > 1 && (
+                  <div className="flex items-center justify-center gap-2 pt-8">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                      disabled={currentPage === 1}
+                      className="terminal-font"
+                    >
+                      ← Previous
+                    </Button>
+                    
+                    <div className="flex items-center gap-2 terminal-font text-sm">
+                      <span className="text-muted-foreground">Page</span>
+                      <span className="text-terminal-green font-bold">{currentPage}</span>
+                      <span className="text-muted-foreground">of</span>
+                      <span className="text-foreground font-semibold">{totalPages}</span>
+                    </div>
+                    
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                      disabled={currentPage === totalPages}
+                      className="terminal-font"
+                    >
+                      Next →
+                    </Button>
+                  </div>
+                )}
+              </>
+            ) : (
+              <div className="flex flex-col items-center justify-center py-24 text-center">
+                <div className="text-6xl mb-4 terminal-font opacity-50">└─</div>
+                <h3 className="text-2xl font-bold mb-2 terminal-font">No resources found</h3>
+                <p className="text-sm text-muted-foreground mb-8 max-w-md terminal-font">
+                  <span className="text-terminal-green">⎿</span> Try adjusting your filters or search query to find what you&apos;re looking for
+                </p>
+                <Button onClick={handleClearFilters} variant="outline" className="terminal-font">
+                  Clear All Filters
                 </Button>
               </div>
             )}
-          </>
-        ) : (
-          <div className="flex flex-col items-center justify-center py-20 text-center">
-            <div className="text-8xl mb-6 terminal-font">404</div>
-            <h3 className="text-2xl font-bold mb-3 terminal-font">No resources found</h3>
-            <p className="text-base text-muted-foreground mb-6 max-w-md">
-              Try adjusting your filters or search query to find what you're looking for
-            </p>
-            <Button onClick={handleClearFilters} variant="outline" className="terminal-font">
-              Clear All Filters
-            </Button>
           </div>
-        )}
-
-        <div className="pt-10 border-t border-border">
-          <CuratedStacks />
         </div>
       </div>
 
@@ -327,6 +454,18 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
         resource={previewResource}
         isOpen={isPreviewOpen}
         onClose={handleClosePreview}
+      />
+      
+      <SavePresetModal
+        isOpen={isSavePresetOpen}
+        onClose={() => setIsSavePresetOpen(false)}
+        onSave={handleSavePreset}
+        currentFilters={{
+          type: activeType,
+          category: activeCategory,
+          searchQuery,
+          sortBy,
+        }}
       />
     </>
   )

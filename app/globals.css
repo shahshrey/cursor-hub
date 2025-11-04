@@ -8,6 +8,7 @@
   --color-terminal-amber: 255 191 0;
   
   --color-background: oklch(0.11 0.01 60);
+  --color-bg-primary: 27 25 19;
   --color-foreground: oklch(0.93 0.01 60);
   --color-card: oklch(0.13 0.01 60);
   --color-card-foreground: oklch(0.93 0.01 60);

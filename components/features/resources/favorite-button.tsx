@@ -8,6 +8,8 @@ import { toggleFavorite } from '@/server/actions/favorites'
 import { toast } from 'sonner'
 import { useAuth } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation'
+import { motion, useReducedMotion } from 'framer-motion'
+import { heartBounce } from '@/lib/animations'
 
 interface FavoriteButtonProps {
   resourceSlug: string
@@ -28,8 +30,10 @@ export function FavoriteButton({
 }: FavoriteButtonProps) {
   const [isFavorited, setIsFavorited] = useState(initialIsFavorited)
   const [isLoading, setIsLoading] = useState(false)
+  const [shouldAnimate, setShouldAnimate] = useState(false)
   const { isSignedIn } = useAuth()
   const router = useRouter()
+  const shouldReduceMotion = useReducedMotion()
 
   const handleToggle = async () => {
     try {
@@ -57,6 +61,8 @@ export function FavoriteButton({
       } else {
         if (result.isFavorited) {
           toast.success('Added to favorites')
+          setShouldAnimate(true)
+          setTimeout(() => setShouldAnimate(false), 600)
         } else {
           toast.success('Removed from favorites')
         }
@@ -82,7 +88,13 @@ export function FavoriteButton({
       {isLoading ? (
         <Loader2 className="h-4 w-4 animate-spin" />
       ) : (
-        <Heart className={`h-4 w-4 transition-all ${isFavorited ? 'fill-current scale-110' : ''}`} />
+        <motion.div
+          variants={shouldReduceMotion ? {} : heartBounce}
+          initial="initial"
+          animate={shouldAnimate ? "animate" : "initial"}
+        >
+          <Heart className={`h-4 w-4 transition-all ${isFavorited ? 'fill-current' : ''}`} />
+        </motion.div>
       )}
       {showLabel && <span className="ml-1">{isFavorited ? 'Favorited' : 'Favorite'}</span>}
     </Button>

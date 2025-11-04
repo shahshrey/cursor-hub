@@ -1,5 +1,6 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import { ArrowRight } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { MagicCard } from '@/components/ui/magic-card'
@@ -49,10 +50,12 @@ const curatedStacks: CuratedStack[] = [
 ]
 
 export function CuratedStacks() {
+  const router = useRouter()
+  
   const handleStackClick = (category: string) => {
     const url = new URL(window.location.href)
     url.searchParams.set('category', category)
-    window.location.href = url.toString()
+    router.push(url.toString())
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
