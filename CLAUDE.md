@@ -1,7 +1,10 @@
-# Next.js 15.3 + Supabase + TypeScript Best Practices
+# Next.js 15.3 + Clerk + Supabase + TypeScript Best Practices
 
 > **Technical Documentation for Cursor Resources Hub**  
 > This document outlines the development patterns and best practices used in building the Cursor Resources Hub - a platform for browsing, searching, and downloading Cursor commands, rules, MCP tools, and shell scripts.
+>
+> **Authentication:** Clerk handles all user authentication and session management  
+> **Database:** Supabase is used exclusively for data persistence (resources, favorites, download counts)
 
 ## 🚀 Core Principles
 
@@ -44,10 +47,22 @@ export async function createPost(data: PostInput) {
 }
 ```
 
-### 3. Supabase Client Separation
+### 3. Authentication & Database Separation
 
+**Authentication (Clerk):**
 ```typescript
-// lib/supabase/client.ts - Browser only
+// server/actions/myAction.ts
+import { auth } from '@clerk/nextjs/server'
+
+export async function myAction() {
+  const { userId } = await auth()
+  if (!userId) throw new Error('Unauthorized')
+}
+```
+
+**Database (Supabase - Data Only, No Auth):**
+```typescript
+// lib/supabase/client.ts - Browser only (for realtime download counts)
 import { createBrowserClient } from '@supabase/ssr'
 import type { Database } from '@/types/supabase'
 
@@ -57,28 +72,34 @@ export const createClient = () =>
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   )
 
-// lib/supabase/server.ts - Server only
-import { createServerClient } from '@supabase/ssr'
-import { cookies } from 'next/headers'
+// lib/supabase/server.ts - Server only (for data operations)
+// NOTE: Using @supabase/supabase-js directly since we don't need Supabase Auth
+// Authentication is handled entirely by Clerk
+// RLS is disabled on user tables, authorization checked in Server Actions
+import { createClient as createSupabaseClient } from '@supabase/supabase-js'
+import type { Database } from '@/types/supabase'
 
-export const createClient = async () => {
-  const cookieStore = await cookies()
-  return createServerClient<Database>(
+export const createClient = () => {
+  return createSupabaseClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
-      cookies: {
-        getAll: () => cookieStore.getAll(),
-        setAll: (cookiesToSet) => {
-          cookiesToSet.forEach(({ name, value, options }) =>
-            cookieStore.set(name, value, options)
-          )
-        },
-      },
+      auth: {
+        persistSession: false,
+        autoRefreshToken: false,
+        detectSessionInUrl: false
+      }
     }
   )
 }
 ```
+
+**Key Architecture Decisions:**
+1. **Clerk handles ALL authentication** - No Supabase Auth used
+2. **Supabase is data-only** - Just PostgreSQL storage
+3. **RLS disabled on user tables** - Authorization via Clerk `auth()` in Server Actions
+4. **No cookie management needed** - Supabase client doesn't need session handling
+5. **Clerk user IDs stored as TEXT** - Format: `user_xxx` (not UUIDs)
 ### Supabase Migration-First Development
 
 When working with Supabase databases, **ALWAYS** use migrations for ANY schema changes:
@@ -116,9 +137,9 @@ When working with Supabase databases, **ALWAYS** use migrations for ANY schema c
     ```
 6. **Include in EVERY migration**:
     
-    - Enable RLS on new tables
     - Add proper indexes
     - Consider adding triggers for updated_at
+    - **RLS Policy Note**: When using Clerk auth, disable RLS on user tables and handle authorization in Server Actions
 7. **Commit both**:
     
     - Migration file (`supabase/migrations/*.sql`)
@@ -126,31 +147,31 @@ When working with Supabase databases, **ALWAYS** use migrations for ANY schema c
 
 This ensures reproducible database states across all environments and team members.
 
-## 📁 Project Structure (Next.js 15.3 + Supabase)
+## 📁 Project Structure (Next.js 15.3 + Clerk + Supabase)
 
 ```
 ├── app/                      # App Router
-│   ├── (auth)/              # Auth group routes
-│   ├── (dashboard)/         # Protected routes
+│   ├── (auth)/              # Clerk auth routes (signin/signup)
+│   ├── (dashboard)/         # Protected routes (Clerk middleware)
 │   ├── api/                 # API routes
 │   └── globals.css          # Tailwind v4
 ├── components/
 │   ├── ui/                  # shadcn/ui components
 │   └── features/            # Feature components
 ├── lib/
-│   ├── supabase/           # Client configs
-│   └── utils.ts            # cn() + helpers
+│   └── supabase/           # Supabase DB clients (data only)
 ├── server/                  # Server-only code
-│   ├── queries/            # DB queries
-│   └── actions/            # Server Actions
+│   ├── queries/            # DB queries (Clerk auth + Supabase data)
+│   └── actions/            # Server Actions (Clerk auth + Supabase data)
 ├── hooks/                   # Client hooks
 ├── test/                    # Test utilities
 │   └── setup.ts            # Vitest setup
 ├── types/
-│   └── supabase.ts         # Generated types
-└── supabase/
-    ├── migrations/         # Database migrations
-    └── config.toml         # Supabase configuration
+│   └── supabase.ts         # Generated DB types
+├── supabase/
+│   ├── migrations/         # Database migrations
+│   └── config.toml         # Supabase configuration
+└── middleware.ts            # Clerk authentication middleware
 ```
 
 ## 🎯 Next.js 15.3 Patterns
@@ -223,45 +244,96 @@ export default async function Layout({ children }) {
 }
 ```
 
-## 🔐 Authentication Pattern (Already Implemented)
+## 🔐 Authentication Pattern (Clerk)
 
-The starter includes a complete authentication setup:
+The application uses Clerk for authentication and user management:
 - Sign up/Sign in pages at `/signup` and `/signin`
 - Protected dashboard routes under `app/(dashboard)/`
-- Server actions in `server/actions/auth.ts`
-- Auth middleware configuration
-- Profile creation on signup
+- Clerk middleware for route protection
+- Server actions use Clerk `auth()` for user context
 
 ```typescript
 // middleware.ts
-import { updateSession } from '@/lib/supabase/middleware'
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server"
 
-export async function middleware(request: NextRequest) {
-  return await updateSession(request)
-}
+const isPublicRoute = createRouteMatcher(['/', '/browse', '/signin(.*)', '/signup(.*)'])
 
-export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)'],
-}
+export default clerkMiddleware(async (auth, request) => {
+  if (!isPublicRoute(request)) {
+    await auth.protect()
+  }
+  return NextResponse.next()
+})
 
 // app/(dashboard)/layout.tsx
-import { createClient } from '@/lib/supabase/server'
+import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 
 export default async function DashboardLayout({ children }) {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const { userId } = await auth()
   
-  if (!user) redirect('/login')
+  if (!userId) redirect('/signin')
   
   return <>{children}</>
 }
 
-// server/actions/auth.ts - Available auth actions
-export async function signUp(formData: FormData)
-export async function signIn(formData: FormData)
-export async function signOut()
+// server/actions - Use Clerk auth + Supabase data in server actions
+import { auth } from '@clerk/nextjs/server'
+import { createClient } from '@/lib/supabase/server'
+
+export async function myAction() {
+  const { userId } = await auth()
+  if (!userId) throw new Error('Unauthorized')
+  
+  const supabase = createClient()
+  const { data, error } = await supabase
+    .from('favorites')
+    .select('*')
+    .eq('user_id', userId)
+  
+  return data
+}
 ```
+
+### Clerk + Supabase Integration Pattern
+
+When using Clerk for authentication with Supabase as data storage:
+
+1. **Database Schema**: Use `TEXT` columns for user IDs (not UUID)
+   ```sql
+   CREATE TABLE favorites (
+     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+     user_id TEXT NOT NULL,  -- Clerk user ID (user_xxx format)
+     -- other columns
+   );
+   ```
+
+2. **Disable RLS**: Since Clerk manages auth, disable RLS and control access in Server Actions
+   ```sql
+   ALTER TABLE favorites DISABLE ROW LEVEL SECURITY;
+   ```
+
+3. **Authorization in Server Actions**: Check Clerk auth before database operations
+   ```typescript
+   export async function toggleFavorite(slug: string) {
+     const { userId } = await auth()
+     if (!userId) return { error: 'Unauthorized' }
+     
+     const supabase = createClient()
+     await supabase.from('favorites').insert({ user_id: userId, resource_slug: slug })
+   }
+   ```
+
+4. **No Supabase Auth**: Supabase client configured to not handle sessions
+   ```typescript
+   createSupabaseClient(url, key, {
+     auth: {
+       persistSession: false,
+       autoRefreshToken: false,
+       detectSessionInUrl: false
+     }
+   })
+   ```
 
 ## 🎨 UI Components (shadcn/ui + Tailwind v4)
 

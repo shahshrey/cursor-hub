@@ -69,6 +69,9 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
           params.set('limit', '1000')
           
           const response = await fetch(`/api/resources/search?${params}`)
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`)
+          }
           const data = await response.json()
           setAllResourcesForCounts(data.results || [])
         } catch (error) {
@@ -186,6 +189,9 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
         params.set('limit', '500')
 
         const response = await fetch(`/api/resources/search?${params}`)
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`)
+        }
         const data = await response.json()
         setSearchResults(data.results || [])
       } catch (error) {
