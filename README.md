@@ -1,6 +1,6 @@
 # Cursor Resources Management Website
 
-A comprehensive platform for browsing, searching, previewing, and downloading 450+ Cursor resources including commands, rules, MCP tools, and shell scripts. Built with Next.js 15.3, Supabase, TypeScript, and Tailwind CSS v4.
+A comprehensive platform for browsing, searching, previewing, and downloading 450+ Cursor resources including commands, rules, MCP tools, and shell scripts. Built with Next.js 15.3, Clerk (auth), Supabase (database), TypeScript, and Tailwind CSS v4.
 
 ## 🚀 Features
 
@@ -16,7 +16,8 @@ A comprehensive platform for browsing, searching, previewing, and downloading 45
 
 ### Technical Stack
 - **Next.js 15.3** with App Router and Server Components
-- **Supabase** for authentication and analytics database
+- **Clerk** for authentication and user management
+- **Supabase** for database (resources, favorites, download tracking)
 - **TypeScript** with strict mode and generated types
 - **Tailwind CSS v4** for modern styling
 - **shadcn/ui** component library
@@ -50,19 +51,34 @@ npm run resources:index
 
 This will create `public/data/resources-index.json` with metadata for all 459 resources.
 
-### 3. Set Up Supabase
+### 3. Set Up Environment
 
-Start local Supabase development stack:
-
-```bash
-npm run db:start
-```
-
-This will output your local Supabase credentials. Create `.env.local`:
+Create `.env.local` with your credentials:
 
 ```env
+# Clerk Authentication
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your-clerk-publishable-key
+CLERK_SECRET_KEY=your-clerk-secret-key
+
+# Supabase Database (optional for local dev)
 NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-from-db-start
+```
+
+**For Clerk:** Sign up at [clerk.com](https://clerk.com) and create an application
+
+**For Supabase (optional):** Start local database and run migrations:
+```bash
+# Start Supabase
+npm run db:start
+
+# This will automatically:
+# - Start PostgreSQL database
+# - Apply all migrations (including Clerk integration)
+# - Generate TypeScript types
+
+# To regenerate types manually:
+npm run db:types
 ```
 
 ### 4. Run Development Server
@@ -98,9 +114,9 @@ Open [http://localhost:3000](http://localhost:3000) to browse resources!
 │   └── supabase/              # Supabase clients
 ├── server/
 │   ├── actions/
-│   │   ├── auth.ts            # Auth (signUp, signIn, signOut)
-│   │   ├── favorites.ts       # Favorite operations
-│   │   └── resources.ts       # Download tracking
+│   │   ├── auth.ts            # Clerk auth helpers
+│   │   ├── favorites.ts       # Favorite operations (Clerk auth + Supabase)
+│   │   └── resources.ts       # Download tracking (Supabase)
 │   └── queries/
 │       └── resources.ts       # Resource content loading
 ├── scripts/
@@ -176,12 +192,13 @@ Resource preview modal features:
 - Copy to clipboard functionality
 - Direct download from modal
 
-## 🔐 Authentication Features
+## 🔐 Authentication (Clerk)
 
 - **Optional Authentication** - Browse and download without login
+- **Clerk Integration** - Secure, modern authentication with social logins
 - **Favorites** - Sign in to save favorites across devices
-- **Protected Dashboard** - View and manage all your favorites
-- **Secure RLS** - Row Level Security ensures data privacy
+- **Protected Routes** - Clerk middleware protects dashboard routes
+- **User Management** - Complete user profiles and session handling
 
 ## 🎨 UI Components
 
@@ -213,11 +230,11 @@ CREATE TABLE public.resources (
 ```
 
 ### Favorites Table  
-User-specific favorites with RLS:
+User-specific favorites (linked to Clerk user IDs):
 ```sql
 CREATE TABLE public.favorites (
   id UUID PRIMARY KEY,
-  user_id UUID REFERENCES auth.users(id),
+  user_id TEXT NOT NULL,  -- Clerk user ID
   resource_slug TEXT NOT NULL,
   resource_type TEXT CHECK (resource_type IN ('command', 'rule', 'mcp', 'hook')),
   UNIQUE(user_id, resource_slug)
@@ -235,6 +252,11 @@ CREATE TABLE public.favorites (
 
 Required:
 ```env
+# Clerk Authentication
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
+CLERK_SECRET_KEY=sk_test_...
+
+# Supabase Database
 NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
 ```
@@ -245,4 +267,4 @@ MIT
 
 ---
 
-**Built with** ❤️ **using Next.js 15.3, Supabase, and shadcn/ui**
+**Built with** ❤️ **using Next.js 15.3, Clerk, Supabase, and shadcn/ui**

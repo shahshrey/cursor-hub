@@ -7,13 +7,14 @@ import type { ResourceType } from '@/types/resources'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { McpLogo } from '@/components/ui/mcp-logo'
 
 interface ResourceTypeShowcaseProps {
   typeCounts: Record<ResourceType, number>
   categories: Record<ResourceType, string[]>
 }
 
-const TYPE_CONFIG: Record<ResourceType, { icon: typeof Command; label: string; description: string; color: string }> = {
+const TYPE_CONFIG: Record<ResourceType, { icon: typeof Command | null; label: string; description: string; color: string; useLogo?: boolean }> = {
   command: {
     icon: Command,
     label: 'Commands',
@@ -27,10 +28,11 @@ const TYPE_CONFIG: Record<ResourceType, { icon: typeof Command; label: string; d
     color: 'text-purple-500',
   },
   mcp: {
-    icon: Zap,
+    icon: null,
     label: 'MCPs',
     description: 'Model Context Protocol integrations for enhanced AI capabilities',
     color: 'text-yellow-500',
+    useLogo: true,
   },
   hook: {
     icon: Terminal,
@@ -78,8 +80,12 @@ export function ResourceTypeShowcase({ typeCounts, categories }: ResourceTypeSho
               <Card className="h-full hover:shadow-lg transition-shadow group">
                 <CardHeader>
                   <div className="flex items-center justify-between mb-4">
-                    <div className={`p-3 rounded-lg bg-primary/10 ${config.color}`}>
-                      <Icon className="w-6 h-6" />
+                    <div className={`p-3 rounded-lg bg-primary/10 ${config.color} flex items-center justify-center`}>
+                      {config.useLogo ? (
+                        <McpLogo size={24} />
+                      ) : Icon ? (
+                        <Icon className="w-6 h-6" />
+                      ) : null}
                     </div>
                     <Badge variant="secondary">{count}</Badge>
                   </div>
@@ -92,7 +98,7 @@ export function ResourceTypeShowcase({ typeCounts, categories }: ResourceTypeSho
                       <span className="font-semibold">{categoryCount}</span> categories available
                     </div>
                     <Link href={`/browse?type=${type}`}>
-                      <Button variant="outline" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                      <Button variant="outline" className="w-full hover:!bg-primary hover:!text-primary-foreground group-hover:!bg-primary group-hover:!text-primary-foreground transition-colors">
                         Browse {config.label}
                         <ArrowRight className="ml-2 w-4 h-4" />
                       </Button>

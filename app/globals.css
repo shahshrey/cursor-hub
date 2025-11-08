@@ -7,6 +7,14 @@
   --color-terminal-green: 0 255 0;
   --color-terminal-amber: 255 191 0;
   
+  --color-1: 0 100% 63%;
+  --color-2: 270 100% 63%;
+  --color-3: 210 100% 63%;
+  --color-4: 195 100% 63%;
+  --color-5: 90 100% 63%;
+  
+  --animate-rainbow: rainbow var(--speed, 2s) infinite linear;
+  
   --color-background: oklch(0.11 0.01 60);
   --color-bg-primary: 27 25 19;
   --color-foreground: oklch(0.93 0.01 60);
@@ -78,6 +86,15 @@
     }
     100% {
       transform: translateZ(0) rotate(360deg);
+    }
+  }
+
+  @keyframes rainbow {
+    0% {
+      background-position: 0%;
+    }
+    100% {
+      background-position: 200%;
     }
   }
 

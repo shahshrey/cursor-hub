@@ -1,4 +1,4 @@
-import { FileCode, FileText, FileJson, Terminal, type LucideIcon } from 'lucide-react'
+import { FileCode, FileText, FileJson, Terminal, Zap, Clipboard, GitBranch, type LucideIcon } from 'lucide-react'
 import type { ResourceType } from '@/types/resources'
 
 export function getFileIcon(extension: string): LucideIcon {
@@ -15,16 +15,16 @@ export function getFileIcon(extension: string): LucideIcon {
   }
 }
 
-export function getResourceTypeIcon(type: ResourceType): string {
+export function getResourceTypeIcon(type: ResourceType): LucideIcon {
   switch (type) {
     case 'command':
-      return '⚡'
+      return Zap
     case 'rule':
-      return '📋'
+      return Clipboard
     case 'mcp':
-      return '🔌'
+      return Terminal
     case 'hook':
-      return '🪝'
+      return GitBranch
   }
 }
 

@@ -3,8 +3,9 @@
 import { useState } from 'react'
 import type { ResourceMetadata } from '@/types/resources'
 import { Button } from '@/components/ui/button'
-import { X, Copy, Check, ShoppingCart, Share2, Trash2, Download } from 'lucide-react'
+import { X, Copy, Check, ShoppingCart, Share2, Trash2, Download, Package, Zap, Clipboard, GitBranch } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { McpLogo } from '@/components/ui/mcp-logo'
 
 interface StackBuilderProps {
   isOpen: boolean
@@ -69,11 +70,11 @@ export function StackBuilder({
     return acc
   }, {} as Record<string, ResourceMetadata[]>)
 
-  const typeIcons: Record<string, string> = {
-    command: '⚡',
-    rule: '📋',
-    mcp: '🔌',
-    hook: '🪝'
+  const typeIcons: Record<string, typeof Zap | typeof Clipboard | typeof GitBranch> = {
+    command: Zap,
+    rule: Clipboard,
+    mcp: Package,
+    hook: GitBranch
   }
 
   return (
@@ -121,7 +122,7 @@ export function StackBuilder({
           <div className="flex-1 overflow-y-auto p-6">
             {stack.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-20 text-center">
-                <div className="text-6xl mb-4">📦</div>
+                <Package className="w-16 h-16 mb-4 text-muted-foreground" />
                 <h3 className="text-lg font-bold text-foreground mb-2">
                   Your collection is empty
                 </h3>
@@ -131,14 +132,20 @@ export function StackBuilder({
               </div>
             ) : (
               <div className="space-y-6">
-                {Object.entries(stackByType).map(([type, resources]) => (
-                  <div key={type}>
-                    <div className="flex items-center gap-2 mb-3">
-                      <span className="text-2xl">{typeIcons[type]}</span>
-                      <h4 className="font-semibold text-foreground capitalize">
-                        {type} ({resources.length})
-                      </h4>
-                    </div>
+                {Object.entries(stackByType).map(([type, resources]) => {
+                  const IconComponent = typeIcons[type]
+                  return (
+                    <div key={type}>
+                      <div className="flex items-center gap-2 mb-3">
+                        {type === 'mcp' ? (
+                          <McpLogo size={24} />
+                        ) : (
+                          <IconComponent className="w-6 h-6" />
+                        )}
+                        <h4 className="font-semibold text-foreground capitalize">
+                          {type} ({resources.length})
+                        </h4>
+                      </div>
                     <div className="space-y-2">
                       {resources.map((resource) => (
                         <div
@@ -167,7 +174,8 @@ export function StackBuilder({
                       ))}
                     </div>
                   </div>
-                ))}
+                  )
+                })}
               </div>
             )}
           </div>
@@ -176,7 +184,7 @@ export function StackBuilder({
             <div className="p-6 border-t border-border space-y-4">
               <div className="bg-card/40 border border-border rounded-lg p-3">
                 <div className="flex items-start gap-2">
-                  <div className="text-primary">📦</div>
+                  <Package className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                   <div>
                     <p className="text-xs font-semibold text-foreground mb-1">
                       Collection Ready

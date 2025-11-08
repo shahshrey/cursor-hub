@@ -1,13 +1,13 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Triangle, Database, Code2 } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { MagicCard } from '@/components/ui/magic-card'
 
 interface CuratedStack {
   id: string
-  icon: string
+  icon: typeof Triangle | typeof Code2 | typeof Database | string
   name: string
   description: string
   resourceCount: number
@@ -17,7 +17,7 @@ interface CuratedStack {
 const curatedStacks: CuratedStack[] = [
   {
     id: 'nextjs',
-    icon: '▲',
+    icon: Triangle,
     name: 'Next.js',
     description: 'Full-stack React framework essentials',
     resourceCount: 12,
@@ -33,7 +33,7 @@ const curatedStacks: CuratedStack[] = [
   },
   {
     id: 'react',
-    icon: '⚛️',
+    icon: Code2,
     name: 'React',
     description: 'Modern React development stack',
     resourceCount: 18,
@@ -41,7 +41,7 @@ const curatedStacks: CuratedStack[] = [
   },
   {
     id: 'database',
-    icon: '🗄️',
+    icon: Database,
     name: 'Database',
     description: 'Database management & queries',
     resourceCount: 8,
@@ -79,8 +79,12 @@ export function CuratedStacks() {
                 className="bg-card/60 rounded-xl p-5 cursor-pointer text-left w-full h-full"
               >
                 <div className="flex items-start justify-between mb-3">
-                  <div className="text-3xl font-bold">
-                    {stack.icon}
+                  <div className="flex items-center justify-center">
+                    {typeof stack.icon === 'string' ? (
+                      <span className="text-3xl font-bold">{stack.icon}</span>
+                    ) : (
+                      <stack.icon className="w-8 h-8" />
+                    )}
                   </div>
                   <span className="terminal-font text-xs text-terminal-green bg-terminal-green/10 px-2 py-1 rounded border border-terminal-green/30">
                     ~{stack.resourceCount}
