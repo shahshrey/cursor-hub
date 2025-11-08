@@ -10,6 +10,7 @@ import { FilterSidebar } from './filter-sidebar'
 import { CuratedStacks } from './curated-stacks'
 import { ActiveFilters } from './active-filters'
 import { ResourceGridSkeleton } from './resource-card-skeleton'
+import { ResourceListView } from './resource-list-view'
 import { debounce } from '@/lib/search'
 import { Button } from '@/components/ui/button'
 import { createClient } from '@/lib/supabase/client'
@@ -18,6 +19,7 @@ import { useFilterPresets } from '@/hooks/use-filter-presets'
 import { SavePresetModal } from './save-preset-modal'
 import { parseUrlFilters } from '@/lib/preset-url-encoding'
 import { toast } from 'sonner'
+import { ViewMode } from './view-toggle'
 
 const ResourcePreviewModal = dynamic(() => import('./resource-preview-modal').then(m => m.ResourcePreviewModal), {
   ssr: false,
@@ -56,6 +58,7 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
   const [allResourcesForCounts, setAllResourcesForCounts] = useState<ResourceMetadata[] | null>(null)
   const [downloadCounts, setDownloadCounts] = useState<Record<string, number>>({})
   const [isSavePresetOpen, setIsSavePresetOpen] = useState(false)
+  const [viewMode, setViewMode] = useState<ViewMode>('grid')
   
   useEffect(() => {
     const hasActiveFilters = debouncedQuery.trim().length >= 2 || activeType !== 'all' || activeCategory
@@ -267,6 +270,22 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
     setDebouncedQuery('')
   }
 
+  const handleQuickFilterClick = (filter: { category?: string; searchQuery?: string }) => {
+    if (filter.category) {
+      setActiveCategory(filter.category)
+    }
+    if (filter.searchQuery !== undefined) {
+      setSearchQuery(filter.searchQuery)
+      setDebouncedQuery(filter.searchQuery)
+    }
+    if (!filter.category && filter.searchQuery === '') {
+      setActiveType('all')
+      setActiveCategory('')
+      setSearchQuery('')
+      setDebouncedQuery('')
+    }
+  }
+
   const handlePreview = (resource: ResourceMetadata) => {
     setPreviewResource(resource)
     setIsPreviewOpen(true)
@@ -359,6 +378,9 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
           onLoadPreset={handleLoadPreset}
           onDeletePreset={handleDeletePreset}
           onToggleStarPreset={handleToggleStarPreset}
+          viewMode={viewMode}
+          onViewModeChange={setViewMode}
+          onQuickFilterClick={handleQuickFilterClick}
         />
 
         <div className="flex flex-col lg:flex-row gap-6">
@@ -398,16 +420,29 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
               <ResourceGridSkeleton count={8} />
             ) : filteredResources.length > 0 ? (
               <>
-                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
-                  {paginatedResources.map((resource) => (
-                    <ResourceCard
-                      key={resource.slug}
-                      resource={resource}
-                      downloadCount={downloadCounts[resource.slug] || 0}
-                      onPreview={() => handlePreview(resource)}
-                    />
-                  ))}
-                </div>
+                {viewMode === 'grid' ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
+                    {paginatedResources.map((resource) => (
+                      <ResourceCard
+                        key={resource.slug}
+                        resource={resource}
+                        downloadCount={downloadCounts[resource.slug] || 0}
+                        onPreview={() => handlePreview(resource)}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="space-y-2">
+                    {paginatedResources.map((resource) => (
+                      <ResourceListView
+                        key={resource.slug}
+                        resource={resource}
+                        downloadCount={downloadCounts[resource.slug] || 0}
+                        onPreview={() => handlePreview(resource)}
+                      />
+                    ))}
+                  </div>
+                )}
                 
                 {totalPages > 1 && (
                   <div className="flex items-center justify-center gap-2 pt-8">
@@ -444,12 +479,23 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
               <div className="flex flex-col items-center justify-center py-24 text-center">
                 <div className="text-6xl mb-4 terminal-font opacity-50">└─</div>
                 <h3 className="text-2xl font-bold mb-2 terminal-font">No resources found</h3>
-                <p className="text-sm text-muted-foreground mb-8 max-w-md terminal-font">
+                <p className="text-sm text-muted-foreground mb-6 max-w-md terminal-font">
                   <span className="text-terminal-green">⎿</span> Try adjusting your filters or search query to find what you&apos;re looking for
                 </p>
-                <Button onClick={handleClearFilters} variant="outline" className="terminal-font">
-                  Clear All Filters
-                </Button>
+                <div className="flex flex-col sm:flex-row gap-3 items-center">
+                  <Button onClick={handleClearFilters} variant="outline" className="terminal-font">
+                    Clear All Filters
+                  </Button>
+                  <div className="text-xs text-muted-foreground terminal-font">
+                    or try{' '}
+                    <button
+                      onClick={() => handleQuickFilterClick({ category: 'development' })}
+                      className="text-primary hover:underline"
+                    >
+                      Popular Collections
+                    </button>
+                  </div>
+                </div>
               </div>
             )}
           </div>

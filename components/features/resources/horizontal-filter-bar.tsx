@@ -2,12 +2,14 @@
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Search, ArrowUpDown, Save } from 'lucide-react'
+import { ArrowUpDown, Save } from 'lucide-react'
 import type { ResourceType } from '@/types/resources'
 import type { FilterCounts } from '@/lib/filter-counts'
 import type { FilterPreset } from '@/lib/preset-storage'
 import { FilterPresetsDropdown } from './filter-presets-dropdown'
+import { EnhancedSearchInput } from './enhanced-search-input'
+import { ViewToggle, type ViewMode } from './view-toggle'
+import { QuickFilters } from './quick-filters'
 
 interface HorizontalFilterBarProps {
   searchQuery: string
@@ -27,6 +29,9 @@ interface HorizontalFilterBarProps {
   onLoadPreset?: (preset: FilterPreset) => void
   onDeletePreset?: (presetId: string) => void
   onToggleStarPreset?: (presetId: string, isStarred: boolean) => void
+  viewMode?: ViewMode
+  onViewModeChange?: (mode: ViewMode) => void
+  onQuickFilterClick?: (filter: { category?: string; searchQuery?: string }) => void
 }
 
 const RESOURCE_TYPES: Array<{ value: ResourceType | 'all'; label: string; icon: string }> = [
@@ -61,6 +66,9 @@ export function HorizontalFilterBar({
   onLoadPreset,
   onDeletePreset,
   onToggleStarPreset,
+  viewMode,
+  onViewModeChange,
+  onQuickFilterClick,
 }: HorizontalFilterBarProps) {
   const hasActiveFilters = activeType !== 'all' || activeCategory || searchQuery
   const getTypeCount = (type: ResourceType | 'all'): number => {
@@ -79,25 +87,14 @@ export function HorizontalFilterBar({
 
   return (
     <div className="sticky top-[73px] z-20 border-b border-border backdrop-blur-xl bg-card/30">
-      <div className="container mx-auto px-4 py-4">
+      <div className="container mx-auto px-4 py-4 space-y-4">
         <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center">
-          <div className="flex-1 w-full lg:w-auto">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                type="text"
-                placeholder="Search resources..."
-                value={searchQuery}
-                onChange={(e) => onSearchChange(e.target.value)}
-                className="pl-10 h-9 text-sm terminal-font"
-              />
-              {searchQuery && (
-                <div className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground terminal-font">
-                  {resultsCount}/{totalCount}
-                </div>
-              )}
-            </div>
-          </div>
+          <EnhancedSearchInput
+            value={searchQuery}
+            onChange={onSearchChange}
+            resultsCount={resultsCount}
+            totalCount={totalCount}
+          />
 
           <div className="flex items-center gap-2 flex-wrap">
             {RESOURCE_TYPES.map((type) => {
@@ -149,6 +146,10 @@ export function HorizontalFilterBar({
               />
             )}
             
+            {viewMode && onViewModeChange && (
+              <ViewToggle viewMode={viewMode} onViewChange={onViewModeChange} />
+            )}
+            
             <Button
               variant="outline"
               size="sm"
@@ -160,6 +161,13 @@ export function HorizontalFilterBar({
             </Button>
           </div>
         </div>
+        
+        {onQuickFilterClick && !hasActiveFilters && (
+          <QuickFilters
+            onFilterClick={onQuickFilterClick}
+            activeFilter={{ category: activeCategory, searchQuery }}
+          />
+        )}
       </div>
     </div>
   )
