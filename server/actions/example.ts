@@ -9,7 +9,7 @@ export async function exampleAction(formData: FormData) {
   
   if (!userId) throw new Error('Unauthorized')
 
-  const supabase = await createClient()
+  const supabase = createClient()
   
   const exampleField = formData.get('example') as string
 

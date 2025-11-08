@@ -12,7 +12,7 @@ export async function getExampleData() {
     return null
   }
 
-  const supabase = await createClient()
+  const supabase = createClient()
   
   return { userId }
 }

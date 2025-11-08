@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 
 export async function incrementDownload(slug: string): Promise<void> {
   try {
-    const supabase = await createClient()
+    const supabase = createClient()
     const timeoutPromise = new Promise((_, reject) => 
       setTimeout(() => reject(new Error('Timeout')), 1000)
     )
@@ -24,7 +24,7 @@ export async function incrementDownload(slug: string): Promise<void> {
 
 export async function getDownloadCount(slug: string): Promise<number> {
   try {
-    const supabase = await createClient()
+    const supabase = createClient()
     const { data, error } = await supabase
       .from('resources')
       .select('download_count')
@@ -43,7 +43,7 @@ export async function getPopularResources(
   limit: number = 10
 ): Promise<Array<{ slug: string; download_count: number }>> {
   try {
-    const supabase = await createClient()
+    const supabase = createClient()
     const { data, error } = await supabase.rpc('get_popular_resources', { limit_count: limit })
 
     if (error || !data) return []
