@@ -15,9 +15,14 @@ import { Button } from '@/components/ui/button'
 import { createClient } from '@/lib/supabase/client'
 import { calculateFilterCounts, type FilterCounts } from '@/lib/filter-counts'
 import { useFilterPresets } from '@/hooks/use-filter-presets'
+import { useKeyboardShortcuts } from '@/hooks/use-keyboard-shortcuts'
 import { SavePresetModal } from './save-preset-modal'
 import { parseUrlFilters } from '@/lib/preset-url-encoding'
 import { toast } from 'sonner'
+import { BrowseOnboarding } from './browse-onboarding'
+import { QuickFilters } from './quick-filters'
+import { EmptyState } from './empty-state'
+import { KeyboardShortcutsHelp } from './keyboard-shortcuts-help'
 
 const ResourcePreviewModal = dynamic(() => import('./resource-preview-modal').then(m => m.ResourcePreviewModal), {
   ssr: false,
@@ -69,6 +74,9 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
           params.set('limit', '1000')
           
           const response = await fetch(`/api/resources/search?${params}`)
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`)
+          }
           const data = await response.json()
           setAllResourcesForCounts(data.results || [])
         } catch (error) {
@@ -87,6 +95,34 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
   }, [searchResults, allResourcesForCounts, debouncedQuery, activeType, activeCategory, initialResources])
   
   const { presets, createPreset, removePreset, modifyPreset, usePreset } = useFilterPresets()
+  
+  useKeyboardShortcuts([
+    {
+      key: '/',
+      callback: () => {
+        const searchInput = document.querySelector('input[type="search"]') as HTMLInputElement
+        searchInput?.focus()
+      }
+    },
+    {
+      key: 'Escape',
+      callback: () => {
+        if (searchQuery || activeType !== 'all' || activeCategory) {
+          handleClearFilters()
+          toast.success('Filters cleared')
+        }
+      }
+    },
+    {
+      key: 's',
+      ctrl: true,
+      callback: () => {
+        if (searchQuery || activeType !== 'all' || activeCategory) {
+          setIsSavePresetOpen(true)
+        }
+      }
+    }
+  ])
   
   useEffect(() => {
     if (urlType) setActiveType(urlType)
@@ -186,6 +222,9 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
         params.set('limit', '500')
 
         const response = await fetch(`/api/resources/search?${params}`)
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`)
+        }
         const data = await response.json()
         setSearchResults(data.results || [])
       } catch (error) {
@@ -328,6 +367,9 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
 
   return (
     <>
+      <BrowseOnboarding />
+      <KeyboardShortcutsHelp />
+      
       <div className="space-y-6">
         {!searchQuery && activeType === 'all' && !activeCategory && (
           <div className="pb-4">
@@ -354,6 +396,21 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
           onDeletePreset={handleDeletePreset}
           onToggleStarPreset={handleToggleStarPreset}
         />
+        
+        {!searchQuery && activeType === 'all' && !activeCategory && (
+          <QuickFilters 
+            onFilterClick={(filter) => {
+              if (filter.category) {
+                setActiveCategory(filter.category)
+                toast.success(`Filtered by ${filter.label}`)
+              }
+              if (filter.type && filter.type !== 'all') {
+                setActiveType(filter.type)
+              }
+            }}
+            activeCategory={activeCategory}
+          />
+        )}
 
         <div className="flex flex-col lg:flex-row gap-6">
           <FilterSidebar
@@ -389,7 +446,10 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
             </div>
 
             {isSearching ? (
-              <ResourceGridSkeleton count={8} />
+              <ResourceGridSkeleton 
+                count={8} 
+                message={debouncedQuery ? `Searching for "${debouncedQuery}"...` : 'Loading resources...'}
+              />
             ) : filteredResources.length > 0 ? (
               <>
                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
@@ -435,16 +495,23 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
                 )}
               </>
             ) : (
-              <div className="flex flex-col items-center justify-center py-24 text-center">
-                <div className="text-6xl mb-4 terminal-font opacity-50">└─</div>
-                <h3 className="text-2xl font-bold mb-2 terminal-font">No resources found</h3>
-                <p className="text-sm text-muted-foreground mb-8 max-w-md terminal-font">
-                  <span className="text-terminal-green">⎿</span> Try adjusting your filters or search query to find what you&apos;re looking for
-                </p>
-                <Button onClick={handleClearFilters} variant="outline" className="terminal-font">
-                  Clear All Filters
-                </Button>
-              </div>
+              <EmptyState
+                searchQuery={debouncedQuery}
+                activeType={activeType}
+                activeCategory={activeCategory}
+                onClearFilters={handleClearFilters}
+                onSuggestedSearch={(query) => {
+                  setSearchQuery(query)
+                  setDebouncedQuery(query)
+                  toast.success(`Searching for "${query}"`)
+                }}
+                onSuggestedCategory={(category) => {
+                  setActiveCategory(category)
+                  handleClearFilters()
+                  setActiveCategory(category)
+                  toast.success(`Browsing ${category}`)
+                }}
+              />
             )}
           </div>
         </div>

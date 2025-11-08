@@ -16,7 +16,7 @@ export async function toggleFavorite(
       return { success: false, isFavorited: false, error: 'Not authenticated' }
     }
 
-    const supabase = await createClient()
+    const supabase = createClient()
 
     const { data: existing } = await supabase
       .from('favorites')
@@ -66,7 +66,7 @@ export async function getFavorites(): Promise<
     
     if (!userId) return []
 
-    const supabase = await createClient()
+    const supabase = createClient()
 
     const { data, error } = await supabase
       .from('favorites')
@@ -90,7 +90,7 @@ export async function getFavoritesByType(
     
     if (!userId) return []
 
-    const supabase = await createClient()
+    const supabase = createClient()
 
     const { data, error } = await supabase
       .from('favorites')
@@ -113,7 +113,7 @@ export async function isFavorited(slug: string): Promise<boolean> {
     
     if (!userId) return false
 
-    const supabase = await createClient()
+    const supabase = createClient()
 
     const { data, error } = await supabase
       .from('favorites')

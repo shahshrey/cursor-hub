@@ -7,6 +7,7 @@ import { CommunityStats } from '@/components/features/home/community-stats'
 import { getHomePageData } from '@/server/queries/home'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import { RainbowButton } from '@/components/ui/rainbow-button'
 import { Sparkles } from 'lucide-react'
 import { CursorLogo } from '@/components/ui/cursor-logo'
 
@@ -63,10 +64,10 @@ export default async function Home() {
                   </p>
                 </div>
                 <Link href={userId ? '/dashboard' : '/signup'}>
-                  <Button size="lg" className="text-lg px-10 py-6 whitespace-nowrap group">
+                  <RainbowButton size="lg" className="text-lg px-10 py-6 whitespace-nowrap group">
                     {userId ? 'Go to Dashboard' : 'Get Started Free'}
                     <Sparkles className="ml-2 w-5 h-5 group-hover:rotate-12 transition-transform" />
-                  </Button>
+                  </RainbowButton>
                 </Link>
               </div>
             </div>
@@ -84,9 +85,6 @@ export default async function Home() {
             <div className="flex items-center gap-6">
               <a href="https://cursor.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
                 About Cursor
-              </a>
-              <a href="https://cursor.com/brand" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
-                Brand
               </a>
               <Link href="/browse" className="text-muted-foreground hover:text-foreground transition-colors">
                 Resources

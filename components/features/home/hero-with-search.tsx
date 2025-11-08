@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Search, Sparkles, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { RainbowButton } from '@/components/ui/rainbow-button'
 import { Input } from '@/components/ui/input'
 
 interface HeroWithSearchProps {
@@ -85,9 +86,9 @@ export function HeroWithSearch({ totalResources, userId }: HeroWithSearchProps) 
                 className="pl-10 h-12 text-base"
               />
             </div>
-            <Button type="submit" size="lg" className="px-8 h-12">
+            <RainbowButton type="submit" size="lg" className="px-8 h-12">
               Search
-            </Button>
+            </RainbowButton>
           </div>
         </motion.form>
 
@@ -98,10 +99,10 @@ export function HeroWithSearch({ totalResources, userId }: HeroWithSearchProps) 
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <Link href={userId ? '/dashboard' : '/signup'}>
-            <Button size="lg" className="text-lg px-8 py-6 group">
+            <RainbowButton size="lg" className="text-lg px-8 py-6 group">
               {userId ? 'Go to Dashboard' : 'Get Started Free'}
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
+            </RainbowButton>
           </Link>
           <Link href="/browse">
             <Button size="lg" variant="outline" className="text-lg px-8 py-6">

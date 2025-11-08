@@ -37,15 +37,19 @@ export function FilterSidebar({ activeCategory, categories, onCategoryChange, fi
 
   const CategoryFilters = () => (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h3 className="text-sm font-semibold terminal-font uppercase tracking-wide">Categories</h3>
+      <div className="flex items-center justify-between pb-2 border-b border-border/50">
+        <div className="flex items-center gap-2">
+          <Filter className="w-4 h-4 text-terminal-green" />
+          <h3 className="text-sm font-bold terminal-font uppercase tracking-wide">Categories</h3>
+        </div>
         {activeCategory && (
           <Button
             variant="ghost"
             size="sm"
             onClick={() => onCategoryChange('')}
-            className="h-7 text-xs terminal-font"
+            className="h-7 text-xs terminal-font hover:text-terminal-green"
           >
+            <X className="w-3 h-3 mr-1" />
             Clear
           </Button>
         )}
@@ -53,17 +57,17 @@ export function FilterSidebar({ activeCategory, categories, onCategoryChange, fi
       <div className="space-y-2">
         <Badge
           variant={!activeCategory ? 'default' : 'outline'}
-          className="cursor-pointer text-xs px-3 py-1.5 w-full justify-between transition-all hover:scale-105"
+          className="cursor-pointer text-xs px-4 py-2 w-full justify-between transition-all hover:scale-[1.02] hover:border-terminal-green/50 font-semibold"
           onClick={() => onCategoryChange('')}
         >
           <span>All Categories</span>
           {filterCounts && (
-            <span className="ml-auto text-xs opacity-70">
-              ({getCategoryCount()})
+            <span className="ml-auto text-xs bg-background text-foreground px-2 py-0.5 rounded-full">
+              {getCategoryCount()}
             </span>
           )}
         </Badge>
-        <div className="flex flex-col gap-2 max-h-[calc(100vh-300px)] overflow-y-auto">
+        <div className="flex flex-col gap-1.5 max-h-[calc(100vh-300px)] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent">
           {categories.map((category) => {
             const count = getCategoryCount(category)
             const isDisabled = count === 0
@@ -71,11 +75,11 @@ export function FilterSidebar({ activeCategory, categories, onCategoryChange, fi
               <Badge
                 key={category}
                 variant={activeCategory === category ? 'default' : 'outline'}
-                className={`cursor-pointer text-xs px-3 py-1.5 w-full justify-between transition-all ${
+                className={`cursor-pointer text-xs px-4 py-2 w-full justify-between transition-all ${
                   isDisabled 
-                    ? 'opacity-40 cursor-not-allowed' 
-                    : 'hover:scale-105'
-                }`}
+                    ? 'opacity-30 cursor-not-allowed' 
+                    : 'hover:scale-[1.02] hover:border-terminal-green/50'
+                } ${activeCategory === category ? 'shadow-sm' : ''}`}
                 onClick={() => {
                   if (!isDisabled) {
                     onCategoryChange(category)
@@ -84,10 +88,12 @@ export function FilterSidebar({ activeCategory, categories, onCategoryChange, fi
                 }}
                 title={isDisabled ? 'No resources match this combination' : undefined}
               >
-                <span className={isDisabled ? 'line-through' : ''}>{category}</span>
+                <span className={`${isDisabled ? 'line-through' : ''} truncate`}>{category}</span>
                 {filterCounts && (
-                  <span className="ml-auto text-xs opacity-70">
-                    ({count})
+                  <span className={`ml-2 text-xs px-2 py-0.5 rounded-full shrink-0 ${
+                    isDisabled ? 'opacity-50' : 'bg-background text-foreground'
+                  }`}>
+                    {count}
                   </span>
                 )}
               </Badge>
@@ -108,21 +114,28 @@ export function FilterSidebar({ activeCategory, categories, onCategoryChange, fi
 
       <Sheet open={isMobileOpen} onOpenChange={setIsMobileOpen}>
         <SheetTrigger asChild>
-          <Button variant="outline" size="sm" className="lg:hidden terminal-font">
+          <Button 
+            variant="outline" 
+            size="lg" 
+            className="lg:hidden terminal-font min-h-[44px] touch-manipulation"
+          >
             <Filter className="w-4 h-4 mr-2" />
             Categories
             {activeCategory && (
-              <span className="ml-2 bg-primary text-primary-foreground rounded-full w-5 h-5 flex items-center justify-center text-xs">
+              <span className="ml-2 bg-primary text-primary-foreground rounded-full w-6 h-6 flex items-center justify-center text-xs font-semibold">
                 1
               </span>
             )}
           </Button>
         </SheetTrigger>
-        <SheetContent side="left" className="w-80">
-          <SheetHeader>
-            <SheetTitle className="terminal-font">Filter by Category</SheetTitle>
+        <SheetContent side="left" className="w-[90vw] max-w-sm">
+          <SheetHeader className="pb-4 border-b border-border/50">
+            <div className="flex items-center gap-2">
+              <Filter className="w-5 h-5 text-terminal-green" />
+              <SheetTitle className="terminal-font text-lg">Filter by Category</SheetTitle>
+            </div>
           </SheetHeader>
-          <div className="mt-6">
+          <div className="mt-6 pb-6">
             <CategoryFilters />
           </div>
         </SheetContent>

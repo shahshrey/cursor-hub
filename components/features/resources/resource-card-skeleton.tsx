@@ -47,12 +47,27 @@ export function ResourceCardSkeleton() {
   )
 }
 
-export function ResourceGridSkeleton({ count = 12 }: { count?: number }) {
+export function ResourceGridSkeleton({ count = 12, message }: { count?: number; message?: string }) {
   return (
-    <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-      {Array.from({ length: count }).map((_, i) => (
-        <ResourceCardSkeleton key={i} />
-      ))}
+    <div className="space-y-4">
+      {message && (
+        <div className="flex items-center justify-center py-4">
+          <div className="flex items-center gap-3 text-sm text-muted-foreground terminal-font">
+            <div className="w-1.5 h-1.5 rounded-full bg-terminal-green animate-pulse" />
+            <span>{message}</span>
+            <div className="flex gap-1">
+              <div className="w-1 h-1 rounded-full bg-terminal-green animate-pulse delay-100" />
+              <div className="w-1 h-1 rounded-full bg-terminal-green animate-pulse delay-200" />
+              <div className="w-1 h-1 rounded-full bg-terminal-green animate-pulse delay-300" />
+            </div>
+          </div>
+        </div>
+      )}
+      <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {Array.from({ length: count }).map((_, i) => (
+          <ResourceCardSkeleton key={i} />
+        ))}
+      </div>
     </div>
   )
 }

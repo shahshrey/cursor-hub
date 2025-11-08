@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import { RainbowButton } from '@/components/ui/rainbow-button'
 import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 import { Home } from 'lucide-react'
 import { CursorLogo } from '@/components/ui/cursor-logo'
@@ -23,9 +24,9 @@ export function Header() {
               </Button>
             </Link>
             <Link href="/signup">
-              <Button size="sm" className="shadow-md">
+              <RainbowButton size="sm" className="shadow-md">
                 Sign Up
-              </Button>
+              </RainbowButton>
             </Link>
           </SignedOut>
           

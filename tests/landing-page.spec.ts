@@ -84,7 +84,6 @@ test.describe('Landing Page - Cursor Branding', () => {
     const footerText = await footer.textContent()
     expect(footerText).toContain('Built with Cursor')
     expect(footerText).toContain('About Cursor')
-    expect(footerText).toContain('Brand')
   })
 
   test('should have responsive design', async ({ page }) => {
@@ -123,11 +122,6 @@ test.describe('Landing Page - Cursor Branding', () => {
     await expect(cursorLink).toHaveAttribute('href', 'https://cursor.com')
   })
 
-  test('should link to brand page in footer', async ({ page }) => {
-    const brandLink = page.getByRole('link', { name: 'Brand' })
-    await expect(brandLink).toBeVisible()
-    await expect(brandLink).toHaveAttribute('href', 'https://cursor.com/brand')
-  })
 })
 
 test.describe('Visual Regression Tests', () => {

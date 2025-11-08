@@ -36,10 +36,10 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
     const searchParams = request.nextUrl.searchParams
     const rawParams = {
-      q: searchParams.get('q'),
-      type: searchParams.get('type'),
-      category: searchParams.get('category'),
-      limit: searchParams.get('limit'),
+      q: searchParams.get('q') ?? undefined,
+      type: searchParams.get('type') ?? undefined,
+      category: searchParams.get('category') ?? undefined,
+      limit: searchParams.get('limit') ?? undefined,
     }
 
     const validated = searchParamsSchema.parse(rawParams)
