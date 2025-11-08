@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Badge } from '@/components/ui/badge'
-import { Search, ArrowUpDown, Save } from 'lucide-react'
+import { Search, ArrowUpDown, Save, Package, Zap, Clipboard, GitBranch } from 'lucide-react'
 import type { ResourceType } from '@/types/resources'
 import type { FilterCounts } from '@/lib/filter-counts'
 import type { FilterPreset } from '@/lib/preset-storage'
@@ -31,12 +31,12 @@ interface HorizontalFilterBarProps {
   onToggleStarPreset?: (presetId: string, isStarred: boolean) => void
 }
 
-const RESOURCE_TYPES: Array<{ value: ResourceType | 'all'; label: string; icon: string; useLogo?: boolean }> = [
-  { value: 'all', label: 'All', icon: '📦' },
-  { value: 'command', label: 'Commands', icon: '⚡' },
-  { value: 'rule', label: 'Rules', icon: '📋' },
-  { value: 'mcp', label: 'MCPs', icon: '🔌', useLogo: true },
-  { value: 'hook', label: 'Hooks', icon: '🪝' },
+const RESOURCE_TYPES: Array<{ value: ResourceType | 'all'; label: string; icon: typeof Package | typeof Zap | typeof Clipboard | typeof GitBranch; useLogo?: boolean }> = [
+  { value: 'all', label: 'All', icon: Package },
+  { value: 'command', label: 'Commands', icon: Zap },
+  { value: 'rule', label: 'Rules', icon: Clipboard },
+  { value: 'mcp', label: 'MCPs', icon: Package, useLogo: true },
+  { value: 'hook', label: 'Hooks', icon: GitBranch },
 ]
 
 const sortLabels: Record<string, string> = {
@@ -164,7 +164,7 @@ export function HorizontalFilterBar({
                   {type.useLogo ? (
                     <McpLogo size={16} className="shrink-0" />
                   ) : (
-                    <span aria-hidden="true">{type.icon}</span>
+                    <type.icon className="w-4 h-4 shrink-0" aria-hidden="true" />
                   )}
                   <span className={isDisabled ? 'line-through opacity-70' : undefined}>{type.label}</span>
                   {filterCounts && (

@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import { Search, Filter, RefreshCcw, Sparkles } from 'lucide-react'
+import { Search, Filter, RefreshCcw, Sparkles, Triangle, FlaskConical, Database, Wrench } from 'lucide-react'
 import type { ResourceType } from '@/types/resources'
 
 interface EmptyStateProps {
@@ -23,10 +23,10 @@ const SUGGESTED_SEARCHES = [
 ]
 
 const POPULAR_CATEGORIES = [
-  { name: 'nextjs-vercel', icon: '▲', label: 'Next.js' },
-  { name: 'testing', icon: '🧪', label: 'Testing' },
-  { name: 'database', icon: '🗄️', label: 'Database' },
-  { name: 'devtools', icon: '🛠️', label: 'Dev Tools' },
+  { name: 'nextjs-vercel', icon: Triangle, label: 'Next.js' },
+  { name: 'testing', icon: FlaskConical, label: 'Testing' },
+  { name: 'database', icon: Database, label: 'Database' },
+  { name: 'devtools', icon: Wrench, label: 'Dev Tools' },
 ]
 
 export function EmptyState({ 
@@ -101,18 +101,21 @@ export function EmptyState({
                     <span>Browse by category</span>
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    {POPULAR_CATEGORIES.map((category) => (
-                      <Button
-                        key={category.name}
-                        variant="outline"
-                        size="sm"
-                        className="text-xs terminal-font"
-                        onClick={() => onSuggestedCategory?.(category.name)}
-                      >
-                        <span className="mr-1.5">{category.icon}</span>
-                        {category.label}
-                      </Button>
-                    ))}
+                    {POPULAR_CATEGORIES.map((category) => {
+                      const IconComponent = category.icon
+                      return (
+                        <Button
+                          key={category.name}
+                          variant="outline"
+                          size="sm"
+                          className="text-xs terminal-font"
+                          onClick={() => onSuggestedCategory?.(category.name)}
+                        >
+                          <IconComponent className="w-3.5 h-3.5 mr-1.5" />
+                          {category.label}
+                        </Button>
+                      )
+                    })}
                   </div>
                 </div>
               </div>

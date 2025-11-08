@@ -29,13 +29,7 @@ export function CommunityStats({ totalResources, categoryCount, typeCounts }: Co
       label: 'Resource Types',
       value: '4',
       description: 'Commands, Rules, MCPs, Hooks',
-    },
-    {
-      icon: TrendingUp,
-      label: 'Growing',
-      value: '509+',
-      description: 'And counting',
-    },
+    }
   ]
 
   return (

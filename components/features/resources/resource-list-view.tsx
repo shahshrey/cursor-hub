@@ -28,7 +28,7 @@ export function ResourceListView({
   onPreview,
 }: ResourceListViewProps) {
   const FileIconComponent = getFileIcon(resource.extension)
-  const typeIcon = getResourceTypeIcon(resource.type)
+  const TypeIconComponent = getResourceTypeIcon(resource.type)
   const shouldReduceMotion = useReducedMotion()
 
   const cardVariants = shouldReduceMotion ? {} : {
@@ -50,7 +50,7 @@ export function ResourceListView({
               {resource.type === 'mcp' ? (
                 <McpLogo size={20} />
               ) : (
-                <span className="text-xl">{typeIcon}</span>
+                <TypeIconComponent className="w-5 h-5 text-muted-foreground" />
               )}
             </div>
             

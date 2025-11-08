@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { ChevronDown, ChevronUp } from 'lucide-react'
+import { ChevronDown, ChevronUp, Package, Zap, Clipboard, GitBranch } from 'lucide-react'
 import type { ResourceType } from '@/types/resources'
 import { motion, useReducedMotion } from 'framer-motion'
 import { filterSlideIn, ANIMATIONS } from '@/lib/animations'
@@ -17,12 +17,12 @@ interface ChipFiltersProps {
   onCategoryChange: (category: string) => void
 }
 
-const RESOURCE_TYPES: Array<{ value: ResourceType | 'all'; label: string; icon: string; useLogo?: boolean }> = [
-  { value: 'all', label: 'All', icon: '📦' },
-  { value: 'command', label: 'Commands', icon: '⚡' },
-  { value: 'rule', label: 'Rules', icon: '📋' },
-  { value: 'mcp', label: 'MCPs', icon: '🔌', useLogo: true },
-  { value: 'hook', label: 'Hooks', icon: '🪝' },
+const RESOURCE_TYPES: Array<{ value: ResourceType | 'all'; label: string; icon: typeof Package | typeof Zap | typeof Clipboard | typeof GitBranch; useLogo?: boolean }> = [
+  { value: 'all', label: 'All', icon: Package },
+  { value: 'command', label: 'Commands', icon: Zap },
+  { value: 'rule', label: 'Rules', icon: Clipboard },
+  { value: 'mcp', label: 'MCPs', icon: Package, useLogo: true },
+  { value: 'hook', label: 'Hooks', icon: GitBranch },
 ]
 
 const MAX_VISIBLE_CATEGORIES = 8
@@ -58,7 +58,7 @@ export function ChipFilters({ activeType, onTypeChange, activeCategory, categori
               {type.useLogo ? (
                 <McpLogo size={16} className="mr-1.5 shrink-0" />
               ) : (
-                <span className="mr-1.5">{type.icon}</span>
+                <type.icon className="w-4 h-4 mr-1.5 shrink-0" />
               )}
               {type.label}
             </Badge>

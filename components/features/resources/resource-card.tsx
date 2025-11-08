@@ -29,7 +29,7 @@ export function ResourceCard({
   onPreview,
 }: ResourceCardProps) {
   const FileIconComponent = getFileIcon(resource.extension)
-  const typeIcon = getResourceTypeIcon(resource.type)
+  const TypeIconComponent = getResourceTypeIcon(resource.type)
   const shouldReduceMotion = useReducedMotion()
   const [displayCount, setDisplayCount] = useState(downloadCount)
 
@@ -62,7 +62,7 @@ export function ResourceCard({
                 {resource.type === 'mcp' ? (
                   <McpLogo size={24} className="shrink-0" />
                 ) : (
-                  <span className="text-2xl shrink-0">{typeIcon}</span>
+                  <TypeIconComponent className="w-6 h-6 shrink-0 text-muted-foreground" />
                 )}
               </div>
               <div className="flex items-center gap-2 shrink-0">

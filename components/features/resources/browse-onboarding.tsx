@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { X, Search, Filter, Star, Keyboard } from 'lucide-react'
+import { X, Search, Filter, Star, Keyboard, Hand } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 
@@ -18,8 +18,8 @@ const ONBOARDING_STEPS: OnboardingStep[] = [
   {
     id: 'welcome',
     title: 'Welcome to Resources Hub',
-    description: '509+ curated commands, rules, MCPs, and hooks for Cursor. Let\'s show you around!',
-    icon: <span className="text-3xl">👋</span>,
+    description: 'A curated collection of commands, rules, MCPs, and hooks for Cursor. Let\'s show you around!',
+    icon: <Hand className="w-8 h-8" />,
     position: 'center'
   },
   {
