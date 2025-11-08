@@ -17,7 +17,7 @@ interface OnboardingStep {
 const ONBOARDING_STEPS: OnboardingStep[] = [
   {
     id: 'welcome',
-    title: 'Welcome to Resources Hub',
+    title: 'Welcome to Cursor Hub',
     description: 'A curated collection of commands, rules, MCPs, and hooks for Cursor. Let\'s show you around!',
     icon: <Hand className="w-8 h-8" />,
     position: 'center'

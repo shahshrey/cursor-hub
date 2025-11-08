@@ -16,7 +16,7 @@ export default function SignInPage() {
           position: absolute;
           top: 0;
           left: 0;
-          content: "Sign in to Cursor Resources Hub";
+          content: "Sign in to Cursor Hub";
           width: 100%;
         }
       `}</style>

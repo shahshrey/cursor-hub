@@ -80,7 +80,7 @@ export default async function Home() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <CursorLogo size={32} className="text-foreground" />
-              <span className="text-muted-foreground">© 2025 Cursor Resources. Built with Cursor.</span>
+              <span className="text-muted-foreground">© 2025 Cursor Hub. Built with Cursor.</span>
             </div>
             <div className="flex items-center gap-6">
               <a href="https://cursor.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">

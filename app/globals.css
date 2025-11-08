@@ -97,23 +97,27 @@
       background-position: 200%;
     }
   }
+}
 
-  @keyframes flip-to-back {
-    from {
-      transform: perspective(1000px) rotateY(0deg);
-    }
-    to {
-      transform: perspective(1000px) rotateY(180deg);
-    }
+.animate-rainbow {
+  animation: rainbow var(--speed, 2s) infinite linear;
+}
+
+@keyframes flip-to-back {
+  from {
+    transform: perspective(1000px) rotateY(0deg);
   }
+  to {
+    transform: perspective(1000px) rotateY(180deg);
+  }
+}
 
-  @keyframes flip-to-front {
-    from {
-      transform: perspective(1000px) rotateY(180deg);
-    }
-    to {
-      transform: perspective(1000px) rotateY(0deg);
-    }
+@keyframes flip-to-front {
+  from {
+    transform: perspective(1000px) rotateY(180deg);
+  }
+  to {
+    transform: perspective(1000px) rotateY(0deg);
   }
 }
 

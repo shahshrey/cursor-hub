@@ -34,7 +34,7 @@ export default async function BrowsePage() {
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
                     <h1 className="text-xl md:text-2xl font-bold terminal-font truncate">
-                      Resources Hub
+                      Cursor Hub
                     </h1>
                     <span className="terminal-font text-terminal-green text-xs bg-terminal-green/10 px-2 py-0.5 rounded border border-terminal-green/30 shrink-0">
                       {index.totalCount}+

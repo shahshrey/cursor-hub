@@ -16,7 +16,7 @@ export default function SignUpPage() {
           position: absolute;
           top: 0;
           left: 0;
-          content: "Create your Cursor Resources Hub account";
+          content: "Create your Cursor Hub account";
           width: 100%;
         }
       `}</style>

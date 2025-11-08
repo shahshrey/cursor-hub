@@ -13,7 +13,7 @@ export function Header() {
       <div className="container flex h-16 items-center justify-between px-4">
         <Link href="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
           <CursorLogo size={32} className="text-foreground" />
-          <span className="font-bold text-lg hidden sm:inline-block">Cursor Resources</span>
+          <span className="font-bold text-lg hidden sm:inline-block">Cursor Hub</span>
         </Link>
         
         <nav className="flex items-center gap-3">

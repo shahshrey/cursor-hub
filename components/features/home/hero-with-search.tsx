@@ -55,7 +55,7 @@ export function HeroWithSearch({ totalResources, userId }: HeroWithSearchProps) 
         >
           <span className="text-foreground">Discover & Share</span>
           <br />
-          <span className="text-primary">Cursor Resources</span>
+          <span className="text-primary">Cursor Hub</span>
         </motion.h1>
 
         <motion.p

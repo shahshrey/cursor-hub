@@ -51,7 +51,7 @@ export function StackBuilder({
   }
 
   const handleShare = async (platform: 'twitter' | 'threads') => {
-    const text = `Check out my Cursor resources collection! ${stack.length} resources for enhanced productivity 🚀`
+    const text = `Check out my Cursor Hub collection! ${stack.length} resources for enhanced productivity 🚀`
     const url = window.location.href
     
     if (platform === 'twitter') {

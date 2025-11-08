@@ -37,7 +37,7 @@ export function HeroSection({ totalCount, user }: HeroSectionProps) {
           />
           <Badge variant="outline" className="px-5 py-2.5 border-primary-300/30 bg-primary-300/10 text-primary-300 text-sm backdrop-blur-sm">
             <Sparkles className="w-4 h-4 mr-2" />
-            Awesome Cursor Resources
+            Awesome Cursor Hub
           </Badge>
         </motion.div>
         
@@ -48,7 +48,7 @@ export function HeroSection({ totalCount, user }: HeroSectionProps) {
           <span className="text-white">Discover & Download</span>
           <br />
           <span className="text-white">
-            Cursor Resources
+            Cursor Hub
           </span>
         </motion.h1>
         

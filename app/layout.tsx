@@ -16,7 +16,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Cursor Resources Hub | Commands, Rules, MCPs & Hooks",
+  title: "Cursor Hub | Commands, Rules, MCPs & Hooks",
   description: "Discover, browse, and download 450+ Cursor resources including commands, rules, MCP tools, and shell scripts. Search, preview, and save your favorites.",
 };
 
