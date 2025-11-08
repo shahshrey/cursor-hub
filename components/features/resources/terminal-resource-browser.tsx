@@ -350,6 +350,41 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
   }, [filteredResources, currentPage, itemsPerPage])
 
   const totalPages = Math.ceil(filteredResources.length / itemsPerPage)
+  const hasPagination = totalPages > 1
+
+  const PaginationControls = ({ isTop = false }: { isTop?: boolean }) => (
+    <div
+      className={`flex items-center justify-center gap-2 ${isTop ? 'pb-4' : 'pt-8'}`}
+      aria-label="Pagination"
+    >
+      <Button
+        variant="outline"
+        size="sm"
+        onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
+        disabled={currentPage === 1}
+        className="terminal-font"
+      >
+        ← Previous
+      </Button>
+      
+      <div className="flex items-center gap-2 terminal-font text-sm" aria-live="polite">
+        <span className="text-muted-foreground">Page</span>
+        <span className="font-bold text-terminal-green">{currentPage}</span>
+        <span className="text-muted-foreground">of</span>
+        <span className="font-semibold text-foreground">{totalPages}</span>
+      </div>
+      
+      <Button
+        variant="outline"
+        size="sm"
+        onClick={() => setCurrentPage((page) => Math.min(totalPages, page + 1))}
+        disabled={currentPage === totalPages}
+        className="terminal-font"
+      >
+        Next →
+      </Button>
+    </div>
+  )
 
   return (
     <>
@@ -378,9 +413,6 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
           onLoadPreset={handleLoadPreset}
           onDeletePreset={handleDeletePreset}
           onToggleStarPreset={handleToggleStarPreset}
-          viewMode={viewMode}
-          onViewModeChange={setViewMode}
-          onQuickFilterClick={handleQuickFilterClick}
         />
 
         <div className="flex flex-col lg:flex-row gap-6">
@@ -403,7 +435,7 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
             />
 
             <div className="mt-4 mb-2">
-              <p className="text-xs text-muted-foreground terminal-font">
+              <p className="text-xs text-muted-foreground terminal-font" aria-live="polite">
                 <span className="text-terminal-green">⎿</span> Showing{' '}
                 <span className="text-foreground font-bold">{filteredResources.length}</span> of{' '}
                 <span className="text-foreground font-semibold">{totalCount}</span> resources
@@ -420,6 +452,7 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
               <ResourceGridSkeleton count={8} />
             ) : filteredResources.length > 0 ? (
               <>
+                {hasPagination && <PaginationControls isTop />}
                 {viewMode === 'grid' ? (
                   <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
                     {paginatedResources.map((resource) => (
@@ -443,37 +476,7 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
                     ))}
                   </div>
                 )}
-                
-                {totalPages > 1 && (
-                  <div className="flex items-center justify-center gap-2 pt-8">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                      disabled={currentPage === 1}
-                      className="terminal-font"
-                    >
-                      ← Previous
-                    </Button>
-                    
-                    <div className="flex items-center gap-2 terminal-font text-sm">
-                      <span className="text-muted-foreground">Page</span>
-                      <span className="text-terminal-green font-bold">{currentPage}</span>
-                      <span className="text-muted-foreground">of</span>
-                      <span className="text-foreground font-semibold">{totalPages}</span>
-                    </div>
-                    
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                      disabled={currentPage === totalPages}
-                      className="terminal-font"
-                    >
-                      Next →
-                    </Button>
-                  </div>
-                )}
+                {hasPagination && <PaginationControls />}
               </>
             ) : (
               <div className="flex flex-col items-center justify-center py-24 text-center">
