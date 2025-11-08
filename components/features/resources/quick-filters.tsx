@@ -1,62 +1,50 @@
 'use client'
 
 import { Badge } from '@/components/ui/badge'
-import { Sparkles } from 'lucide-react'
-import { motion } from 'framer-motion'
+import type { ResourceType } from '@/types/resources'
 
 interface QuickFilter {
   label: string
-  type?: string
+  type?: ResourceType | 'all'
   category?: string
-  searchQuery?: string
-  icon?: string
+  icon: string
 }
 
 const QUICK_FILTERS: QuickFilter[] = [
-  { label: 'Popular', searchQuery: '', icon: '🔥' },
-  { label: 'New', searchQuery: '', icon: '✨' },
   { label: 'Next.js', category: 'nextjs-vercel', icon: '▲' },
-  { label: 'React', category: 'development', icon: '⚛️' },
-  { label: 'TypeScript', category: 'development', icon: 'TS' },
-  { label: 'Database', category: 'database', icon: '🗄️' },
   { label: 'Testing', category: 'testing', icon: '🧪' },
+  { label: 'Database', category: 'database', icon: '🗄️' },
   { label: 'Security', category: 'security', icon: '🔒' },
+  { label: 'DevTools', category: 'devtools', icon: '🛠️' },
+  { label: 'AI Tools', category: 'generative-ai', icon: '🤖' },
+  { label: 'Performance', category: 'performance', icon: '⚡' },
+  { label: 'Documentation', category: 'documentation', icon: '📚' },
 ]
 
 interface QuickFiltersProps {
   onFilterClick: (filter: QuickFilter) => void
-  activeFilter?: Partial<QuickFilter>
+  activeCategory?: string
 }
 
-export function QuickFilters({ onFilterClick, activeFilter }: QuickFiltersProps) {
-  const isActive = (filter: QuickFilter) => {
-    if (activeFilter?.category && filter.category === activeFilter.category) return true
-    if (activeFilter?.searchQuery && filter.searchQuery === activeFilter.searchQuery) return true
-    return false
-  }
-
+export function QuickFilters({ onFilterClick, activeCategory }: QuickFiltersProps) {
   return (
-    <div className="flex items-center gap-2 flex-wrap">
-      <div className="flex items-center gap-1.5 text-xs text-muted-foreground terminal-font">
-        <Sparkles className="h-3.5 w-3.5" />
-        <span>Quick:</span>
-      </div>
-      {QUICK_FILTERS.map((filter) => (
-        <motion.div
-          key={filter.label}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
+    <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide">
+      <span className="text-xs text-muted-foreground terminal-font shrink-0">
+        Quick filters:
+      </span>
+      <div className="flex gap-2">
+        {QUICK_FILTERS.map((filter) => (
           <Badge
-            variant={isActive(filter) ? 'default' : 'outline'}
-            className="cursor-pointer text-xs px-2.5 py-1 transition-all hover:scale-105 terminal-font"
+            key={filter.label}
+            variant={activeCategory === filter.category ? 'default' : 'outline'}
+            className="cursor-pointer text-xs px-3 py-1.5 shrink-0 transition-all hover:scale-105 terminal-font"
             onClick={() => onFilterClick(filter)}
           >
-            {filter.icon && <span className="mr-1">{filter.icon}</span>}
+            <span className="mr-1.5">{filter.icon}</span>
             {filter.label}
           </Badge>
-        </motion.div>
-      ))}
+        ))}
+      </div>
     </div>
   )
 }

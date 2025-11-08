@@ -1,8 +1,9 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Filter } from 'lucide-react'
+import { X, Filter } from 'lucide-react'
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import type { FilterCounts } from '@/lib/filter-counts'
 import type { ResourceType } from '@/types/resources'
@@ -34,95 +35,78 @@ export function FilterSidebar({ activeCategory, categories, onCategoryChange, fi
     return filterCounts.byCategoryAndType[category]?.[activeType] || 0
   }
 
-  const sortedCategories = useMemo(() => {
-    return [...categories].sort((a, b) => a.localeCompare(b))
-  }, [categories])
-
-  const renderButtonClasses = (isActive: boolean, isDisabled: boolean) => {
-    if (isDisabled) {
-      return 'flex w-full items-center justify-between rounded-md border border-transparent px-3 py-2 text-xs font-medium uppercase tracking-wide transition opacity-40 pointer-events-none'
-    }
-
-    if (isActive) {
-      return 'flex w-full items-center justify-between rounded-md border border-primary/60 bg-primary/10 px-3 py-2 text-xs font-semibold uppercase tracking-wide transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary'
-    }
-
-    return 'flex w-full items-center justify-between rounded-md border border-border px-3 py-2 text-xs font-medium uppercase tracking-wide transition hover:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary'
-  }
-
   const CategoryFilters = () => (
-    <nav aria-label="Resource categories" className="space-y-4">
-      <div className="flex items-center justify-between gap-2">
-        <h3 className="text-sm font-semibold terminal-font uppercase tracking-wide">Categories</h3>
+    <div className="space-y-4">
+      <div className="flex items-center justify-between pb-2 border-b border-border/50">
+        <div className="flex items-center gap-2">
+          <Filter className="w-4 h-4 text-terminal-green" />
+          <h3 className="text-sm font-bold terminal-font uppercase tracking-wide">Categories</h3>
+        </div>
         {activeCategory && (
           <Button
             variant="ghost"
             size="sm"
             onClick={() => onCategoryChange('')}
-            className="h-7 text-xs terminal-font"
-            aria-label="Clear category filter"
+            className="h-7 text-xs terminal-font hover:text-terminal-green"
           >
+            <X className="w-3 h-3 mr-1" />
             Clear
           </Button>
         )}
       </div>
-      <div className="space-y-3" role="list">
-        <button
-          type="button"
-          onClick={() => {
-            onCategoryChange('')
-            setIsMobileOpen(false)
-          }}
-          aria-pressed={!activeCategory}
-          className={renderButtonClasses(!activeCategory, false)}
+      <div className="space-y-2">
+        <Badge
+          variant={!activeCategory ? 'default' : 'outline'}
+          className="cursor-pointer text-xs px-4 py-2 w-full justify-between transition-all hover:scale-[1.02] hover:border-terminal-green/50 font-semibold"
+          onClick={() => onCategoryChange('')}
         >
-          <span>All categories</span>
+          <span>All Categories</span>
           {filterCounts && (
-            <span className="text-[11px] font-medium text-muted-foreground">
-              {getCategoryCount().toLocaleString()}
+            <span className="ml-auto text-xs bg-background px-2 py-0.5 rounded-full">
+              {getCategoryCount()}
             </span>
           )}
-        </button>
-        <div className="flex flex-col gap-2 max-h-[calc(100vh-300px)] overflow-y-auto pr-1" role="list">
-          {sortedCategories.map((category) => {
+        </Badge>
+        <div className="flex flex-col gap-1.5 max-h-[calc(100vh-300px)] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent">
+          {categories.map((category) => {
             const count = getCategoryCount(category)
             const isDisabled = count === 0
-            const isActive = activeCategory === category
             return (
-              <button
+              <Badge
                 key={category}
-                type="button"
+                variant={activeCategory === category ? 'default' : 'outline'}
+                className={`cursor-pointer text-xs px-4 py-2 w-full justify-between transition-all ${
+                  isDisabled 
+                    ? 'opacity-30 cursor-not-allowed' 
+                    : 'hover:scale-[1.02] hover:border-terminal-green/50'
+                } ${activeCategory === category ? 'shadow-sm' : ''}`}
                 onClick={() => {
                   if (!isDisabled) {
                     onCategoryChange(category)
                     setIsMobileOpen(false)
                   }
                 }}
-                aria-pressed={isActive}
-                className={renderButtonClasses(isActive, isDisabled)}
-                aria-disabled={isDisabled}
                 title={isDisabled ? 'No resources match this combination' : undefined}
               >
-                <span className={isDisabled ? 'line-through' : undefined}>{category}</span>
+                <span className={`${isDisabled ? 'line-through' : ''} truncate`}>{category}</span>
                 {filterCounts && (
-                  <span className="text-[11px] font-medium text-muted-foreground">
-                    {count.toLocaleString()}
+                  <span className={`ml-2 text-xs px-2 py-0.5 rounded-full shrink-0 ${
+                    isDisabled ? 'opacity-50' : 'bg-background'
+                  }`}>
+                    {count}
                   </span>
                 )}
-              </button>
+              </Badge>
             )
           })}
-          {sortedCategories.length === 0 && (
-            <span className="text-xs text-muted-foreground terminal-font">No categories available</span>
-          )}
         </div>
       </div>
-    </nav>
+    </div>
   )
 
   return (
     <>
-      <aside className="hidden w-64 shrink-0 lg:block">
+      <aside className="hidden lg:block w-64 shrink-0">
         <div className="sticky top-32 space-y-6">
           <CategoryFilters />
         </div>
@@ -130,21 +114,28 @@ export function FilterSidebar({ activeCategory, categories, onCategoryChange, fi
 
       <Sheet open={isMobileOpen} onOpenChange={setIsMobileOpen}>
         <SheetTrigger asChild>
-          <Button variant="outline" size="sm" className="terminal-font lg:hidden">
+          <Button 
+            variant="outline" 
+            size="lg" 
+            className="lg:hidden terminal-font min-h-[44px] touch-manipulation"
+          >
             <Filter className="w-4 h-4 mr-2" />
             Categories
             {activeCategory && (
-              <span className="ml-2 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">
+              <span className="ml-2 bg-primary text-primary-foreground rounded-full w-6 h-6 flex items-center justify-center text-xs font-semibold">
                 1
               </span>
             )}
           </Button>
         </SheetTrigger>
-        <SheetContent side="left" className="w-80">
-          <SheetHeader>
-            <SheetTitle className="terminal-font">Filter by category</SheetTitle>
+        <SheetContent side="left" className="w-[90vw] max-w-sm">
+          <SheetHeader className="pb-4 border-b border-border/50">
+            <div className="flex items-center gap-2">
+              <Filter className="w-5 h-5 text-terminal-green" />
+              <SheetTitle className="terminal-font text-lg">Filter by Category</SheetTitle>
+            </div>
           </SheetHeader>
-          <div className="mt-6">
+          <div className="mt-6 pb-6">
             <CategoryFilters />
           </div>
         </SheetContent>

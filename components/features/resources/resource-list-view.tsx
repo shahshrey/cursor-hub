@@ -10,6 +10,7 @@ import { getFileIcon, getResourceTypeIcon, formatBytes } from '@/lib/file-utils'
 import { DownloadButton } from './download-button'
 import { FavoriteButton } from './favorite-button'
 import { AddToCursorButton } from './add-to-cursor-button'
+import { McpLogo } from '@/components/ui/mcp-logo'
 import { ANIMATIONS } from '@/lib/animations'
 import { useReducedMotion } from 'framer-motion'
 
@@ -46,7 +47,11 @@ export function ResourceListView({
           <div className="flex items-start gap-4">
             <div className="flex items-center gap-2 shrink-0">
               <FileIconComponent className="h-5 w-5 text-muted-foreground" />
-              <span className="text-xl">{typeIcon}</span>
+              {resource.type === 'mcp' ? (
+                <McpLogo size={20} />
+              ) : (
+                <span className="text-xl">{typeIcon}</span>
+              )}
             </div>
             
             <div className="flex-1 min-w-0">

@@ -5,6 +5,7 @@ import type { ResourceMetadata } from '@/types/resources'
 import { Button } from '@/components/ui/button'
 import { X, Copy, Check, ShoppingCart, Share2, Trash2, Download } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { McpLogo } from '@/components/ui/mcp-logo'
 
 interface StackBuilderProps {
   isOpen: boolean
@@ -134,7 +135,11 @@ export function StackBuilder({
                 {Object.entries(stackByType).map(([type, resources]) => (
                   <div key={type}>
                     <div className="flex items-center gap-2 mb-3">
-                      <span className="text-2xl">{typeIcons[type]}</span>
+                      {type === 'mcp' ? (
+                        <McpLogo size={24} />
+                      ) : (
+                        <span className="text-2xl">{typeIcons[type]}</span>
+                      )}
                       <h4 className="font-semibold text-foreground capitalize">
                         {type} ({resources.length})
                       </h4>

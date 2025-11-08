@@ -1,187 +1,169 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Card } from '@/components/ui/card'
+import { X, Search, Filter, Star, Keyboard } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { X, Lightbulb, Search, Filter, Sparkles, ArrowRight } from 'lucide-react'
+import { Card } from '@/components/ui/card'
 
-interface OnboardingTip {
+interface OnboardingStep {
   id: string
-  icon: React.ReactNode
   title: string
   description: string
-  action?: string
-  position: 'search' | 'discovery' | 'filters' | 'general'
+  target?: string
+  icon: React.ReactNode
+  position: 'center' | 'top' | 'bottom'
 }
 
-const onboardingTips: OnboardingTip[] = [
+const ONBOARDING_STEPS: OnboardingStep[] = [
   {
-    id: 'search',
-    icon: <Search className="w-4 h-4" />,
-    title: 'Smart Search',
-    description: 'Use keywords like "authentication", "database", or "testing" to find exactly what you need.',
-    action: 'Try searching now',
-    position: 'search'
+    id: 'welcome',
+    title: 'Welcome to Resources Hub',
+    description: '509+ curated commands, rules, MCPs, and hooks for Cursor. Let\'s show you around!',
+    icon: <span className="text-3xl">👋</span>,
+    position: 'center'
   },
   {
-    id: 'discovery',
-    icon: <Sparkles className="w-4 h-4" />,
-    title: 'Explore Collections',
-    description: 'Browse curated collections for popular frameworks and technologies.',
-    action: 'Explore collections',
-    position: 'discovery'
+    id: 'search',
+    title: 'Search Anything',
+    description: 'Search across all resources instantly. Try "Next.js", "testing", or "database"',
+    icon: <Search className="w-6 h-6" />,
+    target: 'search-input',
+    position: 'top'
   },
   {
     id: 'filters',
-    icon: <Filter className="w-4 h-4" />,
-    title: 'Filter by Type',
-    description: 'Use type filters (Commands, Rules, MCPs, Hooks) to narrow down your search.',
-    action: 'Try filters',
-    position: 'filters'
+    title: 'Smart Filters',
+    description: 'Filter by type (Commands, Rules, MCPs, Hooks) and categories. Counts update in real-time!',
+    icon: <Filter className="w-6 h-6" />,
+    target: 'filter-bar',
+    position: 'top'
   },
   {
-    id: 'favorites',
-    icon: <Lightbulb className="w-4 h-4" />,
-    title: 'Save & Organize',
-    description: 'Star your favorite resources and create filter presets for quick access.',
-    action: 'Learn more',
-    position: 'general'
+    id: 'presets',
+    title: 'Save Your Presets',
+    description: 'Found the perfect filter combo? Save it as a preset for quick access later!',
+    icon: <Star className="w-6 h-6" />,
+    target: 'preset-button',
+    position: 'top'
+  },
+  {
+    id: 'shortcuts',
+    title: 'Pro Tips',
+    description: 'Press "/" to focus search • Esc to clear • ↑↓ to navigate • Enter to preview',
+    icon: <Keyboard className="w-6 h-6" />,
+    position: 'center'
   }
 ]
 
+const ONBOARDING_KEY = 'cursor-resources-onboarding-completed'
+
 export function BrowseOnboarding() {
-  const [currentTip, setCurrentTip] = useState(0)
-  const [isVisible, setIsVisible] = useState(false)
-  const [dismissedTips, setDismissedTips] = useState<Set<string>>(new Set())
+  const [isOpen, setIsOpen] = useState(false)
+  const [currentStep, setCurrentStep] = useState(0)
+  const [shouldShow, setShouldShow] = useState(false)
 
   useEffect(() => {
-    // Check if user has seen onboarding before
-    const hasSeenOnboarding = localStorage.getItem('browse-onboarding-seen')
-    const dismissed = localStorage.getItem('browse-onboarding-dismissed')
-
-    if (!hasSeenOnboarding && !dismissed) {
-      // Show onboarding after a short delay
-      const timer = setTimeout(() => setIsVisible(true), 2000)
-      return () => clearTimeout(timer)
-    }
-
-    if (dismissed) {
-      setDismissedTips(new Set(JSON.parse(dismissed)))
+    const hasCompleted = localStorage.getItem(ONBOARDING_KEY)
+    if (!hasCompleted) {
+      setTimeout(() => {
+        setIsOpen(true)
+        setShouldShow(true)
+      }, 800)
     }
   }, [])
 
-  const handleDismiss = () => {
-    setIsVisible(false)
-    localStorage.setItem('browse-onboarding-seen', 'true')
-  }
-
-  const handleDismissTip = (tipId: string) => {
-    const newDismissed = new Set(dismissedTips)
-    newDismissed.add(tipId)
-    setDismissedTips(newDismissed)
-    localStorage.setItem('browse-onboarding-dismissed', JSON.stringify([...newDismissed]))
-
-    // Move to next tip
-    const remainingTips = onboardingTips.filter(tip => !newDismissed.has(tip.id))
-    if (remainingTips.length > 0) {
-      setCurrentTip(0) // Reset to first remaining tip
+  const handleNext = () => {
+    if (currentStep < ONBOARDING_STEPS.length - 1) {
+      setCurrentStep(currentStep + 1)
     } else {
-      setIsVisible(false)
+      handleComplete()
     }
   }
 
-  const handleAction = (tip: OnboardingTip) => {
-    // Handle specific actions
-    switch (tip.id) {
-      case 'search':
-        // Focus search input
-        const searchInput = document.querySelector('input[placeholder*="Search"]') as HTMLInputElement
-        searchInput?.focus()
-        break
-      case 'discovery':
-        // Scroll to discovery section
-        const discoverySection = document.querySelector('[data-section="discovery"]')
-        discoverySection?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-        break
-      case 'filters':
-        // Focus on type filters
-        const filterButton = document.querySelector('[aria-label*="filter"]')
-        filterButton?.scrollIntoView({ behavior: 'smooth', block: 'center' })
-        break
-    }
-    handleDismissTip(tip.id)
+  const handleSkip = () => {
+    localStorage.setItem(ONBOARDING_KEY, 'skipped')
+    setIsOpen(false)
+    setTimeout(() => setShouldShow(false), 300)
   }
 
-  const availableTips = onboardingTips.filter(tip => !dismissedTips.has(tip.id))
-  const activeTip = availableTips[currentTip]
+  const handleComplete = () => {
+    localStorage.setItem(ONBOARDING_KEY, 'completed')
+    setIsOpen(false)
+    setTimeout(() => setShouldShow(false), 300)
+  }
 
-  if (!isVisible || !activeTip) return null
+  if (!shouldShow) return null
+
+  const step = ONBOARDING_STEPS[currentStep]
+  const progress = ((currentStep + 1) / ONBOARDING_STEPS.length) * 100
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 max-w-sm animate-in slide-in-from-bottom-4 duration-300">
-      <Card className="p-4 bg-card/95 backdrop-blur-xl border-border/60 shadow-lg">
-        <div className="flex items-start gap-3">
-          <div className="p-2 rounded-lg bg-primary/10 border border-primary/20 text-primary flex-shrink-0">
-            {activeTip.icon}
-          </div>
+    <>
+      {isOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div 
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            onClick={handleSkip}
+          />
+          
+          <Card className={`relative z-10 max-w-md w-full mx-4 p-6 border-2 border-terminal-green/30 shadow-2xl ${
+            step.position === 'center' ? 'animate-in fade-in zoom-in' : 'animate-in slide-in-from-top'
+          }`}>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="absolute top-2 right-2 text-muted-foreground hover:text-foreground"
+              onClick={handleSkip}
+            >
+              <X className="w-4 h-4" />
+            </Button>
 
-          <div className="flex-1 min-w-0">
-            <div className="flex items-start justify-between gap-2 mb-2">
-              <h4 className="font-semibold text-sm text-foreground">
-                {activeTip.title}
-              </h4>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => handleDismissTip(activeTip.id)}
-                className="h-6 w-6 p-0 hover:bg-muted/50 flex-shrink-0"
-                aria-label="Dismiss tip"
-              >
-                <X className="w-3 h-3" />
-              </Button>
+            <div className="flex flex-col items-center text-center space-y-4">
+              <div className="w-12 h-12 rounded-full bg-terminal-green/10 border border-terminal-green/30 flex items-center justify-center text-terminal-green">
+                {step.icon}
+              </div>
+
+              <div className="space-y-2">
+                <h3 className="text-xl font-bold terminal-font">{step.title}</h3>
+                <p className="text-sm text-muted-foreground terminal-font">
+                  {step.description}
+                </p>
+              </div>
+
+              <div className="w-full space-y-4 pt-2">
+                <div className="w-full bg-muted rounded-full h-1.5 overflow-hidden">
+                  <div 
+                    className="h-full bg-terminal-green transition-all duration-300"
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
+
+                <div className="flex items-center justify-between gap-3">
+                  <Button
+                    variant="ghost"
+                    onClick={handleSkip}
+                    className="terminal-font text-xs"
+                  >
+                    Skip Tour
+                  </Button>
+                  
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-muted-foreground terminal-font">
+                      {currentStep + 1} of {ONBOARDING_STEPS.length}
+                    </span>
+                    <Button
+                      onClick={handleNext}
+                      className="terminal-font"
+                    >
+                      {currentStep === ONBOARDING_STEPS.length - 1 ? 'Get Started' : 'Next'}
+                    </Button>
+                  </div>
+                </div>
+              </div>
             </div>
-
-            <p className="text-xs text-muted-foreground mb-3 leading-relaxed">
-              {activeTip.description}
-            </p>
-
-            <div className="flex items-center gap-2">
-              {activeTip.action && (
-                <Button
-                  size="sm"
-                  onClick={() => handleAction(activeTip)}
-                  className="text-xs h-7 px-3"
-                >
-                  {activeTip.action}
-                  <ArrowRight className="w-3 h-3 ml-1" />
-                </Button>
-              )}
-
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleDismiss}
-                className="text-xs h-7 px-3 hover:bg-muted/50"
-              >
-                Skip all tips
-              </Button>
-            </div>
-
-            {/* Progress indicator */}
-            <div className="flex items-center gap-1 mt-3">
-              {availableTips.map((tip, index) => (
-                <div
-                  key={tip.id}
-                  className={`w-1.5 h-1.5 rounded-full transition-colors ${
-                    index === currentTip ? 'bg-primary' : 'bg-muted-foreground/30'
-                  }`}
-                />
-              ))}
-            </div>
-          </div>
+          </Card>
         </div>
-      </Card>
-    </div>
+      )}
+    </>
   )
 }

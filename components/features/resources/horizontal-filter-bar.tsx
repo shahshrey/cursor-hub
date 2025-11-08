@@ -9,6 +9,7 @@ import type { ResourceType } from '@/types/resources'
 import type { FilterCounts } from '@/lib/filter-counts'
 import type { FilterPreset } from '@/lib/preset-storage'
 import { FilterPresetsDropdown } from './filter-presets-dropdown'
+import { McpLogo } from '@/components/ui/mcp-logo'
 
 interface HorizontalFilterBarProps {
   searchQuery: string
@@ -30,11 +31,11 @@ interface HorizontalFilterBarProps {
   onToggleStarPreset?: (presetId: string, isStarred: boolean) => void
 }
 
-const RESOURCE_TYPES: Array<{ value: ResourceType | 'all'; label: string; icon: string }> = [
+const RESOURCE_TYPES: Array<{ value: ResourceType | 'all'; label: string; icon: string; useLogo?: boolean }> = [
   { value: 'all', label: 'All', icon: '📦' },
   { value: 'command', label: 'Commands', icon: '⚡' },
   { value: 'rule', label: 'Rules', icon: '📋' },
-  { value: 'mcp', label: 'MCPs', icon: '🔌' },
+  { value: 'mcp', label: 'MCPs', icon: '🔌', useLogo: true },
   { value: 'hook', label: 'Hooks', icon: '🪝' },
 ]
 
@@ -160,7 +161,11 @@ export function HorizontalFilterBar({
                   disabled={Boolean(isDisabled)}
                   className="min-w-[96px] gap-1.5 px-3 py-1.5 text-xs uppercase tracking-wide"
                 >
-                  <span aria-hidden="true">{type.icon}</span>
+                  {type.useLogo ? (
+                    <McpLogo size={16} className="shrink-0" />
+                  ) : (
+                    <span aria-hidden="true">{type.icon}</span>
+                  )}
                   <span className={isDisabled ? 'line-through opacity-70' : undefined}>{type.label}</span>
                   {filterCounts && (
                     <span className="text-[11px] font-medium text-muted-foreground">

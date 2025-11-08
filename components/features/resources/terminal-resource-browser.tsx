@@ -10,16 +10,19 @@ import { FilterSidebar } from './filter-sidebar'
 import { CuratedStacks } from './curated-stacks'
 import { ActiveFilters } from './active-filters'
 import { ResourceGridSkeleton } from './resource-card-skeleton'
-import { ResourceListView } from './resource-list-view'
 import { debounce } from '@/lib/search'
 import { Button } from '@/components/ui/button'
 import { createClient } from '@/lib/supabase/client'
 import { calculateFilterCounts, type FilterCounts } from '@/lib/filter-counts'
 import { useFilterPresets } from '@/hooks/use-filter-presets'
+import { useKeyboardShortcuts } from '@/hooks/use-keyboard-shortcuts'
 import { SavePresetModal } from './save-preset-modal'
 import { parseUrlFilters } from '@/lib/preset-url-encoding'
 import { toast } from 'sonner'
-import { ViewMode } from './view-toggle'
+import { BrowseOnboarding } from './browse-onboarding'
+import { QuickFilters } from './quick-filters'
+import { EmptyState } from './empty-state'
+import { KeyboardShortcutsHelp } from './keyboard-shortcuts-help'
 
 const ResourcePreviewModal = dynamic(() => import('./resource-preview-modal').then(m => m.ResourcePreviewModal), {
   ssr: false,
@@ -58,7 +61,6 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
   const [allResourcesForCounts, setAllResourcesForCounts] = useState<ResourceMetadata[] | null>(null)
   const [downloadCounts, setDownloadCounts] = useState<Record<string, number>>({})
   const [isSavePresetOpen, setIsSavePresetOpen] = useState(false)
-  const [viewMode, setViewMode] = useState<ViewMode>('grid')
   
   useEffect(() => {
     const hasActiveFilters = debouncedQuery.trim().length >= 2 || activeType !== 'all' || activeCategory
@@ -93,6 +95,34 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
   }, [searchResults, allResourcesForCounts, debouncedQuery, activeType, activeCategory, initialResources])
   
   const { presets, createPreset, removePreset, modifyPreset, usePreset } = useFilterPresets()
+  
+  useKeyboardShortcuts([
+    {
+      key: '/',
+      callback: () => {
+        const searchInput = document.querySelector('input[type="search"]') as HTMLInputElement
+        searchInput?.focus()
+      }
+    },
+    {
+      key: 'Escape',
+      callback: () => {
+        if (searchQuery || activeType !== 'all' || activeCategory) {
+          handleClearFilters()
+          toast.success('Filters cleared')
+        }
+      }
+    },
+    {
+      key: 's',
+      ctrl: true,
+      callback: () => {
+        if (searchQuery || activeType !== 'all' || activeCategory) {
+          setIsSavePresetOpen(true)
+        }
+      }
+    }
+  ])
   
   useEffect(() => {
     if (urlType) setActiveType(urlType)
@@ -270,22 +300,6 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
     setDebouncedQuery('')
   }
 
-  const handleQuickFilterClick = (filter: { category?: string; searchQuery?: string }) => {
-    if (filter.category) {
-      setActiveCategory(filter.category)
-    }
-    if (filter.searchQuery !== undefined) {
-      setSearchQuery(filter.searchQuery)
-      setDebouncedQuery(filter.searchQuery)
-    }
-    if (!filter.category && filter.searchQuery === '') {
-      setActiveType('all')
-      setActiveCategory('')
-      setSearchQuery('')
-      setDebouncedQuery('')
-    }
-  }
-
   const handlePreview = (resource: ResourceMetadata) => {
     setPreviewResource(resource)
     setIsPreviewOpen(true)
@@ -350,44 +364,12 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
   }, [filteredResources, currentPage, itemsPerPage])
 
   const totalPages = Math.ceil(filteredResources.length / itemsPerPage)
-  const hasPagination = totalPages > 1
-
-  const PaginationControls = ({ isTop = false }: { isTop?: boolean }) => (
-    <div
-      className={`flex items-center justify-center gap-2 ${isTop ? 'pb-4' : 'pt-8'}`}
-      aria-label="Pagination"
-    >
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
-        disabled={currentPage === 1}
-        className="terminal-font"
-      >
-        ← Previous
-      </Button>
-      
-      <div className="flex items-center gap-2 terminal-font text-sm" aria-live="polite">
-        <span className="text-muted-foreground">Page</span>
-        <span className="font-bold text-terminal-green">{currentPage}</span>
-        <span className="text-muted-foreground">of</span>
-        <span className="font-semibold text-foreground">{totalPages}</span>
-      </div>
-      
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={() => setCurrentPage((page) => Math.min(totalPages, page + 1))}
-        disabled={currentPage === totalPages}
-        className="terminal-font"
-      >
-        Next →
-      </Button>
-    </div>
-  )
 
   return (
     <>
+      <BrowseOnboarding />
+      <KeyboardShortcutsHelp />
+      
       <div className="space-y-6">
         {!searchQuery && activeType === 'all' && !activeCategory && (
           <div className="pb-4">
@@ -414,6 +396,21 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
           onDeletePreset={handleDeletePreset}
           onToggleStarPreset={handleToggleStarPreset}
         />
+        
+        {!searchQuery && activeType === 'all' && !activeCategory && (
+          <QuickFilters 
+            onFilterClick={(filter) => {
+              if (filter.category) {
+                setActiveCategory(filter.category)
+                toast.success(`Filtered by ${filter.label}`)
+              }
+              if (filter.type && filter.type !== 'all') {
+                setActiveType(filter.type)
+              }
+            }}
+            activeCategory={activeCategory}
+          />
+        )}
 
         <div className="flex flex-col lg:flex-row gap-6">
           <FilterSidebar
@@ -435,7 +432,7 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
             />
 
             <div className="mt-4 mb-2">
-              <p className="text-xs text-muted-foreground terminal-font" aria-live="polite">
+              <p className="text-xs text-muted-foreground terminal-font">
                 <span className="text-terminal-green">⎿</span> Showing{' '}
                 <span className="text-foreground font-bold">{filteredResources.length}</span> of{' '}
                 <span className="text-foreground font-semibold">{totalCount}</span> resources
@@ -449,57 +446,72 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
             </div>
 
             {isSearching ? (
-              <ResourceGridSkeleton count={8} />
+              <ResourceGridSkeleton 
+                count={8} 
+                message={debouncedQuery ? `Searching for "${debouncedQuery}"...` : 'Loading resources...'}
+              />
             ) : filteredResources.length > 0 ? (
               <>
-                {hasPagination && <PaginationControls isTop />}
-                {viewMode === 'grid' ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
-                    {paginatedResources.map((resource) => (
-                      <ResourceCard
-                        key={resource.slug}
-                        resource={resource}
-                        downloadCount={downloadCounts[resource.slug] || 0}
-                        onPreview={() => handlePreview(resource)}
-                      />
-                    ))}
-                  </div>
-                ) : (
-                  <div className="space-y-2">
-                    {paginatedResources.map((resource) => (
-                      <ResourceListView
-                        key={resource.slug}
-                        resource={resource}
-                        downloadCount={downloadCounts[resource.slug] || 0}
-                        onPreview={() => handlePreview(resource)}
-                      />
-                    ))}
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
+                  {paginatedResources.map((resource) => (
+                    <ResourceCard
+                      key={resource.slug}
+                      resource={resource}
+                      downloadCount={downloadCounts[resource.slug] || 0}
+                      onPreview={() => handlePreview(resource)}
+                    />
+                  ))}
+                </div>
+                
+                {totalPages > 1 && (
+                  <div className="flex items-center justify-center gap-2 pt-8">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                      disabled={currentPage === 1}
+                      className="terminal-font"
+                    >
+                      ← Previous
+                    </Button>
+                    
+                    <div className="flex items-center gap-2 terminal-font text-sm">
+                      <span className="text-muted-foreground">Page</span>
+                      <span className="text-terminal-green font-bold">{currentPage}</span>
+                      <span className="text-muted-foreground">of</span>
+                      <span className="text-foreground font-semibold">{totalPages}</span>
+                    </div>
+                    
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                      disabled={currentPage === totalPages}
+                      className="terminal-font"
+                    >
+                      Next →
+                    </Button>
                   </div>
                 )}
-                {hasPagination && <PaginationControls />}
               </>
             ) : (
-              <div className="flex flex-col items-center justify-center py-24 text-center">
-                <div className="text-6xl mb-4 terminal-font opacity-50">└─</div>
-                <h3 className="text-2xl font-bold mb-2 terminal-font">No resources found</h3>
-                <p className="text-sm text-muted-foreground mb-6 max-w-md terminal-font">
-                  <span className="text-terminal-green">⎿</span> Try adjusting your filters or search query to find what you&apos;re looking for
-                </p>
-                <div className="flex flex-col sm:flex-row gap-3 items-center">
-                  <Button onClick={handleClearFilters} variant="outline" className="terminal-font">
-                    Clear All Filters
-                  </Button>
-                  <div className="text-xs text-muted-foreground terminal-font">
-                    or try{' '}
-                    <button
-                      onClick={() => handleQuickFilterClick({ category: 'development' })}
-                      className="text-primary hover:underline"
-                    >
-                      Popular Collections
-                    </button>
-                  </div>
-                </div>
-              </div>
+              <EmptyState
+                searchQuery={debouncedQuery}
+                activeType={activeType}
+                activeCategory={activeCategory}
+                onClearFilters={handleClearFilters}
+                onSuggestedSearch={(query) => {
+                  setSearchQuery(query)
+                  setDebouncedQuery(query)
+                  toast.success(`Searching for "${query}"`)
+                }}
+                onSuggestedCategory={(category) => {
+                  setActiveCategory(category)
+                  handleClearFilters()
+                  setActiveCategory(category)
+                  toast.success(`Browsing ${category}`)
+                }}
+              />
             )}
           </div>
         </div>
