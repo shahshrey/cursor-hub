@@ -58,7 +58,7 @@ export function EnhancedSearchInput({
         if (response.ok) {
           const data = await response.json()
           const titles = (data.results || []).slice(0, MAX_SUGGESTIONS).map((r: ResourceMetadata) => r.title)
-          const uniqueTitles = Array.from(new Set(titles))
+          const uniqueTitles = Array.from(new Set(titles)) as string[]
           setSuggestions(uniqueTitles)
         } else {
           setSuggestions([])
