@@ -49,7 +49,7 @@ export function CommunityStats({ totalResources, categoryCount, typeCounts }: Co
         </p>
       </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
         {stats.map((stat, index) => {
           const Icon = stat.icon
           return (
@@ -59,9 +59,10 @@ export function CommunityStats({ totalResources, categoryCount, typeCounts }: Co
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] max-w-sm"
             >
-              <Card className="text-center hover:shadow-lg transition-shadow">
-                <CardContent className="pt-6">
+              <Card className="text-center hover:shadow-lg transition-shadow h-full flex flex-col">
+                <CardContent className="pt-6 pb-6 flex flex-col items-center justify-center flex-1">
                   <div className="flex justify-center mb-4">
                     <div className="p-3 rounded-full bg-primary/10">
                       <Icon className="w-6 h-6 text-primary" />

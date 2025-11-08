@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Download, Eye } from 'lucide-react'
 import type { ResourceMetadata } from '@/types/resources'
-import { getFileIcon, getResourceTypeIcon, formatBytes } from '@/lib/file-utils'
+import { getResourceTypeIcon, formatBytes } from '@/lib/file-utils'
 import { DownloadButton } from './download-button'
 import { FavoriteButton } from './favorite-button'
 import { AddToCursorButton } from './add-to-cursor-button'
@@ -27,7 +27,6 @@ export function ResourceListView({
   isFavorited = false,
   onPreview,
 }: ResourceListViewProps) {
-  const FileIconComponent = getFileIcon(resource.extension)
   const TypeIconComponent = getResourceTypeIcon(resource.type)
   const shouldReduceMotion = useReducedMotion()
 
@@ -46,7 +45,6 @@ export function ResourceListView({
         <CardContent className="p-4">
           <div className="flex items-start gap-4">
             <div className="flex items-center gap-2 shrink-0">
-              <FileIconComponent className="h-5 w-5 text-muted-foreground" />
               {resource.type === 'mcp' ? (
                 <McpLogo size={20} />
               ) : (

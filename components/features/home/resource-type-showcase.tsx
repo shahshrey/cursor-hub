@@ -98,7 +98,7 @@ export function ResourceTypeShowcase({ typeCounts, categories }: ResourceTypeSho
                       <span className="font-semibold">{categoryCount}</span> categories available
                     </div>
                     <Link href={`/browse?type=${type}`}>
-                      <Button variant="outline" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                      <Button variant="outline" className="w-full hover:!bg-primary hover:!text-primary-foreground group-hover:!bg-primary group-hover:!text-primary-foreground transition-colors">
                         Browse {config.label}
                         <ArrowRight className="ml-2 w-4 h-4" />
                       </Button>

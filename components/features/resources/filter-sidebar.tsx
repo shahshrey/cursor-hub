@@ -62,7 +62,7 @@ export function FilterSidebar({ activeCategory, categories, onCategoryChange, fi
         >
           <span>All Categories</span>
           {filterCounts && (
-            <span className="ml-auto text-xs bg-background px-2 py-0.5 rounded-full">
+            <span className="ml-auto text-xs bg-background text-foreground px-2 py-0.5 rounded-full">
               {getCategoryCount()}
             </span>
           )}
@@ -91,7 +91,7 @@ export function FilterSidebar({ activeCategory, categories, onCategoryChange, fi
                 <span className={`${isDisabled ? 'line-through' : ''} truncate`}>{category}</span>
                 {filterCounts && (
                   <span className={`ml-2 text-xs px-2 py-0.5 rounded-full shrink-0 ${
-                    isDisabled ? 'opacity-50' : 'bg-background'
+                    isDisabled ? 'opacity-50' : 'bg-background text-foreground'
                   }`}>
                     {count}
                   </span>
