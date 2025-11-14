@@ -15,7 +15,7 @@ export function Header() {
           <CursorLogo size={32} className="text-foreground" />
           <span className="font-bold text-lg hidden sm:inline-block">Cursor Hub</span>
         </Link>
-        
+
         <nav className="flex items-center gap-3">
           <SignedOut>
             <Link href="/signin">
@@ -29,20 +29,20 @@ export function Header() {
               </RainbowButton>
             </Link>
           </SignedOut>
-          
+
           <SignedIn>
             <Link href="/dashboard">
               <Button variant="ghost" size="sm">
                 Dashboard
               </Button>
             </Link>
-            <UserButton 
+            <UserButton
               appearance={{
                 elements: {
-                  avatarBox: "w-9 h-9",
-                  userButtonPopoverCard: "bg-card border-border",
-                  userButtonPopoverActionButton: "hover:bg-accent",
-                }
+                  avatarBox: 'w-9 h-9',
+                  userButtonPopoverCard: 'bg-card border-border',
+                  userButtonPopoverActionButton: 'hover:bg-accent',
+                },
               }}
             />
           </SignedIn>
@@ -51,4 +51,3 @@ export function Header() {
     </header>
   )
 }
-

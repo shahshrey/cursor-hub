@@ -1,9 +1,9 @@
-"use client"
+'use client'
 
-import { forwardRef, useEffect, useState, type CSSProperties } from "react"
-import { motion, useReducedMotion } from "framer-motion"
+import { forwardRef, useEffect, useState, type CSSProperties } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
 
-import { cn } from "@/lib/utils"
+import { cn } from '@/lib/utils'
 
 interface LightRaysProps extends React.HTMLAttributes<HTMLDivElement> {
   count?: number
@@ -49,15 +49,7 @@ const createRays = (count: number, cycle: number): LightRay[] => {
   })
 }
 
-const Ray = ({
-  left,
-  rotate,
-  width,
-  swing,
-  delay,
-  duration,
-  intensity,
-}: LightRay) => {
+const Ray = ({ left, rotate, width, swing, delay, duration, intensity }: LightRay) => {
   return (
     <motion.div
       className="pointer-events-none absolute -top-[12%] origin-top -translate-x-1/2 rounded-full opacity-0 mix-blend-screen"
@@ -65,7 +57,7 @@ const Ray = ({
         {
           left: `${left}%`,
           width: `${width}px`,
-          height: "var(--light-rays-length)",
+          height: 'var(--light-rays-length)',
           background: `linear-gradient(to bottom, var(--light-rays-color), transparent)`,
           filter: `blur(var(--light-rays-blur))`,
         } as CSSProperties
@@ -78,7 +70,7 @@ const Ray = ({
       transition={{
         duration: duration,
         repeat: Infinity,
-        ease: "easeInOut",
+        ease: 'easeInOut',
         delay: delay,
         repeatDelay: duration * 0.1,
       }}
@@ -86,80 +78,77 @@ const Ray = ({
   )
 }
 
-export const LightRays = forwardRef<HTMLDivElement, LightRaysProps>(
-  function LightRays(
-    {
-      className,
-      style,
-      count = 7,
-      color = "rgba(160, 210, 255, 0.2)",
-      blur = 36,
-      speed = 14,
-      length = "70vh",
-      ...props
-    },
-    ref
-  ) {
-    const [rays, setRays] = useState<LightRay[]>([])
-    const [shouldRender, setShouldRender] = useState(false)
-    const shouldReduceMotion = useReducedMotion()
-    const cycleDuration = Math.max(speed, 0.1)
+export const LightRays = forwardRef<HTMLDivElement, LightRaysProps>(function LightRays(
+  {
+    className,
+    style,
+    count = 7,
+    color = 'rgba(160, 210, 255, 0.2)',
+    blur = 36,
+    speed = 14,
+    length = '70vh',
+    ...props
+  },
+  ref
+) {
+  const [rays, setRays] = useState<LightRay[]>([])
+  const [shouldRender, setShouldRender] = useState(false)
+  const shouldReduceMotion = useReducedMotion()
+  const cycleDuration = Math.max(speed, 0.1)
 
-    useEffect(() => {
-      if (typeof window !== 'undefined' && window.innerWidth >= 1024) {
-        setShouldRender(true)
-        setRays(createRays(count, cycleDuration))
-      }
-    }, [count, cycleDuration])
-
-    if (!shouldRender || shouldReduceMotion) {
-      return null
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.innerWidth >= 1024) {
+      setShouldRender(true)
+      setRays(createRays(count, cycleDuration))
     }
+  }, [count, cycleDuration])
 
-    return (
-      <div
-        ref={ref}
-        className={cn(
-          "pointer-events-none absolute inset-0 isolate overflow-hidden rounded-[inherit]",
-          className
-        )}
-        style={
-          {
-            "--light-rays-color": color,
-            "--light-rays-blur": `${blur}px`,
-            "--light-rays-length": length,
-            ...style,
-          } as CSSProperties
-        }
-        {...props}
-      >
-        <div className="absolute inset-0 overflow-hidden">
-          <div
-            aria-hidden
-            className="absolute inset-0 opacity-60"
-            style={
-              {
-                background:
-                  "radial-gradient(circle at 20% 15%, var(--light-rays-color), transparent 50%)",
-              } as CSSProperties
-            }
-          />
-          <div
-            aria-hidden
-            className="absolute inset-0 opacity-50"
-            style={
-              {
-                background:
-                  "radial-gradient(circle at 80% 10%, var(--light-rays-color), transparent 60%)",
-              } as CSSProperties
-            }
-          />
-          {rays.map((ray) => (
-            <Ray key={ray.id} {...ray} />
-          ))}
-        </div>
-      </div>
-    )
+  if (!shouldRender || shouldReduceMotion) {
+    return null
   }
-)
 
+  return (
+    <div
+      ref={ref}
+      className={cn(
+        'pointer-events-none absolute inset-0 isolate overflow-hidden rounded-[inherit]',
+        className
+      )}
+      style={
+        {
+          '--light-rays-color': color,
+          '--light-rays-blur': `${blur}px`,
+          '--light-rays-length': length,
+          ...style,
+        } as CSSProperties
+      }
+      {...props}
+    >
+      <div className="absolute inset-0 overflow-hidden">
+        <div
+          aria-hidden
+          className="absolute inset-0 opacity-60"
+          style={
+            {
+              background:
+                'radial-gradient(circle at 20% 15%, var(--light-rays-color), transparent 50%)',
+            } as CSSProperties
+          }
+        />
+        <div
+          aria-hidden
+          className="absolute inset-0 opacity-50"
+          style={
+            {
+              background:
+                'radial-gradient(circle at 80% 10%, var(--light-rays-color), transparent 60%)',
+            } as CSSProperties
+          }
+        />
+        {rays.map(ray => (
+          <Ray key={ray.id} {...ray} />
+        ))}
+      </div>
+    </div>
+  )
+})

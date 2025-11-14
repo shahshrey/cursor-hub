@@ -16,10 +16,10 @@ export function StackBuilderButton({ count, onClick, className }: StackBuilderBu
       onClick={onClick}
       size="lg"
       className={cn(
-        "fixed bottom-8 right-8 z-30 rounded-full shadow-2xl h-16 w-16 p-0",
-        "bg-primary hover:bg-primary/90 text-primary-foreground",
-        "transition-all hover:scale-110",
-        count > 0 && "animate-pulse-glow",
+        'fixed bottom-8 right-8 z-30 rounded-full shadow-2xl h-16 w-16 p-0',
+        'bg-primary hover:bg-primary/90 text-primary-foreground',
+        'transition-all hover:scale-110',
+        count > 0 && 'animate-pulse-glow',
         className
       )}
     >
@@ -34,4 +34,3 @@ export function StackBuilderButton({ count, onClick, className }: StackBuilderBu
     </Button>
   )
 }
-

@@ -31,7 +31,12 @@ interface HorizontalFilterBarProps {
   onToggleStarPreset?: (presetId: string, isStarred: boolean) => void
 }
 
-const RESOURCE_TYPES: Array<{ value: ResourceType | 'all'; label: string; icon: typeof Package | typeof Zap | typeof Clipboard | typeof GitBranch; useLogo?: boolean }> = [
+const RESOURCE_TYPES: Array<{
+  value: ResourceType | 'all'
+  label: string
+  icon: typeof Package | typeof Zap | typeof Clipboard | typeof GitBranch
+  useLogo?: boolean
+}> = [
   { value: 'all', label: 'All', icon: Package },
   { value: 'command', label: 'Commands', icon: Zap },
   { value: 'rule', label: 'Rules', icon: Clipboard },
@@ -67,7 +72,7 @@ export function HorizontalFilterBar({
   const hasActiveFilters = activeType !== 'all' || activeCategory || searchQuery
   const getTypeCount = (type: ResourceType | 'all'): number => {
     if (!filterCounts) return 0
-    
+
     if (type === 'all') {
       return filterCounts.byType.all
     }
@@ -91,12 +96,15 @@ export function HorizontalFilterBar({
                 inputMode="search"
                 placeholder="Search resources…"
                 value={searchQuery}
-                onChange={(event) => onSearchChange(event.target.value)}
+                onChange={event => onSearchChange(event.target.value)}
                 aria-label="Search resources"
                 className="pl-10 h-9 text-sm terminal-font"
               />
             </div>
-            <div className="flex items-center gap-2 text-xs text-muted-foreground terminal-font" aria-live="polite">
+            <div
+              className="flex items-center gap-2 text-xs text-muted-foreground terminal-font"
+              aria-live="polite"
+            >
               <Badge variant="outline" className="text-[11px]">
                 {resultsCount.toLocaleString()}/{totalCount.toLocaleString()} results
               </Badge>
@@ -145,17 +153,17 @@ export function HorizontalFilterBar({
         </div>
         <Tabs
           value={activeType}
-          onValueChange={(value) => onTypeChange(value as ResourceType | 'all')}
+          onValueChange={value => onTypeChange(value as ResourceType | 'all')}
         >
           <TabsList className="max-w-full overflow-x-auto">
-            {RESOURCE_TYPES.map((type) => {
+            {RESOURCE_TYPES.map(type => {
               const count = getTypeCount(type.value)
               const isDisabled = filterCounts && count === 0 && activeCategory !== ''
               return (
                 <TabsTrigger
                   key={type.value}
                   value={type.value}
-                  onMouseDown={(event) => {
+                  onMouseDown={event => {
                     if (isDisabled) event.preventDefault()
                   }}
                   disabled={Boolean(isDisabled)}
@@ -166,7 +174,9 @@ export function HorizontalFilterBar({
                   ) : (
                     <type.icon className="w-4 h-4 shrink-0" aria-hidden="true" />
                   )}
-                  <span className={isDisabled ? 'line-through opacity-70' : undefined}>{type.label}</span>
+                  <span className={isDisabled ? 'line-through opacity-70' : undefined}>
+                    {type.label}
+                  </span>
                   {filterCounts && (
                     <span className="text-[11px] font-medium text-muted-foreground">
                       {count.toLocaleString()}
@@ -181,4 +191,3 @@ export function HorizontalFilterBar({
     </div>
   )
 }
-

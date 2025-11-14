@@ -30,10 +30,12 @@ export function ResourceListView({
   const TypeIconComponent = getResourceTypeIcon(resource.type)
   const shouldReduceMotion = useReducedMotion()
 
-  const cardVariants = shouldReduceMotion ? {} : {
-    hover: ANIMATIONS.cardHover,
-    tap: ANIMATIONS.tap
-  }
+  const cardVariants = shouldReduceMotion
+    ? {}
+    : {
+        hover: ANIMATIONS.cardHover,
+        tap: ANIMATIONS.tap,
+      }
 
   return (
     <motion.div
@@ -51,18 +53,16 @@ export function ResourceListView({
                 <TypeIconComponent className="w-5 h-5 text-muted-foreground" />
               )}
             </div>
-            
+
             <div className="flex-1 min-w-0">
               <div className="flex items-start justify-between gap-4 mb-2">
                 <div className="min-w-0 flex-1">
-                  <h3 className="text-lg font-semibold mb-1 line-clamp-1">
-                    {resource.title}
-                  </h3>
+                  <h3 className="text-lg font-semibold mb-1 line-clamp-1">{resource.title}</h3>
                   <p className="text-sm text-muted-foreground line-clamp-2 mb-2">
                     {resource.description || resource.excerpt}
                   </p>
                 </div>
-                
+
                 <div className="flex items-center gap-2 shrink-0">
                   <Badge variant="secondary" className="text-xs">
                     {resource.type}
@@ -75,7 +75,7 @@ export function ResourceListView({
                   />
                 </div>
               </div>
-              
+
               <div className="flex items-center gap-3 flex-wrap">
                 <Badge variant="outline" className="text-xs">
                   {resource.category}
@@ -103,7 +103,7 @@ export function ResourceListView({
                 )}
               </div>
             </div>
-            
+
             <div className="flex items-center gap-2 shrink-0">
               {resource.type === 'hook' ? (
                 <>
@@ -127,4 +127,3 @@ export function ResourceListView({
     </motion.div>
   )
 }
-

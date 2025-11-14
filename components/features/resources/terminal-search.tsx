@@ -18,7 +18,7 @@ export function TerminalSearch({ value, onChange, resultsCount, totalCount }: Te
         type="text"
         placeholder="Search resources..."
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={e => onChange(e.target.value)}
         className="pl-12 h-12 text-base terminal-font"
       />
       {value && (
@@ -29,4 +29,3 @@ export function TerminalSearch({ value, onChange, resultsCount, totalCount }: Te
     </div>
   )
 }
-

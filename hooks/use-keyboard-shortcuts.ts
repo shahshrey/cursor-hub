@@ -17,7 +17,8 @@ export function useKeyboardShortcuts(shortcuts: KeyboardShortcut[], enabled = tr
 
     const handleKeyDown = (event: KeyboardEvent) => {
       for (const shortcut of shortcuts) {
-        const ctrlMatch = shortcut.ctrl === undefined || shortcut.ctrl === (event.ctrlKey || event.metaKey)
+        const ctrlMatch =
+          shortcut.ctrl === undefined || shortcut.ctrl === (event.ctrlKey || event.metaKey)
         const altMatch = shortcut.alt === undefined || shortcut.alt === event.altKey
         const shiftMatch = shortcut.shift === undefined || shortcut.shift === event.shiftKey
         const metaMatch = shortcut.meta === undefined || shortcut.meta === event.metaKey
@@ -40,4 +41,3 @@ export function useKeyboardShortcuts(shortcuts: KeyboardShortcut[], enabled = tr
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [shortcuts, enabled])
 }
-

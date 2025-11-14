@@ -28,11 +28,11 @@ export function KeyboardShortcutsHelp() {
 
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <div 
+          <div
             className="absolute inset-0 bg-black/60 backdrop-blur-sm"
             onClick={() => setIsOpen(false)}
           />
-          
+
           <Card className="relative z-10 max-w-md w-full mx-4 p-6 border-terminal-green/30">
             <Button
               variant="ghost"
@@ -50,7 +50,7 @@ export function KeyboardShortcutsHelp() {
               </div>
 
               <div className="space-y-2">
-                {SHORTCUTS.map((shortcut) => (
+                {SHORTCUTS.map(shortcut => (
                   <div
                     key={shortcut.key}
                     className="flex items-center justify-between py-2 border-b border-border/50 last:border-0"
@@ -71,4 +71,3 @@ export function KeyboardShortcutsHelp() {
     </>
   )
 }
-

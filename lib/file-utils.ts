@@ -1,4 +1,13 @@
-import { FileCode, FileText, FileJson, Terminal, Zap, Clipboard, GitBranch, type LucideIcon } from 'lucide-react'
+import {
+  FileCode,
+  FileText,
+  FileJson,
+  Terminal,
+  Zap,
+  Clipboard,
+  GitBranch,
+  type LucideIcon,
+} from 'lucide-react'
 import type { ResourceType } from '@/types/resources'
 
 export function getFileIcon(extension: string): LucideIcon {
@@ -63,4 +72,3 @@ export function getLanguageFromExtension(extension: string): string {
       return 'text'
   }
 }
-

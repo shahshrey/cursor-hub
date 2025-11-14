@@ -25,3 +25,7 @@ export interface ResourceIndex {
   generatedAt: string
 }
 
+export interface ResourceDownloadData {
+  slug: string
+  download_count: number | null
+}

@@ -37,17 +37,17 @@ export function getResourcesByCategory(type: ResourceType, category: string): Re
 
 export function getResourceContent(filePath: string): string {
   const absolutePath = path.join(RESOURCES_DIR, filePath)
-  
+
   const resolvedPath = path.resolve(absolutePath)
   const resolvedResourcesDir = path.resolve(RESOURCES_DIR)
-  
+
   if (!resolvedPath.startsWith(resolvedResourcesDir)) {
     throw new Error('Invalid file path: path traversal detected')
   }
 
   const allowedExtensions = ['.md', '.mdc', '.json', '.sh']
   const extension = path.extname(resolvedPath)
-  
+
   if (!allowedExtensions.includes(extension)) {
     throw new Error(`Invalid file type: ${extension}`)
   }
@@ -59,7 +59,9 @@ export function getResourceContent(filePath: string): string {
   return fs.readFileSync(resolvedPath, 'utf-8')
 }
 
-export async function getResourceWithContent(slug: string): Promise<(ResourceMetadata & { content: string }) | null> {
+export async function getResourceWithContent(
+  slug: string
+): Promise<(ResourceMetadata & { content: string }) | null> {
   const resource = getResourceBySlug(slug)
   if (!resource) return null
 
@@ -77,4 +79,3 @@ export function formatFileSize(bytes: number): string {
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(2)} KB`
   return `${(bytes / (1024 * 1024)).toFixed(2)} MB`
 }
-

@@ -5,13 +5,13 @@ import { createClient } from '@/lib/supabase/server'
 export async function incrementDownload(slug: string): Promise<void> {
   try {
     const supabase = createClient()
-    const timeoutPromise = new Promise((_, reject) => 
+    const timeoutPromise = new Promise((_, reject) =>
       setTimeout(() => reject(new Error('Timeout')), 1000)
     )
-    
+
     await Promise.race([
       supabase.rpc('increment_download_count', { resource_slug_param: slug }),
-      timeoutPromise
+      timeoutPromise,
     ])
   } catch (error) {
     if (error instanceof Error && error.message === 'Timeout') {
@@ -53,4 +53,3 @@ export async function getPopularResources(
     return []
   }
 }
-

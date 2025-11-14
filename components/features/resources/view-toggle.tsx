@@ -35,4 +35,3 @@ export function ViewToggle({ viewMode, onViewChange }: ViewToggleProps) {
     </div>
   )
 }
-

@@ -56,11 +56,11 @@ const getColorClass = (type: ResourceItem['type']) => {
 function ResourceCard({ resource }: { resource: ResourceItem }) {
   const Icon = getIcon(resource.type)
   const colorClass = getColorClass(resource.type)
-  
+
   return (
     <Card className="border-none p-0 shadow-none">
-      <MagicCard 
-        className="rounded-xl p-0" 
+      <MagicCard
+        className="rounded-xl p-0"
         gradientSize={150}
         gradientColor="#262626"
         gradientOpacity={0.8}
@@ -68,22 +68,22 @@ function ResourceCard({ resource }: { resource: ResourceItem }) {
         gradientTo="#FE8BBB"
       >
         <div className="flex items-center gap-3 px-5 py-3 rounded-xl bg-card/50 backdrop-blur-sm min-w-fit">
-      <div className={`p-2 rounded-lg ${colorClass}`}>
-        <Icon className="w-4 h-4" />
-      </div>
-      <div className="flex flex-col gap-1">
-        <span className="text-sm font-medium text-foreground whitespace-nowrap">
-          {resource.name}
-        </span>
-        {resource.category && (
-          <span className="text-xs text-muted-foreground whitespace-nowrap">
-            {resource.category}
-          </span>
-        )}
-      </div>
-        <Badge variant="outline" className="ml-2 text-xs capitalize">
-          {resource.type}
-        </Badge>
+          <div className={`p-2 rounded-lg ${colorClass}`}>
+            <Icon className="w-4 h-4" />
+          </div>
+          <div className="flex flex-col gap-1">
+            <span className="text-sm font-medium text-foreground whitespace-nowrap">
+              {resource.name}
+            </span>
+            {resource.category && (
+              <span className="text-xs text-muted-foreground whitespace-nowrap">
+                {resource.category}
+              </span>
+            )}
+          </div>
+          <Badge variant="outline" className="ml-2 text-xs capitalize">
+            {resource.type}
+          </Badge>
         </div>
       </MagicCard>
     </Card>
@@ -98,14 +98,14 @@ export function ResourceMarquee() {
     <div className="relative w-full overflow-hidden py-8">
       <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[rgb(var(--color-bg-primary))] to-transparent z-10" />
       <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[rgb(var(--color-bg-primary))] to-transparent z-10" />
-      
+
       <div className="space-y-4">
         <Marquee pauseOnHover className="[--duration:30s]">
           {firstRow.map((resource, idx) => (
             <ResourceCard key={idx} resource={resource} />
           ))}
         </Marquee>
-        
+
         <Marquee reverse pauseOnHover className="[--duration:35s]">
           {secondRow.map((resource, idx) => (
             <ResourceCard key={idx} resource={resource} />
@@ -115,4 +115,3 @@ export function ResourceMarquee() {
     </div>
   )
 }
-

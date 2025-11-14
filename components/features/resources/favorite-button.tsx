@@ -91,7 +91,7 @@ export function FavoriteButton({
         <motion.div
           variants={shouldReduceMotion ? {} : heartBounce}
           initial="initial"
-          animate={shouldAnimate ? "animate" : "initial"}
+          animate={shouldAnimate ? 'animate' : 'initial'}
         >
           <Heart className={`h-4 w-4 transition-all ${isFavorited ? 'fill-current' : ''}`} />
         </motion.div>
@@ -100,4 +100,3 @@ export function FavoriteButton({
     </Button>
   )
 }
-

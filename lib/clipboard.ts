@@ -13,7 +13,7 @@ export async function copyToClipboard(text: string, useFallback = false): Promis
         }
       }
     }
-    
+
     const textArea = document.createElement('textarea')
     textArea.value = text
     textArea.style.position = 'fixed'
@@ -22,22 +22,22 @@ export async function copyToClipboard(text: string, useFallback = false): Promis
     textArea.setAttribute('readonly', '')
     textArea.style.opacity = '0'
     document.body.appendChild(textArea)
-    
+
     if (document.activeElement instanceof HTMLElement) {
       document.activeElement.blur()
     }
-    
+
     textArea.focus()
     textArea.select()
     textArea.setSelectionRange(0, text.length)
-    
+
     const success = document.execCommand('copy')
     document.body.removeChild(textArea)
-    
+
     if (!success) {
       throw new Error('execCommand("copy") returned false')
     }
-    
+
     return success
   } catch (error) {
     console.error('Failed to copy to clipboard:', error)
@@ -45,10 +45,9 @@ export async function copyToClipboard(text: string, useFallback = false): Promis
       console.error('Error details:', {
         message: error.message,
         name: error.name,
-        stack: error.stack
+        stack: error.stack,
       })
     }
     return false
   }
 }
-

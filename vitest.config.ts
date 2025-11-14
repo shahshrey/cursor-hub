@@ -9,13 +9,21 @@ export default defineConfig({
     setupFiles: './test/setup.ts',
     globals: true,
     passWithNoTests: true,
-    exclude: [
-      '**/node_modules/**',
-      '**/dist/**',
-      '**/tests/**',
-      '**/*.spec.ts',
-      '**/public/**',
-    ],
+    exclude: ['**/node_modules/**', '**/dist/**', '**/tests/**', '**/*.spec.ts', '**/public/**'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'lcov'],
+      exclude: [
+        '**/node_modules/**',
+        '**/dist/**',
+        '**/tests/**',
+        '**/*.spec.ts',
+        '**/public/**',
+        '**/coverage/**',
+        '**/*.config.{ts,js,mjs}',
+        '**/types/**',
+      ],
+    },
   },
   resolve: {
     alias: {

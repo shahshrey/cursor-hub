@@ -21,7 +21,7 @@ const curatedStacks: CuratedStack[] = [
     name: 'Next.js',
     description: 'Full-stack React framework essentials',
     resourceCount: 12,
-    category: 'nextjs-vercel'
+    category: 'nextjs-vercel',
   },
   {
     id: 'typescript',
@@ -29,7 +29,7 @@ const curatedStacks: CuratedStack[] = [
     name: 'TypeScript',
     description: 'Type-safe development tools',
     resourceCount: 15,
-    category: 'development'
+    category: 'development',
   },
   {
     id: 'react',
@@ -37,7 +37,7 @@ const curatedStacks: CuratedStack[] = [
     name: 'React',
     description: 'Modern React development stack',
     resourceCount: 18,
-    category: 'development'
+    category: 'development',
   },
   {
     id: 'database',
@@ -45,13 +45,13 @@ const curatedStacks: CuratedStack[] = [
     name: 'Database',
     description: 'Database management & queries',
     resourceCount: 8,
-    category: 'database'
+    category: 'database',
   },
 ]
 
 export function CuratedStacks() {
   const router = useRouter()
-  
+
   const handleStackClick = (category: string) => {
     const url = new URL(window.location.href)
     url.searchParams.set('category', category)
@@ -62,16 +62,14 @@ export function CuratedStacks() {
   return (
     <div className="space-y-6">
       <div className="space-y-2">
-        <h3 className="text-xl font-bold text-foreground terminal-font">
-          Popular Collections
-        </h3>
+        <h3 className="text-xl font-bold text-foreground terminal-font">Popular Collections</h3>
         <p className="text-sm text-muted-foreground">
           Curated resource collections for major frameworks and technologies
         </p>
       </div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {curatedStacks.map((stack) => (
+        {curatedStacks.map(stack => (
           <Card key={stack.id} className="border-none p-0 shadow-none">
             <MagicCard gradientColor="#262626" className="p-0">
               <button
@@ -91,10 +89,8 @@ export function CuratedStacks() {
                   </span>
                 </div>
 
-                <h4 className="text-lg font-bold text-foreground mb-2">
-                  {stack.name}
-                </h4>
-                
+                <h4 className="text-lg font-bold text-foreground mb-2">{stack.name}</h4>
+
                 <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
                   {stack.description}
                 </p>
@@ -111,4 +107,3 @@ export function CuratedStacks() {
     </div>
   )
 }
-

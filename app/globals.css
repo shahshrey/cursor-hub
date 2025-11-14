@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme inline {
   --color-cursor-dark: 27 25 19;
@@ -6,15 +6,15 @@
   --color-cursor-muted: 164 161 155;
   --color-terminal-green: 0 255 0;
   --color-terminal-amber: 255 191 0;
-  
+
   --color-1: 0 100% 63%;
   --color-2: 270 100% 63%;
   --color-3: 210 100% 63%;
   --color-4: 195 100% 63%;
   --color-5: 90 100% 63%;
-  
+
   --animate-rainbow: rainbow var(--speed, 2s) infinite linear;
-  
+
   --color-background: oklch(0.11 0.01 60);
   --color-bg-primary: 27 25 19;
   --color-foreground: oklch(0.93 0.01 60);
@@ -28,21 +28,21 @@
   --color-secondary-foreground: oklch(0.93 0.01 60);
   --color-muted: oklch(0.18 0.01 60);
   --color-muted-foreground: oklch(0.65 0.01 60);
-  --color-accent: oklch(0.20 0.01 60);
+  --color-accent: oklch(0.2 0.01 60);
   --color-accent-foreground: oklch(0.93 0.01 60);
   --color-destructive: oklch(0.577 0.245 27.325);
   --color-border: oklch(0.93 0.01 60 / 0.1);
   --color-input: oklch(0.93 0.01 60 / 0.1);
   --color-ring: oklch(0.93 0.01 60);
-  
+
   --radius: 0.75rem;
   --radius-sm: 6px;
   --radius-md: 12px;
   --radius-lg: 16px;
-  
+
   --shadow-card: 0 4px 12px rgb(0 0 0 / 0.2);
   --shadow-card-hover: 0 8px 24px rgb(0 0 0 / 0.3);
-  
+
   --animate-marquee: marquee var(--duration) infinite linear;
   --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
   --animate-shimmer-slide: shimmer-slide var(--speed) ease-in-out infinite alternate;
@@ -56,7 +56,7 @@
       transform: translateX(calc(-100% - var(--gap)));
     }
   }
-  
+
   @keyframes marquee-vertical {
     from {
       transform: translateY(0);
@@ -124,27 +124,27 @@
 :root {
   --background: rgb(27, 25, 19);
   --foreground: rgb(237, 236, 236);
-  
+
   --card: rgb(35, 32, 25);
   --card-foreground: rgb(237, 236, 236);
-  
+
   --popover: rgb(35, 32, 25);
   --popover-foreground: rgb(237, 236, 236);
-  
+
   --primary: rgb(237, 236, 236);
   --primary-foreground: rgb(27, 25, 19);
-  
+
   --secondary: rgb(45, 42, 35);
   --secondary-foreground: rgb(237, 236, 236);
-  
+
   --muted: rgb(45, 42, 35);
   --muted-foreground: rgb(164, 161, 155);
-  
+
   --accent: rgb(50, 47, 40);
   --accent-foreground: rgb(237, 236, 236);
-  
+
   --destructive: rgb(239, 68, 68);
-  
+
   --border: rgba(237, 236, 236, 0.1);
   --input: rgba(237, 236, 236, 0.1);
   --ring: rgb(237, 236, 236);
@@ -180,7 +180,9 @@
 body {
   background: transparent;
   color: var(--foreground);
-  font-feature-settings: "rlig" 1, "calt" 1;
+  font-feature-settings:
+    'rlig' 1,
+    'calt' 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -191,9 +193,9 @@ body {
   border-radius: 4px;
 }
 
-button:focus-visible, 
-a:focus-visible, 
-input:focus-visible, 
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
 textarea:focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
@@ -262,7 +264,8 @@ textarea:focus-visible {
 }
 
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {
@@ -271,7 +274,8 @@ textarea:focus-visible {
 }
 
 @keyframes pulse-glow {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: 0 0 0 0 rgba(237, 236, 236, 0);
   }
   50% {
@@ -305,12 +309,7 @@ textarea:focus-visible {
 
 .animate-shimmer {
   animation: shimmer 2s infinite;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(237, 236, 236, 0.05),
-    transparent
-  );
+  background: linear-gradient(90deg, transparent, rgba(237, 236, 236, 0.05), transparent);
   background-size: 1000px 100%;
 }
 
@@ -361,7 +360,7 @@ textarea:focus-visible {
   border: 1px solid rgba(237, 236, 236, 0.2);
 }
 
-.cl-socialButtonsBlockButton[data-variant="outline"] {
+.cl-socialButtonsBlockButton[data-variant='outline'] {
   border-width: 1px !important;
   border-color: rgba(237, 236, 236, 0.2) !important;
 }
