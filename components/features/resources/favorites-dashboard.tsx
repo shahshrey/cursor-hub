@@ -3,7 +3,7 @@
 import { useMemo, useState, useEffect } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ResourceCard } from './resource-card'
-import type { ResourceMetadata, ResourceType } from '@/types/resources'
+import type { ResourceMetadata, ResourceType, ResourceDownloadData } from '@/types/resources'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Search } from 'lucide-react'
@@ -46,7 +46,7 @@ export function FavoritesDashboard({ favorites, resourcesIndex }: FavoritesDashb
 
       if (data && !error) {
         const counts: Record<string, number> = {}
-        data.forEach((item: { slug: string; download_count: number | null }) => {
+        data.forEach((item: ResourceDownloadData) => {
           counts[item.slug] = item.download_count || 0
         })
         setDownloadCounts(counts)

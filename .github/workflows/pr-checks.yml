@@ -41,8 +41,11 @@ jobs:
       
       - name: Check PR size
         run: |
-          FILES_CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | wc -l)
-          LINES_CHANGED=$(git diff --stat origin/${{ github.base_ref }}...HEAD | tail -1 | awk '{print $4+$6}')
+          BASE_SHA=${{ github.event.pull_request.base.sha }}
+          HEAD_SHA=${{ github.sha }}
+          
+          FILES_CHANGED=$(git diff --name-only "$BASE_SHA"..."$HEAD_SHA" | wc -l)
+          LINES_CHANGED=$(git diff --stat "$BASE_SHA"..."$HEAD_SHA" | tail -1 | awk '{print $4+$6}')
           
           echo "Files changed: $FILES_CHANGED"
           echo "Lines changed: $LINES_CHANGED"

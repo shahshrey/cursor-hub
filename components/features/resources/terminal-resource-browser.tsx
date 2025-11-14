@@ -3,7 +3,7 @@
 import { useState, useMemo, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import dynamic from 'next/dynamic'
-import type { ResourceMetadata, ResourceType } from '@/types/resources'
+import type { ResourceMetadata, ResourceType, ResourceDownloadData } from '@/types/resources'
 import { ResourceCard } from './resource-card'
 import { HorizontalFilterBar } from './horizontal-filter-bar'
 import { FilterSidebar } from './filter-sidebar'
@@ -23,6 +23,7 @@ import { BrowseOnboarding } from './browse-onboarding'
 import { QuickFilters } from './quick-filters'
 import { EmptyState } from './empty-state'
 import { KeyboardShortcutsHelp } from './keyboard-shortcuts-help'
+import type { FilterPreset } from '@/lib/preset-storage'
 
 const ResourcePreviewModal = dynamic(
   () => import('./resource-preview-modal').then(m => m.ResourcePreviewModal),
@@ -183,7 +184,7 @@ export function TerminalResourceBrowser({
 
       if (data && !error) {
         const counts: Record<string, number> = {}
-        data.forEach((item: { slug: string; download_count: number | null }) => {
+        data.forEach((item: ResourceDownloadData) => {
           counts[item.slug] = item.download_count || 0
         })
         setDownloadCounts(counts)
@@ -355,7 +356,7 @@ export function TerminalResourceBrowser({
     }
   }
 
-  const handleLoadPreset = (preset: (typeof presets)[0]) => {
+  const handleLoadPreset = (preset: FilterPreset) => {
     setActiveType(preset.type)
     setActiveCategory(preset.category)
     setSearchQuery(preset.searchQuery)

@@ -32,7 +32,7 @@ security:
 
 ci-cd:
   - changed-files:
-    - any-glob-to-any-file: ['.github/**/*', '.husky/**/*']
+    - any-glob-to-any-file: ['.github/workflows/**/*', '.husky/**/*']
 
 resources:
   - changed-files:

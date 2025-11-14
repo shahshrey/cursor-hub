@@ -34,7 +34,7 @@ const SECRET_PATTERNS = [
   },
 ]
 
-const ALLOWED_FILES = ['.env.example', '.env.local.example', 'check-secrets.js', 'README.md']
+const ALLOWED_FILES = ['.env.example', '.env.local.example', 'check-secrets.js']
 
 const EXCLUDED_PATTERNS = [/node_modules/, /\.git\//, /\.next\//, /dist\//, /build\//, /\.husky\//]
 

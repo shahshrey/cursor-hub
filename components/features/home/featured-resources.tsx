@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { ResourceCard } from '@/components/features/resources/resource-card'
-import type { ResourceMetadata } from '@/types/resources'
+import type { ResourceMetadata, ResourceDownloadData } from '@/types/resources'
 import { Button } from '@/components/ui/button'
 import { createClient } from '@/lib/supabase/client'
 import { useEffect, useState } from 'react'
@@ -47,7 +47,7 @@ export function FeaturedResources({
 
       if (data) {
         const counts: Record<string, number> = {}
-        data.forEach((item: { slug: string; download_count: number | null }) => {
+        data.forEach((item: ResourceDownloadData) => {
           counts[item.slug] = item.download_count || 0
         })
         setDownloadCounts(counts)
