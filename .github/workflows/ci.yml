@@ -129,5 +129,15 @@ jobs:
       
       - name: Run secret detection
         run: |
-          node scripts/check-secrets.js $(git diff --name-only origin/main...HEAD || git ls-files)
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            BASE_BRANCH="origin/${{ github.base_ref }}"
+          else
+            BASE_BRANCH="origin/${{ github.ref_name }}"
+          fi
+          CHANGED_FILES=$(git diff --name-only "$BASE_BRANCH...HEAD" 2>/dev/null || git diff --name-only HEAD~1 HEAD 2>/dev/null || git ls-files)
+          if [ -z "$CHANGED_FILES" ]; then
+            echo "No files to scan"
+            exit 0
+          fi
+          node scripts/check-secrets.js $CHANGED_FILES
 
