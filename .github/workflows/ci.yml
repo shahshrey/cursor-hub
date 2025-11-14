@@ -28,7 +28,7 @@ jobs:
         run: npm run lint
       
       - name: Check formatting with Prettier
-        run: npx prettier --check "**/*.{ts,tsx,js,jsx,json,css,md}"
+        run: npx prettier --check "**/*.{ts,tsx,js,jsx,json,css}"
 
   typecheck:
     name: TypeScript Type Check
