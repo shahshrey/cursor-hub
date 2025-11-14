@@ -1,17 +1,17 @@
-*                                   @owner
+*                                   @shahshrey
 
-.github/**/*                        @owner
-.husky/**/*                         @owner
+.github/**/*                        @shahshrey
+.husky/**/*                         @shahshrey
 
-supabase/migrations/**/*            @owner
-types/supabase.ts                   @owner
+supabase/migrations/**/*            @shahshrey
+types/supabase.ts                   @shahshrey
 
-scripts/**/*                        @owner
+scripts/**/*                        @shahshrey
 
-cursor-resources/**/*               @owner
+cursor-resources/**/*               @shahshrey
 
-server/actions/**/*                 @owner
-server/queries/**/*                 @owner
+server/actions/**/*                 @shahshrey
+server/queries/**/*                 @shahshrey
 
-middleware.ts                       @owner
+middleware.ts                       @shahshrey
 
