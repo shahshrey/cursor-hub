@@ -1,0 +1,12 @@
+{
+    "mcpServers": {
+      "Bright Data": {
+        "description": "Discover, extract, and interact with the web - one interface powering automated access across the public internet.",
+        "command": "npx",
+        "args": ["@brightdata/mcp"],
+        "env": {
+          "API_TOKEN": "<your-api-token-here>"
+        }
+      }
+    }
+  }
