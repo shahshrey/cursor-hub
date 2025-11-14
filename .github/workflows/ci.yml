@@ -140,5 +140,6 @@ jobs:
             echo "No files to scan"
             exit 0
           fi
-          node scripts/check-secrets.js $CHANGED_FILES
+          readarray -t FILES_ARRAY <<< "$CHANGED_FILES"
+          node scripts/check-secrets.js "${FILES_ARRAY[@]}"
 

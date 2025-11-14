@@ -31,20 +31,33 @@ jobs:
         with:
           script: |
             const { execSync } = require('child_process');
-            const outdated = execSync('npm outdated --json || echo "{}"').toString();
             
-            if (outdated && outdated !== '{}') {
-              const packages = JSON.parse(outdated);
-              const packageList = Object.entries(packages)
-                .map(([name, info]) => `- ${name}: ${info.current} → ${info.latest}`)
-                .join('\n');
-              
-              await github.rest.issues.create({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                title: '📦 Dependency Updates Available',
-                body: `The following dependencies have updates available:\n\n${packageList}\n\nRun \`npm update\` to update these packages.`,
-                labels: ['dependencies', 'automated']
-              });
+            let stdout = '';
+            try {
+              stdout = execSync('npm outdated --json', { encoding: 'utf8' });
+            } catch (error) {
+              stdout = error.stdout?.toString() || '';
             }
+            
+            if (!stdout.trim()) {
+              return;
+            }
+            
+            const packages = JSON.parse(stdout);
+            
+            if (Object.keys(packages).length === 0) {
+              return;
+            }
+            
+            const packageList = Object.entries(packages)
+              .map(([name, info]) => `- ${name}: ${info.current} → ${info.latest}`)
+              .join('\n');
+            
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '📦 Dependency Updates Available',
+              body: `The following dependencies have updates available:\n\n${packageList}\n\nRun \`npm update\` to update these packages.`,
+              labels: ['dependencies', 'automated']
+            });
 

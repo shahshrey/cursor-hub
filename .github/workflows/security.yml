@@ -25,7 +25,6 @@ jobs:
       
       - name: Run npm audit
         run: npm audit --audit-level=moderate
-        continue-on-error: true
       
       - name: Check for outdated dependencies
         run: npm outdated || true
@@ -41,7 +40,6 @@ jobs:
       
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/node@master
-        continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
