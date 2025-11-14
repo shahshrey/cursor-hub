@@ -80,6 +80,10 @@ function isFalsePositive(match, content, filePath) {
   const contextEnd = Math.min(content.length, matchIndex + match.length + 150)
   const context = content.slice(contextStart, contextEnd)
 
+  if (filePath.includes('.github/workflows/') && context.includes('uses:')) {
+    return true
+  }
+
   if (match.includes('cursor-resources-')) {
     return true
   }
