@@ -75,4 +75,3 @@ export function debounce<T extends (...args: unknown[]) => unknown>(
     timeout = setTimeout(() => func(...args), wait)
   }
 }
-

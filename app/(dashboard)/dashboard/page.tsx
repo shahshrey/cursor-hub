@@ -11,7 +11,7 @@ import { Separator } from '@/components/ui/separator'
 export default async function DashboardPage() {
   const { userId } = await auth()
   const user = await currentUser()
-  
+
   const favorites = await getFavorites()
   const resourcesIndex = getResourceIndex()
 
@@ -24,13 +24,11 @@ export default async function DashboardPage() {
             <Button variant="outline">Browse Resources</Button>
           </Link>
           <SignOutButton>
-            <Button variant="outline">
-              Sign Out
-            </Button>
+            <Button variant="outline">Sign Out</Button>
           </SignOutButton>
         </div>
       </div>
-      
+
       <Card className="mb-8">
         <CardHeader>
           <CardTitle>Welcome!</CardTitle>

@@ -42,7 +42,7 @@ function extractDescriptionFromMd(content: string): string {
   const firstParagraph = content
     .split('\n\n')
     .find(p => p.trim() && !p.startsWith('#') && !p.startsWith('<'))
-  
+
   return firstParagraph ? firstParagraph.trim().substring(0, 300) : ''
 }
 
@@ -77,7 +77,11 @@ function extractDescriptionFromSh(content: string): string {
   return commentLines.join(' ').substring(0, 300)
 }
 
-function processFile(filePath: string, resourceType: ResourceType, category: string): ResourceMetadata | null {
+function processFile(
+  filePath: string,
+  resourceType: ResourceType,
+  category: string
+): ResourceMetadata | null {
   try {
     const stats = fs.statSync(filePath)
     const content = fs.readFileSync(filePath, 'utf-8')
@@ -159,14 +163,24 @@ function processFile(filePath: string, resourceType: ResourceType, category: str
 
 function scanDirectory(dir: string, resourceType: ResourceType): ResourceMetadata[] {
   const resources: ResourceMetadata[] = []
-  const typeDir = path.join(dir, resourceType === 'command' ? 'commands' : resourceType === 'rule' ? 'rules' : resourceType === 'mcp' ? 'mcps' : 'hooks')
+  const typeDir = path.join(
+    dir,
+    resourceType === 'command'
+      ? 'commands'
+      : resourceType === 'rule'
+        ? 'rules'
+        : resourceType === 'mcp'
+          ? 'mcps'
+          : 'hooks'
+  )
 
   if (!fs.existsSync(typeDir)) {
     console.warn(`Directory not found: ${typeDir}`)
     return resources
   }
 
-  const categories = fs.readdirSync(typeDir, { withFileTypes: true })
+  const categories = fs
+    .readdirSync(typeDir, { withFileTypes: true })
     .filter(dirent => dirent.isDirectory())
 
   for (const categoryDir of categories) {
@@ -207,7 +221,9 @@ function generateIndex(): ResourceIndex {
 
     const uniqueCategories = [...new Set(typeResources.map(r => r.category))]
     categories[resourceType] = uniqueCategories.sort()
-    console.log(`   Found ${typeResources.length} resources in ${uniqueCategories.length} categories`)
+    console.log(
+      `   Found ${typeResources.length} resources in ${uniqueCategories.length} categories`
+    )
   }
 
   const index: ResourceIndex = {
@@ -239,4 +255,3 @@ try {
   console.error('❌ Error generating index:', error)
   process.exit(1)
 }
-

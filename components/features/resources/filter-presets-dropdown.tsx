@@ -48,7 +48,7 @@ export function FilterPresetsDropdown({
       searchQuery: preset.searchQuery,
       sortBy: preset.sortBy,
     })
-    
+
     const success = await copyToClipboard(url, true)
     if (success) {
       toast.success('Shareable link copied to clipboard')
@@ -59,11 +59,11 @@ export function FilterPresetsDropdown({
 
   const formatLastUsed = (lastUsed?: string): string => {
     if (!lastUsed) return 'Never used'
-    
+
     const date = new Date(lastUsed)
     const now = new Date()
     const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60))
-    
+
     if (diffInHours < 1) return 'Just now'
     if (diffInHours < 24) return `${diffInHours}h ago`
     const diffInDays = Math.floor(diffInHours / 24)
@@ -93,14 +93,14 @@ export function FilterPresetsDropdown({
           </span>
         </div>
       </div>
-      
+
       <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
         {!preset.isDefault && (
           <Button
             variant="ghost"
             size="icon"
             className="h-7 w-7"
-            onClick={(e) => {
+            onClick={e => {
               e.stopPropagation()
               onToggleStar(preset.id, !preset.isStarred)
             }}
@@ -112,7 +112,7 @@ export function FilterPresetsDropdown({
           variant="ghost"
           size="icon"
           className="h-7 w-7"
-          onClick={(e) => {
+          onClick={e => {
             e.stopPropagation()
             handleSharePreset(preset)
           }}
@@ -124,7 +124,7 @@ export function FilterPresetsDropdown({
             variant="ghost"
             size="icon"
             className="h-7 w-7 text-destructive"
-            onClick={(e) => {
+            onClick={e => {
               e.stopPropagation()
               onDeletePreset(preset.id)
             }}
@@ -149,7 +149,7 @@ export function FilterPresetsDropdown({
           )}
         </Button>
       </SheetTrigger>
-      
+
       <SheetContent side="right" className="w-full sm:w-96 overflow-y-auto">
         <SheetHeader>
           <SheetTitle className="terminal-font">Filter Presets</SheetTitle>
@@ -157,7 +157,7 @@ export function FilterPresetsDropdown({
             Save and quickly apply your favorite filter combinations
           </SheetDescription>
         </SheetHeader>
-        
+
         <div className="mt-6 space-y-6">
           {defaultPresets.length > 0 && (
             <div>
@@ -171,7 +171,7 @@ export function FilterPresetsDropdown({
               </div>
             </div>
           )}
-          
+
           {starredPresets.length > 0 && (
             <div>
               <h3 className="text-xs font-semibold text-muted-foreground terminal-font uppercase tracking-wide mb-3">
@@ -184,7 +184,7 @@ export function FilterPresetsDropdown({
               </div>
             </div>
           )}
-          
+
           {regularPresets.length > 0 && (
             <div>
               <h3 className="text-xs font-semibold text-muted-foreground terminal-font uppercase tracking-wide mb-3">
@@ -197,7 +197,7 @@ export function FilterPresetsDropdown({
               </div>
             </div>
           )}
-          
+
           {presets.filter(p => !p.isDefault).length === 0 && (
             <div className="text-center py-12">
               <Bookmark className="h-12 w-12 mx-auto text-muted-foreground opacity-50 mb-4" />
@@ -214,4 +214,3 @@ export function FilterPresetsDropdown({
     </Sheet>
   )
 }
-

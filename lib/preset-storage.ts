@@ -19,7 +19,7 @@ const MAX_PRESETS = 10
 
 export function getStoredPresets(): FilterPreset[] {
   if (typeof window === 'undefined') return []
-  
+
   try {
     const stored = localStorage.getItem(STORAGE_KEY)
     if (!stored) return []
@@ -30,10 +30,12 @@ export function getStoredPresets(): FilterPreset[] {
   }
 }
 
-export function savePreset(preset: Omit<FilterPreset, 'id' | 'createdAt' | 'usageCount'>): FilterPreset | null {
+export function savePreset(
+  preset: Omit<FilterPreset, 'id' | 'createdAt' | 'usageCount'>
+): FilterPreset | null {
   try {
     const presets = getStoredPresets()
-    
+
     if (presets.length >= MAX_PRESETS && !preset.isDefault) {
       throw new Error(`Maximum ${MAX_PRESETS} presets allowed`)
     }
@@ -47,7 +49,7 @@ export function savePreset(preset: Omit<FilterPreset, 'id' | 'createdAt' | 'usag
 
     const updatedPresets = [...presets, newPreset]
     localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedPresets))
-    
+
     return newPreset
   } catch (error) {
     console.error('Failed to save preset:', error)
@@ -70,9 +72,7 @@ export function deletePreset(presetId: string): boolean {
 export function updatePreset(presetId: string, updates: Partial<FilterPreset>): boolean {
   try {
     const presets = getStoredPresets()
-    const updatedPresets = presets.map(p => 
-      p.id === presetId ? { ...p, ...updates } : p
-    )
+    const updatedPresets = presets.map(p => (p.id === presetId ? { ...p, ...updates } : p))
     localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedPresets))
     return true
   } catch (error) {
@@ -84,8 +84,8 @@ export function updatePreset(presetId: string, updates: Partial<FilterPreset>): 
 export function incrementPresetUsage(presetId: string): void {
   try {
     const presets = getStoredPresets()
-    const updatedPresets = presets.map(p => 
-      p.id === presetId 
+    const updatedPresets = presets.map(p =>
+      p.id === presetId
         ? { ...p, usageCount: p.usageCount + 1, lastUsed: new Date().toISOString() }
         : p
     )
@@ -130,4 +130,3 @@ export const DEFAULT_PRESETS: FilterPreset[] = [
     isDefault: true,
   },
 ]
-

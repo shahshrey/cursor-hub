@@ -44,10 +44,12 @@ export function DownloadButton({
       document.body.removeChild(a)
 
       toast.success(`Downloaded ${resource.fileName}`)
-      
-      window.dispatchEvent(new CustomEvent('resource-downloaded', { 
-        detail: { slug: resource.slug } 
-      }))
+
+      window.dispatchEvent(
+        new CustomEvent('resource-downloaded', {
+          detail: { slug: resource.slug },
+        })
+      )
     } catch (error) {
       console.error('Download error:', error)
       toast.error('Failed to download resource')
@@ -57,10 +59,10 @@ export function DownloadButton({
   }
 
   return (
-    <Button 
-      variant={variant} 
-      size={size} 
-      onClick={handleDownload} 
+    <Button
+      variant={variant}
+      size={size}
+      onClick={handleDownload}
       disabled={isDownloading}
       className={className}
       aria-label={`Download ${resource.fileName}`}
@@ -74,4 +76,3 @@ export function DownloadButton({
     </Button>
   )
 }
-

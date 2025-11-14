@@ -61,11 +61,11 @@ export function handleApiError(error: unknown): NextResponse {
     if (isDevelopment) {
       console.error(`[${error.name}]`, error.message)
     }
-    
+
     return NextResponse.json(
-      { 
+      {
         error: error.userMessage,
-        ...(isDevelopment && { details: sanitizeErrorMessage(error.message) })
+        ...(isDevelopment && { details: sanitizeErrorMessage(error.message) }),
       },
       { status: error.statusCode }
     )
@@ -75,11 +75,11 @@ export function handleApiError(error: unknown): NextResponse {
     if (isDevelopment) {
       console.error('[ValidationError]', error.errors)
     }
-    
+
     return NextResponse.json(
-      { 
+      {
         error: 'Invalid request parameters',
-        ...(isDevelopment && { details: error.errors })
+        ...(isDevelopment && { details: error.errors }),
       },
       { status: 400 }
     )
@@ -89,13 +89,14 @@ export function handleApiError(error: unknown): NextResponse {
   if (isDevelopment && error instanceof Error) {
     console.error(error.stack)
   }
-  
+
   return NextResponse.json(
-    { 
+    {
       error: 'An unexpected error occurred',
-      ...(isDevelopment && error instanceof Error && { 
-        details: sanitizeErrorMessage(error.message) 
-      })
+      ...(isDevelopment &&
+        error instanceof Error && {
+          details: sanitizeErrorMessage(error.message),
+        }),
     },
     { status: 500 }
   )
@@ -103,7 +104,7 @@ export function handleApiError(error: unknown): NextResponse {
 
 export function logError(error: unknown, context?: string): void {
   const isDevelopment = process.env.NODE_ENV === 'development'
-  
+
   if (isDevelopment) {
     console.error(`[Error${context ? ` - ${context}` : ''}]`, error)
   } else {
@@ -111,4 +112,3 @@ export function logError(error: unknown, context?: string): void {
     console.error(`[Error${context ? ` - ${context}` : ''}]`, sanitizeErrorMessage(message))
   }
 }
-

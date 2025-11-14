@@ -47,7 +47,13 @@ export function ResourceCardSkeleton() {
   )
 }
 
-export function ResourceGridSkeleton({ count = 12, message }: { count?: number; message?: string }) {
+export function ResourceGridSkeleton({
+  count = 12,
+  message,
+}: {
+  count?: number
+  message?: string
+}) {
   return (
     <div className="space-y-4">
       {message && (
@@ -71,4 +77,3 @@ export function ResourceGridSkeleton({ count = 12, message }: { count?: number; 
     </div>
   )
 }
-

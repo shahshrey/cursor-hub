@@ -22,7 +22,7 @@ export const searchParamsSchema = z.object({
   limit: z
     .string()
     .optional()
-    .transform(val => val ? parseInt(val, 10) : 100)
+    .transform(val => (val ? parseInt(val, 10) : 100))
     .pipe(z.number().int().min(1).max(1000)),
 })
 
@@ -38,10 +38,7 @@ export function validateSlug(slug: string): boolean {
 }
 
 export function sanitizeString(input: string, maxLength: number = 500): string {
-  return input
-    .trim()
-    .slice(0, maxLength)
-    .replace(/[<>]/g, '')
+  return input.trim().slice(0, maxLength).replace(/[<>]/g, '')
 }
 
 export function isValidUrl(url: string): boolean {
@@ -56,4 +53,3 @@ export function isValidUrl(url: string): boolean {
 export const MAX_REQUEST_SIZE = 1024 * 1024
 export const MAX_QUERY_LENGTH = 200
 export const MAX_SLUG_LENGTH = 255
-

@@ -23,4 +23,3 @@ export function CursorLogo({ className, size = 24 }: CursorLogoProps) {
     </svg>
   )
 }
-

@@ -24,4 +24,3 @@ export interface ResourceIndex {
   totalCount: number
   generatedAt: string
 }
-

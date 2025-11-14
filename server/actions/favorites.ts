@@ -11,7 +11,7 @@ export async function toggleFavorite(
 ): Promise<{ success: boolean; isFavorited: boolean; error?: string }> {
   try {
     const { userId } = await auth()
-    
+
     if (!userId) {
       return { success: false, isFavorited: false, error: 'Not authenticated' }
     }
@@ -63,7 +63,7 @@ export async function getFavorites(): Promise<
 > {
   try {
     const { userId } = await auth()
-    
+
     if (!userId) return []
 
     const supabase = createClient()
@@ -87,7 +87,7 @@ export async function getFavoritesByType(
 ): Promise<Array<{ resource_slug: string; resource_type: ResourceType; created_at: string }>> {
   try {
     const { userId } = await auth()
-    
+
     if (!userId) return []
 
     const supabase = createClient()
@@ -110,7 +110,7 @@ export async function getFavoritesByType(
 export async function isFavorited(slug: string): Promise<boolean> {
   try {
     const { userId } = await auth()
-    
+
     if (!userId) return false
 
     const supabase = createClient()
@@ -128,4 +128,3 @@ export async function isFavorited(slug: string): Promise<boolean> {
     return false
   }
 }
-

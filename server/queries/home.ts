@@ -6,25 +6,25 @@ import type { ResourceMetadata, ResourceType } from '@/types/resources'
 
 export async function getHomePageData() {
   const index = getResourceIndex()
-  
+
   const typeCounts: Record<ResourceType, number> = {
     command: 0,
     rule: 0,
     mcp: 0,
     hook: 0,
   }
-  
+
   const categoryCounts: Record<string, number> = {}
-  
+
   index.resources.forEach(resource => {
     typeCounts[resource.type]++
     categoryCounts[resource.category] = (categoryCounts[resource.category] || 0) + 1
   })
-  
+
   const recentResources = [...index.resources]
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
     .slice(0, 6)
-  
+
   let popularResources: ResourceMetadata[] = []
   try {
     const popular = await getPopularResources(8)
@@ -38,23 +38,21 @@ export async function getHomePageData() {
           return aIndex - bIndex
         })
     }
-    
+
     if (popularResources.length === 0) {
-      popularResources = index.resources
-        .slice(0, 8)
+      popularResources = index.resources.slice(0, 8)
     }
   } catch (error) {
-    popularResources = index.resources
-      .slice(0, 8)
+    popularResources = index.resources.slice(0, 8)
   }
-  
+
   const featuredByType: Record<ResourceType, ResourceMetadata[]> = {
     command: index.resources.filter(r => r.type === 'command').slice(0, 2),
     rule: index.resources.filter(r => r.type === 'rule').slice(0, 2),
     mcp: index.resources.filter(r => r.type === 'mcp').slice(0, 2),
     hook: index.resources.filter(r => r.type === 'hook').slice(0, 2),
   }
-  
+
   return {
     totalResources: index.totalCount,
     typeCounts,
@@ -65,4 +63,3 @@ export async function getHomePageData() {
     categories: index.categories,
   }
 }
-

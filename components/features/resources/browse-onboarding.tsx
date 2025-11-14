@@ -18,9 +18,10 @@ const ONBOARDING_STEPS: OnboardingStep[] = [
   {
     id: 'welcome',
     title: 'Welcome to Cursor Hub',
-    description: 'A curated collection of commands, rules, MCPs, and hooks for Cursor. Let\'s show you around!',
+    description:
+      "A curated collection of commands, rules, MCPs, and hooks for Cursor. Let's show you around!",
     icon: <Hand className="w-8 h-8" />,
-    position: 'center'
+    position: 'center',
   },
   {
     id: 'search',
@@ -28,15 +29,16 @@ const ONBOARDING_STEPS: OnboardingStep[] = [
     description: 'Search across all resources instantly. Try "Next.js", "testing", or "database"',
     icon: <Search className="w-6 h-6" />,
     target: 'search-input',
-    position: 'top'
+    position: 'top',
   },
   {
     id: 'filters',
     title: 'Smart Filters',
-    description: 'Filter by type (Commands, Rules, MCPs, Hooks) and categories. Counts update in real-time!',
+    description:
+      'Filter by type (Commands, Rules, MCPs, Hooks) and categories. Counts update in real-time!',
     icon: <Filter className="w-6 h-6" />,
     target: 'filter-bar',
-    position: 'top'
+    position: 'top',
   },
   {
     id: 'presets',
@@ -44,15 +46,15 @@ const ONBOARDING_STEPS: OnboardingStep[] = [
     description: 'Found the perfect filter combo? Save it as a preset for quick access later!',
     icon: <Star className="w-6 h-6" />,
     target: 'preset-button',
-    position: 'top'
+    position: 'top',
   },
   {
     id: 'shortcuts',
     title: 'Pro Tips',
     description: 'Press "/" to focus search • Esc to clear • ↑↓ to navigate • Enter to preview',
     icon: <Keyboard className="w-6 h-6" />,
-    position: 'center'
-  }
+    position: 'center',
+  },
 ]
 
 const ONBOARDING_KEY = 'cursor-resources-onboarding-completed'
@@ -101,14 +103,15 @@ export function BrowseOnboarding() {
     <>
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <div 
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-            onClick={handleSkip}
-          />
-          
-          <Card className={`relative z-10 max-w-md w-full mx-4 p-6 border-2 border-terminal-green/30 shadow-2xl ${
-            step.position === 'center' ? 'animate-in fade-in zoom-in' : 'animate-in slide-in-from-top'
-          }`}>
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={handleSkip} />
+
+          <Card
+            className={`relative z-10 max-w-md w-full mx-4 p-6 border-2 border-terminal-green/30 shadow-2xl ${
+              step.position === 'center'
+                ? 'animate-in fade-in zoom-in'
+                : 'animate-in slide-in-from-top'
+            }`}
+          >
             <Button
               variant="ghost"
               size="sm"
@@ -125,36 +128,27 @@ export function BrowseOnboarding() {
 
               <div className="space-y-2">
                 <h3 className="text-xl font-bold terminal-font">{step.title}</h3>
-                <p className="text-sm text-muted-foreground terminal-font">
-                  {step.description}
-                </p>
+                <p className="text-sm text-muted-foreground terminal-font">{step.description}</p>
               </div>
 
               <div className="w-full space-y-4 pt-2">
                 <div className="w-full bg-muted rounded-full h-1.5 overflow-hidden">
-                  <div 
+                  <div
                     className="h-full bg-terminal-green transition-all duration-300"
                     style={{ width: `${progress}%` }}
                   />
                 </div>
 
                 <div className="flex items-center justify-between gap-3">
-                  <Button
-                    variant="ghost"
-                    onClick={handleSkip}
-                    className="terminal-font text-xs"
-                  >
+                  <Button variant="ghost" onClick={handleSkip} className="terminal-font text-xs">
                     Skip Tour
                   </Button>
-                  
+
                   <div className="flex items-center gap-2">
                     <span className="text-xs text-muted-foreground terminal-font">
                       {currentStep + 1} of {ONBOARDING_STEPS.length}
                     </span>
-                    <Button
-                      onClick={handleNext}
-                      className="terminal-font"
-                    >
+                    <Button onClick={handleNext} className="terminal-font">
                       {currentStep === ONBOARDING_STEPS.length - 1 ? 'Get Started' : 'Next'}
                     </Button>
                   </div>

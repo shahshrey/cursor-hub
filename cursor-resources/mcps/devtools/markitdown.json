@@ -3,12 +3,7 @@
     "markitdown": {
       "description": "Convert various file formats (PDF, Word, Excel, images, audio) to Markdown.",
       "command": "docker",
-      "args": [
-        "run",
-        "--rm",
-        "-i",
-        "markitdown-mcp:latest"
-      ]
+      "args": ["run", "--rm", "-i", "markitdown-mcp:latest"]
     }
   }
 }

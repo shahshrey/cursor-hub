@@ -54,10 +54,14 @@ export function EnhancedSearchInput({
       }
 
       try {
-        const response = await fetch(`/api/resources/search?q=${encodeURIComponent(value)}&limit=${MAX_SUGGESTIONS}`)
+        const response = await fetch(
+          `/api/resources/search?q=${encodeURIComponent(value)}&limit=${MAX_SUGGESTIONS}`
+        )
         if (response.ok) {
           const data = await response.json()
-          const titles = (data.results || []).slice(0, MAX_SUGGESTIONS).map((r: ResourceMetadata) => r.title)
+          const titles = (data.results || [])
+            .slice(0, MAX_SUGGESTIONS)
+            .map((r: ResourceMetadata) => r.title)
           const uniqueTitles = Array.from(new Set(titles)) as string[]
           setSuggestions(uniqueTitles)
         } else {
@@ -74,7 +78,7 @@ export function EnhancedSearchInput({
 
   const saveToHistory = useCallback((query: string) => {
     if (!query.trim() || query.length < 2) return
-    
+
     setSearchHistory(prev => {
       const filtered = prev.filter(q => q.toLowerCase() !== query.toLowerCase())
       const updated = [query, ...filtered].slice(0, MAX_HISTORY)
@@ -84,18 +88,15 @@ export function EnhancedSearchInput({
   }, [])
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    const allSuggestions = value.trim().length >= 2 
-      ? suggestions 
-      : searchHistory.slice(0, MAX_SUGGESTIONS)
-    
+    const allSuggestions =
+      value.trim().length >= 2 ? suggestions : searchHistory.slice(0, MAX_SUGGESTIONS)
+
     if (e.key === 'ArrowDown') {
       e.preventDefault()
-      setSelectedIndex(prev => 
-        prev < allSuggestions.length - 1 ? prev + 1 : prev
-      )
+      setSelectedIndex(prev => (prev < allSuggestions.length - 1 ? prev + 1 : prev))
     } else if (e.key === 'ArrowUp') {
       e.preventDefault()
-      setSelectedIndex(prev => prev > 0 ? prev - 1 : -1)
+      setSelectedIndex(prev => (prev > 0 ? prev - 1 : -1))
     } else if (e.key === 'Enter' && selectedIndex >= 0 && allSuggestions[selectedIndex]) {
       e.preventDefault()
       const selected = allSuggestions[selectedIndex]
@@ -156,9 +157,8 @@ export function EnhancedSearchInput({
     }
   }, [isFocused])
 
-  const displaySuggestions = value.trim().length >= 2 
-    ? suggestions 
-    : searchHistory.slice(0, MAX_SUGGESTIONS)
+  const displaySuggestions =
+    value.trim().length >= 2 ? suggestions : searchHistory.slice(0, MAX_SUGGESTIONS)
 
   const showSuggestions = isFocused && displaySuggestions.length > 0
 
@@ -171,7 +171,7 @@ export function EnhancedSearchInput({
           type="text"
           placeholder="Search resources... (⌘K)"
           value={value}
-          onChange={(e) => {
+          onChange={e => {
             onChange(e.target.value)
             setSelectedIndex(-1)
           }}
@@ -255,7 +255,7 @@ export function EnhancedSearchInput({
                     <Button
                       variant="ghost"
                       size="sm"
-                      onClick={(e) => {
+                      onClick={e => {
                         e.stopPropagation()
                         removeHistoryItem(suggestion)
                       }}
@@ -273,4 +273,3 @@ export function EnhancedSearchInput({
     </div>
   )
 }
-

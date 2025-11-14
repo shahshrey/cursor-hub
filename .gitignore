@@ -55,5 +55,5 @@ supabase-local-credentials.txt
 # clerk configuration (can include secrets)
 /.clerk/
 
-# Snyk Security Extension - AI Rules (auto-generated)
-.cursor/rules/snyk_rules.mdc
+
+test-results/

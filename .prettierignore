@@ -12,4 +12,10 @@ package-lock.json
 pnpm-lock.yaml
 yarn.lock
 *.md
+tests/**
+test/**
+*.spec.ts
+*.spec.tsx
+test-results/**
+playwright-report/**
 

@@ -16,13 +16,13 @@ export default function SignInPage() {
           position: absolute;
           top: 0;
           left: 0;
-          content: "Sign in to Cursor Hub";
+          content: 'Sign in to Cursor Hub';
           width: 100%;
         }
       `}</style>
       <div className="relative">
         <BorderBeam size={250} duration={12} delay={9} />
-        <SignIn 
+        <SignIn
           path="/signin"
           routing="path"
           signUpUrl="/signup"
@@ -41,27 +41,30 @@ export default function SignInPage() {
               fontFamily: 'var(--font-sans)',
             },
             elements: {
-              rootBox: "mx-auto",
-              card: "bg-card text-card-foreground shadow-lg border border-border/50 backdrop-blur-sm",
-              headerTitle: "text-2xl font-bold text-foreground",
-              headerSubtitle: "text-muted-foreground",
-              socialButtonsBlockButton: "bg-accent/20 border border-border hover:bg-accent hover:text-accent-foreground transition-all font-medium shadow-sm",
-              socialButtonsBlockButtonText: "!text-foreground font-semibold",
-              formButtonPrimary: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-md transition-all",
-              formFieldInput: "bg-background border border-border/50 text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-primary",
-              footerActionLink: "text-primary hover:text-primary/80 transition-colors",
-              identityPreviewEditButton: "text-primary hover:text-primary/80",
-              formFieldLabel: "text-foreground font-medium",
-              dividerLine: "bg-border",
-              dividerText: "text-muted-foreground",
-              otpCodeFieldInput: "bg-background border-border/50 text-foreground",
+              rootBox: 'mx-auto',
+              card: 'bg-card text-card-foreground shadow-lg border border-border/50 backdrop-blur-sm',
+              headerTitle: 'text-2xl font-bold text-foreground',
+              headerSubtitle: 'text-muted-foreground',
+              socialButtonsBlockButton:
+                'bg-accent/20 border border-border hover:bg-accent hover:text-accent-foreground transition-all font-medium shadow-sm',
+              socialButtonsBlockButtonText: '!text-foreground font-semibold',
+              formButtonPrimary:
+                'bg-primary text-primary-foreground hover:bg-primary/90 shadow-md transition-all',
+              formFieldInput:
+                'bg-background border border-border/50 text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-primary',
+              footerActionLink: 'text-primary hover:text-primary/80 transition-colors',
+              identityPreviewEditButton: 'text-primary hover:text-primary/80',
+              formFieldLabel: 'text-foreground font-medium',
+              dividerLine: 'bg-border',
+              dividerText: 'text-muted-foreground',
+              otpCodeFieldInput: 'bg-background border-border/50 text-foreground',
             },
             layout: {
-              socialButtonsPlacement: "top",
-            }
+              socialButtonsPlacement: 'top',
+            },
           }}
         />
-          </div>
+      </div>
     </div>
   )
 }

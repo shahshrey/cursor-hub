@@ -64,8 +64,8 @@ export function HeroWithSearch({ totalResources, userId }: HeroWithSearchProps) 
           transition={{ duration: 0.6, delay: 0.4 }}
           className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed"
         >
-          A community-driven hub for Cursor commands, rules, MCPs, and hooks.
-          Find what you need or share your own resources with fellow developers.
+          A community-driven hub for Cursor commands, rules, MCPs, and hooks. Find what you need or
+          share your own resources with fellow developers.
         </motion.p>
 
         <motion.form
@@ -82,7 +82,7 @@ export function HeroWithSearch({ totalResources, userId }: HeroWithSearchProps) 
                 type="text"
                 placeholder="Search commands, rules, MCPs, hooks..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={e => setSearchQuery(e.target.value)}
                 className="pl-10 h-12 text-base"
               />
             </div>
@@ -114,4 +114,3 @@ export function HeroWithSearch({ totalResources, userId }: HeroWithSearchProps) 
     </section>
   )
 }
-

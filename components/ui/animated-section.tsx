@@ -11,23 +11,23 @@ interface AnimatedSectionProps {
   delay?: number
 }
 
-export function AnimatedSection({ 
-  children, 
-  variants, 
+export function AnimatedSection({
+  children,
+  variants,
   className = '',
-  delay = 0
+  delay = 0,
 }: AnimatedSectionProps) {
   const defaultVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
-      transition: { 
-        duration: 0.5, 
+      transition: {
+        duration: 0.5,
         ease: 'easeOut',
-        delay 
-      }
-    }
+        delay,
+      },
+    },
   }
 
   return (
@@ -42,4 +42,3 @@ export function AnimatedSection({
     </motion.div>
   )
 }
-

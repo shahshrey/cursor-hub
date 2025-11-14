@@ -28,7 +28,7 @@ function getClientId(request: NextRequest): string {
   const forwarded = request.headers.get('x-forwarded-for')
   const realIp = request.headers.get('x-real-ip')
   const ip = forwarded?.split(',')[0].trim() || realIp || 'unknown'
-  
+
   const pathname = new URL(request.url).pathname
   return `${ip}:${pathname}`
 }
@@ -39,14 +39,11 @@ export interface RateLimitConfig {
   keyGenerator?: (request: NextRequest) => string
 }
 
-export function rateLimit(
-  request: NextRequest, 
-  config: RateLimitConfig = {}
-): NextResponse | null {
+export function rateLimit(request: NextRequest, config: RateLimitConfig = {}): NextResponse | null {
   const {
     windowMs = DEFAULT_WINDOW_MS,
     maxRequests = DEFAULT_MAX_REQUESTS,
-    keyGenerator = getClientId
+    keyGenerator = getClientId,
   } = config
 
   const clientId = keyGenerator(request)
@@ -60,12 +57,12 @@ export function rateLimit(
 
   if (record.count >= maxRequests) {
     const retryAfter = Math.ceil((record.resetAt - now) / 1000)
-    
+
     return NextResponse.json(
-      { 
+      {
         error: 'Too many requests',
         message: 'Rate limit exceeded. Please try again later.',
-        retryAfter 
+        retryAfter,
       },
       {
         status: 429,
@@ -97,4 +94,3 @@ export const rateLimitConfigs = {
     maxRequests: 30,
   },
 }
-

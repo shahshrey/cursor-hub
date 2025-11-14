@@ -14,7 +14,16 @@ interface ResourceTypeShowcaseProps {
   categories: Record<ResourceType, string[]>
 }
 
-const TYPE_CONFIG: Record<ResourceType, { icon: typeof Command | null; label: string; description: string; color: string; useLogo?: boolean }> = {
+const TYPE_CONFIG: Record<
+  ResourceType,
+  {
+    icon: typeof Command | null
+    label: string
+    description: string
+    color: string
+    useLogo?: boolean
+  }
+> = {
   command: {
     icon: Command,
     label: 'Commands',
@@ -80,7 +89,9 @@ export function ResourceTypeShowcase({ typeCounts, categories }: ResourceTypeSho
               <Card className="h-full hover:shadow-lg transition-shadow group">
                 <CardHeader>
                   <div className="flex items-center justify-between mb-4">
-                    <div className={`p-3 rounded-lg bg-primary/10 ${config.color} flex items-center justify-center`}>
+                    <div
+                      className={`p-3 rounded-lg bg-primary/10 ${config.color} flex items-center justify-center`}
+                    >
                       {config.useLogo ? (
                         <McpLogo size={24} />
                       ) : Icon ? (
@@ -98,7 +109,10 @@ export function ResourceTypeShowcase({ typeCounts, categories }: ResourceTypeSho
                       <span className="font-semibold">{categoryCount}</span> categories available
                     </div>
                     <Link href={`/browse?type=${type}`}>
-                      <Button variant="outline" className="w-full hover:!bg-primary hover:!text-primary-foreground group-hover:!bg-primary group-hover:!text-primary-foreground transition-colors">
+                      <Button
+                        variant="outline"
+                        className="w-full hover:!bg-primary hover:!text-primary-foreground group-hover:!bg-primary group-hover:!text-primary-foreground transition-colors"
+                      >
                         Browse {config.label}
                         <ArrowRight className="ml-2 w-4 h-4" />
                       </Button>
@@ -113,4 +127,3 @@ export function ResourceTypeShowcase({ typeCounts, categories }: ResourceTypeSho
     </section>
   )
 }
-

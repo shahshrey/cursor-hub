@@ -29,7 +29,7 @@ export function CommunityStats({ totalResources, categoryCount, typeCounts }: Co
       label: 'Resource Types',
       value: '4',
       description: 'Commands, Rules, MCPs, Hooks',
-    }
+    },
   ]
 
   return (
@@ -80,4 +80,3 @@ export function CommunityStats({ totalResources, categoryCount, typeCounts }: Co
     </section>
   )
 }
-

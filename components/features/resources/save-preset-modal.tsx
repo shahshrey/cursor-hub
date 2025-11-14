@@ -1,7 +1,14 @@
 'use client'
 
 import { useState } from 'react'
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
@@ -57,7 +64,7 @@ export function SavePresetModal({ isOpen, onClose, onSave, currentFilters }: Sav
             {filterDescription()}
           </DialogDescription>
         </DialogHeader>
-        
+
         <div className="space-y-4 py-4">
           <div className="space-y-2">
             <Label htmlFor="preset-name" className="terminal-font text-sm">
@@ -67,13 +74,13 @@ export function SavePresetModal({ isOpen, onClose, onSave, currentFilters }: Sav
               id="preset-name"
               placeholder="e.g., My Favorite MCPs"
               value={presetName}
-              onChange={(e) => setPresetName(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleSave()}
+              onChange={e => setPresetName(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && handleSave()}
               className="terminal-font"
               autoFocus
             />
           </div>
-          
+
           <div className="flex items-center gap-2">
             <Button
               type="button"
@@ -92,11 +99,7 @@ export function SavePresetModal({ isOpen, onClose, onSave, currentFilters }: Sav
           <Button variant="outline" onClick={handleClose} className="terminal-font">
             Cancel
           </Button>
-          <Button 
-            onClick={handleSave} 
-            disabled={!presetName.trim()}
-            className="terminal-font"
-          >
+          <Button onClick={handleSave} disabled={!presetName.trim()} className="terminal-font">
             Save Preset
           </Button>
         </DialogFooter>
@@ -104,4 +107,3 @@ export function SavePresetModal({ isOpen, onClose, onSave, currentFilters }: Sav
     </Dialog>
   )
 }
-

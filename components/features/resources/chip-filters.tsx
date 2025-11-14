@@ -17,7 +17,12 @@ interface ChipFiltersProps {
   onCategoryChange: (category: string) => void
 }
 
-const RESOURCE_TYPES: Array<{ value: ResourceType | 'all'; label: string; icon: typeof Package | typeof Zap | typeof Clipboard | typeof GitBranch; useLogo?: boolean }> = [
+const RESOURCE_TYPES: Array<{
+  value: ResourceType | 'all'
+  label: string
+  icon: typeof Package | typeof Zap | typeof Clipboard | typeof GitBranch
+  useLogo?: boolean
+}> = [
   { value: 'all', label: 'All', icon: Package },
   { value: 'command', label: 'Commands', icon: Zap },
   { value: 'rule', label: 'Rules', icon: Clipboard },
@@ -27,14 +32,21 @@ const RESOURCE_TYPES: Array<{ value: ResourceType | 'all'; label: string; icon: 
 
 const MAX_VISIBLE_CATEGORIES = 8
 
-export function ChipFilters({ activeType, onTypeChange, activeCategory, categories, onCategoryChange }: ChipFiltersProps) {
+export function ChipFilters({
+  activeType,
+  onTypeChange,
+  activeCategory,
+  categories,
+  onCategoryChange,
+}: ChipFiltersProps) {
   const [showAllCategories, setShowAllCategories] = useState(false)
   const shouldReduceMotion = useReducedMotion()
-  
+
   const hasManyCategories = categories.length > MAX_VISIBLE_CATEGORIES
-  const visibleCategories = showAllCategories || !hasManyCategories 
-    ? categories 
-    : categories.slice(0, MAX_VISIBLE_CATEGORIES)
+  const visibleCategories =
+    showAllCategories || !hasManyCategories
+      ? categories
+      : categories.slice(0, MAX_VISIBLE_CATEGORIES)
   const hiddenCount = categories.length - MAX_VISIBLE_CATEGORIES
 
   return (
@@ -135,4 +147,3 @@ export function ChipFilters({ activeType, onTypeChange, activeCategory, categori
     </div>
   )
 }
-
