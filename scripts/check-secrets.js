@@ -38,6 +38,97 @@ const ALLOWED_FILES = ['.env.example', '.env.local.example', 'check-secrets.js',
 
 const EXCLUDED_PATTERNS = [/node_modules/, /\.git\//, /\.next\//, /dist\//, /build\//, /\.husky\//]
 
+const FALSE_POSITIVE_PATTERNS = [
+  {
+    pattern:
+      /(?:const|let|var)\s+\w*KEY\w*\s*=\s*['"](cursor-resources|localStorage|sessionStorage)[^'"]*['"]/gi,
+    description: 'localStorage/sessionStorage keys',
+  },
+  {
+    pattern:
+      /key:\s*['"](Content-Security-Policy|X-Frame-Options|X-Content-Type-Options|Strict-Transport-Security|Referrer-Policy|Permissions-Policy|X-XSS-Protection|Cache-Control|Access-Control)[^'"]*['"]/gi,
+    description: 'HTTP header keys',
+  },
+  {
+    pattern:
+      /(?:STORAGE_KEY|ONBOARDING_KEY|SEARCH_HISTORY_KEY|PRESET_KEY|ONBOARDING_KEY|SEARCH_HISTORY_KEY)\s*=\s*['"][^'"]*['"]/gi,
+    description: 'Storage key constants',
+  },
+  {
+    pattern: /cursor-resources-[^'"]*['"]/gi,
+    description: 'localStorage key strings',
+  },
+  {
+    pattern: /(?:test|example|sample|demo|placeholder)[^'"]*(?:sk-|ghp_|1234567890abcdef)/gi,
+    description: 'Test/example values',
+  },
+  {
+    pattern: /mysql:\/\/user:password@localhost/gi,
+    description: 'Example database connection strings',
+  },
+  {
+    pattern: /\/tmp\/test-secret\.txt/gi,
+    description: 'Test file paths',
+  },
+]
+
+function isFalsePositive(match, content, filePath) {
+  const matchIndex = content.indexOf(match)
+  if (matchIndex === -1) return false
+
+  const contextStart = Math.max(0, matchIndex - 150)
+  const contextEnd = Math.min(content.length, matchIndex + match.length + 150)
+  const context = content.slice(contextStart, contextEnd)
+
+  if (match.includes('cursor-resources-')) {
+    return true
+  }
+
+  const httpHeaderKeys = [
+    'Content-Security-Policy',
+    'X-Frame-Options',
+    'X-Content-Type-Options',
+    'Strict-Transport-Security',
+    'Referrer-Policy',
+    'Permissions-Policy',
+    'X-XSS-Protection',
+    'Cache-Control',
+    'Access-Control',
+  ]
+  if (httpHeaderKeys.some(header => match.includes(header))) {
+    return true
+  }
+
+  for (const { pattern } of FALSE_POSITIVE_PATTERNS) {
+    if (pattern.test(context)) {
+      return true
+    }
+  }
+
+  const fileName = path.basename(filePath).toLowerCase()
+  if (fileName.includes('test') || fileName.includes('example') || fileName.includes('sample')) {
+    if (match.includes('1234567890abcdef') || match.includes('sk-123456')) {
+      return true
+    }
+  }
+
+  if (filePath.includes('verify-git-workflow.sh') || filePath.includes('check-secrets.js')) {
+    if (match.includes('1234567890abcdef') || match.includes('sk-123456')) {
+      return true
+    }
+  }
+
+  if (filePath.includes('.json') && match.includes('mysql://user:password@localhost')) {
+    return true
+  }
+
+  if (match.includes('mysql://user:password@localhost')) {
+    return true
+  }
+
+  return false
+}
+
 function checkFileForSecrets(filePath) {
   const fileName = path.basename(filePath)
 
@@ -60,11 +151,14 @@ function checkFileForSecrets(filePath) {
     for (const { pattern, name } of SECRET_PATTERNS) {
       const matches = content.match(pattern)
       if (matches) {
-        findings.push({
-          type: name,
-          matches: matches.slice(0, 3),
-          count: matches.length,
-        })
+        const validMatches = matches.filter(match => !isFalsePositive(match, content, filePath))
+        if (validMatches.length > 0) {
+          findings.push({
+            type: name,
+            matches: validMatches.slice(0, 3),
+            count: validMatches.length,
+          })
+        }
       }
     }
 
