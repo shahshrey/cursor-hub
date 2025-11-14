@@ -3,9 +3,11 @@ import { test, expect } from '@playwright/test'
 test.describe('Particles Background', () => {
   test('should render particles on landing page', async ({ page }) => {
     await page.goto('http://localhost:3000')
+    await page.waitForLoadState('networkidle')
+    await page.waitForTimeout(1000)
 
-    const particlesCanvas = page.locator('canvas')
-    await expect(particlesCanvas).toBeVisible()
+    const particlesCanvas = page.locator('canvas').first()
+    await expect(particlesCanvas).toBeVisible({ timeout: 10000 })
 
     const canvasElement = await particlesCanvas.evaluate(canvas => {
       return {
@@ -24,9 +26,10 @@ test.describe('Particles Background', () => {
     await page.goto('http://localhost:3000/browse')
 
     await page.waitForLoadState('networkidle')
+    await page.waitForTimeout(1000)
 
-    const particlesCanvas = page.locator('canvas')
-    await expect(particlesCanvas).toBeVisible()
+    const particlesCanvas = page.locator('canvas').first()
+    await expect(particlesCanvas).toBeVisible({ timeout: 10000 })
 
     const canvasElement = await particlesCanvas.evaluate(canvas => {
       return {
@@ -41,15 +44,18 @@ test.describe('Particles Background', () => {
 
   test('should have consistent particles across different pages', async ({ page }) => {
     await page.goto('http://localhost:3000')
+    await page.waitForLoadState('networkidle')
+    await page.waitForTimeout(1000)
 
-    const landingPageCanvas = page.locator('canvas')
-    await expect(landingPageCanvas).toBeVisible()
+    const landingPageCanvas = page.locator('canvas').first()
+    await expect(landingPageCanvas).toBeVisible({ timeout: 10000 })
 
     await page.goto('http://localhost:3000/browse')
     await page.waitForLoadState('networkidle')
+    await page.waitForTimeout(1000)
 
-    const browsePageCanvas = page.locator('canvas')
-    await expect(browsePageCanvas).toBeVisible()
+    const browsePageCanvas = page.locator('canvas').first()
+    await expect(browsePageCanvas).toBeVisible({ timeout: 10000 })
 
     const landingCanvasData = await landingPageCanvas.evaluate(canvas => {
       const ctx = (canvas as HTMLCanvasElement).getContext('2d')
@@ -67,10 +73,19 @@ test.describe('Particles Background', () => {
 
   test('particles should be in fixed background layer', async ({ page }) => {
     await page.goto('http://localhost:3000')
+    await page.waitForLoadState('networkidle')
+    await page.waitForTimeout(1000)
+    
+    const canvas = page.locator('canvas').first()
+    await expect(canvas).toBeVisible({ timeout: 10000 })
 
-    const canvasContainer = page.locator('canvas').locator('..')
+    const canvasContainer = canvas.locator('..')
+    await expect(canvasContainer).toBeVisible({ timeout: 10000 })
 
     const containerStyles = await canvasContainer.evaluate(el => {
+      if (!(el instanceof Element)) {
+        return { position: '', pointerEvents: '' }
+      }
       const styles = window.getComputedStyle(el)
       return {
         position: styles.position,
@@ -83,16 +98,22 @@ test.describe('Particles Background', () => {
 
   test('particles canvas should update on window resize', async ({ page }) => {
     await page.goto('http://localhost:3000')
+    await page.waitForLoadState('networkidle')
     await page.setViewportSize({ width: 1920, height: 1080 })
-
-    const canvas = page.locator('canvas')
+    await page.waitForTimeout(1000)
+    
+    const canvas = page.locator('canvas').first()
+    await expect(canvas).toBeVisible({ timeout: 10000 })
+    
+    await page.waitForTimeout(500)
+    
     const initialDimensions = await canvas.evaluate(c => ({
       width: (c as HTMLCanvasElement).width,
       height: (c as HTMLCanvasElement).height,
     }))
 
     await page.setViewportSize({ width: 1280, height: 720 })
-    await page.waitForTimeout(300)
+    await page.waitForTimeout(500)
 
     const newDimensions = await canvas.evaluate(c => ({
       width: (c as HTMLCanvasElement).width,
