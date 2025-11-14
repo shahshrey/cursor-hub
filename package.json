@@ -19,7 +19,9 @@
     "db:push": "npx supabase db push",
     "resources:index": "tsx scripts/index-resources.ts",
     "perf:check": "npm run build && du -sh .next/static/chunks/*.js | sort -rh | head -10",
-    "prepare": "husky"
+    "prepare": "husky",
+    "git:verify": "bash scripts/verify-git-workflow.sh",
+    "git:hooks": "npm run prepare && chmod +x .husky/* scripts/*.sh"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.34.0",
@@ -58,7 +60,8 @@
     "zod": "^3.25.42"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
+    "@eslint/eslintrc": "^3.3.1",
+    "@eslint/js": "^9.39.1",
     "@next/bundle-analyzer": "^16.0.1",
     "@playwright/test": "^1.56.1",
     "@tailwindcss/postcss": "^4",
@@ -77,10 +80,16 @@
     "husky": "^9.1.7",
     "jsdom": "^26.1.0",
     "lint-staged": "^16.1.0",
+    "patch-package": "^8.0.1",
     "prettier": "^3.5.3",
     "tailwindcss": "^4",
     "tsx": "^4.20.6",
     "typescript": "^5",
     "vitest": "^3.1.4"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,json,css,md}": [
+      "prettier --write"
+    ]
   }
 }

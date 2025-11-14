@@ -1,2 +1,1 @@
-# Temporarily disabled due to Next.js 16.0.0 ESLint compatibility issue
-# npm run lint
+npx lint-staged

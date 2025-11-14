@@ -1,0 +1,17 @@
+*                                   @owner
+
+.github/**/*                        @owner
+.husky/**/*                         @owner
+
+supabase/migrations/**/*            @owner
+types/supabase.ts                   @owner
+
+scripts/**/*                        @owner
+
+cursor-resources/**/*               @owner
+
+server/actions/**/*                 @owner
+server/queries/**/*                 @owner
+
+middleware.ts                       @owner
+

@@ -1,0 +1,50 @@
+name: Dependency Updates
+
+on:
+  schedule:
+    - cron: '0 0 * * 1'
+  workflow_dispatch:
+
+jobs:
+  update-dependencies:
+    name: Check for Dependency Updates
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Check for updates
+        run: |
+          npm outdated || true
+          echo "Run 'npm update' to update dependencies"
+      
+      - name: Create issue for outdated dependencies
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { execSync } = require('child_process');
+            const outdated = execSync('npm outdated --json || echo "{}"').toString();
+            
+            if (outdated && outdated !== '{}') {
+              const packages = JSON.parse(outdated);
+              const packageList = Object.entries(packages)
+                .map(([name, info]) => `- ${name}: ${info.current} → ${info.latest}`)
+                .join('\n');
+              
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: '📦 Dependency Updates Available',
+                body: `The following dependencies have updates available:\n\n${packageList}\n\nRun \`npm update\` to update these packages.`,
+                labels: ['dependencies', 'automated']
+              });
+            }
+

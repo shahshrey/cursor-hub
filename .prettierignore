@@ -1,0 +1,15 @@
+node_modules
+.next
+.turbo
+dist
+build
+coverage
+*.tsbuildinfo
+.husky/_
+public/data/
+supabase/migrations/*.sql
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+*.md
+

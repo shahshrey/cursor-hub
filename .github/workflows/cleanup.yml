@@ -1,0 +1,57 @@
+name: Cleanup
+
+on:
+  pull_request:
+    types: [closed]
+  schedule:
+    - cron: '0 0 * * 0'
+
+jobs:
+  delete-merged-branches:
+    name: Delete Merged Branches
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
+    
+    steps:
+      - name: Delete branch
+        uses: SvanBoxel/delete-merged-branch@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  stale-branches:
+    name: Report Stale Branches
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Find stale branches
+        run: |
+          echo "Branches not updated in 30+ days:"
+          git for-each-ref --sort=-committerdate refs/remotes/ --format='%(committerdate:short) %(refname:short)' | awk '{
+            cmd = "date -d \"" $1 "\" +%s 2>/dev/null || date -j -f \"%Y-%m-%d\" \"" $1 "\" +%s";
+            cmd | getline timestamp;
+            close(cmd);
+            now = systime();
+            diff = (now - timestamp) / 86400;
+            if (diff > 30 && $2 !~ /origin\/(main|develop)$/) {
+              print $2 " (inactive for " int(diff) " days)";
+            }
+          }'
+
+  clean-artifacts:
+    name: Clean Old Artifacts
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule'
+    
+    steps:
+      - name: Delete old artifacts
+        uses: c-hive/gha-remove-artifacts@v1
+        with:
+          age: '30 days'
+          skip-recent: 5
+

@@ -1,0 +1,40 @@
+documentation:
+  - changed-files:
+    - any-glob-to-any-file: ['**/*.md', 'docs/**/*']
+
+dependencies:
+  - changed-files:
+    - any-glob-to-any-file: ['package.json', 'package-lock.json', 'package*.json']
+
+database:
+  - changed-files:
+    - any-glob-to-any-file: ['supabase/**/*', 'types/supabase.ts']
+
+tests:
+  - changed-files:
+    - any-glob-to-any-file: ['**/*.test.ts', '**/*.test.tsx', '**/*.spec.ts', 'tests/**/*', 'test/**/*']
+
+ui:
+  - changed-files:
+    - any-glob-to-any-file: ['components/**/*', '**/*.css', 'tailwind.config.*']
+
+api:
+  - changed-files:
+    - any-glob-to-any-file: ['app/api/**/*', 'server/**/*']
+
+auth:
+  - changed-files:
+    - any-glob-to-any-file: ['**/auth/**/*', 'middleware.ts']
+
+security:
+  - changed-files:
+    - any-glob-to-any-file: ['scripts/check-secrets.js', '.github/workflows/security.yml']
+
+ci-cd:
+  - changed-files:
+    - any-glob-to-any-file: ['.github/**/*', '.husky/**/*']
+
+resources:
+  - changed-files:
+    - any-glob-to-any-file: ['cursor-resources/**/*', 'scripts/index-resources.ts']
+
