@@ -34,7 +34,7 @@ export function decodeFilterState(encoded: string): FilterState | null {
     const json = decodeURIComponent(atob(encoded))
     const parsed = JSON.parse(json)
     const validated = filterStateSchema.parse(parsed)
-    
+
     return validated
   } catch (error) {
     console.error('Failed to decode filter state:', error)
@@ -42,17 +42,19 @@ export function decodeFilterState(encoded: string): FilterState | null {
   }
 }
 
-export function createShareableUrl(state: FilterState, baseUrl: string = window.location.origin): string {
+export function createShareableUrl(
+  state: FilterState,
+  baseUrl: string = window.location.origin
+): string {
   const encoded = encodeFilterState(state)
   if (!encoded) return baseUrl
-  
+
   return `${baseUrl}/browse?filters=${encoded}`
 }
 
 export function parseUrlFilters(searchParams: URLSearchParams): FilterState | null {
   const filters = searchParams.get('filters')
   if (!filters) return null
-  
+
   return decodeFilterState(filters)
 }
-

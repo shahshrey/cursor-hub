@@ -3,7 +3,7 @@
 import { useState, useMemo, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import dynamic from 'next/dynamic'
-import type { ResourceMetadata, ResourceType } from '@/types/resources'
+import type { ResourceMetadata, ResourceType, ResourceDownloadData } from '@/types/resources'
 import { ResourceCard } from './resource-card'
 import { HorizontalFilterBar } from './horizontal-filter-bar'
 import { FilterSidebar } from './filter-sidebar'
@@ -23,10 +23,14 @@ import { BrowseOnboarding } from './browse-onboarding'
 import { QuickFilters } from './quick-filters'
 import { EmptyState } from './empty-state'
 import { KeyboardShortcutsHelp } from './keyboard-shortcuts-help'
+import type { FilterPreset } from '@/lib/preset-storage'
 
-const ResourcePreviewModal = dynamic(() => import('./resource-preview-modal').then(m => m.ResourcePreviewModal), {
-  ssr: false,
-})
+const ResourcePreviewModal = dynamic(
+  () => import('./resource-preview-modal').then(m => m.ResourcePreviewModal),
+  {
+    ssr: false,
+  }
+)
 
 interface TerminalResourceBrowserProps {
   initialResources: ResourceMetadata[]
@@ -39,14 +43,18 @@ type SortOption = 'name' | 'downloads' | 'recent'
 const sortLabels: Record<SortOption, string> = {
   name: 'Alphabetical',
   downloads: 'Most Downloaded',
-  recent: 'Recently Added'
+  recent: 'Recently Added',
 }
 
-export function TerminalResourceBrowser({ initialResources, totalCount, categories }: TerminalResourceBrowserProps) {
+export function TerminalResourceBrowser({
+  initialResources,
+  totalCount,
+  categories,
+}: TerminalResourceBrowserProps) {
   const searchParams = useSearchParams()
   const urlType = searchParams?.get('type') as ResourceType | null
   const urlCategory = searchParams?.get('category') || ''
-  
+
   const [searchQuery, setSearchQuery] = useState('')
   const [debouncedQuery, setDebouncedQuery] = useState('')
   const [activeType, setActiveType] = useState<ResourceType | 'all'>(urlType || 'all')
@@ -58,13 +66,16 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage] = useState(24)
   const [searchResults, setSearchResults] = useState<ResourceMetadata[]>(initialResources)
-  const [allResourcesForCounts, setAllResourcesForCounts] = useState<ResourceMetadata[] | null>(null)
+  const [allResourcesForCounts, setAllResourcesForCounts] = useState<ResourceMetadata[] | null>(
+    null
+  )
   const [downloadCounts, setDownloadCounts] = useState<Record<string, number>>({})
   const [isSavePresetOpen, setIsSavePresetOpen] = useState(false)
-  
+
   useEffect(() => {
-    const hasActiveFilters = debouncedQuery.trim().length >= 2 || activeType !== 'all' || activeCategory
-    
+    const hasActiveFilters =
+      debouncedQuery.trim().length >= 2 || activeType !== 'all' || activeCategory
+
     if (hasActiveFilters) {
       setAllResourcesForCounts(null)
     } else if (!allResourcesForCounts) {
@@ -72,7 +83,7 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
         try {
           const params = new URLSearchParams()
           params.set('limit', '1000')
-          
+
           const response = await fetch(`/api/resources/search?${params}`)
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`)
@@ -83,26 +94,36 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
           console.error('Failed to fetch all resources for counts:', error)
         }
       }
-      
+
       fetchAllForCounts()
     }
   }, [debouncedQuery, activeType, activeCategory, allResourcesForCounts])
-  
+
   const filterCounts = useMemo(() => {
-    const hasActiveFilters = debouncedQuery.trim().length >= 2 || activeType !== 'all' || activeCategory
-    const resourcesForCounts = hasActiveFilters ? searchResults : (allResourcesForCounts || initialResources)
+    const hasActiveFilters =
+      debouncedQuery.trim().length >= 2 || activeType !== 'all' || activeCategory
+    const resourcesForCounts = hasActiveFilters
+      ? searchResults
+      : allResourcesForCounts || initialResources
     return calculateFilterCounts(resourcesForCounts)
-  }, [searchResults, allResourcesForCounts, debouncedQuery, activeType, activeCategory, initialResources])
-  
+  }, [
+    searchResults,
+    allResourcesForCounts,
+    debouncedQuery,
+    activeType,
+    activeCategory,
+    initialResources,
+  ])
+
   const { presets, createPreset, removePreset, modifyPreset, usePreset } = useFilterPresets()
-  
+
   useKeyboardShortcuts([
     {
       key: '/',
       callback: () => {
         const searchInput = document.querySelector('input[type="search"]') as HTMLInputElement
         searchInput?.focus()
-      }
+      },
     },
     {
       key: 'Escape',
@@ -111,7 +132,7 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
           handleClearFilters()
           toast.success('Filters cleared')
         }
-      }
+      },
     },
     {
       key: 's',
@@ -120,14 +141,14 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
         if (searchQuery || activeType !== 'all' || activeCategory) {
           setIsSavePresetOpen(true)
         }
-      }
-    }
+      },
+    },
   ])
-  
+
   useEffect(() => {
     if (urlType) setActiveType(urlType)
     if (urlCategory) setActiveCategory(urlCategory)
-    
+
     if (searchParams) {
       const urlFilters = parseUrlFilters(searchParams)
       if (urlFilters) {
@@ -155,16 +176,16 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
     const fetchDownloadCounts = async () => {
       const supabase = createClient()
       const slugs = searchResults.map(r => r.slug)
-      
+
       const { data, error } = await supabase
         .from('resources')
         .select('slug, download_count')
         .in('slug', slugs)
-      
+
       if (data && !error) {
         const counts: Record<string, number> = {}
-        data.forEach(item => {
-          counts[item.slug] = item.download_count
+        data.forEach((item: ResourceDownloadData) => {
+          counts[item.slug] = item.download_count || 0
         })
         setDownloadCounts(counts)
       }
@@ -179,12 +200,12 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
     const handleDownloadEvent = async (event: Event) => {
       const customEvent = event as CustomEvent<{ slug: string }>
       const slug = customEvent.detail.slug
-      
+
       setDownloadCounts(prev => ({
         ...prev,
-        [slug]: (prev[slug] || 0) + 1
+        [slug]: (prev[slug] || 0) + 1,
       }))
-      
+
       setTimeout(async () => {
         const supabase = createClient()
         const { data, error } = await supabase
@@ -192,11 +213,12 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
           .select('download_count')
           .eq('slug', slug)
           .single()
-        
+
         if (data && !error) {
+          const resourceData = data as { download_count: number | null }
           setDownloadCounts(prev => ({
             ...prev,
-            [slug]: data.download_count
+            [slug]: resourceData.download_count || 0,
           }))
         }
       }, 100)
@@ -274,7 +296,7 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
 
   const availableCategories = useMemo(() => {
     if (activeType === 'all') {
-      return [...new Set(searchResults.map((r) => r.category))].sort()
+      return [...new Set(searchResults.map(r => r.category))].sort()
     }
     return categories[activeType] || []
   }, [activeType, categories, searchResults])
@@ -326,7 +348,7 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
       sortBy,
       isStarred,
     })
-    
+
     if (preset) {
       toast.success(`Preset "${name}" saved successfully`)
     } else {
@@ -334,7 +356,7 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
     }
   }
 
-  const handleLoadPreset = (preset: typeof presets[0]) => {
+  const handleLoadPreset = (preset: FilterPreset) => {
     setActiveType(preset.type)
     setActiveCategory(preset.category)
     setSearchQuery(preset.searchQuery)
@@ -369,7 +391,7 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
     <>
       <BrowseOnboarding />
       <KeyboardShortcutsHelp />
-      
+
       <div className="space-y-6">
         {!searchQuery && activeType === 'all' && !activeCategory && (
           <div className="pb-4">
@@ -396,10 +418,10 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
           onDeletePreset={handleDeletePreset}
           onToggleStarPreset={handleToggleStarPreset}
         />
-        
+
         {!searchQuery && activeType === 'all' && !activeCategory && (
-          <QuickFilters 
-            onFilterClick={(filter) => {
+          <QuickFilters
+            onFilterClick={filter => {
               if (filter.category) {
                 setActiveCategory(filter.category)
                 toast.success(`Filtered by ${filter.label}`)
@@ -420,7 +442,7 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
             filterCounts={filterCounts}
             activeType={activeType}
           />
-          
+
           <div className="flex-1 min-w-0">
             <ActiveFilters
               activeType={activeType}
@@ -446,14 +468,16 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
             </div>
 
             {isSearching ? (
-              <ResourceGridSkeleton 
-                count={8} 
-                message={debouncedQuery ? `Searching for "${debouncedQuery}"...` : 'Loading resources...'}
+              <ResourceGridSkeleton
+                count={8}
+                message={
+                  debouncedQuery ? `Searching for "${debouncedQuery}"...` : 'Loading resources...'
+                }
               />
             ) : filteredResources.length > 0 ? (
               <>
                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
-                  {paginatedResources.map((resource) => (
+                  {paginatedResources.map(resource => (
                     <ResourceCard
                       key={resource.slug}
                       resource={resource}
@@ -462,7 +486,7 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
                     />
                   ))}
                 </div>
-                
+
                 {totalPages > 1 && (
                   <div className="flex items-center justify-center gap-2 pt-8">
                     <Button
@@ -474,14 +498,14 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
                     >
                       ← Previous
                     </Button>
-                    
+
                     <div className="flex items-center gap-2 terminal-font text-sm">
                       <span className="text-muted-foreground">Page</span>
                       <span className="text-terminal-green font-bold">{currentPage}</span>
                       <span className="text-muted-foreground">of</span>
                       <span className="text-foreground font-semibold">{totalPages}</span>
                     </div>
-                    
+
                     <Button
                       variant="outline"
                       size="sm"
@@ -500,12 +524,12 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
                 activeType={activeType}
                 activeCategory={activeCategory}
                 onClearFilters={handleClearFilters}
-                onSuggestedSearch={(query) => {
+                onSuggestedSearch={query => {
                   setSearchQuery(query)
                   setDebouncedQuery(query)
                   toast.success(`Searching for "${query}"`)
                 }}
-                onSuggestedCategory={(category) => {
+                onSuggestedCategory={category => {
                   setActiveCategory(category)
                   handleClearFilters()
                   setActiveCategory(category)
@@ -522,7 +546,7 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
         isOpen={isPreviewOpen}
         onClose={handleClosePreview}
       />
-      
+
       <SavePresetModal
         isOpen={isSavePresetOpen}
         onClose={() => setIsSavePresetOpen(false)}
@@ -537,4 +561,3 @@ export function TerminalResourceBrowser({ initialResources, totalCount, categori
     </>
   )
 }
-

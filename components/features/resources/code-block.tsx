@@ -59,4 +59,3 @@ export function CodeBlock({ code, language, showLineNumbers = false }: CodeBlock
     </div>
   )
 }
-

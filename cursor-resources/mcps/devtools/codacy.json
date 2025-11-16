@@ -1,7 +1,7 @@
 {
   "mcpServers": {
     "codacy": {
-      "description":"MCP Server for the Codacy API, enabling access to repositories, files, quality, coverage, security and more.",
+      "description": "MCP Server for the Codacy API, enabling access to repositories, files, quality, coverage, security and more.",
       "command": "npx",
       "args": ["-y", "@codacy/codacy-mcp"],
       "env": {

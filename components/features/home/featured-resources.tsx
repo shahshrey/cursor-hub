@@ -4,14 +4,17 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { ResourceCard } from '@/components/features/resources/resource-card'
-import type { ResourceMetadata } from '@/types/resources'
+import type { ResourceMetadata, ResourceDownloadData } from '@/types/resources'
 import { Button } from '@/components/ui/button'
 import { createClient } from '@/lib/supabase/client'
 import { useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
 
 const ResourcePreviewModal = dynamic(
-  () => import('@/components/features/resources/resource-preview-modal').then(m => m.ResourcePreviewModal),
+  () =>
+    import('@/components/features/resources/resource-preview-modal').then(
+      m => m.ResourcePreviewModal
+    ),
   { ssr: false }
 )
 
@@ -22,7 +25,12 @@ interface FeaturedResourcesProps {
   viewAllHref?: string
 }
 
-export function FeaturedResources({ resources, title, subtitle, viewAllHref }: FeaturedResourcesProps) {
+export function FeaturedResources({
+  resources,
+  title,
+  subtitle,
+  viewAllHref,
+}: FeaturedResourcesProps) {
   const [downloadCounts, setDownloadCounts] = useState<Record<string, number>>({})
   const [previewResource, setPreviewResource] = useState<ResourceMetadata | null>(null)
   const [isPreviewOpen, setIsPreviewOpen] = useState(false)
@@ -31,15 +39,15 @@ export function FeaturedResources({ resources, title, subtitle, viewAllHref }: F
     const fetchDownloadCounts = async () => {
       const supabase = createClient()
       const slugs = resources.map(r => r.slug)
-      
+
       const { data } = await supabase
         .from('resources')
         .select('slug, download_count')
         .in('slug', slugs)
-      
+
       if (data) {
         const counts: Record<string, number> = {}
-        data.forEach(item => {
+        data.forEach((item: ResourceDownloadData) => {
           counts[item.slug] = item.download_count || 0
         })
         setDownloadCounts(counts)
@@ -71,9 +79,7 @@ export function FeaturedResources({ resources, title, subtitle, viewAllHref }: F
           <div className="flex items-center justify-between mb-4">
             <div>
               <h2 className="text-3xl md:text-4xl font-bold mb-2">{title}</h2>
-              {subtitle && (
-                <p className="text-muted-foreground text-lg">{subtitle}</p>
-              )}
+              {subtitle && <p className="text-muted-foreground text-lg">{subtitle}</p>}
             </div>
             {viewAllHref && (
               <Link href={viewAllHref}>
@@ -126,4 +132,3 @@ export function FeaturedResources({ resources, title, subtitle, viewAllHref }: F
     </>
   )
 }
-

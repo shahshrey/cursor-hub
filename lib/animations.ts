@@ -2,25 +2,25 @@ import type { Variants } from 'framer-motion'
 
 export const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 20 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     y: 0,
     transition: {
       duration: 0.5,
-      ease: [0.22, 1, 0.36, 1]
-    }
-  }
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
 }
 
 export const fadeIn: Variants = {
   hidden: { opacity: 0 },
-  visible: { 
+  visible: {
     opacity: 1,
     transition: {
       duration: 0.4,
-      ease: 'easeOut'
-    }
-  }
+      ease: 'easeOut',
+    },
+  },
 }
 
 export const scaleIn: Variants = {
@@ -30,9 +30,9 @@ export const scaleIn: Variants = {
     scale: 1,
     transition: {
       duration: 0.3,
-      ease: [0.22, 1, 0.36, 1]
-    }
-  }
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
 }
 
 export const slideInFromLeft: Variants = {
@@ -42,9 +42,9 @@ export const slideInFromLeft: Variants = {
     x: 0,
     transition: {
       duration: 0.5,
-      ease: [0.22, 1, 0.36, 1]
-    }
-  }
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
 }
 
 export const slideInFromRight: Variants = {
@@ -54,9 +54,9 @@ export const slideInFromRight: Variants = {
     x: 0,
     transition: {
       duration: 0.5,
-      ease: [0.22, 1, 0.36, 1]
-    }
-  }
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
 }
 
 export const staggerContainer: Variants = {
@@ -65,9 +65,9 @@ export const staggerContainer: Variants = {
     opacity: 1,
     transition: {
       staggerChildren: 0.1,
-      delayChildren: 0.1
-    }
-  }
+      delayChildren: 0.1,
+    },
+  },
 }
 
 export const staggerItem: Variants = {
@@ -77,9 +77,9 @@ export const staggerItem: Variants = {
     y: 0,
     transition: {
       duration: 0.5,
-      ease: [0.22, 1, 0.36, 1]
-    }
-  }
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
 }
 
 export const floatingAnimation: Variants = {
@@ -89,9 +89,9 @@ export const floatingAnimation: Variants = {
     transition: {
       duration: 6,
       repeat: Infinity,
-      ease: 'easeInOut'
-    }
-  }
+      ease: 'easeInOut',
+    },
+  },
 }
 
 export const pulseGlow: Variants = {
@@ -100,26 +100,26 @@ export const pulseGlow: Variants = {
     boxShadow: [
       '0 0 0px rgba(109, 197, 255, 0)',
       '0 0 20px rgba(109, 197, 255, 0.3)',
-      '0 0 0px rgba(109, 197, 255, 0)'
+      '0 0 0px rgba(109, 197, 255, 0)',
     ],
     transition: {
       duration: 2,
       repeat: Infinity,
-      ease: 'easeInOut'
-    }
-  }
+      ease: 'easeInOut',
+    },
+  },
 }
 
 export const modalBackdrop: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { duration: 0.2 }
+    transition: { duration: 0.2 },
   },
   exit: {
     opacity: 0,
-    transition: { duration: 0.2 }
-  }
+    transition: { duration: 0.2 },
+  },
 }
 
 export const modalContent: Variants = {
@@ -130,15 +130,15 @@ export const modalContent: Variants = {
     y: 0,
     transition: {
       duration: 0.3,
-      ease: [0.22, 1, 0.36, 1]
-    }
+      ease: [0.22, 1, 0.36, 1],
+    },
   },
   exit: {
     opacity: 0,
     scale: 0.95,
     y: 20,
-    transition: { duration: 0.2 }
-  }
+    transition: { duration: 0.2 },
+  },
 }
 
 export const pageTransition: Variants = {
@@ -148,24 +148,24 @@ export const pageTransition: Variants = {
     x: 0,
     transition: {
       duration: 0.4,
-      ease: [0.22, 1, 0.36, 1]
-    }
+      ease: [0.22, 1, 0.36, 1],
+    },
   },
   exit: {
     opacity: 0,
     x: 20,
-    transition: { duration: 0.3 }
-  }
+    transition: { duration: 0.3 },
+  },
 }
 
 export const hoverScale = {
   scale: 1.02,
-  transition: { duration: 0.2, ease: 'easeOut' }
+  transition: { duration: 0.2, ease: 'easeOut' },
 }
 
 export const tapScale = {
   scale: 0.98,
-  transition: { duration: 0.1 }
+  transition: { duration: 0.1 },
 }
 
 export const ANIMATIONS = {
@@ -175,13 +175,13 @@ export const ANIMATIONS = {
     slow: 400,
   },
   spring: {
-    type: "spring" as const,
+    type: 'spring' as const,
     stiffness: 300,
     damping: 25,
   },
   hover: {
     scale: 1.05,
-    transition: { duration: 0.2 }
+    transition: { duration: 0.2 },
   },
   tap: {
     scale: 0.95,
@@ -189,17 +189,17 @@ export const ANIMATIONS = {
   cardHover: {
     scale: 1.02,
     y: -4,
-    boxShadow: "0 10px 30px -10px rgba(0, 0, 0, 0.3)",
-    transition: { duration: 0.2, ease: "easeOut" }
+    boxShadow: '0 10px 30px -10px rgba(0, 0, 0, 0.3)',
+    transition: { duration: 0.2, ease: 'easeOut' },
   },
   glow: {
     boxShadow: [
-      "0 0 0px rgba(109, 197, 255, 0)",
-      "0 0 20px rgba(109, 197, 255, 0.4)",
-      "0 0 0px rgba(109, 197, 255, 0)"
+      '0 0 0px rgba(109, 197, 255, 0)',
+      '0 0 20px rgba(109, 197, 255, 0.4)',
+      '0 0 0px rgba(109, 197, 255, 0)',
     ],
-    transition: { duration: 1.5, repeat: Infinity, ease: "easeInOut" }
-  }
+    transition: { duration: 1.5, repeat: Infinity, ease: 'easeInOut' },
+  },
 } as const
 
 export const countRollUp: Variants = {
@@ -209,11 +209,11 @@ export const countRollUp: Variants = {
     y: 0,
     scale: 1,
     transition: {
-      type: "spring",
+      type: 'spring',
       stiffness: 400,
-      damping: 25
-    }
-  }
+      damping: 25,
+    },
+  },
 }
 
 export const heartBounce: Variants = {
@@ -223,9 +223,9 @@ export const heartBounce: Variants = {
     transition: {
       duration: 0.6,
       times: [0, 0.2, 0.4, 0.7, 1],
-      ease: "easeInOut"
-    }
-  }
+      ease: 'easeInOut',
+    },
+  },
 }
 
 export const filterSlideIn: Variants = {
@@ -237,9 +237,9 @@ export const filterSlideIn: Variants = {
     transition: {
       delay: i * 0.05,
       duration: 0.3,
-      ease: [0.22, 1, 0.36, 1]
-    }
-  })
+      ease: [0.22, 1, 0.36, 1],
+    },
+  }),
 }
 
 export const shimmer: Variants = {
@@ -249,7 +249,7 @@ export const shimmer: Variants = {
     transition: {
       duration: 2,
       repeat: Infinity,
-      ease: "easeInOut"
-    }
-  }
+      ease: 'easeInOut',
+    },
+  },
 }

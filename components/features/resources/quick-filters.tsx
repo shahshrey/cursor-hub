@@ -8,7 +8,15 @@ interface QuickFilter {
   label: string
   type?: ResourceType | 'all'
   category?: string
-  icon: typeof Triangle | typeof FlaskConical | typeof Database | typeof Lock | typeof Wrench | typeof Bot | typeof Zap | typeof Book
+  icon:
+    | typeof Triangle
+    | typeof FlaskConical
+    | typeof Database
+    | typeof Lock
+    | typeof Wrench
+    | typeof Bot
+    | typeof Zap
+    | typeof Book
 }
 
 const QUICK_FILTERS: QuickFilter[] = [
@@ -30,11 +38,9 @@ interface QuickFiltersProps {
 export function QuickFilters({ onFilterClick, activeCategory }: QuickFiltersProps) {
   return (
     <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide">
-      <span className="text-xs text-muted-foreground terminal-font shrink-0">
-        Quick filters:
-      </span>
+      <span className="text-xs text-muted-foreground terminal-font shrink-0">Quick filters:</span>
       <div className="flex gap-2">
-        {QUICK_FILTERS.map((filter) => {
+        {QUICK_FILTERS.map(filter => {
           const IconComponent = filter.icon
           return (
             <Badge
@@ -52,4 +58,3 @@ export function QuickFilters({ onFilterClick, activeCategory }: QuickFiltersProp
     </div>
   )
 }
-

@@ -2,7 +2,16 @@
 
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import { Search, Filter, RefreshCcw, Sparkles, Triangle, FlaskConical, Database, Wrench } from 'lucide-react'
+import {
+  Search,
+  Filter,
+  RefreshCcw,
+  Sparkles,
+  Triangle,
+  FlaskConical,
+  Database,
+  Wrench,
+} from 'lucide-react'
 import type { ResourceType } from '@/types/resources'
 
 interface EmptyStateProps {
@@ -19,7 +28,7 @@ const SUGGESTED_SEARCHES = [
   'React hooks',
   'TypeScript testing',
   'Database migrations',
-  'API security'
+  'API security',
 ]
 
 const POPULAR_CATEGORIES = [
@@ -29,16 +38,16 @@ const POPULAR_CATEGORIES = [
   { name: 'devtools', icon: Wrench, label: 'Dev Tools' },
 ]
 
-export function EmptyState({ 
-  searchQuery, 
-  activeType, 
-  activeCategory, 
+export function EmptyState({
+  searchQuery,
+  activeType,
+  activeCategory,
   onClearFilters,
   onSuggestedSearch,
-  onSuggestedCategory
+  onSuggestedCategory,
 }: EmptyStateProps) {
   const hasActiveFilters = searchQuery.trim().length >= 2 || activeType !== 'all' || activeCategory
-  
+
   return (
     <div className="flex flex-col items-center justify-center py-16 px-4">
       <div className="max-w-2xl w-full space-y-8">
@@ -49,16 +58,22 @@ export function EmptyState({
               <Search className="w-12 h-12 text-muted-foreground/20" />
             </div>
           </div>
-          
+
           <h3 className="text-3xl font-bold terminal-font">No resources found</h3>
-          
+
           <p className="text-sm text-muted-foreground max-w-md mx-auto terminal-font leading-relaxed">
             {hasActiveFilters ? (
               <>
                 We couldn't find any resources matching{' '}
-                {searchQuery && <span className="text-foreground font-semibold">"{searchQuery}"</span>}
-                {activeType !== 'all' && <span className="text-foreground font-semibold"> in {activeType}s</span>}
-                {activeCategory && <span className="text-foreground font-semibold"> under {activeCategory}</span>}
+                {searchQuery && (
+                  <span className="text-foreground font-semibold">"{searchQuery}"</span>
+                )}
+                {activeType !== 'all' && (
+                  <span className="text-foreground font-semibold"> in {activeType}s</span>
+                )}
+                {activeCategory && (
+                  <span className="text-foreground font-semibold"> under {activeCategory}</span>
+                )}
               </>
             ) : (
               'It looks like there are no resources available right now.'
@@ -73,7 +88,7 @@ export function EmptyState({
                 <Sparkles className="w-4 h-4 text-terminal-green" />
                 <span>Try these suggestions:</span>
               </div>
-              
+
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-3">
                   <div className="flex items-center gap-2 text-xs text-muted-foreground terminal-font">
@@ -81,7 +96,7 @@ export function EmptyState({
                     <span>Popular searches</span>
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    {SUGGESTED_SEARCHES.map((suggestion) => (
+                    {SUGGESTED_SEARCHES.map(suggestion => (
                       <Button
                         key={suggestion}
                         variant="outline"
@@ -101,7 +116,7 @@ export function EmptyState({
                     <span>Browse by category</span>
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    {POPULAR_CATEGORIES.map((category) => {
+                    {POPULAR_CATEGORIES.map(category => {
                       const IconComponent = category.icon
                       return (
                         <Button
@@ -122,9 +137,9 @@ export function EmptyState({
             </div>
 
             <div className="pt-4 border-t border-border">
-              <Button 
-                onClick={onClearFilters} 
-                variant="outline" 
+              <Button
+                onClick={onClearFilters}
+                variant="outline"
                 className="terminal-font w-full sm:w-auto"
               >
                 <RefreshCcw className="w-4 h-4 mr-2" />
@@ -136,11 +151,11 @@ export function EmptyState({
 
         <div className="text-center">
           <p className="text-xs text-muted-foreground terminal-font">
-            <span className="text-terminal-green">⎿</span> Tip: Use the search bar to find specific resources or browse by categories on the left
+            <span className="text-terminal-green">⎿</span> Tip: Use the search bar to find specific
+            resources or browse by categories on the left
           </p>
         </div>
       </div>
     </div>
   )
 }
-

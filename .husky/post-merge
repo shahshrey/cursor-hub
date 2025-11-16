@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+CHANGED_FILES=$(git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD)
+
+if echo "$CHANGED_FILES" | grep -q "package-lock.json"; then
+  echo "📦 package-lock.json changed - running npm install..."
+  npm install
+fi
+
+if echo "$CHANGED_FILES" | grep -q "supabase/migrations"; then
+  echo "🗄️  Database migrations changed - regenerating types..."
+  npm run db:types
+fi
+
+echo "✅ Post-merge checks complete!"
+

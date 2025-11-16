@@ -17,13 +17,13 @@ export default async function BrowsePage() {
   return (
     <div className="min-h-screen">
       <Header />
-      
+
       <div className="border-b border-border backdrop-blur-xl bg-card/30 sticky top-16 z-10">
         <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-3 min-w-0">
-              <Link 
-                href="/" 
+              <Link
+                href="/"
                 className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors shrink-0"
               >
                 <ArrowLeft className="w-3.5 h-3.5" />
@@ -49,7 +49,7 @@ export default async function BrowsePage() {
 
       <section className="container mx-auto px-4 py-8">
         <Suspense fallback={<ResourceGridSkeleton />}>
-          <TerminalResourceBrowser 
+          <TerminalResourceBrowser
             initialResources={initialData}
             totalCount={index.totalCount}
             categories={index.categories}
@@ -59,4 +59,3 @@ export default async function BrowsePage() {
     </div>
   )
 }
-

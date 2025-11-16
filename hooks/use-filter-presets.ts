@@ -19,14 +19,17 @@ export function useFilterPresets() {
     setIsLoaded(true)
   }, [])
 
-  const createPreset = useCallback((preset: Omit<FilterPreset, 'id' | 'createdAt' | 'usageCount'>) => {
-    const newPreset = savePreset(preset)
-    if (newPreset) {
-      setPresets(prev => [...prev, newPreset])
-      return newPreset
-    }
-    return null
-  }, [])
+  const createPreset = useCallback(
+    (preset: Omit<FilterPreset, 'id' | 'createdAt' | 'usageCount'>) => {
+      const newPreset = savePreset(preset)
+      if (newPreset) {
+        setPresets(prev => [...prev, newPreset])
+        return newPreset
+      }
+      return null
+    },
+    []
+  )
 
   const removePreset = useCallback((presetId: string) => {
     const success = deletePreset(presetId)
@@ -39,18 +42,16 @@ export function useFilterPresets() {
   const modifyPreset = useCallback((presetId: string, updates: Partial<FilterPreset>) => {
     const success = updatePreset(presetId, updates)
     if (success) {
-      setPresets(prev => 
-        prev.map(p => p.id === presetId ? { ...p, ...updates } : p)
-      )
+      setPresets(prev => prev.map(p => (p.id === presetId ? { ...p, ...updates } : p)))
     }
     return success
   }, [])
 
   const usePreset = useCallback((presetId: string) => {
     incrementPresetUsage(presetId)
-    setPresets(prev => 
-      prev.map(p => 
-        p.id === presetId 
+    setPresets(prev =>
+      prev.map(p =>
+        p.id === presetId
           ? { ...p, usageCount: p.usageCount + 1, lastUsed: new Date().toISOString() }
           : p
       )
@@ -66,4 +67,3 @@ export function useFilterPresets() {
     usePreset,
   }
 }
-

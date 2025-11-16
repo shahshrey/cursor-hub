@@ -10,9 +10,7 @@ interface McpLogoProps {
 }
 
 export function McpLogo({ size = 24, className, variant = 'color' }: McpLogoProps) {
-  const imageSrc = variant === 'transparent' 
-    ? '/mcp/mcp_transparent.png'
-    : '/mcp/mcp2.png'
+  const imageSrc = variant === 'transparent' ? '/mcp/mcp_transparent.png' : '/mcp/mcp2.png'
 
   return (
     <Image
@@ -25,4 +23,3 @@ export function McpLogo({ size = 24, className, variant = 'color' }: McpLogoProp
     />
   )
 }
-

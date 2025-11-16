@@ -19,7 +19,7 @@ export function calculateFilterCounts(resources: ResourceMetadata[]): FilterCoun
     byCategoryAndType: {},
   }
 
-  resources.forEach((resource) => {
+  resources.forEach(resource => {
     counts.byType[resource.type]++
 
     if (!counts.byCategory[resource.category]) {
@@ -47,9 +47,7 @@ export function getCountForFilter(
   targetCategory?: string
 ): number {
   if (!targetCategory) {
-    return currentType === 'all' 
-      ? counts.byType.all 
-      : counts.byType[currentType]
+    return currentType === 'all' ? counts.byType.all : counts.byType[currentType]
   }
 
   if (currentType === 'all') {
@@ -67,4 +65,3 @@ export function wouldFilterReturnZeroResults(
   const count = getCountForFilter(counts, targetType, targetCategory)
   return count === 0
 }
-

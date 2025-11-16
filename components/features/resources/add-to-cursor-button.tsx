@@ -29,11 +29,7 @@ function sanitizeName(name: string): string {
 }
 
 function sanitizeText(text: string): string {
-  return text
-    .trim()
-    .replace(/\r\n/g, '\n')
-    .replace(/\r/g, '\n')
-    .replace(/\.env/g, '(.)env')
+  return text.trim().replace(/\r\n/g, '\n').replace(/\r/g, '\n').replace(/\.env/g, '(.)env')
 }
 
 export function AddToCursorButton({
@@ -50,28 +46,28 @@ export function AddToCursorButton({
   const generateDeepLink = async (): Promise<string | null> => {
     try {
       if (resource.type === 'mcp') {
-      const response = await fetch(`/api/resources/download/${resource.slug}`)
-      if (!response.ok) throw new Error('Failed to fetch MCP config')
+        const response = await fetch(`/api/resources/download/${resource.slug}`)
+        if (!response.ok) throw new Error('Failed to fetch MCP config')
 
-      const text = await response.text()
-      const mcpConfig = JSON.parse(text)
-      
-      const firstServerKey = Object.keys(mcpConfig.mcpServers || {})[0]
-      if (!firstServerKey) throw new Error('No MCP server configuration found')
+        const text = await response.text()
+        const mcpConfig = JSON.parse(text)
 
-      const serverConfig = mcpConfig.mcpServers[firstServerKey]
-      
-      const configData = {
-        command: serverConfig.command,
-        args: serverConfig.args,
-        ...(serverConfig.env && { env: serverConfig.env }),
-        ...(serverConfig.description && { description: serverConfig.description }),
-      }
+        const firstServerKey = Object.keys(mcpConfig.mcpServers || {})[0]
+        if (!firstServerKey) throw new Error('No MCP server configuration found')
 
-      const base64Config = btoa(JSON.stringify(configData))
-      const encodedName = encodeURIComponent(firstServerKey)
-      
-      return `cursor://anysphere.cursor-deeplink/mcp/install?name=${encodedName}&config=${base64Config}`
+        const serverConfig = mcpConfig.mcpServers[firstServerKey]
+
+        const configData = {
+          command: serverConfig.command,
+          args: serverConfig.args,
+          ...(serverConfig.env && { env: serverConfig.env }),
+          ...(serverConfig.description && { description: serverConfig.description }),
+        }
+
+        const base64Config = btoa(JSON.stringify(configData))
+        const encodedName = encodeURIComponent(firstServerKey)
+
+        return `cursor://anysphere.cursor-deeplink/mcp/install?name=${encodedName}&config=${base64Config}`
       }
 
       if (resource.type === 'command') {
@@ -82,26 +78,26 @@ export function AddToCursorButton({
         const taskNameMatch = rawText.match(/<task\s+name=["']([^"']+)["']>/i)
         const rawName = taskNameMatch ? taskNameMatch[1] : resource.title
         const sanitizedName = sanitizeName(rawName)
-        
+
         const taskStartIndex = rawText.indexOf('<task')
         const taskEndIndex = rawText.lastIndexOf('</task>')
-        
+
         let promptText = rawText
         if (taskStartIndex !== -1 && taskEndIndex !== -1 && taskEndIndex > taskStartIndex) {
           promptText = rawText.substring(taskStartIndex, taskEndIndex + '</task>'.length)
         }
-        
+
         let sanitizedText = sanitizeText(promptText)
-        
+
         sanitizedText = sanitizedText.replace(/\\\|/g, '|')
         sanitizedText = sanitizedText.replace(/\\`/g, '`')
         sanitizedText = sanitizedText.replace(/\\"/g, '"')
         sanitizedText = sanitizedText.replace(/\\'/g, "'")
-        
+
         const encodedName = encodeURIComponent(sanitizedName)
         let encodedText = encodeURIComponent(sanitizedText)
         encodedText = encodedText.replace(/%20/g, '+')
-        
+
         return `cursor://anysphere.cursor-deeplink/command?name=${encodedName}&text=${encodedText}`
       }
 
@@ -115,7 +111,7 @@ export function AddToCursorButton({
         const sanitizedName = sanitizeName(rawName)
         const encodedName = encodeURIComponent(sanitizedName)
         const encodedText = encodeURIComponent(sanitizedText).replace(/%20/g, '+')
-        
+
         return `cursor://anysphere.cursor-deeplink/rule?name=${encodedName}&text=${encodedText}`
       }
 
@@ -130,7 +126,7 @@ export function AddToCursorButton({
     try {
       setIsLoading(true)
       const deepLink = await generateDeepLink()
-      
+
       if (!deepLink) {
         toast.error('Failed to generate installation link')
         return
@@ -138,14 +134,18 @@ export function AddToCursorButton({
 
       console.log('Generated deep link:', deepLink)
       console.log('Decoded name:', decodeURIComponent(deepLink.match(/name=([^&]+)/)?.[1] || ''))
-      console.log('Text length:', decodeURIComponent(deepLink.match(/text=(.+)$/)?.[1] || '').length)
+      console.log(
+        'Text length:',
+        decodeURIComponent(deepLink.match(/text=(.+)$/)?.[1] || '').length
+      )
 
       window.location.href = deepLink
-      const message = resource.type === 'mcp' 
-        ? 'Opening Cursor to install MCP server...'
-        : resource.type === 'command'
-        ? 'Opening Cursor to add command...'
-        : 'Opening Cursor to add rule...'
+      const message =
+        resource.type === 'mcp'
+          ? 'Opening Cursor to install MCP server...'
+          : resource.type === 'command'
+            ? 'Opening Cursor to add command...'
+            : 'Opening Cursor to add rule...'
       toast.success(message)
     } catch (error) {
       console.error('Add to Cursor error:', error)
@@ -163,7 +163,7 @@ export function AddToCursorButton({
         toast.error('Failed to generate deep link')
         return
       }
-      
+
       const success = await copyToClipboard(deepLink, true)
       if (success) {
         toast.success('Deep link copied to clipboard')
@@ -201,12 +201,7 @@ export function AddToCursorButton({
       shimmerDuration="3s"
       borderRadius="6px"
       background="rgba(0, 0, 0, 1)"
-      className={cn(
-        'gap-2',
-        getPaddingClasses(),
-        getFontSizeClasses(),
-        className
-      )}
+      className={cn('gap-2', getPaddingClasses(), getFontSizeClasses(), className)}
       aria-label="Add to Cursor"
     >
       {isLoading ? (
@@ -232,4 +227,3 @@ export function AddToCursorButton({
     </ShimmerButton>
   )
 }
-

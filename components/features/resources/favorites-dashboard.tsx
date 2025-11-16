@@ -3,7 +3,7 @@
 import { useMemo, useState, useEffect } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ResourceCard } from './resource-card'
-import type { ResourceMetadata, ResourceType } from '@/types/resources'
+import type { ResourceMetadata, ResourceType, ResourceDownloadData } from '@/types/resources'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Search } from 'lucide-react'
@@ -25,8 +25,8 @@ export function FavoritesDashboard({ favorites, resourcesIndex }: FavoritesDashb
 
   const favoritedResources = useMemo(() => {
     return favorites
-      .map((fav) => {
-        const resource = resourcesIndex.find((r) => r.slug === fav.resource_slug)
+      .map(fav => {
+        const resource = resourcesIndex.find(r => r.slug === fav.resource_slug)
         return resource ? { ...resource, favoritedAt: fav.created_at } : null
       })
       .filter((r): r is ResourceMetadata & { favoritedAt: string } => r !== null)
@@ -38,16 +38,16 @@ export function FavoritesDashboard({ favorites, resourcesIndex }: FavoritesDashb
 
       const supabase = createClient()
       const slugs = favoritedResources.map(r => r.slug)
-      
+
       const { data, error } = await supabase
         .from('resources')
         .select('slug, download_count')
         .in('slug', slugs)
-      
+
       if (data && !error) {
         const counts: Record<string, number> = {}
-        data.forEach(item => {
-          counts[item.slug] = item.download_count
+        data.forEach((item: ResourceDownloadData) => {
+          counts[item.slug] = item.download_count || 0
         })
         setDownloadCounts(counts)
       }
@@ -60,12 +60,12 @@ export function FavoritesDashboard({ favorites, resourcesIndex }: FavoritesDashb
     const handleDownloadEvent = async (event: Event) => {
       const customEvent = event as CustomEvent<{ slug: string }>
       const slug = customEvent.detail.slug
-      
+
       setDownloadCounts(prev => ({
         ...prev,
-        [slug]: (prev[slug] || 0) + 1
+        [slug]: (prev[slug] || 0) + 1,
       }))
-      
+
       setTimeout(async () => {
         const supabase = createClient()
         const { data, error } = await supabase
@@ -73,11 +73,12 @@ export function FavoritesDashboard({ favorites, resourcesIndex }: FavoritesDashb
           .select('download_count')
           .eq('slug', slug)
           .single()
-        
+
         if (data && !error) {
+          const resourceData = data as { download_count: number | null }
           setDownloadCounts(prev => ({
             ...prev,
-            [slug]: data.download_count
+            [slug]: resourceData.download_count || 0,
           }))
         }
       }, 100)
@@ -90,10 +91,10 @@ export function FavoritesDashboard({ favorites, resourcesIndex }: FavoritesDashb
   const groupedByType = useMemo(() => {
     const groups: Record<ResourceType | 'all', (ResourceMetadata & { favoritedAt: string })[]> = {
       all: favoritedResources,
-      command: favoritedResources.filter((r) => r.type === 'command'),
-      rule: favoritedResources.filter((r) => r.type === 'rule'),
-      mcp: favoritedResources.filter((r) => r.type === 'mcp'),
-      hook: favoritedResources.filter((r) => r.type === 'hook'),
+      command: favoritedResources.filter(r => r.type === 'command'),
+      rule: favoritedResources.filter(r => r.type === 'rule'),
+      mcp: favoritedResources.filter(r => r.type === 'mcp'),
+      hook: favoritedResources.filter(r => r.type === 'hook'),
     }
     return groups
   }, [favoritedResources])
@@ -128,7 +129,7 @@ export function FavoritesDashboard({ favorites, resourcesIndex }: FavoritesDashb
         <TabsContent key={type} value={type} className="mt-6">
           {resources.length > 0 ? (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {resources.map((resource) => (
+              {resources.map(resource => (
                 <ResourceCard
                   key={resource.slug}
                   resource={resource}
@@ -146,4 +147,3 @@ export function FavoritesDashboard({ favorites, resourcesIndex }: FavoritesDashb
     </Tabs>
   )
 }
-

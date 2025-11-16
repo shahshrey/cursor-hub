@@ -1,0 +1,17 @@
+**/*                                 @shahshrey
+
+.github/**/*                        @shahshrey
+.husky/**/*                         @shahshrey
+
+supabase/migrations/**/*            @shahshrey
+types/supabase.ts                   @shahshrey
+
+scripts/**/*                        @shahshrey
+
+cursor-resources/**/*               @shahshrey
+
+server/actions/**/*                 @shahshrey
+server/queries/**/*                 @shahshrey
+
+middleware.ts                       @shahshrey
+

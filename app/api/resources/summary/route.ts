@@ -14,10 +14,10 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       totalCount: index.totalCount,
       categories: index.categories,
       stats: {
-        commands: index.resources.filter((r) => r.type === 'command').length,
-        rules: index.resources.filter((r) => r.type === 'rule').length,
-        mcps: index.resources.filter((r) => r.type === 'mcp').length,
-        hooks: index.resources.filter((r) => r.type === 'hook').length,
+        commands: index.resources.filter(r => r.type === 'command').length,
+        rules: index.resources.filter(r => r.type === 'rule').length,
+        mcps: index.resources.filter(r => r.type === 'mcp').length,
+        hooks: index.resources.filter(r => r.type === 'hook').length,
       },
     }
 
@@ -30,4 +30,3 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     return handleApiError(error)
   }
 }
-

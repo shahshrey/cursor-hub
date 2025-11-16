@@ -9,8 +9,8 @@ export const createClient = () => {
       auth: {
         persistSession: false,
         autoRefreshToken: false,
-        detectSessionInUrl: false
-      }
+        detectSessionInUrl: false,
+      },
     }
   )
 }

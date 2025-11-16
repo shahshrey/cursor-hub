@@ -6,10 +6,7 @@ import { rateLimit, rateLimitConfigs } from '@/lib/middleware/rate-limit'
 import { handleApiError, NotFoundError, ValidationError, logError } from '@/lib/errors'
 import { validateSlug, MAX_SLUG_LENGTH } from '@/lib/validation'
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ slug: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   try {
     const rateLimitResponse = rateLimit(request, rateLimitConfigs.download)
     if (rateLimitResponse) return rateLimitResponse
@@ -17,19 +14,13 @@ export async function GET(
     const { slug } = await params
 
     if (!slug || slug.length > MAX_SLUG_LENGTH || !validateSlug(slug)) {
-      throw new ValidationError(
-        `Invalid slug: ${slug}`,
-        'Invalid resource identifier'
-      )
+      throw new ValidationError(`Invalid slug: ${slug}`, 'Invalid resource identifier')
     }
 
     const resource = getResourceBySlug(slug)
 
     if (!resource) {
-      throw new NotFoundError(
-        `Resource not found: ${slug}`,
-        'Resource not found'
-      )
+      throw new NotFoundError(`Resource not found: ${slug}`, 'Resource not found')
     }
 
     const content = getResourceContent(resource.filePath)
@@ -43,7 +34,7 @@ export async function GET(
     })
 
     const isPreview = request.headers.get('x-preview-mode') === 'true'
-    
+
     if (isPreview) {
       return new NextResponse(content, {
         status: 200,
@@ -66,4 +57,3 @@ export async function GET(
     return handleApiError(error)
   }
 }
-

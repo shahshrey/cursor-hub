@@ -52,11 +52,7 @@ export function ActiveFilters({
           whileHover={shouldReduceMotion ? {} : ANIMATIONS.hover}
           whileTap={shouldReduceMotion ? {} : ANIMATIONS.tap}
         >
-          <Badge
-            variant="default"
-            className="cursor-pointer group"
-            onClick={onClearType}
-          >
+          <Badge variant="default" className="cursor-pointer group" onClick={onClearType}>
             Type: {TYPE_LABELS[activeType]}
             <X className="w-3 h-3 ml-1.5 opacity-70 group-hover:opacity-100" />
           </Badge>
@@ -71,11 +67,7 @@ export function ActiveFilters({
           whileHover={shouldReduceMotion ? {} : ANIMATIONS.hover}
           whileTap={shouldReduceMotion ? {} : ANIMATIONS.tap}
         >
-          <Badge
-            variant="default"
-            className="cursor-pointer group"
-            onClick={onClearCategory}
-          >
+          <Badge variant="default" className="cursor-pointer group" onClick={onClearCategory}>
             Category: {activeCategory}
             <X className="w-3 h-3 ml-1.5 opacity-70 group-hover:opacity-100" />
           </Badge>
@@ -90,11 +82,7 @@ export function ActiveFilters({
           whileHover={shouldReduceMotion ? {} : ANIMATIONS.hover}
           whileTap={shouldReduceMotion ? {} : ANIMATIONS.tap}
         >
-          <Badge
-            variant="default"
-            className="cursor-pointer group"
-            onClick={onClearSearch}
-          >
+          <Badge variant="default" className="cursor-pointer group" onClick={onClearSearch}>
             Search: &quot;{searchQuery}&quot;
             <X className="w-3 h-3 ml-1.5 opacity-70 group-hover:opacity-100" />
           </Badge>
@@ -103,4 +91,3 @@ export function ActiveFilters({
     </div>
   )
 }
-
