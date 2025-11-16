@@ -1,265 +1,95 @@
-# Cursor Resources Management Website
+# Cursor Hub
 
-A comprehensive platform for browsing, searching, previewing, and downloading 450+ Cursor resources including commands, rules, MCP tools, and shell scripts. Built with Next.js 15.3, Clerk (auth), Supabase (database), TypeScript, and Tailwind CSS v4.
+Your central platform for discovering, previewing, and downloading 525+ community-curated Cursor IDE resources. Find commands, rules, MCP tools, and shell scripts to supercharge your AI-assisted development workflow.
 
-## 🚀 Features
+**[🚀 Try it live](https://cursor-hub-shahshreys-projects.vercel.app/)** | **[Browse resources on GitHub](https://github.com/shahshrey/cursor-hub/tree/main/cursor-resources)**
 
-### Core Functionality
-- **Browse 459 Resources** - Commands, Rules, MCPs, and Hooks all in one place
-- **Powerful Search** - Fuzzy search with Fuse.js across titles, descriptions, and content
-- **Advanced Filtering** - Filter by type, category, and sort by name/downloads/recent
-- **Preview Modal** - Syntax-highlighted previews with markdown rendering
-- **One-Click Downloads** - Download any resource with automatic tracking
-- **Favorites System** - Save favorites (requires authentication)
-- **Popular Resources** - See most downloaded resources
-- **Real-Time Stats** - Live resource counts and download analytics
+## ✨ What You Get
 
-### Technical Stack
-- **Next.js 15.3** with App Router and Server Components
-- **Clerk** for authentication and user management
-- **Supabase** for database (resources, favorites, download tracking)
-- **TypeScript** with strict mode and generated types
-- **Tailwind CSS v4** for modern styling
-- **shadcn/ui** component library
-- **Fuse.js** for client-side fuzzy search
-- **Shiki** for syntax highlighting
-- **React Markdown** for markdown rendering
-- **Vitest** for testing
+### 🔍 Powerful Discovery
+- **525+ Resources** - Professionally organized commands, rules, MCP tools, and shell scripts
+- **Instant Search** - Find what you need in seconds across titles, descriptions, and content
+- **Smart Filtering** - Filter by type and category with live result counts
+- **Popular & Trending** - See what the community loves most
 
-## 📋 Prerequisites
+### 💾 Preview & Download
+- **Syntax-Highlighted Previews** - View full resource content before downloading
+- **One-Click Downloads** - Get any resource instantly with a single click
+- **Copy to Clipboard** - Quick-copy code snippets directly from previews
 
-- Node.js 18+ 
-- npm/yarn/pnpm
+### 🎯 Personal Organization
+- **Save Favorites** - Bookmark resources you use frequently (sign in required)
+- **Custom Filter Presets** - Save your common searches for instant access
+- **Share Filter Views** - Send filtered links to teammates
+- **Personal Dashboard** - Access all your favorites in one place
 
-## 🛠️ Getting Started
+### ⚡ Power User Features
+- **Keyboard Shortcuts** - Navigate like a pro (`/` search, `ESC` clear, `Ctrl+S` save)
+- **Curated Stacks** - Pre-built resource bundles for DevOps, AI workflows, and more
+- **Real-Time Stats** - See download counts and track popular resources
 
-### 1. Clone and Install
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js 18 or higher
+- A Clerk account (free at [clerk.com](https://clerk.com))
+
+### Installation
 
 ```bash
-git clone <your-repo-url>
-cd cursor-resources-hub
+git clone https://github.com/shahshrey/cursor-hub.git
+cd cursor-hub
 npm install
 ```
 
-### 2. Index Cursor Resources
+### Setup
 
-Generate the searchable index from all cursor-resources files:
+1. **Configure environment variables** - Create `.env.local`:
+
+```env
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_key
+CLERK_SECRET_KEY=your_clerk_secret
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_key
+```
+
+2. **Index the resources**:
 
 ```bash
 npm run resources:index
 ```
 
-This will create `public/data/resources-index.json` with metadata for all 459 resources.
+3. **Start the database** (optional for local dev):
 
-### 3. Set Up Environment
-
-Create `.env.local` with your credentials:
-
-```env
-# Clerk Authentication
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your-clerk-publishable-key
-CLERK_SECRET_KEY=your-clerk-secret-key
-
-# Supabase Database (optional for local dev)
-NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-from-db-start
-```
-
-**For Clerk:** Sign up at [clerk.com](https://clerk.com) and create an application
-
-**For Supabase (optional):** Start local database and run migrations:
 ```bash
-# Start Supabase
 npm run db:start
-
-# This will automatically:
-# - Start PostgreSQL database
-# - Apply all migrations (including Clerk integration)
-# - Generate TypeScript types
-
-# To regenerate types manually:
-npm run db:types
 ```
 
-### 4. Run Development Server
+4. **Run the app**:
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to browse resources!
+Visit [http://localhost:3000](http://localhost:3000) and start exploring!
 
-## 📁 Project Structure
+## 📂 What's Inside
+
+All resources are available as markdown files in the [`cursor-resources/`](https://github.com/shahshrey/cursor-hub/tree/main/cursor-resources) directory:
 
 ```
-├── app/                          # Next.js App Router
-│   ├── (auth)/                  # Auth routes (signin, signup)
-│   ├── (dashboard)/             # Protected dashboard with favorites
-│   ├── api/resources/download/  # Download API routes
-│   └── page.tsx                 # Main resource browser page
-├── components/features/resources/
-│   ├── resource-browser.tsx     # Main grid with search/filters
-│   ├── resource-card.tsx        # Individual resource card
-│   ├── resource-filters.tsx     # Search and filter controls
-│   ├── resource-preview-modal.tsx  # Preview with syntax highlighting
-│   ├── download-button.tsx      # Download with tracking
-│   ├── favorite-button.tsx      # Favorite toggle
-│   ├── favorites-dashboard.tsx  # User favorites view
-│   ├── popular-resources.tsx    # Most downloaded section
-│   └── code-block.tsx          # Syntax highlighting
-├── lib/
-│   ├── resources.ts            # Resource utilities
-│   ├── search.ts               # Fuse.js search logic
-│   ├── file-utils.ts           # File helpers
-│   └── supabase/              # Supabase clients
-├── server/
-│   ├── actions/
-│   │   ├── auth.ts            # Clerk auth helpers
-│   │   ├── favorites.ts       # Favorite operations (Clerk auth + Supabase)
-│   │   └── resources.ts       # Download tracking (Supabase)
-│   └── queries/
-│       └── resources.ts       # Resource content loading
-├── scripts/
-│   └── index-resources.ts     # Build-time indexer
-├── cursor-resources/          # 459 resource files
-│   ├── commands/              # 254 command files
-│   ├── rules/                 # 111 rule files
-│   ├── mcps/                  # 55 MCP configs
-│   └── hooks/                 # 39 shell scripts
-├── supabase/migrations/       # Database schema
-├── types/
-│   ├── resources.ts           # Resource types
-│   └── supabase.ts            # Generated DB types
-└── public/data/
-    └── resources-index.json   # Generated index (gitignored)
+cursor-resources/
+├── commands/     # 254 automation commands for workflows
+├── rules/        # 111 coding rules and best practices  
+├── mcps/         # 55 Model Context Protocol tools
+└── hooks/        # 39 shell scripts for git and automation
 ```
 
-## 🔧 Available Scripts
+You can browse, download, or contribute directly via [GitHub](https://github.com/shahshrey/cursor-hub/tree/main/cursor-resources).
 
-```bash
-# Development
-npm run dev                 # Start dev server with Turbopack
-npm run build              # Index resources + build for production
-npm run start              # Start production server
-npm run lint               # Run ESLint
+## 🤝 Contributing
 
-# Resources
-npm run resources:index    # Generate searchable resource index
-
-# Database
-npm run db:start           # Start local Supabase
-npm run db:stop            # Stop local Supabase
-npm run db:reset           # Reset database to migrations
-npm run db:types           # Generate TypeScript types from schema
-npm run db:push            # Push migrations to remote
-
-# Testing
-npm run test               # Run tests in watch mode
-npm run test:ui            # Open Vitest UI
-npm run test:coverage      # Generate coverage report
-```
-
-## 📖 How It Works
-
-### Build-Time Indexing
-
-The `scripts/index-resources.ts` script scans all files in `cursor-resources/` and generates a searchable JSON index with:
-- Extracted metadata (title, description, tags)
-- File information (size, extension, path)
-- Searchable content for Fuse.js
-- Category groupings
-
-### Client-Side Search
-
-Fuse.js provides instant, fuzzy search without server requests:
-- Searches across titles, descriptions, tags, and content
-- Typo-tolerant matching (threshold: 0.4)
-- 300ms debounced search
-- Results update in real-time
-
-### Database-Backed Analytics
-
-Supabase stores only what needs persistence:
-- Download counts per resource
-- User favorites with RLS policies
-- Popular resources queries
-
-### Preview System
-
-Resource preview modal features:
-- Syntax highlighting with Shiki (VS Code theme)
-- Markdown rendering with react-markdown
-- Copy to clipboard functionality
-- Direct download from modal
-
-## 🔐 Authentication (Clerk)
-
-- **Optional Authentication** - Browse and download without login
-- **Clerk Integration** - Secure, modern authentication with social logins
-- **Favorites** - Sign in to save favorites across devices
-- **Protected Routes** - Clerk middleware protects dashboard routes
-- **User Management** - Complete user profiles and session handling
-
-## 🎨 UI Components
-
-Built with shadcn/ui:
-- Cards, Badges, Buttons
-- Tabs for filtering
-- Dialog for previews
-- Skeleton loaders
-- Toast notifications (Sonner)
-
-## 🚨 Important Guidelines
-
-1. **Run `npm run resources:index`** after adding/modifying files in `cursor-resources/`
-2. **Always regenerate types** after database schema changes (`npm run db:types`)
-3. **Use migrations** for all database changes (never modify schema directly)
-4. **Test downloads** to ensure download tracking increments properly
-
-## 📊 Database Schema
-
-### Resources Table
-Tracks download counts for analytics:
-```sql
-CREATE TABLE public.resources (
-  slug TEXT PRIMARY KEY,
-  download_count INTEGER DEFAULT 0,
-  created_at TIMESTAMPTZ DEFAULT NOW(),
-  updated_at TIMESTAMPTZ DEFAULT NOW()
-);
-```
-
-### Favorites Table  
-User-specific favorites (linked to Clerk user IDs):
-```sql
-CREATE TABLE public.favorites (
-  id UUID PRIMARY KEY,
-  user_id TEXT NOT NULL,  -- Clerk user ID
-  resource_slug TEXT NOT NULL,
-  resource_type TEXT CHECK (resource_type IN ('command', 'rule', 'mcp', 'hook')),
-  UNIQUE(user_id, resource_slug)
-);
-```
-
-## 🎯 Performance
-
-- **Fast Initial Load** - Static HTML with pre-generated index
-- **Instant Search** - Client-side Fuse.js (no network latency)
-- **Optimized Bundle** - Code splitting and lazy loading
-- **Efficient Database** - Minimal queries (only favorites and downloads)
-
-## 📝 Environment Variables
-
-Required:
-```env
-# Clerk Authentication
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
-CLERK_SECRET_KEY=sk_test_...
-
-# Supabase Database
-NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
-```
+Want to add your own Cursor resources? All resources live in the [`cursor-resources/`](https://github.com/shahshrey/cursor-hub/tree/main/cursor-resources) directory on GitHub. Feel free to submit a pull request with your commands, rules, MCP tools, or hooks!
 
 ## 📄 License
 
@@ -267,4 +97,4 @@ MIT
 
 ---
 
-**Built with** ❤️ **using Next.js 15.3, Clerk, Supabase, and shadcn/ui**
+Made with ❤️ for the Cursor IDE community
