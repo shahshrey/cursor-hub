@@ -88,6 +88,10 @@ export function ResourcePreviewModal({ resource, isOpen, onClose }: ResourcePrev
 
     if (isOpen) {
       document.body.style.overflow = 'hidden'
+      const firstFocusable = ref.current?.querySelector(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      ) as HTMLElement
+      firstFocusable?.focus()
     } else {
       document.body.style.overflow = 'auto'
     }
@@ -333,17 +337,22 @@ export function ResourcePreviewModal({ resource, isOpen, onClose }: ResourcePrev
               layoutId={`card-${resource.slug}`}
               ref={ref}
               className="w-full max-w-5xl h-full md:h-[90vh] flex flex-col bg-background dark:bg-neutral-900 md:rounded-3xl overflow-hidden shadow-2xl"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="preview-title"
+              aria-describedby="preview-description"
             >
               <div className="px-6 pt-6 pb-4 border-b bg-card/50 flex-shrink-0">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1 min-w-0">
                     <motion.h3
                       layoutId={`title-${resource.slug}`}
+                      id="preview-title"
                       className="text-2xl font-bold mb-3"
                     >
                       {resource.title}
                     </motion.h3>
-                    <div className="text-sm text-muted-foreground">
+                    <div id="preview-description" className="text-sm text-muted-foreground">
                       <div className="flex flex-wrap gap-2 items-center">
                         <Badge variant="secondary" className="font-medium">
                           {resource.type}
@@ -368,6 +377,7 @@ export function ResourcePreviewModal({ resource, isOpen, onClose }: ResourcePrev
                   onClick={handleCopyAll}
                   disabled={!content}
                   className="h-10"
+                  aria-label="Copy entire file to clipboard"
                 >
                   <Copy className="h-4 w-4 mr-2" />
                   {copied ? 'Copied!' : 'Copy Entire File'}
@@ -386,7 +396,12 @@ export function ResourcePreviewModal({ resource, isOpen, onClose }: ResourcePrev
                       className="h-10 px-6 font-semibold"
                     />
                   )}
-                  <Button variant="ghost" onClick={onClose} className="h-10">
+                  <Button
+                    variant="ghost"
+                    onClick={onClose}
+                    className="h-10"
+                    aria-label="Close preview"
+                  >
                     <X className="h-4 w-4 mr-2" />
                     Close
                   </Button>

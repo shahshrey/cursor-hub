@@ -177,7 +177,7 @@ export function EnhancedSearchInput({
           }}
           onFocus={() => setIsFocused(true)}
           onKeyDown={handleKeyDown}
-          className="pl-10 pr-20 h-9 text-sm terminal-font"
+          className="pl-10 pr-20 h-12 text-base terminal-font"
         />
         <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
           {value && (

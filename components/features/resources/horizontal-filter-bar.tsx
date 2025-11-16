@@ -4,7 +4,17 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Badge } from '@/components/ui/badge'
-import { Search, ArrowUpDown, Save, Package, Zap, Clipboard, GitBranch } from 'lucide-react'
+import {
+  Search,
+  ArrowUpDown,
+  Save,
+  Package,
+  Zap,
+  Clipboard,
+  GitBranch,
+  Filter,
+  X,
+} from 'lucide-react'
 import type { ResourceType } from '@/types/resources'
 import type { FilterCounts } from '@/lib/filter-counts'
 import type { FilterPreset } from '@/lib/preset-storage'
@@ -69,7 +79,13 @@ export function HorizontalFilterBar({
   onDeletePreset,
   onToggleStarPreset,
 }: HorizontalFilterBarProps) {
-  const hasActiveFilters = activeType !== 'all' || activeCategory || searchQuery
+  const hasActiveFilters = activeType !== 'all' || activeCategory || searchQuery.trim().length >= 2
+  const activeFilterCount = [
+    activeType !== 'all' ? 1 : 0,
+    activeCategory ? 1 : 0,
+    searchQuery.trim().length >= 2 ? 1 : 0,
+  ].reduce((a, b) => a + b, 0)
+
   const getTypeCount = (type: ResourceType | 'all'): number => {
     if (!filterCounts) return 0
 
@@ -82,6 +98,12 @@ export function HorizontalFilterBar({
     }
 
     return filterCounts.byCategoryAndType[activeCategory]?.[type] || 0
+  }
+
+  const handleClearFilters = () => {
+    onTypeChange('all')
+    onCategoryChange('')
+    onSearchChange('')
   }
 
   return (
@@ -98,12 +120,15 @@ export function HorizontalFilterBar({
                 value={searchQuery}
                 onChange={event => onSearchChange(event.target.value)}
                 aria-label="Search resources"
-                className="pl-10 h-9 text-sm terminal-font"
+                aria-describedby="search-results-count"
+                className="pl-10 h-11 md:h-9 text-sm terminal-font touch-manipulation"
               />
             </div>
             <div
+              id="search-results-count"
               className="flex items-center gap-2 text-xs text-muted-foreground terminal-font"
               aria-live="polite"
+              role="status"
             >
               <Badge variant="outline" className="text-[11px]">
                 {resultsCount.toLocaleString()}/{totalCount.toLocaleString()} results
@@ -117,12 +142,29 @@ export function HorizontalFilterBar({
             </div>
           </div>
           <div className="flex items-center gap-2 flex-wrap justify-end">
+            {hasActiveFilters && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleClearFilters}
+                className="terminal-font shrink-0 min-h-[44px] touch-manipulation"
+                aria-label={`Clear ${activeFilterCount} active filter${activeFilterCount !== 1 ? 's' : ''}`}
+              >
+                <X className="w-4 h-4 mr-1.5" />
+                <span className="hidden sm:inline">Clear filters</span>
+                {activeFilterCount > 0 && (
+                  <Badge variant="secondary" className="ml-1.5 h-5 min-w-[20px] px-1.5 text-[10px]">
+                    {activeFilterCount}
+                  </Badge>
+                )}
+              </Button>
+            )}
             {hasActiveFilters && onSavePreset && (
               <Button
                 variant="outline"
                 size="sm"
                 onClick={onSavePreset}
-                className="terminal-font shrink-0"
+                className="terminal-font shrink-0 min-h-[44px] touch-manipulation"
                 aria-label="Save current filters as preset"
               >
                 <Save className="w-4 h-4 mr-2" />
@@ -142,7 +184,7 @@ export function HorizontalFilterBar({
               variant="outline"
               size="sm"
               onClick={onSortClick}
-              className="terminal-font shrink-0"
+              className="terminal-font shrink-0 min-h-[44px] touch-manipulation"
               aria-live="polite"
               aria-label={`Change sort order. Current order ${sortLabels[sortBy]}`}
             >

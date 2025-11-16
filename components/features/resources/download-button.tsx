@@ -38,7 +38,7 @@ export function DownloadButton({
       const a = document.createElement('a')
       a.href = url
       a.download = resource.fileName
-      document.body.appendChild(a)
+      a.textContent = a.textContent
       a.click()
       window.URL.revokeObjectURL(url)
       document.body.removeChild(a)
