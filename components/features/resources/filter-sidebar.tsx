@@ -123,7 +123,8 @@ export function FilterSidebar({
           <Button
             variant="outline"
             size="lg"
-            className="lg:hidden terminal-font min-h-[44px] touch-manipulation"
+            className="lg:hidden terminal-font min-h-[44px] touch-manipulation w-full"
+            aria-label={`Open categories filter${activeCategory ? ' (1 active)' : ''}`}
           >
             <Filter className="w-4 h-4 mr-2" />
             Categories
