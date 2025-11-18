@@ -1,0 +1,171 @@
+---
+description: Apply this rule when analyzing or optimizing GraphQL API performance, addressing N+1 query problems, implementing DataLoader patterns, configuring caching strategies (response caching, field-level caching, multi-level caching), optimizing database queries with projections, implementing query complexity analysis, configuring query depth limiting, resolving over-fetching or under-fetching issues, implementing cursor-based pagination, setting up performance monitoring, conducting performance audits, analyzing slow queries, optimizing resolver execution, implementing query planning optimization, configuring load testing for GraphQL endpoints, tracking cache hit rates, or addressing production performance issues. Use proactively when GraphQL queries are slow, database queries are excessive, cache strategy needs implementation, or when performance metrics indicate optimization opportunities.
+alwaysApply: false
+---
+
+# GraphQL Performance Optimizer
+
+## Critical Rules
+
+- Implement DataLoader pattern for all entities to eliminate N+1 query problems with batch loading and request-scoped caching
+- Configure query complexity analysis with maximum cost limits, cost per scalar/object/list, and custom error messages
+- Apply query depth limiting (recommended max 7 levels) to prevent depth bomb attacks
+- Implement response caching with session-aware cache keys and conditional caching based on query patterns
+- Apply field-level caching for expensive computations with appropriate TTL configuration
+- Use database projections to fetch only requested fields by analyzing GraphQL selection sets
+- Implement cursor-based pagination (Relay-style connections) instead of offset-based for large datasets
+- Track key performance metrics: execution time, resolver count, database queries, memory usage, cache hit rate, network round trips
+- Configure performance monitoring plugin to log slow queries (>1000ms threshold) and send metrics to monitoring service
+- Optimize resolvers with batching via DataLoader and caching for expensive operations
+- Implement query plan caching to avoid re-analyzing identical queries
+- Configure proper cache invalidation strategies for data changes
+- Design cache keys to be unique and predictable
+- Use multi-level caching (in-memory + distributed cache) for optimal performance
+- Set up load testing framework with realistic query distribution and arrival rates
+- Monitor and alert on slow queries, high error rates, low cache hit rates, and database connection pool issues
+- Validate optimizations with before/after benchmarks to measure actual improvement
+- Configure CDN for static schema delivery
+- Optimize authentication and authorization resolution with caching
+
+## Examples
+
+<example>
+  DataLoader Implementation for N+1 Elimination:
+  
+  ```javascript
+  const profileLoader = new DataLoader(async (profileIds) => {
+    const profiles = await Profile.findByIds(profileIds);
+    return profileIds.map(id => profiles.find(p => p.id === id));
+  });
+  
+  const resolvers = {
+    User: {
+      profile: (user) => profileLoader.load(user.profileId)
+    }
+  };
+  ```
+  
+  Query Complexity Analysis:
+  
+  ```javascript
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    plugins: [
+      costAnalysis({
+        maximumCost: 1000,
+        defaultCost: 1,
+        scalarCost: 1,
+        objectCost: 2,
+        listFactor: 10
+      })
+    ]
+  });
+  ```
+  
+  Field-Level Caching:
+  
+  ```javascript
+  const resolvers = {
+    User: {
+      expensiveComputation: async (user, args, context) => {
+        const cacheKey = `user:${user.id}:computation`;
+        const cached = await context.cache.get(cacheKey);
+        if (cached) return cached;
+        
+        const result = await performExpensiveOperation(user);
+        await context.cache.set(cacheKey, result, { ttl: 300 });
+        return result;
+      }
+    }
+  };
+  ```
+  
+  Database Query Optimization:
+  
+  ```javascript
+  const resolvers = {
+    Query: {
+      users: async (parent, args, context, info) => {
+        const requestedFields = getRequestedFields(info);
+        return User.findMany({
+          select: requestedFields,
+          take: args.first
+        });
+      }
+    }
+  };
+  ```
+  
+  Performance Monitoring:
+  
+  ```javascript
+  const performancePlugin = {
+    requestDidStart() {
+      return {
+        willSendResponse(requestContext) {
+          const { request, metrics } = requestContext;
+          if (metrics.executionTime > 1000) {
+            console.warn('Slow GraphQL Query:', {
+              query: request.query,
+              executionTime: metrics.executionTime
+            });
+          }
+        }
+      };
+    }
+  };
+  ```
+</example>
+
+<example type="invalid">
+  N+1 Query Problem (no DataLoader):
+  
+  ```javascript
+  const resolvers = {
+    User: {
+      profile: (user) => Profile.findById(user.profileId)
+    }
+  };
+  ```
+  
+  No Query Complexity Limits:
+  
+  ```javascript
+  query expensiveQuery {
+    users(first: 99999) {
+      posts(first: 99999) {
+        comments(first: 99999) {
+          author { id }
+        }
+      }
+    }
+  }
+  ```
+  
+  Offset-Based Pagination (inefficient):
+  
+  ```graphql
+  type Query {
+    users(limit: Int, offset: Int): [User!]!
+  }
+  ```
+  
+  No Caching Strategy:
+  
+  ```javascript
+  const resolvers = {
+    User: {
+      expensiveComputation: async (user) => {
+        return await performExpensiveOperation(user);
+      }
+    }
+  };
+  ```
+  
+  Fetching All Database Columns:
+  
+  ```javascript
+  return User.findMany();
+  ```
+</example>

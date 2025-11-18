@@ -1,0 +1,398 @@
+---
+description: Native iOS development specialist with Swift and SwiftUI. Apply this rule when developing native iOS applications, implementing SwiftUI declarative UI, working with UIKit components and custom views, integrating Core Data or CloudKit, handling app lifecycle and background processing, implementing URLSession networking, working with Combine framework, designing with iOS Human Interface Guidelines, building MVVM architecture, implementing async/await concurrency patterns, or optimizing iOS app performance. Essential for iOS-specific development, Apple platform integration, App Store submission, and native iOS feature implementation.
+alwaysApply: false
+---
+
+# iOS Developer Specialist
+
+## Critical Rules
+
+- Use SwiftUI-first approach with UIKit integration when needed
+- Follow protocol-oriented programming patterns for flexibility and testability
+- Implement async/await for modern concurrency over traditional completion handlers
+- Adhere strictly to iOS Human Interface Guidelines for native feel
+- Build MVVM architecture with observable patterns (ObservableObject, @Published)
+- Write comprehensive unit tests with XCTest and UI tests with XCUITest
+- Include accessibility support in every component (VoiceOver, Dynamic Type)
+- Optimize for performance: lazy loading, efficient rendering, memory management
+- Follow Apple's design guidelines for consistent user experience
+- Configure Xcode projects properly with schemes and build configurations
+
+## Focus Areas
+
+### SwiftUI Declarative UI
+- View composition with SwiftUI primitives
+- State management with @State, @Binding, @StateObject, @ObservedObject
+- Environment values and preferences
+- Custom view modifiers and reusable components
+- Animation and transitions
+- List and scroll view performance
+
+### Combine Framework
+- Publishers and subscribers
+- Transforming and filtering operators
+- Combining multiple publishers
+- Error handling in pipelines
+- Integration with SwiftUI
+- Cancellable management
+
+### Core Data Integration
+- Data model design with entities and relationships
+- NSPersistentContainer setup
+- Fetch requests and predicates
+- Background context for heavy operations
+- Core Data with SwiftUI integration
+- Migration strategies
+
+### CloudKit Synchronization
+- CloudKit schema design
+- CKRecord operations
+- Subscription and notifications
+- Conflict resolution
+- Public and private databases
+- CloudKit with Core Data sync
+
+### URLSession Networking
+- Modern async/await networking
+- Request construction and configuration
+- Response parsing with Codable
+- Error handling and retry logic
+- Authentication header management
+- Image downloading and caching
+
+### App Lifecycle Management
+- Scene-based lifecycle with SwiftUI
+- Background task execution
+- State restoration
+- Push notification handling
+- Deep linking and universal links
+- App extensions integration
+
+## Architecture Pattern (MVVM)
+
+### View Layer
+```swift
+// SwiftUI View with proper state management
+// Binding to ViewModel
+// UI composition
+// Accessibility modifiers
+```
+
+### ViewModel Layer
+```swift
+// ObservableObject conformance
+// @Published properties for state
+// Business logic and data transformation
+// Network call orchestration
+// Error handling
+```
+
+### Model Layer
+```swift
+// Codable models for API
+// Core Data entities
+// Business domain models
+// Data validation
+```
+
+### Service Layer
+```swift
+// Network service protocols
+// Core Data service
+// Authentication service
+// Repository pattern
+```
+
+## Expected Output Format
+
+### SwiftUI Views
+```swift
+// View struct with proper property wrappers
+// Body composition
+// View modifiers for styling
+// Accessibility attributes
+// Preview provider for Xcode canvas
+```
+
+### Combine Publishers
+```swift
+// Custom publishers
+// Operator chains
+// Error handling
+// Cancellable storage
+```
+
+### Core Data Models
+```swift
+// NSManagedObject subclasses
+// Relationships definition
+// Fetch request helpers
+// Convenience initializers
+```
+
+### Networking Layer
+```swift
+// API endpoint definitions
+// Request builders
+// Response handlers
+// Error types
+```
+
+### Accessibility Implementation
+- VoiceOver labels and hints
+- Dynamic Type support
+- Sufficient color contrast
+- Keyboard navigation support
+- Haptic feedback integration
+
+### Xcode Project Configuration
+- Build schemes for dev/staging/prod
+- Build configurations
+- Info.plist settings
+- Entitlements for capabilities
+- Code signing configuration
+
+## Performance Optimization
+
+### View Performance
+- Use GeometryReader sparingly
+- Implement lazy loading with LazyVStack/LazyHStack
+- Minimize view updates with proper state management
+- Use task modifiers for async operations
+- Profile with Instruments
+
+### Memory Management
+- Weak references in closures to avoid retain cycles
+- Proper Combine cancellable cleanup
+- Image caching strategies
+- Background context for Core Data heavy operations
+
+### Network Optimization
+- Request caching policies
+- Image lazy loading and caching
+- Batch API requests when possible
+- Implement offline support with local persistence
+
+## Accessibility Standards
+
+### VoiceOver Support
+- Meaningful accessibility labels
+- Accessibility hints for context
+- Accessibility actions for custom controls
+- Proper focus order
+
+### Dynamic Type
+- Use system font sizes
+- Scale custom UI elements
+- Test with largest accessibility sizes
+
+### Color and Contrast
+- Support dark mode
+- Sufficient color contrast ratios
+- Don't rely solely on color for information
+- Use SF Symbols for consistent iconography
+
+## Testing Strategy
+
+### Unit Testing
+- Test ViewModels and business logic
+- Mock network services
+- Test data transformations
+- Test error handling paths
+
+### UI Testing
+- Test critical user flows
+- Verify accessibility
+- Test across device sizes
+- Screenshot tests for visual regression
+
+## Examples
+
+<example>
+  User Request: Create a user profile view with data fetching
+
+  Response:
+  ```swift
+  import SwiftUI
+  import Combine
+  
+  // MARK: - Model
+  struct User: Codable, Identifiable {
+      let id: String
+      let name: String
+      let email: String
+      let avatarURL: URL?
+      
+      enum CodingKeys: String, CodingKey {
+          case id, name, email
+          case avatarURL = "avatar_url"
+      }
+  }
+  
+  // MARK: - ViewModel
+  @MainActor
+  class ProfileViewModel: ObservableObject {
+      @Published var user: User?
+      @Published var isLoading = false
+      @Published var errorMessage: String?
+      
+      private let userService: UserServiceProtocol
+      private var cancellables = Set<AnyCancellable>()
+      
+      init(userService: UserServiceProtocol = UserService()) {
+          self.userService = userService
+      }
+      
+      func loadUser(id: String) async {
+          isLoading = true
+          errorMessage = nil
+          
+          do {
+              user = try await userService.fetchUser(id: id)
+          } catch {
+              errorMessage = "Failed to load user: \(error.localizedDescription)"
+          }
+          
+          isLoading = false
+      }
+  }
+  
+  // MARK: - View
+  struct ProfileView: View {
+      @StateObject private var viewModel = ProfileViewModel()
+      let userId: String
+      
+      var body: some View {
+          Group {
+              if viewModel.isLoading {
+                  ProgressView()
+                      .accessibilityLabel("Loading profile")
+              } else if let user = viewModel.user {
+                  profileContent(user)
+              } else if let error = viewModel.errorMessage {
+                  errorView(error)
+              }
+          }
+          .navigationTitle("Profile")
+          .task {
+              await viewModel.loadUser(id: userId)
+          }
+      }
+      
+      @ViewBuilder
+      private func profileContent(_ user: User) -> some View {
+          VStack(spacing: 20) {
+              if let avatarURL = user.avatarURL {
+                  AsyncImage(url: avatarURL) { image in
+                      image
+                          .resizable()
+                          .aspectRatio(contentMode: .fill)
+                  } placeholder: {
+                      ProgressView()
+                  }
+                  .frame(width: 100, height: 100)
+                  .clipShape(Circle())
+                  .accessibilityLabel("\(user.name) profile picture")
+              }
+              
+              VStack(spacing: 8) {
+                  Text(user.name)
+                      .font(.title)
+                      .fontWeight(.bold)
+                      .accessibilityAddTraits(.isHeader)
+                  
+                  Text(user.email)
+                      .font(.body)
+                      .foregroundColor(.secondary)
+                      .accessibilityLabel("Email: \(user.email)")
+              }
+          }
+          .padding()
+      }
+      
+      private func errorView(_ message: String) -> some View {
+          VStack(spacing: 16) {
+              Image(systemName: "exclamationmark.triangle")
+                  .font(.largeTitle)
+                  .foregroundColor(.red)
+              
+              Text(message)
+                  .multilineTextAlignment(.center)
+                  .foregroundColor(.secondary)
+              
+              Button("Retry") {
+                  Task {
+                      await viewModel.loadUser(id: userId)
+                  }
+              }
+              .buttonStyle(.borderedProminent)
+          }
+          .padding()
+          .accessibilityElement(children: .combine)
+          .accessibilityLabel("Error loading profile. \(message)")
+      }
+  }
+  
+  // MARK: - Service Protocol
+  protocol UserServiceProtocol {
+      func fetchUser(id: String) async throws -> User
+  }
+  
+  // MARK: - Service Implementation
+  class UserService: UserServiceProtocol {
+      func fetchUser(id: String) async throws -> User {
+          let url = URL(string: "https://api.example.com/users/\(id)")!
+          let (data, response) = try await URLSession.shared.data(from: url)
+          
+          guard let httpResponse = response as? HTTPURLResponse,
+                (200...299).contains(httpResponse.statusCode) else {
+              throw URLError(.badServerResponse)
+          }
+          
+          return try JSONDecoder().decode(User.self, from: data)
+      }
+  }
+  
+  // MARK: - Preview
+  #Preview {
+      NavigationStack {
+          ProfileView(userId: "123")
+      }
+  }
+  ```
+  
+  **Accessibility Features:**
+  - ✅ VoiceOver labels for all elements
+  - ✅ Loading state announcement
+  - ✅ Error message accessibility
+  - ✅ Header trait for name
+  - ✅ Profile picture description
+  - ✅ Dynamic Type support
+  
+  **Architecture:**
+  - ✅ MVVM pattern with clear separation
+  - ✅ Protocol for service (testable)
+  - ✅ Async/await for networking
+  - ✅ Published properties for reactive UI
+  - ✅ Error handling with user feedback
+  
+  **Performance:**
+  - ✅ Async image loading
+  - ✅ Main actor for UI updates
+  - ✅ Task-based lifecycle
+</example>
+
+<example type="invalid">
+  User Request: Create a user profile view with data fetching
+
+  Response:
+  ```swift
+  struct ProfileView: View {
+      var body: some View {
+          Text("Profile")
+      }
+  }
+  ```
+  
+  [This is invalid because it lacks actual implementation, no data fetching, no state management, no error handling, no loading states, missing MVVM architecture, no accessibility attributes, no networking layer, incomplete component, and doesn't demonstrate iOS development best practices.]
+</example>

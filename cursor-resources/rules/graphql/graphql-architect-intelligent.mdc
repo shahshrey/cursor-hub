@@ -1,0 +1,137 @@
+---
+description: Apply this rule when working with GraphQL API architecture, schema design, resolver implementation, federation setup, or subscription systems. Essential for designing type definitions, interfaces, unions, custom scalars, implementing DataLoader patterns, query complexity analysis, persisted queries, batch resolvers, field-level caching strategies, real-time subscription architecture, authorization patterns (RBAC/ABAC), error handling structures, schema evolution and deprecation strategies, performance optimization with cursor-based pagination, or when addressing N+1 query problems. Use proactively for GraphQL schema design questions, resolver optimization needs, federation architecture decisions, performance bottlenecks, subscription implementation, production deployment planning, monitoring setup, or any enterprise-grade GraphQL API development tasks.
+alwaysApply: false
+---
+
+# GraphQL Architect
+
+## Critical Rules
+
+- Schema-first approach with clear type definitions, interfaces, unions, input types, enums, custom scalars, and deprecation strategies
+- Implement DataLoader pattern to solve N+1 query problems with batch resolvers for all entities
+- Apply query complexity analysis and depth limiting to protect resources
+- Use persisted queries for caching and security with query allowlisting in production
+- Implement field-level caching strategies for optimal performance
+- Design Relay-style cursor-based connections for efficient pagination
+- Configure federation architecture with gateway, entity definitions using @key directives, clear service boundaries, and optimized cross-service joins
+- Implement real-time subscriptions with PubSub and withFilter for channel-specific events
+- Apply field-level permissions with directives and context-based authorization in resolvers
+- Implement role-based access control (RBAC) and attribute-based access control (ABAC)
+- Apply data filtering based on user permissions at resolver level
+- Use structured error handling with custom GraphQLError classes including error codes and extensions
+- Disable schema introspection in production environments
+- Configure rate limiting per client to prevent abuse
+- Implement monitoring with query performance tracking, error rate monitoring, schema usage analytics, and resource consumption metrics
+- Follow schema evolution patterns with additive changes only, deprecation warnings, and backward compatibility
+- Apply input sanitization and validation at schema and resolver levels
+- Configure CORS appropriately for browser clients
+- Test with schema validation, resolver unit tests, integration tests, performance tests, and security tests
+
+## Examples
+
+<example>
+  Schema Design with DataLoader Implementation:
+  
+  ```graphql
+  type User {
+    id: ID!
+    email: String!
+    profile: UserProfile
+    posts(first: Int, after: String): PostConnection!
+  }
+  
+  type PostConnection {
+    edges: [PostEdge!]!
+    pageInfo: PageInfo!
+    totalCount: Int!
+  }
+  ```
+  
+  ```javascript
+  const userLoader = new DataLoader(async (userIds) => {
+    const users = await User.findByIds(userIds);
+    return userIds.map(id => users.find(user => user.id === id));
+  });
+  
+  const resolvers = {
+    User: {
+      profile: (user) => userLoader.load(user.profileId),
+      posts: (user, args) => getPostConnection(user.id, args)
+    }
+  };
+  ```
+  
+  Subscription with PubSub:
+  
+  ```javascript
+  const typeDefs = gql`
+    type Subscription {
+      messageAdded(channelId: ID!): Message!
+    }
+  `;
+  
+  const resolvers = {
+    Subscription: {
+      messageAdded: {
+        subscribe: withFilter(
+          () => pubsub.asyncIterator(['MESSAGE_ADDED']),
+          (payload, variables) => payload.channelId === variables.channelId
+        )
+      }
+    }
+  };
+  ```
+  
+  Error Handling:
+  
+  ```javascript
+  class GraphQLError extends Error {
+    constructor(message, code, extensions = {}) {
+      super(message);
+      this.extensions = { code, ...extensions };
+    }
+  }
+  
+  if (!user) {
+    throw new GraphQLError('User not found', 'USER_NOT_FOUND', {
+      userId: id
+    });
+  }
+  ```
+</example>
+
+<example type="invalid">
+  Offset-based pagination instead of cursor-based:
+  
+  ```graphql
+  type Query {
+    users(limit: Int, offset: Int): [User!]!
+  }
+  ```
+  
+  Resolver without DataLoader (N+1 problem):
+  
+  ```javascript
+  const resolvers = {
+    User: {
+      profile: (user) => Profile.findById(user.profileId)
+    }
+  };
+  ```
+  
+  Introspection enabled in production:
+  
+  ```javascript
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    introspection: true
+  });
+  ```
+  
+  Generic error handling without structure:
+  
+  ```javascript
+  throw new Error('Something went wrong');
+  ```
+</example>

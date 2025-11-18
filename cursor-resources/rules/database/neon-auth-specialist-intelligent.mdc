@@ -1,0 +1,475 @@
+---
+description: Neon Auth and Stack Auth integration specialist for serverless authentication. Apply this rule when implementing Stack Auth with Neon database integration, setting up user management workflows and authentication flows, configuring Neon Auth schema (neon_auth.users_sync table), implementing secure authentication patterns with proper security checks, handling user data synchronization between Stack Auth and Neon database, implementing page protection middleware for authenticated routes, joining user data with application tables using LEFT JOIN patterns, managing authentication in Next.js applications (both Client and Server Components), or when working on authentication-related features that require database user management. This rule provides complete Stack Auth setup procedures, Neon Auth database schema design, security best practices for user data handling, and integration patterns for authentication flows.
+globs:
+alwaysApply: false
+---
+
+# Neon Auth and Stack Auth Integration Specialist
+
+## Critical Rules
+
+- Always use LEFT JOIN when relating to `neon_auth.users_sync` table
+- Always filter out deleted users with `WHERE deleted_at IS NULL` in queries
+- Never create Foreign Key constraints to the `neon_auth.users_sync` table
+- Never insert users directly into `neon_auth.users_sync` - use Stack Auth system
+- Secure all environment variables for authentication keys
+- Implement proper page protection using middleware or component guards
+- Use `useUser({ or: "redirect" })` for protected Client Components
+- Use `await stackServerApp.getUser({ or: "redirect" })` for protected Server Components
+- Test all authentication flows including sign-in, sign-up, and sign-out
+- Validate user permissions on every protected operation
+- Handle user deletion gracefully in application logic
+- Implement proper error handling for authentication failures
+- Document all authentication flows and security patterns
+
+## Work Process
+
+### Authentication Analysis
+```bash
+# Search for existing auth implementation
+grep -r "useUser\|StackProvider\|neon_auth" . --include="*.tsx" --include="*.ts"
+find . -name "stack.ts" -o -name "*auth*" -o -path "*/handler/*"
+```
+
+### Implementation Focus
+- Set up Stack Auth with Neon Auth integration
+- Configure user management workflows
+- Implement secure authentication patterns
+- Handle user data synchronization between systems
+
+## Response Format
+
+```
+🔐 AUTHENTICATION SETUP
+
+## Current State
+- Auth system: [Stack Auth status]
+- Database sync: [Neon Auth status]
+- Environment: [Configuration status]
+
+## Implementation
+1. [Stack Auth setup steps]
+2. [Database schema creation]
+3. [User management integration]
+4. [Page protection implementation]
+
+## Security Checklist
+- [ ] Environment variables secured in .env.local
+- [ ] User data sync working correctly
+- [ ] Auth flows tested (sign-in, sign-up, sign-out)
+- [ ] Protected routes configured
+- [ ] Error handling implemented
+- [ ] User deletion handling in place
+```
+
+## Stack Auth Setup
+
+### Initial Installation
+```bash
+# Run Stack Auth initialization wizard
+npx @stackframe/init-stack@latest
+
+# This creates:
+# - app/handler/[...stack]/page.tsx (auth pages)
+# - app/layout.tsx (wrapped with providers)
+# - stack.ts (server app initialization)
+# - Updates .env.local with API keys
+```
+
+### Environment Configuration
+```env
+# .env.local
+NEXT_PUBLIC_STACK_PROJECT_ID=your_project_id
+NEXT_PUBLIC_STACK_PUBLISHABLE_CLIENT_KEY=your_client_key
+STACK_SECRET_SERVER_KEY=your_server_key
+DATABASE_URL=your_neon_connection_string
+```
+
+### Basic Integration in Next.js
+```tsx
+// app/layout.tsx
+import { StackProvider, StackTheme } from "@stackframe/stack";
+import { stackServerApp } from "@/stack";
+
+export default function RootLayout({ 
+  children 
+}: { 
+  children: React.ReactNode 
+}) {
+  return (
+    <html>
+      <body>
+        <StackProvider app={stackServerApp}>
+          <StackTheme>
+            {children}
+          </StackTheme>
+        </StackProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+```typescript
+// stack.ts
+import { StackServerApp } from "@stackframe/stack";
+
+export const stackServerApp = new StackServerApp({
+  tokenStore: "nextjs-cookie",
+  urls: {
+    home: "/",
+    afterSignIn: "/dashboard",
+    afterSignUp: "/onboarding",
+    afterSignOut: "/"
+  }
+});
+```
+
+## Neon Auth Database Schema
+
+### Schema Structure
+```sql
+-- Neon Auth automatically creates this schema
+CREATE SCHEMA IF NOT EXISTS neon_auth;
+
+-- Users sync table managed by Neon Auth
+CREATE TABLE neon_auth.users_sync (
+  raw_json JSONB NOT NULL,
+  id TEXT NOT NULL,
+  name TEXT,
+  email TEXT,
+  created_at TIMESTAMP WITH TIME ZONE,
+  deleted_at TIMESTAMP WITH TIME ZONE,
+  PRIMARY KEY (id)
+);
+
+-- Index for efficient deleted user filtering
+CREATE INDEX users_sync_deleted_at_idx 
+  ON neon_auth.users_sync (deleted_at);
+```
+
+### Querying Users with Application Data
+```sql
+-- Always use LEFT JOIN and filter deleted users
+SELECT
+  t.*,
+  u.id AS user_id,
+  u.name AS user_name,
+  u.email AS user_email
+FROM
+  public.todos t
+LEFT JOIN
+  neon_auth.users_sync u ON t.owner = u.id
+WHERE
+  u.deleted_at IS NULL
+  AND t.owner = $1
+ORDER BY
+  t.created_at DESC;
+```
+
+## User Management Components
+
+### Client Component (Hooks-based)
+```tsx
+"use client";
+import { useUser } from "@stackframe/stack";
+
+export function UserProfile() {
+  const user = useUser({ or: "redirect" });
+
+  const handleUpdateProfile = async () => {
+    await user.update({
+      displayName: "New Name"
+    });
+  };
+
+  return (
+    <div>
+      <h1>Welcome, {user.displayName}</h1>
+      <p>Email: {user.primaryEmail}</p>
+      <p>Verified: {user.primaryEmailVerified ? "Yes" : "No"}</p>
+      
+      <button onClick={handleUpdateProfile}>
+        Update Profile
+      </button>
+      
+      <button onClick={() => user.signOut()}>
+        Sign Out
+      </button>
+    </div>
+  );
+}
+```
+
+### Server Component (Async-based)
+```tsx
+import { stackServerApp } from "@/stack";
+
+export default async function ProtectedPage() {
+  const user = await stackServerApp.getUser({ or: "redirect" });
+
+  return (
+    <div>
+      <h1>Server-side Protected Page</h1>
+      <p>Hello, {user.displayName}</p>
+      <p>User ID: {user.id}</p>
+    </div>
+  );
+}
+```
+
+## Page Protection Patterns
+
+### Middleware Protection
+```typescript
+// middleware.ts
+import { stackServerApp } from "@/stack";
+import { NextRequest, NextResponse } from "next/server";
+
+export async function middleware(request: NextRequest) {
+  const user = await stackServerApp.getUser();
+
+  if (!user && request.nextUrl.pathname.startsWith("/protected")) {
+    return NextResponse.redirect(
+      new URL("/handler/sign-in", request.url)
+    );
+  }
+
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: [
+    "/protected/:path*",
+    "/dashboard/:path*",
+    "/profile/:path*"
+  ]
+};
+```
+
+### Component-level Protection
+```tsx
+// Client Component protection
+"use client";
+import { useUser } from "@stackframe/stack";
+
+export function ProtectedClientComponent() {
+  const user = useUser({ or: "redirect" });
+  
+  return <div>Protected content for {user.displayName}</div>;
+}
+
+// Server Component protection
+import { stackServerApp } from "@/stack";
+
+export default async function ProtectedServerPage() {
+  const user = await stackServerApp.getUser({ or: "redirect" });
+  
+  return <div>Protected content for {user.displayName}</div>;
+}
+```
+
+## Database Integration Patterns
+
+### Application Table Design
+```sql
+-- Application table referencing Neon Auth users
+CREATE TABLE todos (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  owner TEXT NOT NULL,
+  title TEXT NOT NULL,
+  completed BOOLEAN DEFAULT false,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Index for user queries (without foreign key to neon_auth)
+CREATE INDEX idx_todos_owner ON todos(owner);
+
+-- Query todos with user information
+SELECT
+  t.id,
+  t.title,
+  t.completed,
+  u.name AS owner_name,
+  u.email AS owner_email
+FROM
+  todos t
+LEFT JOIN
+  neon_auth.users_sync u ON t.owner = u.id
+WHERE
+  u.deleted_at IS NULL
+  AND t.owner = $1;
+```
+
+## Security Best Practices
+
+### Critical Security Rules
+- Filter out deleted users: Always include `WHERE deleted_at IS NULL`
+- Use LEFT JOIN for user relationships to handle missing users gracefully
+- Never create foreign keys to `neon_auth.users_sync`
+- Handle user deletion gracefully in application logic
+- Validate user permissions on every protected operation
+- Secure all API keys in environment variables
+- Implement proper session management
+- Use HTTPS in production
+- Validate user input on both client and server
+- Implement rate limiting for authentication endpoints
+
+### User Data Access Pattern
+```typescript
+// Safe user data access with deletion handling
+import { db } from "@/db";
+import { stackServerApp } from "@/stack";
+
+export async function getUserTodos(userId: string) {
+  const user = await stackServerApp.getUser();
+  
+  if (!user || user.id !== userId) {
+    throw new Error("Unauthorized");
+  }
+
+  const todos = await db.execute(`
+    SELECT
+      t.*,
+      u.name AS owner_name
+    FROM
+      todos t
+    LEFT JOIN
+      neon_auth.users_sync u ON t.owner = u.id
+    WHERE
+      t.owner = $1
+      AND u.deleted_at IS NULL
+    ORDER BY
+      t.created_at DESC
+  `, [userId]);
+
+  return todos;
+}
+```
+
+## Example
+
+<example>
+  Complete authentication setup with database integration:
+  
+  ```tsx
+  // app/dashboard/page.tsx
+  import { stackServerApp } from "@/stack";
+  import { db } from "@/db";
+  
+  export default async function DashboardPage() {
+    const user = await stackServerApp.getUser({ or: "redirect" });
+    
+    const userStats = await db.execute(`
+      SELECT
+        COUNT(*) as todo_count,
+        SUM(CASE WHEN completed THEN 1 ELSE 0 END) as completed_count
+      FROM
+        todos t
+      LEFT JOIN
+        neon_auth.users_sync u ON t.owner = u.id
+      WHERE
+        t.owner = $1
+        AND u.deleted_at IS NULL
+    `, [user.id]);
+    
+    return (
+      <div>
+        <h1>Dashboard for {user.displayName}</h1>
+        <p>Total todos: {userStats[0].todo_count}</p>
+        <p>Completed: {userStats[0].completed_count}</p>
+      </div>
+    );
+  }
+  ```
+  
+  ```tsx
+  // app/components/UserMenu.tsx
+  "use client";
+  import { useUser } from "@stackframe/stack";
+  import { UserButton } from "@stackframe/stack";
+  
+  export function UserMenu() {
+    const user = useUser();
+    
+    if (!user) {
+      return <a href="/handler/sign-in">Sign In</a>;
+    }
+    
+    return (
+      <div>
+        <span>Hello, {user.displayName}</span>
+        <UserButton />
+      </div>
+    );
+  }
+  ```
+  
+  ```typescript
+  // middleware.ts
+  import { stackServerApp } from "@/stack";
+  import { NextRequest, NextResponse } from "next/server";
+  
+  export async function middleware(request: NextRequest) {
+    const user = await stackServerApp.getUser();
+    
+    const isProtectedRoute = request.nextUrl.pathname.startsWith("/dashboard");
+    
+    if (isProtectedRoute && !user) {
+      const signInUrl = new URL("/handler/sign-in", request.url);
+      signInUrl.searchParams.set("after", request.nextUrl.pathname);
+      return NextResponse.redirect(signInUrl);
+    }
+    
+    return NextResponse.next();
+  }
+  
+  export const config = {
+    matcher: ["/dashboard/:path*", "/profile/:path*"]
+  };
+  ```
+</example>
+
+<example type="invalid">
+  Incorrect authentication implementation:
+  
+  ```sql
+  -- WRONG: Creating foreign key to neon_auth schema
+  CREATE TABLE todos (
+    id UUID PRIMARY KEY,
+    owner TEXT NOT NULL REFERENCES neon_auth.users_sync(id)
+  );
+  
+  -- WRONG: Not filtering deleted users
+  SELECT * FROM todos t
+  JOIN neon_auth.users_sync u ON t.owner = u.id
+  WHERE t.owner = $1;
+  
+  -- WRONG: Using INNER JOIN instead of LEFT JOIN
+  SELECT * FROM todos t
+  INNER JOIN neon_auth.users_sync u ON t.owner = u.id;
+  ```
+  
+  ```tsx
+  // WRONG: Not protecting the page
+  export default function Dashboard() {
+    const user = useUser();
+    return <div>{user?.displayName}</div>;
+  }
+  
+  // WRONG: Not handling missing user
+  export default async function Page() {
+    const user = await stackServerApp.getUser();
+    return <div>{user.displayName}</div>;
+  }
+  ```
+  
+  This is invalid because:
+  - Foreign key to neon_auth.users_sync breaks when users are managed externally
+  - Not filtering deleted users includes inactive accounts
+  - INNER JOIN excludes todos when user data is missing
+  - Not using `or: "redirect"` allows unauthorized access
+  - Not handling null user causes runtime errors
+  - Missing error boundaries for auth failures
+</example>

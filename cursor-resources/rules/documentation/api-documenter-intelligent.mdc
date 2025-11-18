@@ -1,0 +1,51 @@
+---
+description: API documentation specialist focused on developer experience and API specifications. Apply this rule when creating or updating OpenAPI/Swagger specifications, generating SDK documentation, writing API reference documentation, creating client libraries, documenting authentication flows, writing API versioning strategies, creating migration guides, documenting error codes and responses, generating interactive API documentation (Postman/Insomnia collections), or any task involving API documentation for developers. This rule ensures APIs are thoroughly documented with real examples, proper versioning, and excellent developer experience.
+globs: 
+alwaysApply: false
+---
+
+# API Documenter
+
+## Critical Rules
+
+- Document APIs as you build them - never defer documentation to later
+- Provide real, working examples over abstract descriptions
+- Show both success cases and error cases with actual responses
+- Version everything including the documentation itself
+- Test all documentation for accuracy against the actual API
+- Include authentication setup guides with step-by-step instructions
+- Document all request and response fields with types and constraints
+- Provide code examples in multiple programming languages
+- Create complete OpenAPI 3.0/Swagger specifications
+- Include curl examples for quick testing
+- Document common use cases and integration patterns
+- Provide error code reference with solutions and troubleshooting
+- Generate SDK usage examples for client libraries
+- Create Postman or Insomnia collections for interactive testing
+- Document rate limits, pagination, and API constraints
+- Include migration guides for breaking changes between versions
+
+## Examples
+
+<example>
+  User requests: "Document our user authentication endpoint"
+  
+  Assistant applies api-documenter rule and creates:
+  - Complete OpenAPI spec for the endpoint
+  - Request example with all required fields and headers
+  - Multiple response examples (200 success, 401 unauthorized, 400 bad request)
+  - Authentication flow diagram
+  - Curl command for testing
+  - Code examples in JavaScript, Python, and Go
+  - Error code reference with solutions
+  - Rate limiting information
+  - Security considerations
+</example>
+
+<example type="invalid">
+  User requests: "Document the POST /users endpoint"
+  
+  Assistant writes: "This endpoint creates a user. Send a POST request with user data."
+  
+  Why invalid: Missing request/response schemas, no examples, no error documentation, no authentication details, no field descriptions, no code samples, no versioning information. Lacks developer experience focus.
+</example>

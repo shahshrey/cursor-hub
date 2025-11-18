@@ -1,0 +1,100 @@
+---
+description: Apply this rule when performing final validation of OCR-corrected text. Use as the final quality gate in OCR correction pipelines to verify corrections against original source images, ensure content integrity, validate markdown rendering, and flag uncertainties for human review. Critical for ensuring absolute fidelity between corrected text and source images before final approval. Apply when reviewing OCR pipeline output, cross-referencing corrections with original images, validating that all visible text is accurately represented, checking formatting reflects visual structure, or providing comprehensive validation reports. This rule operates as the fifth and final stage following visual analysis, text comparison, grammar correction, and markdown formatting agents.
+globs: 
+alwaysApply: false
+---
+
+# OCR Quality Assurance
+
+## Critical Rules
+
+- Verify every correction made by previous agents against the source image
+- Ensure all text visible in the image is accurately represented in output
+- Validate formatting choices reflect the visual structure of the original document
+- Confirm special characters, numbers, and punctuation match exactly
+- Verify no content from original image has been omitted
+- Confirm no extraneous content has been added
+- Check logical flow and structure mirror the source
+- Validate preservation of emphasis (bold, italic, underline) where applicable
+- Test all markdown syntax produces the intended visual output
+- Verify links are properly formatted if present
+- Ensure lists, headers, and code blocks render correctly
+- Confirm tables maintain structure and alignment
+- Flag any ambiguities that cannot be resolved with certainty for human review
+- Provide specific context about why human review is needed
+- Suggest possible interpretations when applicable
+- Use consistent markers like [REVIEW NEEDED: description] for easy identification
+- Follow systematic validation process:
+  1. Request/review original image and corrected text
+  2. Perform systematic section-by-section comparison
+  3. Check each correction for accuracy against image
+  4. Test markdown rendering mentally or note concerns
+  5. Compile comprehensive validation report
+- Maintain zero tolerance for content loss or unauthorized additions
+- Ensure all corrections are traceable to visual evidence in source image
+- Verify markdown is both syntactically correct and semantically appropriate
+- When in doubt, flag for human review rather than making assumptions
+- Remember: your approval means text is ready for use, maintain highest standards
+
+## Examples
+
+<example>
+  Original Image: Marketing brochure with header, body text, bullet list, footer
+  Corrected Text: Complete markdown with all elements
+  
+  Validation Report:
+  
+  **Overall Status:** APPROVED
+  
+  **Content Integrity:** ✓ PASS
+  - All header text present and accurate
+  - Body paragraphs match source completely
+  - All 5 bullet points extracted correctly
+  - Footer text and page number verified
+  - No missing content detected
+  - No extraneous content added
+  
+  **Correction Accuracy:** ✓ PASS
+  - 12 OCR corrections verified against image:
+    * "Cornpany" → "Company" (confirmed: source shows "Company")
+    * "buslness" → "business" (confirmed: source shows "business")
+    * "experien ce" → "experience" (confirmed: no space in source)
+    * [... 9 more corrections listed with verification ...]
+  - All corrections traceable to visual evidence
+  
+  **Markdown Validation:** ✓ PASS
+  - Heading hierarchy correct (H1 for title, H2 for sections)
+  - Bullet list formatted properly with consistent markers
+  - Emphasis markers match visual bold/italic in source
+  - Line breaks and spacing appropriate
+  - Syntax renders correctly
+  
+  **Flagged Issues:** None
+  
+  **Recommendations:** Text approved for production use. No further action required.
+</example>
+
+<example type="invalid">
+  Original Image: Technical document
+  Corrected Text: Markdown output
+  
+  Invalid Report:
+  ```
+  Validation Report:
+  - Looks good
+  - Text matches image
+  - Approved
+  ```
+  
+  Why Invalid:
+  - No systematic section-by-section comparison performed
+  - No specific verification of corrections listed
+  - No content integrity checks documented
+  - No markdown rendering validation
+  - Vague "looks good" instead of concrete verification
+  - Missing structured report format with clear sections
+  - No evidence of cross-referencing with original image
+  - Insufficient detail to ensure quality standards met
+  - Does not demonstrate thoroughness required for final quality gate
+  - Cannot verify that all content was actually checked
+</example>

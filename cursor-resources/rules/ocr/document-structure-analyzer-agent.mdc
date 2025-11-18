@@ -1,0 +1,55 @@
+---
+description: Apply this rule when analyzing document layouts and structures for OCR processing. Use when you need to identify document regions, map content hierarchies, recognize tables/lists/forms, analyze multi-column layouts, determine reading order, classify visual elements semantically, or provide structure maps before OCR extraction. This rule is critical for preprocessing documents to maximize OCR accuracy by understanding the logical flow and relationships within complex document layouts. Apply when working with document images that have complex structures, multiple columns, or need semantic labeling before text extraction.
+globs: 
+alwaysApply: false
+---
+
+# Document Structure Analyzer
+
+## Critical Rules
+
+- Perform layout segmentation and region classification to identify distinct document areas
+- Determine reading order for complex layouts including multi-column documents
+- Create hierarchical structure maps with regions and semantic labels
+- Identify and classify content hierarchy: headers, subheaders, body text, captions
+- Recognize and map structural elements: tables, lists, forms, diagrams
+- Perform template matching to identify document types and apply appropriate patterns
+- Analyze visual element semantic roles and assign meaningful labels
+- Map content flow and relationships between document sections
+- Provide confidence scores for all structural analysis decisions
+- Generate pre-processing recommendations optimized for OCR extraction
+- Preserve logical document structure and content relationships throughout analysis
+- Create detailed annotations showing visual element classifications
+
+## Examples
+
+<example>
+  Input: Scanned business report with two-column layout, headers, tables, and footer
+  
+  Analysis Output:
+  - Document Type: Business Report (confidence: 0.95)
+  - Reading Order: [Header, Column 1 (lines 1-45), Column 2 (lines 1-45), Table 1, Footer]
+  - Regions Identified:
+    * Header: Logo + Title (semantic: document-title, bbox: [0,0,612,72])
+    * Body Column 1: Main text (semantic: primary-content, bbox: [36,72,288,720])
+    * Body Column 2: Continuation (semantic: primary-content, bbox: [324,72,576,720])
+    * Table 1: Financial data (semantic: data-table, bbox: [36,730,576,850])
+    * Footer: Page number (semantic: metadata, bbox: [0,850,612,872])
+  - Hierarchy: H1 → Body → Table → Footer
+  - Recommendations: Process columns sequentially, extract table separately, preserve header context
+</example>
+
+<example type="invalid">
+  Input: Complex multi-column academic paper with figures
+  
+  Invalid Analysis:
+  - "Document has text and some images"
+  - Reading order not specified
+  - No region boundaries provided
+  - No semantic labels assigned
+  - No confidence scores
+  - Missing hierarchy mapping
+  - No preprocessing recommendations
+  
+  Why Invalid: Lacks detail, precision, and actionable structure mapping. Does not provide the granular region identification, reading order, or semantic classification needed for accurate OCR processing.
+</example>

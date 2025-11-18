@@ -1,0 +1,133 @@
+---
+description: Apply this rule when comparing extracted text with existing files or reference sources. Use for detailed line-by-line comparisons to identify discrepancies between two text sources, detect spelling errors, find missing or extra content, validate formatting consistency, and ensure accuracy between OCR output and reference documents. Critical for identifying content discrepancies, character substitution errors, formatting inconsistencies, and structural differences. Apply when validating OCR extraction results, comparing document versions, checking text accuracy, or providing detailed discrepancy reports with severity prioritization and actionable recommendations.
+globs: 
+alwaysApply: false
+---
+
+# Text Comparison Validator
+
+## Critical Rules
+
+- Perform systematic line-by-line comparison between extracted text and reference document
+- Maintain strict attention to detail throughout comparison process
+- Identify and categorize errors into specific types:
+  * Spelling errors and typos
+  * Missing words or phrases
+  * Incorrect characters or character substitutions
+  * Extra words or content not present in reference
+- Detect formatting inconsistencies including:
+  * Bullet point format variations (• vs - vs *)
+  * Numbering format differences (1. vs 1) vs (1))
+  * Heading level mismatches
+  * Indentation and spacing issues
+  * Line break discrepancies
+- Identify structural differences:
+  * Merged paragraphs that should be separate
+  * Split paragraphs that should be combined
+  * Missing or extra line breaks
+  * Reordered content sections
+- Follow systematic workflow:
+  1. Present high-level summary of comparison results
+  2. Provide detailed breakdown organized by category:
+     - Content discrepancies (missing/extra/modified text)
+     - Spelling and character errors
+     - Formatting inconsistencies
+     - Structural differences
+  3. For each discrepancy provide:
+     - Quoted relevant line(s) from both sources
+     - Clear explanation of the difference
+     - Line number or section location
+     - Likely cause (OCR error, formatting issue, etc.)
+  4. Prioritize findings by severity:
+     - Critical: Missing content, significant text changes
+     - Major: Multiple spelling errors, paragraph structure issues
+     - Minor: Formatting inconsistencies, single character errors
+- Use clear output format:
+  * Start with summary statement of overall accuracy percentage
+  * Use clear headers to organize findings by category
+  * Use markdown formatting to highlight differences (e.g., `~~old text~~` → `new text`)
+  * Include specific line references for easy location
+  * End with actionable recommendations for correction
+- Maintain objectivity and precision
+- Avoid assumptions about which version is correct unless explicitly stated
+- Note both possibilities when ambiguity exists and request clarification if needed
+
+## Examples
+
+<example>
+  Source 1 (OCR Extracted):
+  ```
+  # Marketing Strategy
+  
+  Our cornpany focuses on three main areas:
+  - Digital Advertisng
+  - Social Media
+  Content Creation
+  
+  We have 10years of experience.
+  ```
+  
+  Source 2 (Reference):
+  ```
+  # Marketing Strategy
+  
+  Our company focuses on three main areas:
+  - Digital Advertising
+  - Social Media
+  - Content Creation
+  
+  We have 10 years of experience.
+  ```
+  
+  Comparison Report:
+  
+  **Overall Accuracy:** 94% (6 discrepancies found)
+  
+  **Content Discrepancies:**
+  - None (all content present)
+  
+  **Spelling and Character Errors:**
+  1. Line 3: "cornpany" → should be "company" (OCR error: rn/m confusion)
+  2. Line 4: "Advertisng" → should be "Advertising" (missing 'i')
+  3. Line 8: "10years" → should be "10 years" (missing space)
+  
+  **Formatting Inconsistencies:**
+  4. Line 6: Missing bullet marker before "Content Creation"
+     - Source 1: `Content Creation`
+     - Source 2: `- Content Creation`
+     - Severity: Major (breaks list formatting)
+  
+  **Structural Differences:**
+  5. Line 7: Extra blank line in Source 1 (should be single blank line)
+  
+  **Recommendations:**
+  - Critical: Fix list formatting to include missing bullet marker
+  - Major: Correct all spelling errors (cornpany, Advertisng, 10years)
+  - Minor: Normalize blank line spacing
+  
+  **Likely Causes:**
+  - Character errors: OCR misrecognition
+  - Missing bullet: OCR failed to detect bullet point character
+  - Spacing issues: OCR text segmentation error
+</example>
+
+<example type="invalid">
+  Comparison Request: Compare OCR output with reference document
+  
+  Invalid Report:
+  ```
+  The texts are similar but have some differences. There are a few typos and formatting issues. Should be fixed.
+  ```
+  
+  Why Invalid:
+  - No line-by-line comparison performed
+  - Vague "some differences" without specifics
+  - No categorization of error types
+  - Missing line numbers and locations
+  - No quoted text showing actual differences
+  - No severity prioritization
+  - No accuracy percentage provided
+  - No actionable recommendations with details
+  - Does not use structured format with headers
+  - Cannot determine what needs to be fixed or where
+</example>

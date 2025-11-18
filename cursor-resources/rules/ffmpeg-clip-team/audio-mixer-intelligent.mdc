@@ -1,0 +1,62 @@
+---
+description: Multi-track audio mixing and mastering specialist using FFmpeg. Apply when tasks involve: (1) Multi-track audio mixing and balancing between multiple sources, (2) Spatial audio positioning and panning for immersive experiences, (3) Dynamic range processing and mastering for professional sound, (4) Creating audio effects chains and routing setups, (5) Sound design and audio layering for complex compositions, (6) Optimizing final mixes for different platforms (streaming, broadcast, social media), (7) Reference monitoring and calibration, (8) Gain staging and headroom management throughout the mix chain, (9) Frequency spectrum balancing to prevent masking, (10) Implementing dynamic processing in the mix chain, (11) Positioning audio elements spatially for immersive audio, or (12) Meeting platform-specific mastering standards and loudness requirements. This specialist ensures loudness standards compliance and format-specific optimization.
+alwaysApply: false
+globs: 
+---
+
+# Audio Mixer
+
+## Critical Rules
+
+- Begin every mixing session with reference monitoring and calibration to establish accurate listening environment
+- Implement proper gain staging and headroom management maintaining at least -6dB headroom before the master bus
+- Balance frequency spectrum across all tracks to prevent masking and ensure clarity
+- Apply dynamic processing in the correct order within the mix chain (typically: EQ → Compression → Effects)
+- Position audio elements spatially using panning and depth techniques for immersive audio experiences
+- Adhere to platform-specific mastering standards (Spotify: -14 LUFS, Apple Music: -16 LUFS, YouTube: -13 LUFS, Broadcast: -23 LUFS)
+- Create complete mixing console setups with proper bus routing and auxiliary sends
+- Design multi-track processing chains that complement each source without over-processing
+- Configure mastering parameters appropriate for the target platform and format
+- Establish clear audio routing and bus assignments for organized signal flow
+- Generate platform-optimized final mixes meeting specific loudness and dynamic range requirements
+- Document all mixing session parameters and routing for future recall and adjustments
+- Use reference tracks from similar genres to guide mixing decisions
+- Apply subtle processing that enhances rather than transforms the original character
+- Monitor mix translation across different playback systems (headphones, speakers, phone, car)
+- Implement automation for dynamic elements that change throughout the track
+- Create stems and alternate mixes for flexibility in post-production
+- Perform final quality checks including phase correlation, stereo imaging, and frequency balance
+- Export in multiple formats based on distribution needs (WAV for mastering, MP3 for streaming preview)
+
+## Examples
+
+<example>
+  User requests: "Mix this podcast episode with two hosts and background music, optimized for Spotify"
+  
+  Audio mixer approach:
+  1. Analyze all source tracks: `ffprobe host1.wav host2.wav music.wav`
+  2. Set up gain staging with appropriate headroom for each track
+  3. Balance host levels using volume normalization: `ffmpeg -i host1.wav -af loudnorm=I=-20:TP=-2:LRA=11 host1_normalized.wav`
+  4. Apply EQ to reduce frequency masking: `ffmpeg -i host1_normalized.wav -af "equalizer=f=200:t=h:width=100:g=-3" host1_eq.wav`
+  5. Position hosts spatially: `ffmpeg -i host1_eq.wav -af "pan=stereo|FL=0.7*c|FR=0.3*c" host1_panned.wav`
+  6. Duck background music when hosts speak: `ffmpeg -i music.wav -i hosts_mixed.wav -filter_complex "[0][1]sidechaincompress=threshold=0.1:ratio=4:attack=200:release=1000" music_ducked.wav`
+  7. Mix all tracks: `ffmpeg -i host1_panned.wav -i host2_panned.wav -i music_ducked.wav -filter_complex "[0][1][2]amix=inputs=3:duration=longest" premix.wav`
+  8. Master for Spotify: `ffmpeg -i premix.wav -af loudnorm=I=-14:TP=-1:LRA=7 -ar 44100 final_spotify.wav`
+  9. Verify loudness compliance and export
+</example>
+
+<example type="invalid">
+  User requests: "Mix multiple audio tracks together"
+  
+  Wrong approach: Simply merging tracks with amix without:
+  - Proper gain staging
+  - Frequency balancing with EQ
+  - Dynamic range processing
+  - Spatial positioning
+  - Platform-specific loudness targeting
+  - Reference monitoring
+  - Quality checks for phase issues or frequency masking
+  - Documentation of settings
+  
+  This produces an unprofessional mix that sounds muddy, unbalanced, and doesn't meet platform standards.
+</example>

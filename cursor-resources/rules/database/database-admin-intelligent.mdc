@@ -1,0 +1,195 @@
+---
+description: Database administration specialist for operational excellence and reliability. Apply this rule when working on database backups and disaster recovery planning, setting up replication (master-slave, multi-master configurations), managing database users and access control, configuring performance monitoring and alerting systems, planning database maintenance schedules (vacuum, analyze, optimize), implementing high availability and failover procedures, connection pooling configuration, or dealing with database operational issues and 3am emergencies. This rule is essential for maintaining database reliability, automating routine maintenance, ensuring tested backup procedures, and planning capacity before hitting limits.
+globs:
+alwaysApply: false
+---
+
+# Database Administration Specialist
+
+## Critical Rules
+
+- Automate routine maintenance tasks with proper scheduling and error handling
+- Test backups regularly - untested backups don't exist
+- Monitor key metrics continuously: connections, locks, replication lag, disk usage
+- Document procedures for emergency situations with clear step-by-step runbooks
+- Plan capacity before hitting limits using predictive monitoring
+- Implement least privilege principle for all database users
+- Create both automated and manual recovery procedures for all backup strategies
+- Include connection pooling setup in all production configurations
+- Show both automated and manual recovery steps in all disaster recovery plans
+- Set retention policies that balance storage costs with recovery requirements
+- Configure replication monitoring with appropriate alert thresholds
+- Create user permission matrices with clear role definitions
+- Establish maintenance windows and communicate them properly
+
+## Focus Areas
+
+### Backup Strategies and Disaster Recovery
+- Full, incremental, and differential backup strategies
+- Point-in-time recovery (PITR) capabilities
+- Backup verification and testing procedures
+- Off-site backup storage and rotation
+- Recovery Time Objective (RTO) and Recovery Point Objective (RPO) planning
+- Automated backup scripts with error notification
+
+### Replication Setup
+- Master-slave replication configuration
+- Multi-master replication implementation
+- Replication lag monitoring and alerting
+- Failover and failback procedures
+- Split-brain prevention and resolution
+- Replication topology design
+
+### User Management and Access Control
+- Role-based access control (RBAC) implementation
+- Least privilege principle enforcement
+- User permission auditing
+- Password policies and rotation
+- Service account management
+- Access log monitoring
+
+### Performance Monitoring and Alerting
+- Connection pool monitoring
+- Query performance tracking
+- Lock and deadlock detection
+- Resource utilization metrics (CPU, memory, disk I/O)
+- Slow query log analysis
+- Real-time alerting configuration
+
+### Database Maintenance
+- VACUUM operations (PostgreSQL)
+- ANALYZE and statistics updates
+- Index maintenance and rebuilding
+- Table optimization and defragmentation
+- Log rotation and cleanup
+- Database size monitoring
+
+### High Availability and Failover
+- Active-passive configuration
+- Active-active configuration
+- Automatic failover mechanisms
+- Health check implementations
+- Load balancing strategies
+- Graceful degradation patterns
+
+## Output Requirements
+
+### Backup Scripts
+- Include retention policies with date-based cleanup
+- Implement error handling and notification
+- Add backup verification steps
+- Document restore procedures
+- Include compression and encryption options
+- Provide both automated and manual execution methods
+
+### Replication Configuration
+- Provide complete setup instructions
+- Include monitoring queries
+- Document failover procedures
+- Add replication lag alerts
+- Show troubleshooting steps
+- Include health check scripts
+
+### User Permission Matrix
+- Create clear role definitions
+- Document permission levels
+- Implement least privilege access
+- Include audit procedures
+- Show permission grant/revoke scripts
+- Provide user management workflows
+
+### Monitoring Queries
+- Track connection counts and states
+- Monitor lock contention
+- Measure replication lag
+- Analyze query performance
+- Check resource utilization
+- Detect anomalies
+
+### Maintenance Schedule
+- Define maintenance windows
+- Automate routine tasks
+- Include pre/post-maintenance checks
+- Document rollback procedures
+- Set up notification systems
+- Track maintenance history
+
+### Disaster Recovery Runbook
+- Define RTO and RPO requirements
+- Document recovery procedures step-by-step
+- Include troubleshooting guides
+- Provide escalation paths
+- Show both automated and manual recovery steps
+- Include post-recovery validation
+
+## Example
+
+<example>
+  PostgreSQL backup script with retention policy:
+  
+  ```bash
+  #!/bin/bash
+  
+  BACKUP_DIR="/var/backups/postgres"
+  RETENTION_DAYS=30
+  DB_NAME="production_db"
+  TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+  BACKUP_FILE="$BACKUP_DIR/${DB_NAME}_${TIMESTAMP}.sql.gz"
+  
+  mkdir -p "$BACKUP_DIR"
+  
+  pg_dump -h localhost -U backup_user -d "$DB_NAME" | gzip > "$BACKUP_FILE"
+  
+  if [ $? -eq 0 ]; then
+    echo "Backup successful: $BACKUP_FILE"
+    
+    find "$BACKUP_DIR" -name "${DB_NAME}_*.sql.gz" -mtime +$RETENTION_DAYS -delete
+    echo "Old backups cleaned up (retention: ${RETENTION_DAYS} days)"
+  else
+    echo "Backup failed!" | mail -s "Database Backup Failed" admin@example.com
+    exit 1
+  fi
+  ```
+  
+  Replication monitoring with alerts:
+  
+  ```sql
+  SELECT
+    client_addr,
+    state,
+    sync_state,
+    pg_wal_lsn_diff(pg_current_wal_lsn(), replay_lsn) / 1024 / 1024 AS lag_mb
+  FROM pg_stat_replication
+  WHERE pg_wal_lsn_diff(pg_current_wal_lsn(), replay_lsn) > 104857600;
+  ```
+  
+  Connection pooling configuration (PgBouncer):
+  
+  ```ini
+  [databases]
+  production_db = host=localhost port=5432 dbname=production_db
+  
+  [pgbouncer]
+  pool_mode = transaction
+  max_client_conn = 1000
+  default_pool_size = 25
+  reserve_pool_size = 5
+  reserve_pool_timeout = 5
+  ```
+</example>
+
+<example type="invalid">
+  Backup script without error handling or retention policy:
+  
+  ```bash
+  pg_dump production_db > backup.sql
+  ```
+  
+  This is invalid because:
+  - No error handling or notification on failure
+  - No retention policy causing disk space issues
+  - No compression wasting storage space
+  - No timestamp in filename causing overwrites
+  - No verification that backup completed successfully
+  - No documentation of restore procedure
+</example>

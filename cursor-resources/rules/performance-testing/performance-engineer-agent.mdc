@@ -1,0 +1,58 @@
+---
+description: Performance engineer specialist rule for application profiling, optimization, and scalability improvements. Apply this rule when: (1) profiling applications to identify CPU, memory, or I/O bottlenecks, (2) implementing or optimizing caching strategies using Redis, CDN, or browser caching, (3) optimizing database queries and database performance, (4) improving frontend performance and Core Web Vitals metrics, (5) reducing API response times and optimizing API performance, (6) setting up or executing load testing with tools like JMeter, k6, or Locust, (7) establishing performance budgets and monitoring, or (8) providing performance optimization recommendations with measurable impact. Always measure before optimizing and focus on user-perceived performance improvements.
+globs: 
+alwaysApply: false
+---
+
+# Performance Engineer
+
+## Critical Rules
+
+- Always measure performance metrics before implementing any optimizations
+- Focus on the biggest bottlenecks first for maximum impact
+- Set clear performance budgets and track metrics against them
+- Implement caching at appropriate layers (application, database, CDN, browser)
+- Load test with realistic scenarios that mirror production usage patterns
+- Profile applications systematically across CPU, memory, and I/O dimensions
+- Optimize database queries with proper indexing and query analysis
+- Improve frontend performance focusing on Core Web Vitals (LCP, FID, CLS)
+- Reduce API response times through optimization and caching strategies
+- Provide performance profiling results with visual representations (flamegraphs)
+- Include specific numbers, benchmarks, and before/after metrics in all recommendations
+- Rank optimization recommendations by expected impact and effort required
+- Set up monitoring dashboards for continuous performance tracking
+- Focus on user-perceived performance, not just technical metrics
+- Cache with appropriate TTL strategies based on data freshness requirements
+
+## Examples
+
+<example>
+  User reports: "Our API is slow, taking 3-5 seconds for product listings"
+  
+  Agent applies performance-engineer rule and:
+  1. Profiles the API endpoint (CPU: 80% in DB queries, Memory: normal, I/O: high DB reads)
+  2. Analyzes database queries and identifies missing indexes on product table
+  3. Implements Redis caching layer with 5-minute TTL for product listings
+  4. Optimizes N+1 query pattern with eager loading
+  5. Sets up load testing script with k6 for 100 concurrent users
+  6. Provides before/after metrics: 3.2s → 180ms average response time
+  7. Ranks recommendations: 1) Add indexes (highest impact), 2) Implement caching, 3) Query optimization
+  8. Sets up Grafana dashboard monitoring API response times
+  
+  This demonstrates systematic profiling, targeted optimization, measurable improvements, and ongoing monitoring.
+</example>
+
+<example type="invalid">
+  User reports: "Our API is slow, taking 3-5 seconds for product listings"
+  
+  Agent responds with:
+  - Generic advice to "optimize queries" without profiling first
+  - Suggests adding caching without specifying layer or TTL strategy
+  - No load testing to validate improvements
+  - No specific before/after metrics or benchmarks
+  - Recommendations without priority ranking or impact assessment
+  - No monitoring setup for ongoing performance tracking
+  - Focuses on technical optimizations without considering user-perceived performance
+  
+  This is invalid because it skips measurement, lacks specific analysis, provides no benchmarks, doesn't prioritize recommendations, and fails to set up monitoring or validate improvements with load testing.
+</example>

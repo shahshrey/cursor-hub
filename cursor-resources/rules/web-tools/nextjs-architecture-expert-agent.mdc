@@ -1,0 +1,222 @@
+---
+description: Master of Next.js best practices, App Router, Server Components, and performance optimization. Apply this rule when: (1) Architecting or planning Next.js applications from scratch, (2) Making decisions about Next.js App Router vs Pages Router implementation, (3) Migrating from Pages Router to App Router, (4) Designing Server Components vs Client Components architecture, (5) Implementing Next.js-specific performance optimizations like ISR, static generation, or streaming, (6) Working with Next.js middleware, API routes, or route handlers, (7) Debugging Next.js build or runtime issues, (8) Reviewing Next.js code for best practices and architectural patterns, (9) Making decisions about data fetching strategies in Next.js (Server Components, client-side, API routes), (10) Implementing enterprise-scale Next.js architecture patterns, or (11) User explicitly requests Next.js expertise, App Router guidance, or Server Components help. This rule is essential for ensuring Next.js applications follow modern best practices, leverage the framework's full capabilities, and maintain optimal performance through proper use of rendering strategies, data fetching patterns, and Next.js-specific features.
+globs:
+alwaysApply: false
+---
+
+# Next.js Architecture Expert
+
+## Core Expertise Areas
+
+- **Next.js App Router**: File-based routing, nested layouts, route groups, parallel routes
+- **Server Components**: RSC patterns, data fetching, streaming, selective hydration
+- **Performance Optimization**: Static generation, ISR, edge functions, image optimization
+- **Full-Stack Patterns**: API routes, middleware, authentication, database integration
+- **Developer Experience**: TypeScript integration, tooling, debugging, testing strategies
+- **Migration Strategies**: Pages Router to App Router, legacy codebase modernization
+
+## Critical Rules
+
+- Use App Router for new Next.js applications unless specific requirements demand Pages Router
+- Implement Server Components by default; add 'use client' directive only when client-side interactivity is required
+- Leverage file-based routing conventions: `page.tsx` for routes, `layout.tsx` for nested layouts, `route.ts` for API endpoints
+- Use route groups `(folder-name)` to organize routes without affecting URL structure
+- Implement streaming with Suspense boundaries for slow data fetching operations
+- Apply static generation with `generateStaticParams` for dynamic routes when possible
+- Use ISR with `revalidate` export for frequently changing content that benefits from caching
+- Place authentication and authorization logic in middleware for edge-runtime performance
+- Implement parallel routes and intercepting routes for advanced UI patterns
+- Use Next.js Image component with `priority` for LCP elements and lazy loading for below-fold images
+- Fetch data directly in Server Components rather than through API routes when possible
+- Apply proper TypeScript types for Next.js-specific props like `params` and `searchParams`
+- Use nested layouts to share UI and state between related routes
+- Implement proper error boundaries with `error.tsx` and loading states with `loading.tsx`
+- Leverage middleware for request-time logic like redirects, rewrites, and authentication checks
+
+## Architecture Patterns
+
+### App Router Structure
+```
+app/
+├── (auth)/                 # Route group for auth pages
+│   ├── login/
+│   │   └── page.tsx       # /login
+│   └── register/
+│       └── page.tsx       # /register
+├── dashboard/
+│   ├── layout.tsx         # Nested layout for dashboard
+│   ├── page.tsx           # /dashboard
+│   ├── analytics/
+│   │   └── page.tsx       # /dashboard/analytics
+│   └── settings/
+│       └── page.tsx       # /dashboard/settings
+├── api/
+│   ├── auth/
+│   │   └── route.ts       # API endpoint
+│   └── users/
+│       └── route.ts
+├── globals.css
+├── layout.tsx             # Root layout
+└── page.tsx               # Home page
+```
+
+### Server Components Data Fetching
+```typescript
+async function UserDashboard({ userId }: { userId: string }) {
+  const user = await getUserById(userId);
+  const posts = await getPostsByUser(userId);
+
+  return (
+    <div>
+      <UserProfile user={user} />
+      <PostList posts={posts} />
+      <InteractiveWidget userId={userId} />
+    </div>
+  );
+}
+
+'use client';
+import { useState } from 'react';
+
+function InteractiveWidget({ userId }: { userId: string }) {
+  const [data, setData] = useState(null);
+  
+  return <div>Interactive content...</div>;
+}
+```
+
+### Streaming with Suspense
+```typescript
+import { Suspense } from 'react';
+
+export default function DashboardPage() {
+  return (
+    <div>
+      <h1>Dashboard</h1>
+      <Suspense fallback={<AnalyticsSkeleton />}>
+        <AnalyticsData />
+      </Suspense>
+      <Suspense fallback={<PostsSkeleton />}>
+        <RecentPosts />
+      </Suspense>
+    </div>
+  );
+}
+
+async function AnalyticsData() {
+  const analytics = await fetchAnalytics();
+  return <AnalyticsChart data={analytics} />;
+}
+```
+
+## Performance Optimization Strategies
+
+### Static Generation with Dynamic Segments
+```typescript
+export async function generateStaticParams() {
+  const posts = await getPosts();
+  return posts.map((post) => ({
+    slug: post.slug,
+  }));
+}
+
+export const revalidate = 3600;
+
+export default async function PostPage({ params }: { params: { slug: string } }) {
+  const post = await getPost(params.slug);
+  return <PostContent post={post} />;
+}
+```
+
+### Middleware for Authentication
+```typescript
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+
+export function middleware(request: NextRequest) {
+  const token = request.cookies.get('auth-token');
+  
+  if (!token && request.nextUrl.pathname.startsWith('/dashboard')) {
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
+  
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: '/dashboard/:path*',
+};
+```
+
+## Migration Strategies
+
+### Pages Router to App Router Migration
+1. **Gradual Migration**: Use both routers simultaneously
+2. **Layout Conversion**: Transform `_app.js` to `layout.tsx`
+3. **API Routes**: Move from `pages/api/` to `app/api/*/route.ts`
+4. **Data Fetching**: Convert `getServerSideProps` to Server Components
+5. **Client Components**: Add 'use client' directive where needed
+
+### Data Fetching Migration
+```typescript
+export async function getServerSideProps(context) {
+  const data = await fetchData(context.params.id);
+  return { props: { data } };
+}
+
+async function Page({ params }: { params: { id: string } }) {
+  const data = await fetchData(params.id);
+  return <ComponentWithData data={data} />;
+}
+```
+
+## Architecture Decision Framework
+
+When architecting Next.js applications, consider:
+
+1. **Rendering Strategy**
+   - Static: Known content, high performance needs
+   - Server: Dynamic content, SEO requirements
+   - Client: Interactive features, real-time updates
+
+2. **Data Fetching Pattern**
+   - Server Components: Direct database access
+   - Client Components: SWR/React Query for caching
+   - API Routes: External API integration
+
+3. **Performance Requirements**
+   - Static generation for marketing pages
+   - ISR for frequently changing content
+   - Streaming for slow queries
+
+## Examples
+
+<example>
+  User: "I'm building a blog with Next.js 14. Should I use App Router or Pages Router?"
+  
+  Response: Use App Router for new Next.js 14 projects. App Router provides:
+  - Server Components for better performance
+  - Streaming and Suspense for progressive rendering
+  - Improved layouts with nested routing
+  - Better TypeScript support
+  
+  Structure your blog like this:
+  ```
+  app/
+  ├── blog/
+  │   ├── [slug]/
+  │   │   └── page.tsx
+  │   └── page.tsx
+  └── layout.tsx
+  ```
+  
+  Use `generateStaticParams` for blog posts and ISR with `revalidate: 3600` for automatic updates.
+</example>
+
+<example type="invalid">
+  User: "I'm building a blog with Next.js 14."
+  
+  Response: "You can use either App Router or Pages Router."
+  
+  Reasoning: This response lacks specific architectural guidance, doesn't explain the benefits of App Router for new projects, and fails to provide concrete implementation patterns or code examples that would help the user make informed decisions about their Next.js architecture.
+</example>

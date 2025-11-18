@@ -1,0 +1,427 @@
+---
+description: Full-stack development specialist covering frontend, backend, and database technologies. Apply this rule when working on end-to-end application development, complete feature implementation spanning multiple layers, API integration between frontend and backend, database design and integration, authentication and authorization systems, type-safe API contracts, state management across client and server, full application architecture, testing across the stack, or building complete applications from database to UI. Essential for holistic application development, cross-layer integration, full-stack feature implementation, and comprehensive system design.
+alwaysApply: false
+---
+
+# Full-Stack Developer Specialist
+
+## Critical Rules
+
+- Implement end-to-end type safety with TypeScript across frontend and backend
+- Design with performance optimization at every layer from database to UI
+- Build security into every layer: authentication, authorization, data validation
+- Implement comprehensive error handling and loading states across the stack
+- Write tests at all levels: unit, integration, and end-to-end
+- Maintain clear code organization with separation of concerns
+- Focus on developer experience with modern tooling and clear documentation
+- Ensure maintainability through consistent patterns and best practices
+- Design APIs with clear contracts and proper versioning
+- Implement proper logging and monitoring across all layers
+
+## Core Technology Stack
+
+### Frontend Technologies
+- React/Next.js for modern component-based UI with SSR/SSG
+- TypeScript for type-safe development and API contracts
+- State Management: Redux Toolkit, Zustand, React Query for server state
+- Styling: Tailwind CSS, Styled Components, CSS Modules
+- Testing: Jest, React Testing Library, Playwright for E2E
+
+### Backend Technologies
+- Node.js/Express for RESTful APIs and middleware architecture
+- Python/FastAPI for high-performance APIs with automatic documentation
+- Database Integration: PostgreSQL, MongoDB, Redis for caching
+- Authentication: JWT, OAuth 2.0, Auth0, NextAuth.js
+- API Design: OpenAPI/Swagger, GraphQL, tRPC for type safety
+
+### Database and Data Layer
+- PostgreSQL for relational data with proper indexing
+- MongoDB for document-based data models
+- Redis for caching and session management
+- Prisma/TypeORM for type-safe database access
+- Database migrations and schema versioning
+
+### Development Tools
+- Git workflows with branching strategies and code review
+- Build Tools: Vite, Webpack, esbuild for optimization
+- Package Management: npm, yarn, pnpm
+- Code Quality: ESLint, Prettier, Husky pre-commit hooks
+- Docker for containerization and consistent environments
+
+## Technical Implementation Approach
+
+### Type Safety Across Stack
+```typescript
+// Shared type definitions between frontend and backend
+// API request/response interfaces
+// Database model types
+// Error types and validation schemas
+```
+
+### API Architecture
+- RESTful API design with proper HTTP methods
+- Request validation with Zod or Joi
+- Error handling middleware
+- Authentication middleware
+- Rate limiting and security headers
+- Comprehensive API documentation
+
+### Database Design
+- Normalized schema design
+- Proper indexing for performance
+- Relationship modeling
+- Migration strategies
+- Connection pooling
+- Query optimization
+
+### Authentication Flow
+- User registration with password hashing
+- Login with JWT token generation
+- Token refresh mechanisms
+- Protected route middleware
+- Role-based access control
+- Session management
+
+### Frontend Integration
+- API client with interceptors
+- Token management and refresh
+- Loading and error states
+- Optimistic updates
+- Caching strategies
+- Form validation
+
+## Expected Output Format
+
+### Shared Type Definitions
+```typescript
+// Types used across frontend and backend
+// API contracts
+// Database models
+// Request/response interfaces
+// Error types
+```
+
+### Backend API Implementation
+```typescript
+// Express/FastAPI route handlers
+// Middleware for auth, validation, errors
+// Database queries with TypeORM/Prisma
+// Business logic layer
+// Service layer architecture
+```
+
+### Database Models
+```typescript
+// Schema definitions
+// Relationships and constraints
+// Indexes for performance
+// Migration files
+// Seed data
+```
+
+### Frontend Components
+```typescript
+// React components with TypeScript
+// State management implementation
+// API integration hooks
+// Form handling with validation
+// Error boundaries and loading states
+```
+
+### API Client and State Management
+```typescript
+// Axios/Fetch client setup
+// Request/response interceptors
+// React Query hooks
+// Error handling
+// Caching configuration
+```
+
+### Testing Strategy
+```typescript
+// Unit tests for utilities and services
+// Integration tests for API endpoints
+// Component tests with React Testing Library
+// E2E tests for critical user flows
+// Test fixtures and mocks
+```
+
+## Architecture Patterns
+
+### Layered Architecture
+```
+Presentation Layer → React Components and UI
+Application Layer → Business logic and orchestration
+Domain Layer → Core models and business rules
+Data Layer → Database access and external APIs
+```
+
+### API Design Patterns
+- Controller-Service-Repository pattern
+- Dependency injection for testability
+- Middleware chain for cross-cutting concerns
+- Error handling with custom error classes
+- Response normalization
+
+### State Management Strategy
+- Server state with React Query
+- Client state with Context API or Zustand
+- Form state with React Hook Form
+- URL state with React Router
+- Persistent state with localStorage
+
+## Security Implementation
+
+### Authentication Security
+- Password hashing with bcrypt (12+ rounds)
+- JWT with appropriate expiration
+- Refresh token rotation
+- HTTPS only for production
+- CSRF protection
+- Rate limiting on auth endpoints
+
+### Authorization Patterns
+- Role-based access control (RBAC)
+- Permission-based authorization
+- Resource ownership verification
+- API route protection
+- Frontend route guards
+
+### Data Validation
+- Input validation on both client and server
+- SQL injection prevention
+- XSS protection
+- Schema validation with Zod/Joi
+- File upload security
+
+## Performance Optimization
+
+### Frontend Performance
+- Code splitting and lazy loading
+- Image optimization
+- Bundle size optimization
+- Caching strategies
+- Virtual scrolling for large lists
+- React.memo for expensive components
+
+### Backend Performance
+- Database query optimization
+- Redis caching layer
+- Connection pooling
+- Response compression
+- Pagination for large datasets
+- Background job processing
+
+### Database Performance
+- Proper indexing strategy
+- Query optimization
+- N+1 query prevention
+- Database connection pooling
+- Read replicas for scaling
+- Caching frequently accessed data
+
+## Testing Best Practices
+
+### Unit Testing
+- Test business logic in isolation
+- Mock external dependencies
+- Test error cases
+- Aim for high coverage on critical paths
+
+### Integration Testing
+- Test API endpoints end-to-end
+- Use test database
+- Test authentication flows
+- Verify error responses
+
+### E2E Testing
+- Test critical user journeys
+- Run in CI/CD pipeline
+- Use Playwright or Cypress
+- Test across browsers
+
+## Examples
+
+<example>
+  User Request: Create a user authentication system with login and registration
+
+  Response:
+  **Shared Types (types/api.ts):**
+  ```typescript
+  export interface User {
+    id: string;
+    email: string;
+    name: string;
+    role: 'admin' | 'user';
+    createdAt: string;
+  }
+  
+  export interface LoginRequest {
+    email: string;
+    password: string;
+  }
+  
+  export interface RegisterRequest {
+    email: string;
+    name: string;
+    password: string;
+  }
+  
+  export interface AuthResponse {
+    user: User;
+    token: string;
+    refreshToken: string;
+  }
+  ```
+  
+  **Backend (server/routes/auth.ts):**
+  ```typescript
+  import { Router } from 'express';
+  import bcrypt from 'bcryptjs';
+  import jwt from 'jsonwebtoken';
+  import { z } from 'zod';
+  import { User } from '../models/User';
+  
+  const router = Router();
+  
+  const registerSchema = z.object({
+    email: z.string().email(),
+    name: z.string().min(2).max(50),
+    password: z.string().min(8)
+  });
+  
+  router.post('/register', async (req, res) => {
+    const { email, name, password } = registerSchema.parse(req.body);
+    
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ error: 'User already exists' });
+    }
+    
+    const hashedPassword = await bcrypt.hash(password, 12);
+    const user = new User({ email, name, password: hashedPassword });
+    await user.save();
+    
+    const token = jwt.sign(
+      { userId: user._id, role: user.role },
+      process.env.JWT_SECRET!,
+      { expiresIn: '1h' }
+    );
+    
+    res.status(201).json({
+      user: {
+        id: user._id.toString(),
+        email: user.email,
+        name: user.name,
+        role: user.role,
+        createdAt: user.createdAt.toISOString()
+      },
+      token
+    });
+  });
+  
+  export { router as authRouter };
+  ```
+  
+  **Frontend (hooks/useAuth.ts):**
+  ```typescript
+  import { useState } from 'react';
+  import { useMutation } from '@tanstack/react-query';
+  import { authAPI } from '../services/api';
+  import type { LoginRequest, RegisterRequest } from '../types/api';
+  
+  export function useAuth() {
+    const [user, setUser] = useState(null);
+    
+    const loginMutation = useMutation({
+      mutationFn: (credentials: LoginRequest) => authAPI.login(credentials),
+      onSuccess: (data) => {
+        setUser(data.user);
+        localStorage.setItem('token', data.token);
+      }
+    });
+    
+    const registerMutation = useMutation({
+      mutationFn: (userData: RegisterRequest) => authAPI.register(userData),
+      onSuccess: (data) => {
+        setUser(data.user);
+        localStorage.setItem('token', data.token);
+      }
+    });
+    
+    return {
+      user,
+      login: loginMutation.mutate,
+      register: registerMutation.mutate,
+      isLoading: loginMutation.isLoading || registerMutation.isLoading
+    };
+  }
+  ```
+  
+  **Frontend Component (components/LoginForm.tsx):**
+  ```typescript
+  import { useForm } from 'react-hook-form';
+  import { useAuth } from '../hooks/useAuth';
+  
+  export function LoginForm() {
+    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { login, isLoading } = useAuth();
+    
+    return (
+      <form onSubmit={handleSubmit(login)} className="space-y-4">
+        <input
+          {...register('email', { required: true, pattern: /^\S+@\S+$/ })}
+          type="email"
+          placeholder="Email"
+          className="w-full px-4 py-2 border rounded"
+        />
+        {errors.email && <span className="text-red-500">Valid email required</span>}
+        
+        <input
+          {...register('password', { required: true, minLength: 8 })}
+          type="password"
+          placeholder="Password"
+          className="w-full px-4 py-2 border rounded"
+        />
+        {errors.password && <span className="text-red-500">Password required (8+ chars)</span>}
+        
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="w-full py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        >
+          {isLoading ? 'Loading...' : 'Login'}
+        </button>
+      </form>
+    );
+  }
+  ```
+  
+  **Testing (auth.test.ts):**
+  ```typescript
+  describe('Authentication', () => {
+    it('should register a new user', async () => {
+      const response = await request(app)
+        .post('/api/auth/register')
+        .send({
+          email: 'test@example.com',
+          name: 'Test User',
+          password: 'password123'
+        });
+      
+      expect(response.status).toBe(201);
+      expect(response.body.user).toBeDefined();
+      expect(response.body.token).toBeDefined();
+    });
+  });
+  ```
+</example>
+
+<example type="invalid">
+  User Request: Create a user authentication system
+
+  Response:
+  Just use a simple login form that posts to /login endpoint. Store the password in plain text in the database. Use localStorage to save the user data. Don't worry about TypeScript types or validation. Handle errors with try-catch and console.log them.
+  
+  [This is invalid because it suggests insecure practices (plain text passwords), lacks type safety, missing proper error handling, no validation, insecure storage practices, no authentication tokens, missing comprehensive implementation across stack, no testing strategy, and violates security best practices.]
+</example>

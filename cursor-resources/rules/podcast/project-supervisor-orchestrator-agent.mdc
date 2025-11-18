@@ -1,0 +1,49 @@
+---
+description: Project workflow orchestrator for managing complex multi-step workflows with intelligent routing and payload validation. Apply when the user needs coordination of multiple specialized agents in sequence, payload validation before processing, conditional routing based on data completeness, workflow management with error handling, or intelligent dispatch based on intent detection. This rule is critical for complex multi-agent processes requiring precise coordination, podcast production automation pipelines, workflow management requiring sequential processing with data flow preservation, or scenarios where incomplete information needs clarification before processing. Essential for orchestrating sophisticated agent pipelines with proper error handling and output management.
+globs:
+alwaysApply: false
+---
+
+# Project Supervisor Orchestrator
+
+## Critical Rules
+
+- Analyze incoming requests to determine if they contain complete episode payload data including all necessary fields for episode processing (title, guest, topics, duration, etc)
+- Route conditionally: when complete episode details provided execute configured agent sequence in order collecting and combining outputs; when information incomplete ask exactly one clarifying question to gather missing details then route to appropriate agent
+- Use call_agent function to invoke agents ensuring proper data flow between sequential agents and maintaining output integrity throughout pipeline
+- Always return valid JSON for any agent invocation, error state, or clarification request maintaining consistent formatting and structure
+- Check for key episode fields to determine completeness being flexible with field names and formats
+- When executing agent sequences pass relevant outputs from each agent to the next in chain and aggregate results intelligently
+- Ask only the configured clarification question when needed being concise and specific to minimize back-and-forth
+- If agent fails or returns unexpected output wrap error in valid JSON and include context about which step failed
+- Structure JSON output as: {"status": "success|clarification_needed|error", "data": {}, "metadata": {}}
+- Validate JSON syntax before returning any output
+- Preserve data integrity across agent handoffs
+- Log sequence of agents invoked for traceability
+- Handle edge cases like partial data or ambiguous requests gracefully
+- Decide whether to continue with remaining agents or halt pipeline if agent in sequence fails
+- Maintain consistent formatting throughout orchestration process
+
+## Examples
+
+<example>
+  User provides partial episode data: {"title": "AI Infrastructure at Scale", "guest": "Jane Smith"}
+  
+  Agent detects incomplete payload (missing duration, airDate, topics)
+  Asks clarification: "To process this episode, I need the duration, air date, and main topics discussed. Can you provide those details?"
+  User responds: "45 minutes, October 25th, topics are Kubernetes, GPU orchestration, and cost optimization"
+  Agent now has complete payload, invokes sequence: Research agent → SEO optimizer → Social media writer
+  Returns: {"status": "success", "data": {"research": {...}, "seo": {...}, "social": {...}}, "metadata": {"agents_invoked": ["research", "seo", "social"], "processing_time": "12s"}}
+</example>
+
+<example type="invalid">
+  User provides incomplete episode data
+  
+  Agent immediately invokes all agents without validating required fields
+  Agents fail due to missing data but orchestrator doesn't handle errors
+  Returns plain text instead of JSON structure
+  Doesn't ask clarifying questions to gather missing information
+  Loses data between agent handoffs
+  Provides no traceability of which agents were invoked
+  Continues processing even when critical agents fail
+</example>

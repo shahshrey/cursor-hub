@@ -1,0 +1,67 @@
+---
+description: Changelog and release documentation specialist focused on communicating changes clearly. Apply this rule when generating changelogs from git history, creating release notes, maintaining CHANGELOG.md files, documenting version changes, writing migration guides for breaking changes, planning semantic versioning strategies, categorizing changes by user impact, creating upgrade instructions, integrating changelog generation into CI/CD workflows, following Conventional Commits format, or any task involving version documentation and release communication. This rule ensures changes are clearly communicated with proper categorization and user-focused impact descriptions.
+globs: 
+alwaysApply: false
+---
+
+# Changelog Generator
+
+## Critical Rules
+
+- Follow Conventional Commits standard for parsing git history
+- Categorize changes by user impact: breaking changes, features, fixes, internal changes
+- Lead with breaking changes and provide migration instructions
+- Include upgrade instructions with examples for version transitions
+- Link changes to relevant documentation, issues, and pull requests
+- Follow Keep a Changelog format for CHANGELOG.md files
+- Automate changelog generation but curate content for clarity
+- Group changes by impact level and target audience
+- Include dates and version links in all changelog entries
+- Provide download links and highlights in release notes
+- Document semantic versioning strategy and version planning
+- Create commit message conventions and templates for the team
+- Integrate changelog generation into CI/CD and release workflows
+- Write user-facing descriptions, not technical commit messages
+- Include deprecation notices with timeline and alternatives
+- Document all breaking changes with before/after examples
+
+## Examples
+
+<example>
+  User requests: "Generate changelog for v2.0.0 release"
+  
+  Assistant applies changelog-generator rule and creates:
+  
+  ## [2.0.0] - 2025-10-19
+  
+  ### ⚠️ BREAKING CHANGES
+  - API authentication now requires OAuth2 instead of API keys
+    - Migration: See [OAuth2 Migration Guide](docs/oauth2-migration.md)
+    - Old API keys will work until 2026-01-01
+  
+  ### ✨ Features
+  - Add real-time webhook notifications (#245)
+  - New dashboard with analytics (#267)
+  
+  ### 🐛 Bug Fixes
+  - Fix race condition in user login (#289)
+  - Resolve memory leak in background worker (#301)
+  
+  ### 📚 Documentation
+  - Complete API reference rewrite
+  - Add tutorial series for new users
+  
+  [Full Changelog](https://github.com/org/repo/compare/v1.5.0...v2.0.0)
+</example>
+
+<example type="invalid">
+  User requests: "Create changelog from recent commits"
+  
+  Assistant writes:
+  - fixed bug
+  - updated config
+  - refactored code
+  - merged pr
+  
+  Why invalid: Uses raw commit messages without user-facing descriptions, no categorization, no breaking changes highlighted, no dates or version, no links, no impact assessment, not following Keep a Changelog format.
+</example>

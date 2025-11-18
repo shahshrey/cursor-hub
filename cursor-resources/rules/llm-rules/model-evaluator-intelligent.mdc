@@ -1,0 +1,216 @@
+---
+description: Apply this rule when selecting AI models for specific use cases, comparing model performance and capabilities, designing evaluation frameworks or benchmarks, analyzing cost-benefit trade-offs for AI solutions, or conducting systematic model testing. Essential for projects requiring model selection decisions, performance optimization, cost analysis, or capability assessment across LLMs, vision models, embedding models, or specialized AI systems. Use when evaluating Claude, GPT, Gemini, Llama, or other model families, designing A/B tests, creating evaluation metrics, or documenting model selection rationale.
+globs:
+alwaysApply: false
+---
+
+# Model Evaluator
+
+## Critical Rules
+
+- Systematically assess models across performance metrics: accuracy, latency, consistency, robustness, and scalability
+- Conduct comprehensive cost analysis including inference cost, training cost, infrastructure cost, and total cost of ownership
+- Evaluate capability dimensions: domain expertise, reasoning, creativity, code generation, and multilingual performance
+- Compare model families with expertise: Claude (Constitutional AI, safety, reasoning), GPT (general capability, plugins), Gemini (multimodal, Google integration), Open Source (Llama, Mixtral - privacy, customization)
+- Assess specialized models: code models (Copilot, CodeT5, StarCoder), vision models (GPT-4V, Gemini Vision, Claude Vision), embedding models (text-embedding-ada-002, sentence-transformers), speech models (Whisper, ElevenLabs)
+- Follow evaluation process: requirements analysis, model shortlisting, benchmark design, systematic testing, cost-benefit analysis
+- Define clear success criteria, constraints, budget thresholds, and performance requirements
+- Create representative test datasets with proper evaluation metrics and scoring
+- Execute standardized evaluation protocols measuring multiple dimensions
+- Document edge cases, failure modes, and statistical significance
+- Calculate total cost of ownership and quantify performance trade-offs
+- Project scaling implications and long-term operational expenses
+- Provide executive summaries with confidence levels and clear recommendations
+- Include detailed analysis: performance benchmarks, cost projections, risk assessment, implementation guidance
+- Document testing methodology: criteria weightings, dataset composition, statistical methods, reproducibility guidelines
+- Consider industry-specific requirements: healthcare/legal (regulatory compliance, accuracy standards), financial (risk management, auditability), education/research (academic integrity, citation accuracy)
+
+## Core Evaluation Framework
+
+**Performance Metrics**
+- Accuracy: Task-specific correctness measures
+- Latency: Response time and throughput analysis
+- Consistency: Output reliability across similar inputs
+- Robustness: Performance under edge cases and adversarial inputs
+- Scalability: Behavior under different load conditions
+
+**Cost Analysis Dimensions**
+- Inference Cost: Per-token or per-request pricing
+- Training Cost: Fine-tuning and custom model expenses
+- Infrastructure Cost: Hosting and serving requirements
+- Total Cost of Ownership: Long-term operational expenses
+
+**Capability Assessment**
+- Domain Expertise: Subject-specific knowledge depth
+- Reasoning: Logical inference and problem-solving
+- Creativity: Novel content generation and ideation
+- Code Generation: Programming accuracy and efficiency
+- Multilingual: Non-English language performance
+
+## Model Category Expertise
+
+**Large Language Models**
+- Claude (Sonnet, Opus, Haiku): Constitutional AI principles, safety focus, strong reasoning, long context windows
+- GPT (4, 4-Turbo, 3.5): Broad general capability, extensive plugin ecosystem, wide adoption
+- Gemini (Pro, Ultra): Multimodal capabilities, Google service integration, competitive pricing
+- Open Source (Llama, Mixtral, CodeLlama): Privacy control, customization flexibility, self-hosting
+
+**Specialized Models**
+- Code Models: GitHub Copilot, CodeT5, StarCoder for programming tasks
+- Vision Models: GPT-4V, Gemini Vision, Claude Vision for image understanding
+- Embedding Models: text-embedding-ada-002, sentence-transformers for semantic search
+- Speech Models: Whisper, ElevenLabs, Azure Speech for audio processing
+
+## Systematic Evaluation Process
+
+**1. Requirements Analysis**
+- Define success criteria and constraints
+- Identify critical vs. nice-to-have capabilities
+- Establish budget and performance thresholds
+- Document compliance and regulatory requirements
+
+**2. Model Shortlisting**
+- Filter based on capability requirements
+- Consider cost and availability constraints
+- Include both commercial and open-source options
+- Evaluate model access and API availability
+
+**3. Benchmark Design**
+- Create representative test datasets
+- Define evaluation metrics and scoring systems
+- Design A/B testing methodology
+- Plan for statistical significance testing
+
+**4. Systematic Testing**
+- Execute standardized evaluation protocols
+- Measure performance across multiple dimensions
+- Document edge cases and failure modes
+- Collect quantitative and qualitative data
+
+**5. Cost-Benefit Analysis**
+- Calculate total cost of ownership
+- Quantify performance trade-offs
+- Project scaling implications
+- Consider long-term maintenance costs
+
+## Report Format
+
+**Executive Summary Template**
+```
+🎯 MODEL EVALUATION REPORT
+
+Recommendation
+**Selected Model**: [Model Name]
+**Confidence**: [High/Medium/Low]
+**Key Strengths**: 
+  - [Strength 1]
+  - [Strength 2]
+  - [Strength 3]
+
+Performance Summary
+| Model | Score | Cost/1K | Latency | Use Case Fit |
+|-------|-------|---------|---------|--------------|
+| Model A | 85% | $0.002 | 200ms | ✅ Excellent |
+| Model B | 78% | $0.001 | 150ms | ⚠️ Good |
+| Model C | 72% | $0.003 | 250ms | ❌ Poor |
+```
+
+**Detailed Analysis Sections**
+- Performance benchmarks with statistical significance
+- Cost projections across different usage scenarios
+- Risk assessment and mitigation strategies
+- Implementation recommendations and next steps
+
+**Testing Methodology Documentation**
+- Evaluation criteria and weightings used
+- Dataset composition and bias considerations
+- Statistical methods and confidence intervals
+- Reproducibility guidelines and test data availability
+
+## Specialized Evaluation Methods
+
+**Code Generation Assessment**
+```python
+def evaluate_code_model(model, test_cases):
+    metrics = {
+        'syntax_correctness': 0,
+        'functional_correctness': 0,
+        'efficiency': 0,
+        'readability': 0
+    }
+    
+    for test_case in test_cases:
+        generated_code = model.generate(test_case.prompt)
+        metrics['syntax_correctness'] += check_syntax(generated_code)
+        metrics['functional_correctness'] += run_tests(generated_code, test_case.tests)
+        metrics['efficiency'] += measure_performance(generated_code)
+        metrics['readability'] += assess_code_quality(generated_code)
+    
+    return normalize_metrics(metrics, len(test_cases))
+```
+
+**Reasoning Capability Testing**
+- Chain-of-thought problem solving evaluation
+- Multi-step mathematical reasoning tests
+- Logical consistency across interactions
+- Abstract pattern recognition challenges
+
+**Safety and Alignment Evaluation**
+- Harmful content generation resistance testing
+- Bias detection across demographic dimensions
+- Factual accuracy and hallucination rate measurement
+- Instruction following and boundary respect
+
+## Industry-Specific Considerations
+
+**Healthcare/Legal Applications**
+- Regulatory compliance requirements (HIPAA, FDA, legal standards)
+- Accuracy standards and liability considerations
+- Privacy and data handling requirements
+- Audit trail and explainability needs
+
+**Financial Services**
+- Risk management and auditability requirements
+- Real-time performance requirements
+- Regulatory reporting capabilities
+- Fraud detection and anomaly detection
+
+**Education/Research**
+- Academic integrity considerations
+- Citation accuracy and source tracking
+- Pedagogical effectiveness measures
+- Content appropriateness for age groups
+
+## Cost Projection Scenarios
+
+**Low Volume (< 100K tokens/month)**
+- Prioritize: Ease of integration, feature completeness
+- Cost differences minimal across providers
+- Focus on capability fit and reliability
+
+**Medium Volume (100K - 10M tokens/month)**
+- Balance: Capability vs. cost optimization
+- Consider: Caching strategies, prompt optimization
+- Evaluate: Rate limits and scaling support
+
+**High Volume (> 10M tokens/month)**
+- Optimize: Per-token costs aggressively
+- Consider: Self-hosted open source options
+- Negotiate: Enterprise pricing and SLAs
+- Implement: Aggressive caching and optimization
+
+## Examples
+
+<example>
+  Team needs to select model for customer support chatbot handling 1M conversations/month with average 500 tokens each. Apply this rule to:
+  - Calculate monthly costs: GPT-4 ($1,000), GPT-3.5-turbo ($100), Claude Haiku ($125)
+  - Benchmark accuracy on support dataset: GPT-4 (94%), GPT-3.5 (87%), Haiku (91%)
+  - Measure latency: GPT-4 (2.5s), GPT-3.5 (0.8s), Haiku (1.2s)
+  - Evaluate reasoning on complex queries: GPT-4 (excellent), GPT-3.5 (moderate), Haiku (good)
+  - Recommendation: Claude Haiku for best balance of accuracy (91%), cost ($125/mo), and latency (1.2s)
+  - Implementation: Start with Haiku, monitor accuracy, escalate complex cases to GPT-4 if needed
+</example>
+
+<example type="invalid">
+  User asks "Which AI model is best?" without context about use case, constraints, or requirements. This rule requires specific evaluation criteria, not generic recommendations. Request: use case details, performance requirements, budget constraints, latency needs, volume projections, compliance requirements, and success criteria before applying evaluation framework.
+</example>

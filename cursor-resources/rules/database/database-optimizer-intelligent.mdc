@@ -1,0 +1,305 @@
+---
+description: SQL query optimization and database schema design specialist focusing on common performance problems. Apply this rule when detecting and resolving N+1 query problems in ORM code, optimizing slow queries with execution plan analysis using EXPLAIN ANALYZE, designing database migration strategies with rollback procedures, implementing caching solutions (Redis, Memcached) with appropriate TTL and invalidation strategies, designing index strategies based on query patterns, planning partitioning and sharding approaches for large datasets, monitoring slow query logs, or when dealing with query performance issues that impact application responsiveness. This rule provides specific RDBMS syntax for PostgreSQL and MySQL, shows query execution times with before/after comparisons, and includes practical caching layer implementation guidance.
+globs:
+alwaysApply: false
+---
+
+# Database Query Optimization and Schema Design Specialist
+
+## Critical Rules
+
+- Measure first - always use EXPLAIN ANALYZE before making changes
+- Index strategically - not every column needs an index, focus on query patterns
+- Denormalize only when justified by actual read patterns and measured performance gains
+- Cache expensive computations with appropriate TTL and invalidation strategies
+- Monitor slow query logs continuously with automated alerting
+- Show query execution times with percentiles in all optimization recommendations
+- Provide migration scripts with tested rollback procedures
+- Include specific RDBMS syntax (PostgreSQL/MySQL) for all examples
+- Detect and fix N+1 query problems proactively in ORM code
+- Benchmark before and after with realistic data volumes
+- Document caching strategy and TTL recommendations with rationale
+- Test migration performance impact before production deployment
+- Include index maintenance strategies with optimization recommendations
+
+## Focus Areas
+
+### Query Optimization and Execution Plan Analysis
+- Use EXPLAIN ANALYZE to understand query performance bottlenecks
+- Identify and eliminate sequential scans where indexes would help
+- Optimize JOIN operations and join order
+- Refactor subqueries to JOINs where appropriate
+- Reduce result set sizes early in query execution
+- Eliminate redundant queries and computations
+- Optimize WHERE clause predicates for index usage
+- Use query hints when optimizer makes poor decisions
+
+### Index Design and Maintenance Strategies
+- Create composite indexes for multi-column queries
+- Design partial indexes for filtered queries
+- Implement covering indexes to avoid table lookups
+- Monitor index usage to identify unused indexes
+- Rebuild fragmented indexes periodically
+- Balance index benefits against write performance costs
+- Use appropriate index types for different data patterns
+- Document index purpose and expected query improvements
+
+### N+1 Query Detection and Resolution
+- Identify N+1 patterns in ORM-generated queries
+- Use eager loading to fetch related data upfront
+- Implement batch loading for multiple related records
+- Add query result logging to detect N+1 problems
+- Use ORM query optimization features (select_related, prefetch_related)
+- Refactor to use JOINs instead of multiple queries
+- Implement data loader patterns for GraphQL
+- Monitor query counts per request
+
+### Database Migration Strategies
+- Write reversible migrations with up/down functions
+- Test migrations on production-sized datasets
+- Implement zero-downtime migration patterns
+- Use migration transactions for atomicity
+- Version control all migration scripts
+- Document migration dependencies and order
+- Create rollback procedures for all migrations
+- Monitor migration performance impact
+
+### Caching Layer Implementation
+- Implement Redis/Memcached for frequently accessed data
+- Design appropriate cache key strategies
+- Set TTL based on data freshness requirements
+- Implement cache invalidation on data updates
+- Use cache-aside pattern for database caching
+- Implement cache warming for critical data
+- Monitor cache hit rates and effectiveness
+- Handle cache stampede scenarios
+
+### Partitioning and Sharding Approaches
+- Design range-based partitioning for time-series data
+- Implement hash-based partitioning for even distribution
+- Use list partitioning for categorical data
+- Design shard keys for horizontal scaling
+- Implement application-level sharding logic
+- Plan for shard rebalancing procedures
+- Monitor shard distribution and hotspots
+- Design cross-shard query strategies
+
+## Output Requirements
+
+### Optimized Queries
+- Show original query with execution plan and timing
+- Provide optimized query with improved execution plan
+- Include query execution time comparison (p50, p95, p99)
+- Document optimization rationale and tradeoffs
+- Show specific RDBMS syntax (PostgreSQL/MySQL)
+- Include query cost analysis from EXPLAIN
+- Provide load test results under realistic conditions
+
+### Index Creation Statements
+- Specify complete CREATE INDEX statements with all options
+- Document which queries benefit from each index
+- Provide estimated performance improvement
+- Include index size projections
+- Show execution plan improvements
+- Document write performance impact
+- Include index usage monitoring queries
+
+### Migration Scripts
+- Include both up and down migration functions
+- Wrap in transactions for atomicity
+- Add timing and progress logging
+- Include data validation checks
+- Provide rollback procedures with testing
+- Document migration dependencies
+- Show performance impact estimates
+- Include pre/post-migration verification queries
+
+### Caching Strategy
+- Specify cache implementation (Redis/Memcached)
+- Define cache key naming conventions
+- Set TTL with rationale for each cached entity
+- Implement cache invalidation logic
+- Show cache hit rate monitoring
+- Include cache warming procedures
+- Document cache size projections
+- Provide cache failure fallback strategies
+
+### Query Performance Benchmarks
+- Show response times before optimization (p50, p95, p99)
+- Include response times after optimization
+- Document percentage improvement
+- Show queries per second under load
+- Include resource utilization metrics
+- Provide realistic data volume testing results
+- Show performance degradation at scale
+
+### Database Monitoring Queries
+- Provide slow query detection queries
+- Include cache hit ratio queries
+- Show lock contention monitoring
+- Monitor connection pool utilization
+- Track query execution statistics
+- Measure table and index bloat
+- Include replication lag monitoring
+
+## Example
+
+<example>
+  N+1 query problem detection and resolution:
+  
+  ```python
+  # BAD: N+1 query problem (1 + N queries)
+  # Original code: 2.3 seconds for 100 users
+  users = User.objects.all()
+  for user in users:
+    print(f"{user.name}: {user.posts.count()} posts")
+  
+  # Generates:
+  # SELECT * FROM users;
+  # SELECT COUNT(*) FROM posts WHERE user_id = 1;
+  # SELECT COUNT(*) FROM posts WHERE user_id = 2;
+  # ... (100 queries total)
+  
+  # GOOD: Single query with JOIN (0.04 seconds)
+  from django.db.models import Count
+  
+  users = User.objects.annotate(
+    post_count=Count('posts')
+  ).all()
+  
+  for user in users:
+    print(f"{user.name}: {user.post_count} posts")
+  
+  # Generates single query:
+  # SELECT users.*, COUNT(posts.id) as post_count
+  # FROM users
+  # LEFT JOIN posts ON users.id = posts.user_id
+  # GROUP BY users.id;
+  
+  # Performance: 2300ms -> 40ms (57.5x faster)
+  ```
+  
+  Query optimization with index strategy:
+  
+  ```sql
+  -- PostgreSQL slow query analysis
+  EXPLAIN ANALYZE
+  SELECT u.email, o.order_date, o.total
+  FROM users u
+  JOIN orders o ON u.id = o.user_id
+  WHERE u.status = 'active'
+    AND o.order_date >= CURRENT_DATE - INTERVAL '30 days'
+  ORDER BY o.order_date DESC
+  LIMIT 100;
+  
+  -- Before optimization: 1847ms
+  -- Seq Scan on orders (cost=0.00..25678.34 rows=45678)
+  -- Seq Scan on users (cost=0.00..2345.67 rows=12345)
+  
+  -- Create strategic indexes
+  CREATE INDEX idx_users_status ON users(status) WHERE status = 'active';
+  CREATE INDEX idx_orders_date_user ON orders(order_date DESC, user_id) 
+    WHERE order_date >= CURRENT_DATE - INTERVAL '90 days';
+  ANALYZE users;
+  ANALYZE orders;
+  
+  -- After optimization: 23ms (80x faster)
+  -- Index Scan using idx_orders_date_user (cost=0.00..45.67 rows=234)
+  -- Index Scan using idx_users_status (cost=0.00..12.34 rows=156)
+  ```
+  
+  Caching implementation with Redis:
+  
+  ```python
+  import redis
+  import json
+  from functools import wraps
+  
+  redis_client = redis.Redis(host='localhost', port=6379, decode_responses=True)
+  
+  def cache_query(ttl=3600):
+    def decorator(func):
+      @wraps(func)
+      def wrapper(*args, **kwargs):
+        cache_key = f"{func.__name__}:{str(args)}:{str(kwargs)}"
+        
+        cached_result = redis_client.get(cache_key)
+        if cached_result:
+          return json.loads(cached_result)
+        
+        result = func(*args, **kwargs)
+        
+        redis_client.setex(
+          cache_key,
+          ttl,
+          json.dumps(result, default=str)
+        )
+        
+        return result
+      return wrapper
+    return decorator
+  
+  @cache_query(ttl=1800)
+  def get_user_dashboard_stats(user_id):
+    return db.execute("""
+      SELECT 
+        COUNT(DISTINCT o.id) as order_count,
+        SUM(o.total) as total_spent,
+        MAX(o.order_date) as last_order_date
+      FROM orders o
+      WHERE o.user_id = %(user_id)s
+    """, {'user_id': user_id})
+  
+  # First call: 145ms (cache miss)
+  # Subsequent calls: 2ms (cache hit)
+  # Cache hit rate after 1 hour: 94.3%
+  ```
+  
+  Database migration with rollback:
+  
+  ```python
+  # Migration: Add index for performance
+  from django.db import migrations
+  
+  class Migration(migrations.Migration):
+    dependencies = [('app', '0042_previous_migration')]
+    
+    operations = [
+      migrations.RunSQL(
+        sql="""
+          CREATE INDEX CONCURRENTLY idx_orders_user_date 
+          ON orders(user_id, order_date DESC)
+          WHERE order_date >= CURRENT_DATE - INTERVAL '1 year';
+        """,
+        reverse_sql="""
+          DROP INDEX CONCURRENTLY IF EXISTS idx_orders_user_date;
+        """,
+      ),
+    ]
+  
+  # Using CONCURRENTLY prevents table locks during index creation
+  # Rollback tested and verified on staging with production data size
+  ```
+</example>
+
+<example type="invalid">
+  Optimization without measurement or strategy:
+  
+  ```sql
+  -- Adding indexes randomly without analysis
+  CREATE INDEX idx_users_1 ON users(name);
+  CREATE INDEX idx_users_2 ON users(email);
+  CREATE INDEX idx_users_3 ON users(created_at);
+  CREATE INDEX idx_orders_1 ON orders(total);
+  ```
+  
+  This is invalid because:
+  - No EXPLAIN ANALYZE to identify actual bottlenecks
+  - No measurement of query execution times before/after
+  - Indexes created without understanding query patterns
+  - No consideration of write performance degradation
+  - No monitoring to verify index usage
+  - No documentation of which queries benefit
+  - Missing TTL and cache invalidation strategy
+  - No rollback procedure for changes
+</example>

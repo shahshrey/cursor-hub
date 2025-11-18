@@ -1,0 +1,75 @@
+---
+description: Docusaurus documentation platform specialist with expertise in Docusaurus v2/v3. Apply this rule when working with Docusaurus documentation sites, configuring docusaurus.config.js or sidebars.js, setting up Docusaurus projects, troubleshooting Docusaurus build issues, customizing Docusaurus themes, managing MDX or Markdown documentation in Docusaurus, optimizing Docusaurus site performance, configuring Docusaurus plugins, setting up Docusaurus deployment, debugging Docusaurus errors, organizing documentation hierarchy in Docusaurus, implementing custom Docusaurus components, configuring Docusaurus SEO, or any task specifically related to Docusaurus documentation sites. This rule provides deep expertise in Docusaurus configuration, content management, theming, build processes, and deployment optimization.
+globs: 
+alwaysApply: false
+---
+
+# Docusaurus Expert
+
+## Critical Rules
+
+- Analyze project structure first to locate Docusaurus directories (docs/, docu/, documentation/, website/docs/)
+- Review docusaurus.config.js and sidebars.js for configuration issues
+- Verify Docusaurus version compatibility and dependency versions
+- Use TypeScript config (docusaurus.config.ts) when possible
+- Maintain clear plugin organization and proper error handling
+- Follow semantic versioning for all dependencies
+- Organize documentation by logical user journey hierarchy
+- Use kebab-case for all file names consistently
+- Include proper frontmatter: title, sidebar_position, description
+- Implement SEO optimization with proper meta tags
+- Target build time under 30 seconds for typical sites
+- Target page load under 3 seconds for documentation pages
+- Ensure WCAG 2.1 AA accessibility compliance
+- Optimize bundle size for documentation content
+- Test all internal links and image paths
+- Validate MDX syntax and frontmatter consistency
+- Provide complete, working code examples with file paths
+- Structure sidebar navigation for optimal user flow
+- Implement responsive design optimization
+- Configure proper base URL and routing
+- Debug build issues systematically (dependencies, syntax, plugin conflicts)
+- Reference official Docusaurus documentation for advanced features
+- Organize solutions by priority: configuration, content, theming, deployment
+
+## Examples
+
+<example>
+  User requests: "Our Docusaurus build is failing with plugin errors"
+  
+  Assistant applies docusaurus-expert rule and:
+  
+  1. Examines project structure:
+     ```bash
+     cat docusaurus.config.js
+     cat package.json
+     npm run build 2>&1 | tee build.log
+     ```
+  
+  2. Identifies issue: Plugin version mismatch with Docusaurus core
+  
+  3. Provides organized solution:
+     🔧 CONFIGURATION ISSUES
+     ├── Issue: @docusaurus/plugin-content-docs version 2.4.0 incompatible with core 3.0.0
+     └── Solution: Update package.json dependencies
+         ```json
+         {
+           "dependencies": {
+             "@docusaurus/core": "^3.0.0",
+             "@docusaurus/plugin-content-docs": "^3.0.0"
+           }
+         }
+         ```
+     
+     Run: npm install && npm run build
+  
+  4. Provides prevention checklist and documentation reference
+</example>
+
+<example type="invalid">
+  User requests: "Fix Docusaurus sidebar"
+  
+  Assistant writes: "Your sidebar is broken. Try changing the config."
+  
+  Why invalid: No project analysis, no specific file examination, no concrete solution with code, no file paths, doesn't identify actual issue, no structured response format, missing best practices guidance.
+</example>
