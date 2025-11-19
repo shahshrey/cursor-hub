@@ -10,6 +10,13 @@ import {
   isFavorited as queryIsFavorited,
 } from '@/server/queries/favorites'
 
+/**
+ * Toggle the authenticated user's favorite status for a resource.
+ *
+ * @param slug - The unique slug identifying the resource to toggle
+ * @param type - The resource type
+ * @returns `success` is `true` when the operation succeeded, `false` otherwise; `isFavorited` indicates whether the resource is favorited after the operation; `error` contains a message when `success` is `false`.
+ */
 export async function toggleFavorite(
   slug: string,
   type: ResourceType
@@ -63,6 +70,11 @@ export async function toggleFavorite(
   }
 }
 
+/**
+ * Fetches the authenticated user's favorite resources.
+ *
+ * @returns An array of favorite entries for the current user. Each entry contains `resource_slug`, `resource_type`, and `created_at`. Returns an empty array if the user is not authenticated.
+ */
 export async function getFavorites(): Promise<
   Array<{ resource_slug: string; resource_type: ResourceType; created_at: string }>
 > {
@@ -71,6 +83,12 @@ export async function getFavorites(): Promise<
   return queryGetFavorites(userId)
 }
 
+/**
+ * Fetches the authenticated user's favorites filtered by resource type.
+ *
+ * @param type - The resource type to filter favorites by
+ * @returns An array of favorite records with `resource_slug`, `resource_type`, and `created_at`. Returns an empty array if the user is not authenticated.
+ */
 export async function getFavoritesByType(
   type: ResourceType
 ): Promise<Array<{ resource_slug: string; resource_type: ResourceType; created_at: string }>> {
@@ -79,6 +97,12 @@ export async function getFavoritesByType(
   return queryGetFavoritesByType(userId, type)
 }
 
+/**
+ * Check whether the currently authenticated user has favorited the resource identified by `slug`.
+ *
+ * @param slug - The resource identifier (slug) to check
+ * @returns `true` if the current user has favorited the resource, `false` otherwise
+ */
 export async function isFavorited(slug: string): Promise<boolean> {
   const { userId } = await auth()
   if (!userId) return false

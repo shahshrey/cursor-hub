@@ -14,6 +14,16 @@ interface DownloadButtonProps {
   className?: string
 }
 
+/**
+ * Renders a download button for a resource that handles fetching the file, saving it to the user device, showing success/error toasts, and dispatching a `resource-downloaded` event on success.
+ *
+ * @param resource - Metadata of the resource to download (must include `slug` and `fileName`)
+ * @param variant - Visual variant of the button; defaults to `'default'`
+ * @param size - Size of the button; defaults to `'default'`
+ * @param showLabel - Whether to display the textual label next to the icon; defaults to `true`
+ * @param className - Additional CSS class names to apply to the button
+ * @returns A button element that initiates the resource download when activated
+ */
 export function DownloadButton({
   resource,
   variant = 'default',

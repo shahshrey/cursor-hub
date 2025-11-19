@@ -60,6 +60,31 @@ const sortLabels: Record<string, string> = {
   recent: 'Recently Added',
 }
 
+/**
+ * Renders a horizontal filter bar with search, type tabs, category-aware counts, sorting, and preset controls.
+ *
+ * Provides a search input with live result counts, type tabs showing per-type counts (respecting the active category),
+ * a clear-filters control, optional save/load/delete/toggle preset actions, and a sort button.
+ *
+ * @param searchQuery - Current search string shown in the search input
+ * @param onSearchChange - Callback invoked with the new search string
+ * @param resultsCount - Number of results matching the current filters
+ * @param totalCount - Total number of resources available
+ * @param activeType - Currently selected resource type (or 'all')
+ * @param onTypeChange - Callback invoked when the active type changes
+ * @param activeCategory - Currently selected category (empty string when none)
+ * @param categories - Available category list (not modified by this component)
+ * @param onCategoryChange - Callback invoked to change the active category
+ * @param sortBy - Current sort key
+ * @param onSortClick - Callback invoked to change the sort order
+ * @param filterCounts - Optional counts used to display per-type and per-category numbers
+ * @param presets - Optional list of saved filter presets
+ * @param onSavePreset - Optional callback to save the current filters as a preset
+ * @param onLoadPreset - Optional callback to load a preset
+ * @param onDeletePreset - Optional callback to delete a preset
+ * @param onToggleStarPreset - Optional callback to star/unstar a preset
+ * @returns The rendered horizontal filter bar element
+ */
 export function HorizontalFilterBar({
   searchQuery,
   onSearchChange,

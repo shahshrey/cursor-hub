@@ -10,6 +10,16 @@ import { Breadcrumb } from '@/components/ui/breadcrumb'
 
 export const revalidate = 86400
 
+/**
+ * Render the Browse Resources page with header, navigation, and resource browser.
+ *
+ * Renders a top Header, a sticky navigation bar with a back link and branding (including total count),
+ * a Breadcrumb labeled "Browse Resources", and a TerminalResourceBrowser initialized with the first
+ * 24 resources from the resource index.
+ *
+ * @returns A React element for the Browse Resources page containing the header, sticky nav, breadcrumb,
+ * and resource browser populated with initial resources, total count, and categories.
+ */
 export default async function BrowsePage() {
   const index = getResourceIndex()
 

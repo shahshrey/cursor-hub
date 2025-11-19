@@ -30,6 +30,15 @@ interface ResourceCardProps {
   onPreview?: () => void
 }
 
+/**
+ * Renders a resource card showing metadata, description, tags, download count, and action buttons.
+ *
+ * @param resource - Resource metadata used to populate the card (title, type, category, size, tags, description/excerpt, slug, etc.)
+ * @param downloadCount - Initial download count to display (synchronized with updates)
+ * @param isFavorited - Initial favorited state for the FavoriteButton
+ * @param onPreview - Optional callback invoked when the preview button is clicked
+ * @returns A JSX element containing the styled resource card with actions (download/add, preview) and animated download count.
+ */
 export function ResourceCard({
   resource,
   downloadCount = 0,

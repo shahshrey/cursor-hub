@@ -14,6 +14,13 @@ interface HeroWithSearchProps {
   userId: string | null
 }
 
+/**
+ * Hero section with a searchable input, community resource badge, and primary calls-to-action.
+ *
+ * @param totalResources - Total number of resources available (used for the badge and counts)
+ * @param userId - Current user's ID; when present the primary CTA navigates to the dashboard, otherwise to signup
+ * @returns A React element rendering the hero area with a controlled search input (including suggestion selection), a resource count badge, and action buttons for dashboard/signup and browsing all resources
+ */
 export function HeroWithSearch({ totalResources, userId }: HeroWithSearchProps) {
   const [searchQuery, setSearchQuery] = useState('')
   const router = useRouter()

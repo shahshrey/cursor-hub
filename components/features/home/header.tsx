@@ -8,6 +8,15 @@ import { Home } from 'lucide-react'
 import { CursorLogo } from '@/components/ui/cursor-logo'
 import { FavoritesLink } from './favorites-link'
 
+/**
+ * Top-of-page navigation header showing branding and authentication-specific controls.
+ *
+ * Renders a sticky site header containing the logo and title, primary navigation, and
+ * authentication-dependent actions (Sign In / Sign Up when signed out; Favorites, Dashboard,
+ * and a user menu when signed in).
+ *
+ * @returns A React element containing the sticky header with branding and navigation controls.
+ */
 export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">

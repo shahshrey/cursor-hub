@@ -20,6 +20,17 @@ const SEARCH_HISTORY_KEY = 'cursor-resources-search-history'
 const MAX_HISTORY = 10
 const MAX_SUGGESTIONS = 8
 
+/**
+ * Render a searchable input with autocomplete suggestions, keyboard navigation, and persistent recent searches.
+ *
+ * @param value - Current search query shown in the input
+ * @param onChange - Callback invoked with the new query when the input value changes or a suggestion is selected
+ * @param resultsCount - Number of results currently shown for `value` (used for the inline status display)
+ * @param totalCount - Total number of results available (used for the inline status display)
+ * @param onSelectSuggestion - Optional callback invoked with the selected suggestion when a suggestion is committed
+ *
+ * @returns The rendered enhanced search input React element
+ */
 export function EnhancedSearchInput({
   value,
   onChange,

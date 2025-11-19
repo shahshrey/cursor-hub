@@ -14,6 +14,15 @@ interface BreadcrumbProps {
   className?: string
 }
 
+/**
+ * Render a breadcrumb navigation starting with a Home link followed by the provided items.
+ *
+ * The last item is marked as the current page (aria-current="page"); items with an `href` are rendered as links, while items without an `href` are rendered as plain text.
+ *
+ * @param items - Array of breadcrumb items to render after the Home link. Each item should include a `label` and may include an `href`.
+ * @param className - Optional class names to apply to the outer nav container.
+ * @returns The rendered breadcrumb React element.
+ */
 export function Breadcrumb({ items, className }: BreadcrumbProps) {
   return (
     <nav aria-label="Breadcrumb" className={cn('flex items-center gap-2 text-sm', className)}>

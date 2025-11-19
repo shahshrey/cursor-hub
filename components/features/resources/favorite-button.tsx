@@ -20,6 +20,19 @@ interface FavoriteButtonProps {
   showLabel?: boolean
 }
 
+/**
+ * A favorite toggle button that manages and displays a resource's favorited state.
+ *
+ * Renders a button that performs an optimistic update of the favorite state, requires the user to be signed in to change state (unauthenticated clicks prompt sign-in), calls the server action to persist changes, shows success/error toasts, dispatches a global `favorite-changed` CustomEvent on successful updates, and triggers a brief heart animation when a resource is added to favorites (respects reduced-motion preferences).
+ *
+ * @param resourceSlug - The unique slug identifying the resource to favorite or unfavorite.
+ * @param resourceType - The resource's type used by the server action to identify resource kind.
+ * @param initialIsFavorited - Initial favorited state for the resource.
+ * @param variant - Button visual variant.
+ * @param size - Button size.
+ * @param showLabel - If true, renders a text label next to the icon reflecting the current state.
+ * @returns The FavoriteButton React element.
+ */
 export function FavoriteButton({
   resourceSlug,
   resourceType,

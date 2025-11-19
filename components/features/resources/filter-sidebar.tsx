@@ -16,6 +16,18 @@ interface FilterSidebarProps {
   activeType?: ResourceType | 'all'
 }
 
+/**
+ * Render responsive category filters with counts and controls to select or clear the active category.
+ *
+ * Renders a persistent sidebar on large screens and a slide-out sheet on mobile. Shows an "All Categories" option and a list of category badges with counts (when `filterCounts` is provided). Disabled categories (count = 0) are shown with reduced opacity and cannot be selected. Selecting a category invokes `onCategoryChange`; clearing the category invokes `onCategoryChange('')`.
+ *
+ * @param activeCategory - Currently selected category; empty string means no category filter.
+ * @param categories - Ordered list of available category names to display.
+ * @param onCategoryChange - Callback invoked with the new category ('' to clear).
+ * @param filterCounts - Optional counts used to display totals per category and type.
+ * @param activeType - Resource type filter used when computing counts; defaults to `'all'`.
+ * @returns A React element containing the desktop sidebar and mobile sheet UI for category filtering.
+ */
 export function FilterSidebar({
   activeCategory,
   categories,

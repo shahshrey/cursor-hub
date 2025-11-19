@@ -16,6 +16,13 @@ const SHORTCUTS = [
   { key: '?', description: 'Show this help' },
 ]
 
+/**
+ * Renders a trigger button and an accessible modal that lists application keyboard shortcuts.
+ *
+ * The component installs global keyboard handlers so pressing `?` (when focus is not inside an input, textarea, or contenteditable element) opens the shortcuts panel and pressing `Escape` closes it. When the panel opens it receives focus and the previously focused element is restored when the panel closes. The modal can also be opened via the visible trigger button and dismissed by clicking the backdrop or the close button.
+ *
+ * @returns A React element containing the shortcuts trigger and, when open, a focus-managed modal dialog with the keyboard shortcuts list.
+ */
 export function KeyboardShortcutsHelp() {
   const [isOpen, setIsOpen] = useState(false)
   const cardRef = useRef<HTMLDivElement>(null)

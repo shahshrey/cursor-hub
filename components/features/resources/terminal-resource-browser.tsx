@@ -46,6 +46,19 @@ const sortLabels: Record<SortOption, string> = {
   recent: 'Recently Added',
 }
 
+/**
+ * Renders a client-side resource browser UI with searching, filtering, sorting, presets, and pagination.
+ *
+ * The component displays a searchable, paginated grid of resources with category/type filters, sort controls,
+ * preset management (save/load/delete/star), download counts, and a resource preview modal. It synchronizes
+ * filter state to the URL and to localStorage, fetches search results and aggregate counts as needed, and
+ * updates download counts in response to download events.
+ *
+ * @param initialResources - Initial list of resources to show before any search or filter is applied
+ * @param totalCount - Total number of available resources (used for contextual summary)
+ * @param categories - Mapping of resource types to available category names
+ * @returns A React element representing the terminal-styled resource browser UI
+ */
 export function TerminalResourceBrowser({
   initialResources,
   totalCount,
