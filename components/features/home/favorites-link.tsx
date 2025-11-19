@@ -19,7 +19,8 @@ export function FavoritesLink() {
         } else {
           setFavoritesCount(0)
         }
-      } catch {
+      } catch (error) {
+        console.error('Failed to fetch favorites count:', error)
         setFavoritesCount(0)
       }
     }
@@ -34,7 +35,17 @@ export function FavoritesLink() {
   }, [])
 
   if (favoritesCount === null) {
-    return null
+    return (
+      <Button
+        variant="ghost"
+        size="sm"
+        className="relative min-h-[44px] touch-manipulation"
+        disabled
+      >
+        <Heart className="w-4 h-4 mr-1.5 animate-pulse opacity-50" />
+        <span className="hidden sm:inline">Favorites</span>
+      </Button>
+    )
   }
 
   return (

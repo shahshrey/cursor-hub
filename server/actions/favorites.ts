@@ -21,7 +21,7 @@ export async function toggleFavorite(
       return { success: false, isFavorited: false, error: 'Not authenticated' }
     }
 
-    const supabase = await createClient()
+    const supabase = createClient()
 
     const { data: existing } = await supabase
       .from('favorites')

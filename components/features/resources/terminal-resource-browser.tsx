@@ -77,14 +77,31 @@ export function TerminalResourceBrowser({
   const [isSavePresetOpen, setIsSavePresetOpen] = useState(false)
 
   useEffect(() => {
-    const params = new URLSearchParams()
-    if (searchQuery) params.set('q', searchQuery)
-    if (activeType !== 'all') params.set('type', activeType)
-    if (activeCategory) params.set('category', activeCategory)
-    if (sortBy !== 'downloads') params.set('sort', sortBy)
+    // Initialize params from current searchParams to preserve other query params
+    const params = new URLSearchParams(searchParams?.toString())
 
-    const newUrl = params.toString() ? `${pathname}?${params}` : pathname
-    router.replace(newUrl, { scroll: false })
+    if (searchQuery) params.set('q', searchQuery)
+    else params.delete('q')
+
+    if (activeType !== 'all') params.set('type', activeType)
+    else params.delete('type')
+
+    if (activeCategory) params.set('category', activeCategory)
+    else params.delete('category')
+
+    if (sortBy !== 'downloads') params.set('sort', sortBy)
+    else params.delete('sort')
+
+    const newSearch = params.toString()
+    const newUrl = newSearch ? `${pathname}?${newSearch}` : pathname
+
+    const currentSearch = searchParams?.toString() || ''
+    const currentUrl = currentSearch ? `${pathname}?${currentSearch}` : pathname
+
+    // Only replace if the URL has actually changed
+    if (newUrl !== currentUrl) {
+      router.replace(newUrl, { scroll: false })
+    }
 
     const filterState = {
       searchQuery,
@@ -94,7 +111,7 @@ export function TerminalResourceBrowser({
       timestamp: Date.now(),
     }
     localStorage.setItem('browse-filters', JSON.stringify(filterState))
-  }, [searchQuery, activeType, activeCategory, sortBy, pathname, router])
+  }, [searchQuery, activeType, activeCategory, sortBy, pathname, router, searchParams])
 
   useEffect(() => {
     const hasActiveFilters =

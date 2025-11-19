@@ -25,7 +25,10 @@ export function KeyboardShortcutsHelp() {
     const handleKeyDown = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement
       const isInputField =
-        target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable
+        target.tagName === 'INPUT' ||
+        target.tagName === 'TEXTAREA' ||
+        target.tagName === 'SELECT' ||
+        target.isContentEditable
 
       if (e.key === '?' && !e.ctrlKey && !e.metaKey && !e.altKey) {
         if (isInputField) return

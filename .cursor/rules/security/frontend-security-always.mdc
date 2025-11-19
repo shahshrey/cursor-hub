@@ -46,6 +46,11 @@ alwaysApply: true
     // Validate and sanitize file name
     const sanitizedFileName = fileName.replace(/[^a-zA-Z0-9._-]/g, '_')
     
+    // Validate resourceId to prevent injection in URL
+    if (!resourceId || typeof resourceId !== 'string' || !/^[a-zA-Z0-9_-]+$/.test(resourceId)) {
+      throw new Error('Invalid resource ID')
+    }
+    
     const response = await fetch(`/api/download/${resourceId}`)
     const blob = await response.blob()
     const url = window.URL.createObjectURL(blob)

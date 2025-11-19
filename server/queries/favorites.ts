@@ -1,16 +1,13 @@
 'use server'
 
+import { auth } from '@clerk/nextjs/server'
 import { createClient } from '@/lib/supabase/server'
 import type { ResourceType } from '@/types/resources'
 
 export async function getFavoritesCount(userId: string): Promise<number> {
-  const supabase = await createClient()
+  const { authorized, supabase } = await authorizeUser(userId)
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  if (!user || user.id !== userId) {
-    console.error('Unauthorized access attempt')
+  if (!authorized || !supabase) {
     return 0
   }
 
@@ -27,16 +24,23 @@ export async function getFavoritesCount(userId: string): Promise<number> {
   return count || 0
 }
 
+async function authorizeUser(userId: string) {
+  const { userId: currentUserId } = await auth()
+
+  if (!currentUserId || currentUserId !== userId) {
+    console.error('Unauthorized access attempt')
+    return { authorized: false, supabase: null }
+  }
+
+  return { authorized: true, supabase: createClient() }
+}
+
 export async function getFavorites(
   userId: string
 ): Promise<Array<{ resource_slug: string; resource_type: ResourceType; created_at: string }>> {
-  const supabase = await createClient()
+  const { authorized, supabase } = await authorizeUser(userId)
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  if (!user || user.id !== userId) {
-    console.error('Unauthorized access attempt')
+  if (!authorized || !supabase) {
     return []
   }
 
@@ -58,13 +62,9 @@ export async function getFavoritesByType(
   userId: string,
   type: ResourceType
 ): Promise<Array<{ resource_slug: string; resource_type: ResourceType; created_at: string }>> {
-  const supabase = await createClient()
+  const { authorized, supabase } = await authorizeUser(userId)
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  if (!user || user.id !== userId) {
-    console.error('Unauthorized access attempt')
+  if (!authorized || !supabase) {
     return []
   }
 
@@ -84,13 +84,9 @@ export async function getFavoritesByType(
 }
 
 export async function isFavorited(userId: string, resourceSlug: string): Promise<boolean> {
-  const supabase = await createClient()
+  const { authorized, supabase } = await authorizeUser(userId)
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  if (!user || user.id !== userId) {
-    console.error('Unauthorized access attempt')
+  if (!authorized || !supabase) {
     return false
   }
 
