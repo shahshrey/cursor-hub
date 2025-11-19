@@ -14,6 +14,13 @@ interface HeroWithSearchProps {
   userId: string | null
 }
 
+/**
+ * Renders the animated hero section with a searchable input, resource badge, and action buttons.
+ *
+ * @param totalResources - Total number of community-shared resources shown in the badge.
+ * @param userId - Current user's ID; when present the primary action links to the dashboard, otherwise to the signup page.
+ * @returns The hero section element containing the heading, description, controlled search input, and navigation controls.
+ */
 export function HeroWithSearch({ totalResources, userId }: HeroWithSearchProps) {
   const [searchQuery, setSearchQuery] = useState('')
   const router = useRouter()

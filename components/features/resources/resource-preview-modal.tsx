@@ -73,6 +73,16 @@ interface ResourcePreviewModalProps {
   onClose: () => void
 }
 
+/**
+ * Display a centered modal that previews a resource's content (file or Markdown) and provides actions to copy, download, or insert the resource.
+ *
+ * The modal loads the resource contents when opened, prevents background scrolling while open, closes on Escape or outside click, and shows loading or error states. Markdown files render frontmatter and formatted content; other files render a syntax-highlighted code view. Copy/download/insert actions provide user feedback via notifications.
+ *
+ * @param resource - The resource metadata to preview; when `null` the component renders nothing.
+ * @param isOpen - Whether the preview modal is open.
+ * @param onClose - Callback invoked to close the modal.
+ * @returns The modal React element tree when a resource is provided and `isOpen` is true, otherwise `null`.
+ */
 export function ResourcePreviewModal({ resource, isOpen, onClose }: ResourcePreviewModalProps) {
   const [content, setContent] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)

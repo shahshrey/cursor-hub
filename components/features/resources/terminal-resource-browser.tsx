@@ -46,6 +46,17 @@ const sortLabels: Record<SortOption, string> = {
   recent: 'Recently Added',
 }
 
+/**
+ * Render a browsable, filterable resource browser with search, sorting, pagination, presets, and preview functionality.
+ *
+ * Provides client-side state and effects for syncing filters with the URL and localStorage, performing debounced searches,
+ * loading download counts, managing filter presets, and displaying resource cards or empty/search states.
+ *
+ * @param initialResources - Initial list of resources to display before any search or filters are applied
+ * @param totalCount - Total number of resources available from the backend (used for display)
+ * @param categories - Mapping of `ResourceType` to available category names for that type
+ * @returns The React element tree for the terminal-style resource browser component
+ */
 export function TerminalResourceBrowser({
   initialResources,
   totalCount,

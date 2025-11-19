@@ -8,6 +8,15 @@ import { Home } from 'lucide-react'
 import { CursorLogo } from '@/components/ui/cursor-logo'
 import { FavoritesLink } from './favorites-link'
 
+/**
+ * Renders the application's sticky top navigation with branding and authentication-aware controls.
+ *
+ * The header shows "Cursor Hub" branding on the left and a navigation group on the right:
+ * when the user is signed out it shows "Sign In" and "Sign Up" actions; when signed in it
+ * shows a favorites link, a "Dashboard" button, and the user menu button.
+ *
+ * @returns The header JSX element containing branding and authentication-dependent navigation.
+ */
 export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">

@@ -20,6 +20,20 @@ const SEARCH_HISTORY_KEY = 'cursor-resources-search-history'
 const MAX_HISTORY = 10
 const MAX_SUGGESTIONS = 8
 
+/**
+ * Render a searchable input with autocomplete suggestions, recent search history, and keyboard navigation.
+ *
+ * Persists recent searches to localStorage under SEARCH_HISTORY_KEY and fetches suggestions from
+ * /api/resources/search when the query is at least two characters. Supports keyboard navigation
+ * (ArrowUp/ArrowDown/Enter/Escape) and a global Ctrl/Cmd+K focus shortcut.
+ *
+ * @param value - Current input value
+ * @param onChange - Callback invoked with the new input value
+ * @param resultsCount - Number of results currently shown for the current query
+ * @param totalCount - Total number of available results for the current query
+ * @param onSelectSuggestion - Optional callback invoked with a suggestion when a suggestion is selected
+ * @returns The component's rendered JSX element
+ */
 export function EnhancedSearchInput({
   value,
   onChange,

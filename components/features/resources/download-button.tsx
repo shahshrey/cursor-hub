@@ -14,6 +14,16 @@ interface DownloadButtonProps {
   className?: string
 }
 
+/**
+ * Renders a button that downloads the given resource when clicked and manages download state.
+ *
+ * Displays an icon (and optional label), shows success/error toasts, and dispatches a
+ * `resource-downloaded` CustomEvent with `{ slug }` on successful download.
+ *
+ * @param resource - Metadata for the resource to download (used to build the download request and filename)
+ * @param showLabel - Whether to display the textual label next to the icon; defaults to `true`
+ * @returns The download button element
+ */
 export function DownloadButton({
   resource,
   variant = 'default',

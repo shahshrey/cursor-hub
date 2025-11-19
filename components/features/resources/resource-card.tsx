@@ -30,6 +30,15 @@ interface ResourceCardProps {
   onPreview?: () => void
 }
 
+/**
+ * Renders an interactive card summarizing a resource, including title, type icon, metadata, an expandable description, tags, a download counter, and action buttons for download/add, preview, and favorite.
+ *
+ * @param resource - Resource metadata to display (title, type, slug, category, extension, fileSize, description/excerpt, tags).
+ * @param downloadCount - Initial download count to display; the displayed count updates when this prop changes.
+ * @param isFavorited - Initial favorite state for the resource.
+ * @param onPreview - Optional callback invoked when the Preview button is clicked.
+ * @returns The rendered resource card element.
+ */
 export function ResourceCard({
   resource,
   downloadCount = 0,

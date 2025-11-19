@@ -16,6 +16,15 @@ const SHORTCUTS = [
   { key: '?', description: 'Show this help' },
 ]
 
+/**
+ * Renders a keyboard-shortcuts help UI: a floating trigger button and an accessible modal listing shortcuts.
+ *
+ * The modal can be opened by clicking the trigger or pressing `?` (when not typing in an input), and can be dismissed
+ * by pressing Escape, clicking the backdrop, or using the close button. Focus is moved into the modal when opened
+ * and restored to the previously focused element when closed.
+ *
+ * @returns The component's JSX element that renders the shortcuts trigger and help modal
+ */
 export function KeyboardShortcutsHelp() {
   const [isOpen, setIsOpen] = useState(false)
   const cardRef = useRef<HTMLDivElement>(null)

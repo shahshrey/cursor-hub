@@ -4,6 +4,12 @@ import { rateLimit, rateLimitConfigs } from '@/lib/middleware/rate-limit'
 import { handleApiError } from '@/lib/errors'
 import { getFavoritesCount } from '@/server/queries/favorites'
 
+/**
+ * Handle GET requests to return the authenticated user's favorites count, enforcing rate limits and delegating errors to the centralized handler.
+ *
+ * @param request - Incoming Next.js request used for rate limiting and context
+ * @returns A NextResponse with JSON body `{ count }` where `count` is the authenticated user's favorites count; `count` is `0` when no user is authenticated
+ */
 export async function GET(request: NextRequest): Promise<NextResponse> {
   try {
     const rateLimitResponse = rateLimit(request, rateLimitConfigs.api)

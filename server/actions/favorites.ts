@@ -10,6 +10,16 @@ import {
   isFavorited as queryIsFavorited,
 } from '@/server/queries/favorites'
 
+/**
+ * Toggles the authenticated user's favorite status for a resource identified by `slug`.
+ *
+ * @param slug - The unique resource identifier (slug) to toggle favorite for
+ * @param type - The resource type being favorited or unfavorited
+ * @returns An object with:
+ *  - `success`: `true` if the toggle operation completed successfully, `false` otherwise.
+ *  - `isFavorited`: `true` if the resource is favorited after the operation, `false` otherwise.
+ *  - `error` (optional): A human-readable error message when `success` is `false`.
+ */
 export async function toggleFavorite(
   slug: string,
   type: ResourceType
@@ -63,6 +73,11 @@ export async function toggleFavorite(
   }
 }
 
+/**
+ * Fetches the authenticated user's favorite resources.
+ *
+ * @returns An array of favorite records for the authenticated user; each item contains `resource_slug`, `resource_type`, and `created_at`. Returns an empty array if the user is not authenticated.
+ */
 export async function getFavorites(): Promise<
   Array<{ resource_slug: string; resource_type: ResourceType; created_at: string }>
 > {
@@ -71,6 +86,12 @@ export async function getFavorites(): Promise<
   return queryGetFavorites(userId)
 }
 
+/**
+ * Fetches the authenticated user's favorites filtered by resource type.
+ *
+ * @param type - The resource type to filter favorites by
+ * @returns An array of favorite records each containing `resource_slug`, `resource_type`, and `created_at`. Returns an empty array if the user is not authenticated.
+ */
 export async function getFavoritesByType(
   type: ResourceType
 ): Promise<Array<{ resource_slug: string; resource_type: ResourceType; created_at: string }>> {
@@ -79,6 +100,12 @@ export async function getFavoritesByType(
   return queryGetFavoritesByType(userId, type)
 }
 
+/**
+ * Determines whether the authenticated user has favorited the resource identified by `slug`.
+ *
+ * @param slug - The resource identifier (slug) to check
+ * @returns `true` if the authenticated user has favorited the resource identified by `slug`, `false` otherwise
+ */
 export async function isFavorited(slug: string): Promise<boolean> {
   const { userId } = await auth()
   if (!userId) return false

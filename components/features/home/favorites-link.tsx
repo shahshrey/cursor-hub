@@ -6,6 +6,13 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Heart } from 'lucide-react'
 
+/**
+ * Display a favorites action button that shows the current favorites count and navigates to the dashboard.
+ *
+ * Fetches the count from /api/favorites/count on mount and updates it when a global `favorite-changed` event is dispatched.
+ *
+ * @returns A React element rendering the favorites button. While the count is unknown it renders a disabled placeholder; once loaded it renders a link/button showing the count and an accessible label that includes the count when greater than zero.
+ */
 export function FavoritesLink() {
   const [favoritesCount, setFavoritesCount] = useState<number | null>(null)
 

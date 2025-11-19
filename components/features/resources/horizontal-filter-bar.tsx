@@ -60,6 +60,13 @@ const sortLabels: Record<string, string> = {
   recent: 'Recently Added',
 }
 
+/**
+ * Render a horizontal filter bar with search, resource-type tabs, category awareness, sort control, and preset management.
+ *
+ * Displays a search input with live result counts, a clear-filters control when any filter is active, optional save/load/delete/toggle preset controls, a sort button showing the current sort label, and a scrollable set of type tabs that reflect counts and disabled state based on the active category and filterCounts.
+ *
+ * @returns The React element for the horizontal filter bar UI.
+ */
 export function HorizontalFilterBar({
   searchQuery,
   onSearchChange,
