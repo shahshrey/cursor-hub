@@ -90,15 +90,6 @@ export function ResourcePreviewModal({ resource, isOpen, onClose }: ResourcePrev
     if (isOpen) {
       originalOverflowRef.current = document.body.style.overflow
       document.body.style.overflow = 'hidden'
-
-      setTimeout(() => {
-        const firstFocusable = ref.current?.querySelector(
-          'button:not(:disabled), [href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex="-1"])'
-        ) as HTMLElement
-        firstFocusable?.focus()
-      }, 0)
-    } else {
-      document.body.style.overflow = originalOverflowRef.current || ''
     }
 
     window.addEventListener('keydown', onKeyDown)
@@ -346,6 +337,13 @@ export function ResourcePreviewModal({ resource, isOpen, onClose }: ResourcePrev
               aria-modal="true"
               aria-labelledby="preview-title"
               aria-describedby="preview-description"
+              onAnimationComplete={() => {
+                if (isOpen) {
+                  ref.current?.querySelector<HTMLElement>('[aria-label="Close preview"]')?.focus()
+                } else {
+                  document.body.style.overflow = originalOverflowRef.current || ''
+                }
+              }}
             >
               <div className="px-6 pt-6 pb-4 border-b bg-card/50 flex-shrink-0">
                 <div className="flex items-start justify-between gap-4">

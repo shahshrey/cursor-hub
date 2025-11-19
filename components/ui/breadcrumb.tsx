@@ -30,7 +30,7 @@ export function Breadcrumb({ items, className }: BreadcrumbProps) {
         const isLast = index === items.length - 1
 
         return (
-          <div key={item.href || item.label} className="flex items-center gap-2">
+          <div key={index} className="flex items-center gap-2">
             <ChevronRight className="w-4 h-4 text-muted-foreground" aria-hidden="true" />
             {isLast ? (
               <span className="text-foreground font-medium" aria-current="page">

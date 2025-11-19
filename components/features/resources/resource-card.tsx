@@ -42,9 +42,18 @@ export function ResourceCard({
   const [isExpanded, setIsExpanded] = useState(false)
 
   const description = resource.description || resource.excerpt || ''
-  const shouldShowExpand = description.length > 120
+  const CHAR_LIMIT = 150
+  const shouldShowExpand = description.length > CHAR_LIMIT
+
+  const getTruncatedText = (text: string, limit: number) => {
+    if (text.length <= limit) return text
+    const truncated = text.slice(0, limit)
+    const lastSpace = truncated.lastIndexOf(' ')
+    return lastSpace > 0 ? truncated.slice(0, lastSpace) + '...' : truncated + '...'
+  }
+
   const displayDescription =
-    isExpanded || !shouldShowExpand ? description : `${description.slice(0, 120)}...`
+    isExpanded || !shouldShowExpand ? description : getTruncatedText(description, CHAR_LIMIT)
 
   useEffect(() => {
     if (downloadCount !== displayCount) {
@@ -107,9 +116,7 @@ export function ResourceCard({
 
           <CardContent className="p-5">
             <div className="space-y-3">
-              <p
-                className={`text-sm leading-relaxed text-muted-foreground/90 ${!isExpanded && shouldShowExpand ? 'line-clamp-3' : ''}`}
-              >
+              <p className="text-sm leading-relaxed text-muted-foreground/90">
                 {displayDescription}
               </p>
               {shouldShowExpand && (

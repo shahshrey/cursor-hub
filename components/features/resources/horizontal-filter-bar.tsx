@@ -4,17 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Badge } from '@/components/ui/badge'
-import {
-  Search,
-  ArrowUpDown,
-  Save,
-  Package,
-  Zap,
-  Clipboard,
-  GitBranch,
-  Filter,
-  X,
-} from 'lucide-react'
+import { Search, ArrowUpDown, Save, Package, Zap, Clipboard, GitBranch, X } from 'lucide-react'
 import type { ResourceType } from '@/types/resources'
 import type { FilterCounts } from '@/lib/filter-counts'
 import type { FilterPreset } from '@/lib/preset-storage'
@@ -152,11 +142,9 @@ export function HorizontalFilterBar({
               >
                 <X className="w-4 h-4 mr-1.5" />
                 <span className="hidden sm:inline">Clear filters</span>
-                {activeFilterCount > 0 && (
-                  <Badge variant="secondary" className="ml-1.5 h-5 min-w-[20px] px-1.5 text-[10px]">
-                    {activeFilterCount}
-                  </Badge>
-                )}
+                <Badge variant="secondary" className="ml-1.5 h-5 min-w-[20px] px-1.5 text-[10px]">
+                  {activeFilterCount}
+                </Badge>
               </Button>
             )}
             {hasActiveFilters && onSavePreset && (

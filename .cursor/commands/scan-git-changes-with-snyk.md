@@ -50,14 +50,18 @@ Get comprehensive list of all changed files (staged, unstaged, and committed) to
    git diff --name-only
    ```
 
-3. Get committed changes (since last push or compared to main):
+3. Get committed changes (since last push or compared to default branch):
    ```bash
-   git diff main HEAD --name-only
+   # Detect default branch (fallback to main if detection fails)
+   DEFAULT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | cut -d'/' -f4 || echo "main")
+   git diff $DEFAULT_BRANCH HEAD --name-only
    ```
 
 4. Combine and deduplicate all changed files:
    ```bash
-   (git diff --cached --name-only; git diff --name-only; git diff HEAD --name-only) | sort -u
+   # Re-detect branch for subshell context
+   DEFAULT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | cut -d'/' -f4 || echo "main")
+   (git diff --cached --name-only; git diff --name-only; git diff $DEFAULT_BRANCH HEAD --name-only) | sort -u
    ```
 
 5. Filter for Snyk-supported file types:
@@ -213,11 +217,24 @@ Apply automatic fixes to security issues where possible, following Snyk recommen
    **Dependency Issues (SCA):**
    - Identify vulnerable packages with available upgrades
    - Update package manifest files (package.json, requirements.txt, etc.)
-   - Run package manager update commands if needed
+   - Run specific package manager update commands:
+     - **Node.js**: `npm update <package>` or `npm audit fix` (use `--force` only if necessary and safe)
+     - **Python**: Update `requirements.txt` and run `pip install -r requirements.txt --upgrade`
+     - **Java**: Update version in `pom.xml` (Maven) or `build.gradle` (Gradle)
+     - **Go**: `go get -u <package>@<version>` and `go mod tidy`
+     - **Rust**: `cargo update -p <package>`
+     - **Ruby**: `bundle update <gem>`
+   - Verify lockfiles are updated and consistent
 
    **IaC Issues:**
-   - Apply security best practices to infrastructure code
-   - Fix misconfigurations based on Snyk recommendations
+   - **Auto-fix Restriction**: Only apply automatic fixes to low-risk categories (e.g., linting, formatting, trivial config defaults).
+   - **Manual Approval Required**: For any changes to Terraform, Kubernetes, or CloudFormation that could affect production state:
+     - Generate a detailed plan/diff of the proposed changes.
+     - Require explicit user opt-in/approval before applying.
+     - Prefer creating a separate PR or backup rather than direct application.
+     - Run validation checks (e.g., `terraform validate`, `kubectl dry-run`) if possible.
+   - Apply security best practices (e.g., adding resource tags, enabling encryption flags) only if verified safe.
+   - Fix misconfigurations based on Snyk recommendations only after safety check.
 
 2. Document all fixes applied:
    - File path and line numbers

@@ -10,18 +10,26 @@ export function FavoritesLink() {
   const [favoritesCount, setFavoritesCount] = useState<number | null>(null)
 
   useEffect(() => {
+    let isMounted = true
+
     const fetchFavoritesCount = async () => {
       try {
         const response = await fetch('/api/favorites/count')
         if (response.ok) {
           const data = await response.json()
-          setFavoritesCount(data.count || 0)
+          if (isMounted) {
+            setFavoritesCount(data.count || 0)
+          }
         } else {
-          setFavoritesCount(0)
+          if (isMounted) {
+            setFavoritesCount(0)
+          }
         }
       } catch (error) {
         console.error('Failed to fetch favorites count:', error)
-        setFavoritesCount(0)
+        if (isMounted) {
+          setFavoritesCount(0)
+        }
       }
     }
     fetchFavoritesCount()
@@ -31,7 +39,10 @@ export function FavoritesLink() {
     }
 
     window.addEventListener('favorite-changed', handleFavoriteChange)
-    return () => window.removeEventListener('favorite-changed', handleFavoriteChange)
+    return () => {
+      isMounted = false
+      window.removeEventListener('favorite-changed', handleFavoriteChange)
+    }
   }, [])
 
   if (favoritesCount === null) {
@@ -49,13 +60,14 @@ export function FavoritesLink() {
   }
 
   return (
-    <Link href="/dashboard">
-      <Button
-        variant="ghost"
-        size="sm"
-        className="relative min-h-[44px] touch-manipulation"
-        aria-label={`Favorites${favoritesCount > 0 ? ` (${favoritesCount})` : ''}`}
-      >
+    <Button
+      variant="ghost"
+      size="sm"
+      className="relative min-h-[44px] touch-manipulation"
+      aria-label={`Favorites${favoritesCount > 0 ? ` (${favoritesCount})` : ''}`}
+      asChild
+    >
+      <Link href="/dashboard">
         <Heart className="w-4 h-4 mr-1.5" />
         <span className="hidden sm:inline">Favorites</span>
         {favoritesCount > 0 && (
@@ -63,7 +75,7 @@ export function FavoritesLink() {
             {favoritesCount}
           </Badge>
         )}
-      </Button>
-    </Link>
+      </Link>
+    </Button>
   )
 }

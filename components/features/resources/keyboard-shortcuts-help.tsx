@@ -35,7 +35,7 @@ export function KeyboardShortcutsHelp() {
         e.preventDefault()
         setIsOpen(true)
       }
-      if (e.key === 'Escape') {
+      if (e.key === 'Escape' && isOpen) {
         e.preventDefault()
         setIsOpen(false)
       }
@@ -43,7 +43,7 @@ export function KeyboardShortcutsHelp() {
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [])
+  }, [isOpen])
 
   useEffect(() => {
     if (isOpen && cardRef.current) {
