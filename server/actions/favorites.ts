@@ -4,6 +4,11 @@ import { auth } from '@clerk/nextjs/server'
 import { createClient } from '@/lib/supabase/server'
 import type { ResourceType } from '@/types/resources'
 import { revalidatePath } from 'next/cache'
+import {
+  getFavorites as queryGetFavorites,
+  getFavoritesByType as queryGetFavoritesByType,
+  isFavorited as queryIsFavorited,
+} from '@/server/queries/favorites'
 
 export async function toggleFavorite(
   slug: string,
@@ -23,7 +28,7 @@ export async function toggleFavorite(
       .select('id')
       .eq('user_id', userId)
       .eq('resource_slug', slug)
-      .single()
+      .maybeSingle()
 
     if (existing) {
       const { error } = await supabase.from('favorites').delete().eq('id', existing.id)
@@ -61,70 +66,15 @@ export async function toggleFavorite(
 export async function getFavorites(): Promise<
   Array<{ resource_slug: string; resource_type: ResourceType; created_at: string }>
 > {
-  try {
-    const { userId } = await auth()
-
-    if (!userId) return []
-
-    const supabase = createClient()
-
-    const { data, error } = await supabase
-      .from('favorites')
-      .select('resource_slug, resource_type, created_at')
-      .eq('user_id', userId)
-      .order('created_at', { ascending: false })
-
-    if (error || !data) return []
-    return data as Array<{ resource_slug: string; resource_type: ResourceType; created_at: string }>
-  } catch (error) {
-    console.error('Get favorites error:', error)
-    return []
-  }
+  return queryGetFavorites()
 }
 
 export async function getFavoritesByType(
   type: ResourceType
 ): Promise<Array<{ resource_slug: string; resource_type: ResourceType; created_at: string }>> {
-  try {
-    const { userId } = await auth()
-
-    if (!userId) return []
-
-    const supabase = createClient()
-
-    const { data, error } = await supabase
-      .from('favorites')
-      .select('resource_slug, resource_type, created_at')
-      .eq('user_id', userId)
-      .eq('resource_type', type)
-      .order('created_at', { ascending: false })
-
-    if (error || !data) return []
-    return data as Array<{ resource_slug: string; resource_type: ResourceType; created_at: string }>
-  } catch (error) {
-    console.error('Get favorites by type error:', error)
-    return []
-  }
+  return queryGetFavoritesByType(type)
 }
 
 export async function isFavorited(slug: string): Promise<boolean> {
-  try {
-    const { userId } = await auth()
-
-    if (!userId) return false
-
-    const supabase = createClient()
-
-    const { data, error } = await supabase
-      .from('favorites')
-      .select('id')
-      .eq('user_id', userId)
-      .eq('resource_slug', slug)
-      .single()
-
-    if (error || !data) return false
-    return true
-  } catch (error) {
-    return false
-  }
+  return queryIsFavorited(slug)
 }

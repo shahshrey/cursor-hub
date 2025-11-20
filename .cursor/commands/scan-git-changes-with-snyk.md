@@ -1,188 +1,312 @@
 <task name="Scan Git Changes with Snyk">
 
 <task_objective>
-Analyze current git changes (staged and modified files) for security vulnerabilities by running Snyk Code Scan (SAST) and Snyk SCA scan against only the changed files. The workflow takes the current working directory as input, identifies modified files, executes targeted Snyk scans with appropriate severity thresholds, and outputs a formatted security report identifying code vulnerabilities, dependency issues, and actionable remediation steps.
+Automatically scan current Git changes (staged, unstaged, and committed) for security vulnerabilities using Snyk Code (SAST), identify issues in modified files, automatically fix security issues where possible using Snyk scan results, and rescan to verify fixes are applied correctly. The workflow uses Snyk MCP tools to perform comprehensive security analysis on changed code files and dependencies, ensuring no new security issues are introduced before committing changes.
 </task_objective>
 
 <detailed_sequence_steps>
-# Scan Git Changes with Snyk - Detailed Sequence of Steps
 
-## Step 1: Get Project Absolute Path
+## Step 1: Verify Git Repository and Get Current Working Directory
 
-1. Execute `pwd` command in the terminal to retrieve the current working directory.
+### Purpose
+Confirm we're working in a git repository and get the absolute path required for Snyk scans.
 
-2. Store the result as the `PROJECT_PATH` variable for use in subsequent Snyk MCP tool calls.
-
-3. Validate that the path exists and is within a git repository by checking for `.git` directory.
-
-**Expected Output:** Absolute path string (e.g., `/Users/username/project`)
-
-**Tools Required:** `run_terminal_cmd`
-
-## Step 2: Identify Git Modified Files
-
-1. Execute `git diff --cached --name-only` to retrieve all staged files.
-
-2. Execute `git diff --name-only` to retrieve all unstaged modified files.
-
-3. Combine both lists to get comprehensive coverage of all changes.
-
-4. Filter the file list by relevant extensions:
-   - Include: `.ts`, `.tsx`, `.js`, `.jsx`, `.py`, `.java`, `.go`, `.rb`, `.php`, `.cs`, `.cpp`, `.c`, `.h`
-   - Exclude: Files in `node_modules`, `.git`, `dist`, `build`, or other ignored directories
-
-5. Group files by their parent directories for efficient scanning.
-
-6. Check if dependency files are modified:
-   - `package.json`, `package-lock.json`
-   - `requirements.txt`, `Pipfile`, `Pipfile.lock`
-   - `pom.xml`, `build.gradle`, `go.mod`, `Gemfile`, `composer.json`
-
-**Expected Output:** 
-- List of modified source code files
-- Boolean flag indicating if dependency files were modified
-
-**Tools Required:** `run_terminal_cmd`, `grep` (optional for filtering)
-
-## Step 3: Run Snyk Code Scan (SAST) on Modified Files
-
-1. If no source code files were modified, skip this step and notify the user.
-
-2. For the project directory containing modified files:
-   - Call `mcp_Snyk_snyk_code_scan` with the following parameters:
-     - `path`: Use the absolute `PROJECT_PATH`
-     - `severity_threshold`: Set to `"low"` for comprehensive scanning
-   - The scan will analyze all files but we'll focus on issues in modified files
-
-3. Collect all security issues returned by the scan:
-   - DOM-based XSS vulnerabilities
-   - Hardcoded secrets
-   - Path traversal issues
-   - SQL injection risks
-   - Other SAST findings
-
-4. Filter results to show only issues in the modified files identified in Step 2.
-
-5. Aggregate issues by severity level (High, Medium, Low).
-
-**Expected Output:** 
-- List of code security issues with file paths, line numbers, CWEs, and descriptions
-- Count of issues by severity level
-
-**Tools Required:** `mcp_Snyk_snyk_code_scan`
-
-## Step 4: Run Snyk SCA Scan (Dependency Analysis)
-
-1. Check if any dependency manifest files were modified (from Step 2).
-
-2. If dependency files were modified OR if user wants comprehensive dependency check:
-   - Call `mcp_Snyk_snyk_sca_scan` with the following parameters:
-     - `path`: Use the absolute `PROJECT_PATH`
-     - `severity_threshold`: Set to `"low"` for comprehensive scanning
-     - `all_projects`: Set to `true` if scanning a monorepo
-
-3. Collect all dependency vulnerability issues:
-   - Package name and version
-   - CVE identifiers
-   - CWE classifications
-   - Available fix versions
-   - Remediation advice
-
-4. Identify which vulnerabilities have direct upgrade paths available.
-
-**Expected Output:**
-- List of vulnerable dependencies with CVEs, severity, and fix recommendations
-- Upgrade suggestions for package versions
-
-**Tools Required:** `mcp_Snyk_snyk_sca_scan`
-
-## Step 5: Format and Present Results
-
-1. Create a summary section with:
-   - Total number of issues found across both scans
-   - Breakdown by severity (High, Medium, Low)
-   - Count of SAST vs SCA issues
-
-2. For each SAST issue found, format the output:
+### Actions
+1. Verify git repository exists:
+   ```bash
+   git rev-parse --git-dir
    ```
-   [Severity Icon] [Severity]: [Issue Title]
-   - File: [file path]
-   - Line: [line number]
-   - Issue: [description]
-   - CWE: [CWE identifier]
-   - Learn more: [Snyk learn URL if available]
+   - If command fails, inform user and exit gracefully
+
+2. Get absolute path of current directory:
+   ```bash
+   pwd
+   ```
+   - Store this as `PROJECT_PATH` for use in Snyk tool calls
+
+3. Verify Snyk authentication:
+   - Check if user is authenticated with Snyk (tool will handle this automatically)
+   - If authentication is required, use **mcp_Snyk_snyk_auth** tool
+
+### Expected Output
+- Confirmation that we're in a git repository
+- Absolute path to project directory stored for Snyk scans
+
+---
+
+## Step 2: Identify Changed Files
+
+### Purpose
+Get comprehensive list of all changed files (staged, unstaged, and committed) to determine what needs scanning.
+
+### Actions
+1. Get staged changes:
+   ```bash
+   git diff --cached --name-only
    ```
 
-3. For each SCA issue found, format the output:
-   ```
-   [Severity Icon] [Severity]: [Vulnerability Title]
-   - Package: [package name]@[version]
-   - CVE: [CVE identifier]
-   - Fix: Upgrade to version [fixed version]
-   - Learn more: [Snyk learn URL]
+2. Get unstaged changes:
+   ```bash
+   git diff --name-only
    ```
 
-4. Provide a recommendations section with actionable next steps:
-   - Prioritize High severity issues
-   - Suggest specific code fixes for SAST issues
-   - Suggest dependency upgrade commands for SCA issues
-   - Offer to auto-fix issues if possible
-
-5. Use appropriate emoji indicators:
-   - 🔴 High severity
-   - 🟠 Medium severity
-   - 🟡 Low severity
-
-**Expected Output:** Formatted security report in the chat
-
-**Tools Required:** Response formatting (built-in)
-
-## Step 6: Optional - Fix Issues (User Confirmation Required)
-
-1. After presenting the results, ask the user if they want to proceed with fixes:
-   ```
-   Would you like me to fix any of these security issues?
-   - Fix all automatically
-   - Fix only dependency issues
-   - Fix specific issues (I'll ask which ones)
-   - No, I'll handle them manually
+3. Get committed changes (since last push or compared to default branch):
+   ```bash
+   # Detect default branch (fallback to main if detection fails)
+   DEFAULT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | cut -d'/' -f4 || echo "main")
+   git diff $DEFAULT_BRANCH HEAD --name-only
    ```
 
-2. If user confirms auto-fix for dependency issues:
-   - For npm: Generate and suggest `npm update [package]@[version]` commands
-   - For pip: Generate and suggest `pip install [package]==[version]` commands
-   - For other ecosystems: Provide appropriate upgrade commands
-   - Optionally execute the commands with user permission
+4. Combine and deduplicate all changed files:
+   ```bash
+   # Re-detect branch for subshell context
+   DEFAULT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | cut -d'/' -f4 || echo "main")
+   (git diff --cached --name-only; git diff --name-only; git diff $DEFAULT_BRANCH HEAD --name-only) | sort -u
+   ```
 
-3. If user confirms auto-fix for code issues:
-   - For each fixable SAST issue:
-     - Read the affected file
-     - Apply recommended code changes (sanitization, validation, etc.)
-     - Write the updated file
-   - Note: Only fix issues where Snyk provides clear remediation
+5. Filter for Snyk-supported file types:
+   - TypeScript/JavaScript: `.ts`, `.tsx`, `.js`, `.jsx`
+   - Python: `.py`
+   - Java: `.java`
+   - Go: `.go`
+   - And other Snyk-supported languages
 
-4. After applying fixes, re-run the appropriate Snyk scan(s) to verify:
-   - Issues were resolved
-   - No new issues were introduced
+6. Store list of changed files that need scanning
 
-5. Present the verification results to the user.
+### Expected Output
+- List of changed files that are Snyk-scannable
+- File count and types for reporting
 
-**Expected Output:** 
-- Fixed code files (if SAST fixes applied)
-- Updated dependency files (if SCA fixes applied)
-- Verification scan results
+---
 
-**Tools Required:** 
-- `read_file`, `search_replace`, `write` (for code fixes)
-- `run_terminal_cmd` (for dependency updates)
-- `mcp_Snyk_snyk_code_scan`, `mcp_Snyk_snyk_sca_scan` (for verification)
+## Step 3: Run Snyk Code Scan (SAST)
+
+### Purpose
+Scan changed code files for security vulnerabilities using Snyk Code static analysis.
+
+### Actions
+1. Use **mcp_Snyk_snyk_code_scan** tool with parameters:
+   - `path`: `PROJECT_PATH` (absolute path from Step 1)
+   - `severity_threshold`: `low` (scan all severities)
+   - `debug`: `false` (unless user requests debug output)
+
+2. Parse scan results:
+   - Extract issue count
+   - Identify issues in changed files (filter by file paths from Step 2)
+   - Categorize by severity: `critical`, `high`, `medium`, `low`
+   - Extract CWE codes and rule IDs for each issue
+
+3. Report findings:
+   - List all issues found in changed files
+   - Show file path, line number, severity, and issue description
+   - Highlight issues that match changed files from Step 2
+
+### Expected Output
+- Snyk scan results with issue count
+- Filtered list of issues in changed files
+- Severity breakdown and CWE codes
+
+---
+
+## Step 4: Run Snyk SCA Scan (Dependency Vulnerabilities)
+
+### Purpose
+Scan project dependencies for known vulnerabilities if package manifest files were changed.
+
+### Actions
+1. Check if dependency files were changed:
+   - `package.json`, `package-lock.json` (Node.js)
+   - `requirements.txt`, `Pipfile`, `poetry.lock` (Python)
+   - `pom.xml`, `build.gradle` (Java)
+   - `go.mod`, `go.sum` (Go)
+   - Other package manager files
+
+2. If dependency files changed, use **mcp_Snyk_snyk_sca_scan** tool with parameters:
+   - `path`: `PROJECT_PATH` (absolute path)
+   - `severity_threshold`: `low`
+   - `all_projects`: `true` (scan all detected projects)
+
+3. Parse dependency scan results:
+   - Extract vulnerable dependencies
+   - Identify fixable vulnerabilities
+   - Note upgrade paths available
+
+### Expected Output
+- Dependency vulnerability report (if applicable)
+- List of vulnerable packages and available fixes
+
+---
+
+## Step 5: Run Snyk IaC Scan (Infrastructure as Code)
+
+### Purpose
+Scan infrastructure code files if any IaC files were changed.
+
+### Actions
+1. Check if IaC files were changed:
+   - Terraform: `.tf`, `.tf.json`
+   - Kubernetes: `.yaml`, `.yml` (in k8s/ or similar directories)
+   - CloudFormation: `.yaml`, `.yml`, `.json`
+   - Dockerfile
+   - Other IaC formats
+
+2. If IaC files changed, use **mcp_Snyk_snyk_iac_scan** tool with parameters:
+   - `path`: `PROJECT_PATH` (absolute path)
+   - `severity_threshold`: `low`
+
+3. Parse IaC scan results:
+   - Extract misconfigurations
+   - Identify security issues in infrastructure code
+
+### Expected Output
+- IaC security misconfiguration report (if applicable)
+- List of infrastructure security issues
+
+---
+
+## Step 6: Analyze and Prioritize Issues
+
+### Purpose
+Review all scan results and prioritize issues for fixing, focusing on changed files.
+
+### Actions
+1. Consolidate all findings from Steps 3, 4, and 5
+
+2. Filter issues to only those in changed files (from Step 2)
+
+3. Prioritize by severity:
+   - Critical and High severity issues first
+   - Medium severity issues second
+   - Low severity issues last
+
+4. Identify auto-fixable issues:
+   - Code issues with clear remediation paths
+   - Dependency issues with available upgrades
+   - IaC issues with straightforward fixes
+
+5. Present summary to user:
+   - Total issues found in changed files
+   - Breakdown by severity
+   - Number of auto-fixable issues
+
+### Expected Output
+- Prioritized list of security issues in changed files
+- Summary of fixable vs manual-review issues
+
+---
+
+## Step 7: Automatically Fix Security Issues
+
+### Purpose
+Apply automatic fixes to security issues where possible, following Snyk recommendations.
+
+### Actions
+1. For each fixable issue identified in Step 6:
+
+   **Code Issues (SAST):**
+   - Read the affected file
+   - Analyze the issue context from Snyk dataflow
+   - Apply recommended fixes:
+     - Input validation and sanitization
+     - Secure coding patterns
+     - Remove hardcoded secrets (move to environment variables)
+     - Fix path traversal vulnerabilities
+     - Address XSS vulnerabilities
+   - Write fixed code back to file
+
+   **Dependency Issues (SCA):**
+   - Identify vulnerable packages with available upgrades
+   - Update package manifest files (package.json, requirements.txt, etc.)
+   - Run specific package manager update commands:
+     - **Node.js**: `npm update <package>` or `npm audit fix` (use `--force` only if necessary and safe)
+     - **Python**: Update `requirements.txt` and run `pip install -r requirements.txt --upgrade`
+     - **Java**: Update version in `pom.xml` (Maven) or `build.gradle` (Gradle)
+     - **Go**: `go get -u <package>@<version>` and `go mod tidy`
+     - **Rust**: `cargo update -p <package>`
+     - **Ruby**: `bundle update <gem>`
+   - Verify lockfiles are updated and consistent
+
+   **IaC Issues:**
+   - **Auto-fix Restriction**: Only apply automatic fixes to low-risk categories (e.g., linting, formatting, trivial config defaults).
+   - **Manual Approval Required**: For any changes to Terraform, Kubernetes, or CloudFormation that could affect production state:
+     - Generate a detailed plan/diff of the proposed changes.
+     - Require explicit user opt-in/approval before applying.
+     - Prefer creating a separate PR or backup rather than direct application.
+     - Run validation checks (e.g., `terraform validate`, `kubectl dry-run`) if possible.
+   - Apply security best practices (e.g., adding resource tags, enabling encryption flags) only if verified safe.
+   - Fix misconfigurations based on Snyk recommendations only after safety check.
+
+2. Document all fixes applied:
+   - File path and line numbers
+   - Issue type and severity
+   - Fix description
+
+### Expected Output
+- Modified files with security fixes applied
+- Summary of fixes applied per file
+
+---
+
+## Step 8: Rescan to Verify Fixes
+
+### Purpose
+Re-run Snyk scans to confirm that fixes resolved the issues and no new issues were introduced.
+
+### Actions
+1. Re-run **mcp_Snyk_snyk_code_scan** on fixed files:
+   - Use same parameters as Step 3
+   - Focus on previously identified files
+
+2. If dependencies were updated, re-run **mcp_Snyk_snyk_sca_scan**:
+   - Verify vulnerable packages are updated
+   - Check for new vulnerabilities introduced
+
+3. If IaC files were fixed, re-run **mcp_Snyk_snyk_iac_scan**:
+   - Verify misconfigurations are resolved
+
+4. Compare results:
+   - Confirm original issues are resolved
+   - Check for any new issues introduced by fixes
+   - If new issues found, return to Step 7
+
+### Expected Output
+- Verification that original issues are fixed
+- Confirmation no new issues were introduced
+- Final security status report
+
+---
+
+## Step 9: Generate Final Report
+
+### Purpose
+Provide comprehensive summary of scan results, fixes applied, and remaining issues (if any).
+
+### Actions
+1. Compile final report with:
+   - Initial scan results summary
+   - Issues found in changed files
+   - Fixes applied (with file paths and line numbers)
+   - Verification scan results
+   - Remaining issues requiring manual review (if any)
+
+2. Present report to user:
+   - Total issues found
+   - Issues fixed automatically
+   - Issues requiring manual attention
+   - Recommendations for remaining issues
+
+3. If all issues are resolved:
+   - Confirm code is secure for commit
+   - Provide summary of security improvements
+
+### Expected Output
+- Comprehensive security scan and fix report
+- Clear status of all security issues
+- Action items for any remaining manual fixes
+
+---
 
 </detailed_sequence_steps>
-
-<how_to_ask_followup_question>
-<question>Would you like me to fix any of these security issues?</question>
-<options>["Fix all automatically", "Fix only dependency issues", "Fix specific issues (I'll specify)", "No, I'll handle them manually"]</options>
-</how_to_ask_followup_question>
 
 </task>
 

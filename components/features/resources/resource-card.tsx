@@ -21,6 +21,7 @@ import { MagicCard } from '@/components/ui/magic-card'
 import { McpLogo } from '@/components/ui/mcp-logo'
 import { ANIMATIONS, countRollUp } from '@/lib/animations'
 import { useEffect, useState } from 'react'
+import { ChevronDown, ChevronUp } from 'lucide-react'
 
 interface ResourceCardProps {
   resource: ResourceMetadata
@@ -38,6 +39,21 @@ export function ResourceCard({
   const TypeIconComponent = getResourceTypeIcon(resource.type)
   const shouldReduceMotion = useReducedMotion()
   const [displayCount, setDisplayCount] = useState(downloadCount)
+  const [isExpanded, setIsExpanded] = useState(false)
+
+  const description = resource.description || resource.excerpt || ''
+  const CHAR_LIMIT = 150
+  const shouldShowExpand = description.length > CHAR_LIMIT
+
+  const getTruncatedText = (text: string, limit: number) => {
+    if (text.length <= limit) return text
+    const truncated = text.slice(0, limit)
+    const lastSpace = truncated.lastIndexOf(' ')
+    return lastSpace > 0 ? truncated.slice(0, lastSpace) + '...' : truncated + '...'
+  }
+
+  const displayDescription =
+    isExpanded || !shouldShowExpand ? description : getTruncatedText(description, CHAR_LIMIT)
 
   useEffect(() => {
     if (downloadCount !== displayCount) {
@@ -99,11 +115,34 @@ export function ResourceCard({
           </CardHeader>
 
           <CardContent className="p-5">
-            <p className="line-clamp-3 text-sm leading-relaxed text-muted-foreground/90">
-              {resource.description || resource.excerpt}
-            </p>
+            <div className="space-y-3">
+              <p className="text-sm leading-relaxed text-muted-foreground/90">
+                {displayDescription}
+              </p>
+              {shouldShowExpand && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setIsExpanded(!isExpanded)}
+                  className="h-7 text-xs text-muted-foreground hover:text-foreground p-0"
+                  aria-label={isExpanded ? 'Show less' : 'Read more'}
+                >
+                  {isExpanded ? (
+                    <>
+                      <ChevronUp className="w-3 h-3 mr-1" />
+                      Show less
+                    </>
+                  ) : (
+                    <>
+                      <ChevronDown className="w-3 h-3 mr-1" />
+                      Read more
+                    </>
+                  )}
+                </Button>
+              )}
+            </div>
             {resource.tags.length > 0 && (
-              <div className="flex flex-wrap gap-2 mt-4">
+              <div className="flex flex-wrap gap-2 mt-3">
                 {resource.tags.slice(0, 3).map((tag, index) => (
                   <Badge
                     key={index}
@@ -142,7 +181,13 @@ export function ResourceCard({
                     size="sm"
                     className="flex-1 font-semibold h-9"
                   />
-                  <Button variant="outline" size="sm" onClick={onPreview} className="px-4 h-9">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={onPreview}
+                    className="px-4 h-9"
+                    aria-label={`Preview ${resource.title}`}
+                  >
                     <Eye className="h-4 w-4" />
                   </Button>
                 </>
@@ -153,7 +198,13 @@ export function ResourceCard({
                     size="sm"
                     className="flex-1 font-semibold h-9"
                   />
-                  <Button variant="outline" size="sm" onClick={onPreview} className="px-4 h-9">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={onPreview}
+                    className="px-4 h-9"
+                    aria-label={`Preview ${resource.title}`}
+                  >
                     <Eye className="h-4 w-4" />
                   </Button>
                 </>

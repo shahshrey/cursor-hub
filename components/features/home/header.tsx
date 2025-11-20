@@ -6,6 +6,7 @@ import { RainbowButton } from '@/components/ui/rainbow-button'
 import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 import { Home } from 'lucide-react'
 import { CursorLogo } from '@/components/ui/cursor-logo'
+import { FavoritesLink } from './favorites-link'
 
 export function Header() {
   return (
@@ -19,20 +20,21 @@ export function Header() {
         <nav className="flex items-center gap-3">
           <SignedOut>
             <Link href="/signin">
-              <Button variant="ghost" size="sm">
+              <Button variant="ghost" size="sm" className="min-h-[44px] touch-manipulation">
                 Sign In
               </Button>
             </Link>
             <Link href="/signup">
-              <RainbowButton size="sm" className="shadow-md">
+              <RainbowButton size="sm" className="shadow-md min-h-[44px] touch-manipulation">
                 Sign Up
               </RainbowButton>
             </Link>
           </SignedOut>
 
           <SignedIn>
+            <FavoritesLink />
             <Link href="/dashboard">
-              <Button variant="ghost" size="sm">
+              <Button variant="ghost" size="sm" className="min-h-[44px] touch-manipulation">
                 Dashboard
               </Button>
             </Link>

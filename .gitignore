@@ -62,3 +62,6 @@ supabase-local-credentials.txt
 playwright-report/
 test-results/
 tests/**/*.png
+
+# TestSprite test outputs
+testsprite_tests/tmp/
