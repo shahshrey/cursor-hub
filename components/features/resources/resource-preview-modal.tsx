@@ -93,7 +93,12 @@ export function ResourcePreviewModal({ resource, isOpen, onClose }: ResourcePrev
     }
 
     window.addEventListener('keydown', onKeyDown)
-    return () => window.removeEventListener('keydown', onKeyDown)
+    return () => {
+      window.removeEventListener('keydown', onKeyDown)
+      if (originalOverflowRef.current !== undefined) {
+        document.body.style.overflow = originalOverflowRef.current
+      }
+    }
   }, [isOpen, onClose])
 
   useOutsideClick(ref, onClose)
@@ -340,8 +345,6 @@ export function ResourcePreviewModal({ resource, isOpen, onClose }: ResourcePrev
               onAnimationComplete={() => {
                 if (isOpen) {
                   ref.current?.querySelector<HTMLElement>('[aria-label="Close preview"]')?.focus()
-                } else {
-                  document.body.style.overflow = originalOverflowRef.current || ''
                 }
               }}
             >

@@ -66,21 +66,15 @@ export async function toggleFavorite(
 export async function getFavorites(): Promise<
   Array<{ resource_slug: string; resource_type: ResourceType; created_at: string }>
 > {
-  const { userId } = await auth()
-  if (!userId) return []
-  return queryGetFavorites(userId)
+  return queryGetFavorites()
 }
 
 export async function getFavoritesByType(
   type: ResourceType
 ): Promise<Array<{ resource_slug: string; resource_type: ResourceType; created_at: string }>> {
-  const { userId } = await auth()
-  if (!userId) return []
-  return queryGetFavoritesByType(userId, type)
+  return queryGetFavoritesByType(type)
 }
 
 export async function isFavorited(slug: string): Promise<boolean> {
-  const { userId } = await auth()
-  if (!userId) return false
-  return queryIsFavorited(userId, slug)
+  return queryIsFavorited(slug)
 }

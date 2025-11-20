@@ -52,6 +52,7 @@ export function FavoritesLink() {
         size="sm"
         className="relative min-h-[44px] touch-manipulation"
         disabled
+        aria-label="Favorites (loading)"
       >
         <Heart className="w-4 h-4 mr-1.5 animate-pulse opacity-50" />
         <span className="hidden sm:inline">Favorites</span>
