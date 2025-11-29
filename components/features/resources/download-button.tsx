@@ -38,10 +38,8 @@ export function DownloadButton({
       const a = document.createElement('a')
       a.href = url
       a.download = resource.fileName
-      document.body.appendChild(a)
       a.click()
       window.URL.revokeObjectURL(url)
-      document.body.removeChild(a)
 
       toast.success(`Downloaded ${resource.fileName}`)
 

@@ -6,6 +6,7 @@ import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { ResourceGridSkeleton } from '@/components/features/resources/resource-card-skeleton'
 import { CursorLogo } from '@/components/ui/cursor-logo'
+import { Breadcrumb } from '@/components/ui/breadcrumb'
 
 export const revalidate = 86400
 
@@ -19,6 +20,7 @@ export default async function BrowsePage() {
       <Header />
 
       <section className="container mx-auto px-4 py-8">
+        <Breadcrumb items={[{ label: 'Browse Resources' }]} className="mb-6" />
         <Suspense fallback={<ResourceGridSkeleton />}>
           <TerminalResourceBrowser
             initialResources={initialData}

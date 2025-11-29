@@ -4,16 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Badge } from '@/components/ui/badge'
-import {
-  Search,
-  ArrowUpDown,
-  Save,
-  Package,
-  Zap,
-  Clipboard,
-  GitBranch,
-  ArrowLeft,
-} from 'lucide-react'
+import { Search, ArrowUpDown, Save, Package, Zap, Clipboard, GitBranch } from 'lucide-react'
 import type { ResourceType } from '@/types/resources'
 import type { FilterCounts } from '@/lib/filter-counts'
 import type { FilterPreset } from '@/lib/preset-storage'
@@ -79,7 +70,13 @@ export function HorizontalFilterBar({
   onDeletePreset,
   onToggleStarPreset,
 }: HorizontalFilterBarProps) {
-  const hasActiveFilters = activeType !== 'all' || activeCategory || searchQuery
+  const hasActiveFilters = activeType !== 'all' || activeCategory || searchQuery.trim().length >= 2
+  const activeFilterCount = [
+    activeType !== 'all' ? 1 : 0,
+    activeCategory ? 1 : 0,
+    searchQuery.trim().length >= 2 ? 1 : 0,
+  ].reduce((a, b) => a + b, 0)
+
   const getTypeCount = (type: ResourceType | 'all'): number => {
     if (!filterCounts) return 0
 
@@ -94,58 +91,66 @@ export function HorizontalFilterBar({
     return filterCounts.byCategoryAndType[activeCategory]?.[type] || 0
   }
 
+  const handleClearFilters = () => {
+    onTypeChange('all')
+    onCategoryChange('')
+    onSearchChange('')
+  }
+
   return (
     <div className="sticky top-16 z-20 border-b border-border backdrop-blur-xl bg-card/30">
       <div className="container mx-auto px-4 py-4 space-y-4">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex items-start gap-3 w-full lg:w-[480px]">
-            <Link href="/" className="mt-1">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-9 w-9 shrink-0 hover:bg-background/50"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                <span className="sr-only">Back to Home</span>
-              </Button>
-            </Link>
-            <div className="flex flex-col gap-2 flex-1">
-              <div className="relative">
-                <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  type="search"
-                  inputMode="search"
-                  placeholder="Search resources…"
-                  value={searchQuery}
-                  onChange={event => onSearchChange(event.target.value)}
-                  maxLength={100}
-                  aria-label="Search resources"
-                  className="pl-10 h-9 text-sm terminal-font bg-background/50 focus-visible:ring-primary/20"
-                />
-              </div>
-              <div
-                className="flex items-center gap-2 text-xs text-muted-foreground terminal-font pl-1"
-                aria-live="polite"
-              >
-                <Badge variant="outline" className="text-[11px]">
-                  {resultsCount.toLocaleString()}/{totalCount.toLocaleString()} results
-                </Badge>
-                {filterCounts && activeType !== 'all' && (
-                  <span>
-                    {getTypeCount(activeType).toLocaleString()} {activeType}s
-                    {activeCategory && ` in ${activeCategory}`}
-                  </span>
-                )}
-              </div>
+          <div className="flex flex-col gap-2 w-full lg:w-[440px]">
+            <div className="relative">
+              <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                type="search"
+                inputMode="search"
+                placeholder="Search resources…"
+                value={searchQuery}
+                onChange={event => onSearchChange(event.target.value)}
+                aria-label="Search resources"
+                className="pl-10 h-9 text-sm terminal-font"
+              />
+            </div>
+            <div
+              className="flex items-center gap-2 text-xs text-muted-foreground terminal-font"
+              aria-live="polite"
+            >
+              <Badge variant="outline" className="text-[11px]">
+                {resultsCount.toLocaleString()}/{totalCount.toLocaleString()} results
+              </Badge>
+              {filterCounts && activeType !== 'all' && (
+                <span>
+                  {getTypeCount(activeType).toLocaleString()} {activeType}s
+                  {activeCategory && ` in ${activeCategory}`}
+                </span>
+              )}
             </div>
           </div>
           <div className="flex items-center gap-2 flex-wrap justify-end">
+            {hasActiveFilters && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleClearFilters}
+                className="terminal-font shrink-0 min-h-[44px] touch-manipulation"
+                aria-label={`Clear ${activeFilterCount} active filter${activeFilterCount !== 1 ? 's' : ''}`}
+              >
+                <X className="w-4 h-4 mr-1.5" />
+                <span className="hidden sm:inline">Clear filters</span>
+                <Badge variant="secondary" className="ml-1.5 h-5 min-w-[20px] px-1.5 text-[10px]">
+                  {activeFilterCount}
+                </Badge>
+              </Button>
+            )}
             {hasActiveFilters && onSavePreset && (
               <Button
                 variant="outline"
                 size="sm"
                 onClick={onSavePreset}
-                className="terminal-font shrink-0"
+                className="terminal-font shrink-0 min-h-[44px] touch-manipulation"
                 aria-label="Save current filters as preset"
               >
                 <Save className="w-4 h-4 mr-2" />
@@ -165,7 +170,7 @@ export function HorizontalFilterBar({
               variant="outline"
               size="sm"
               onClick={onSortClick}
-              className="terminal-font shrink-0"
+              className="terminal-font shrink-0 min-h-[44px] touch-manipulation"
               aria-live="polite"
               aria-label={`Change sort order. Current order ${sortLabels[sortBy]}`}
             >

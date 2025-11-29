@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo, useEffect } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import dynamic from 'next/dynamic'
 import type { ResourceMetadata, ResourceType, ResourceDownloadData } from '@/types/resources'
 import { ResourceCard } from './resource-card'
@@ -52,14 +52,18 @@ export function TerminalResourceBrowser({
   categories,
 }: TerminalResourceBrowserProps) {
   const searchParams = useSearchParams()
+  const router = useRouter()
+  const pathname = usePathname()
   const urlType = searchParams?.get('type') as ResourceType | null
   const urlCategory = searchParams?.get('category') || ''
+  const urlQuery = searchParams?.get('q') || ''
+  const urlSort = (searchParams?.get('sort') as SortOption) || 'downloads'
 
-  const [searchQuery, setSearchQuery] = useState('')
-  const [debouncedQuery, setDebouncedQuery] = useState('')
+  const [searchQuery, setSearchQuery] = useState(urlQuery)
+  const [debouncedQuery, setDebouncedQuery] = useState(urlQuery)
   const [activeType, setActiveType] = useState<ResourceType | 'all'>(urlType || 'all')
   const [activeCategory, setActiveCategory] = useState(urlCategory)
-  const [sortBy, setSortBy] = useState<SortOption>('downloads')
+  const [sortBy, setSortBy] = useState<SortOption>(urlSort)
   const [isSearching, setIsSearching] = useState(false)
   const [previewResource, setPreviewResource] = useState<ResourceMetadata | null>(null)
   const [isPreviewOpen, setIsPreviewOpen] = useState(false)
@@ -71,6 +75,43 @@ export function TerminalResourceBrowser({
   )
   const [downloadCounts, setDownloadCounts] = useState<Record<string, number>>({})
   const [isSavePresetOpen, setIsSavePresetOpen] = useState(false)
+
+  useEffect(() => {
+    // Initialize params from current searchParams to preserve other query params
+    const params = new URLSearchParams(searchParams?.toString())
+
+    if (searchQuery) params.set('q', searchQuery)
+    else params.delete('q')
+
+    if (activeType !== 'all') params.set('type', activeType)
+    else params.delete('type')
+
+    if (activeCategory) params.set('category', activeCategory)
+    else params.delete('category')
+
+    if (sortBy !== 'downloads') params.set('sort', sortBy)
+    else params.delete('sort')
+
+    const newSearch = params.toString()
+    const newUrl = newSearch ? `${pathname}?${newSearch}` : pathname
+
+    const currentSearch = searchParams?.toString() || ''
+    const currentUrl = currentSearch ? `${pathname}?${currentSearch}` : pathname
+
+    // Only replace if the URL has actually changed
+    if (newUrl !== currentUrl) {
+      router.replace(newUrl, { scroll: false })
+    }
+
+    const filterState = {
+      searchQuery,
+      activeType,
+      activeCategory,
+      sortBy,
+      timestamp: Date.now(),
+    }
+    localStorage.setItem('browse-filters', JSON.stringify(filterState))
+  }, [searchQuery, activeType, activeCategory, sortBy, pathname, router, searchParams])
 
   useEffect(() => {
     const hasActiveFilters =

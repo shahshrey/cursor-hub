@@ -1,0 +1,149 @@
+---
+description: Frontend security best practices for DOM manipulation and XSS prevention
+globs: ["**/*.{ts,tsx,js,jsx}"]
+alwaysApply: true
+---
+
+# Frontend Security Best Practices
+
+## Critical Rules
+
+- **NEVER manipulate DOM directly with unsanitized user data** - Always sanitize or validate user-controlled data before using it in `document.createElement()`, `element.innerHTML`, `element.setAttribute()`, `document.body.appendChild()`, or any DOM manipulation APIs
+- **Validate and sanitize all inputs before DOM operations** - User inputs, API responses, URL parameters, and any external data must be validated and sanitized before being used in DOM manipulation
+- **Use React's built-in escaping** - Prefer React's JSX rendering which automatically escapes content; only use `dangerouslySetInnerHTML` when absolutely necessary and always sanitize with DOMPurify first
+- **Sanitize file names and paths** - Before using user-provided file names in `element.download`, `element.href`, or file operations, validate and sanitize to prevent path traversal and XSS
+- **Validate URLs before assignment** - Always validate URLs before assigning to `element.href`, `window.location`, or using in `fetch()` calls; use `URL` constructor or validation functions
+- **Avoid direct DOM manipulation in React** - Prefer React's declarative patterns over imperative DOM manipulation (`document.createElement`, `appendChild`, `removeChild`); if necessary, use refs and React's lifecycle methods
+- **Sanitize blob URLs and object URLs** - When creating blob URLs from user data or API responses, ensure the source data is validated; use `URL.revokeObjectURL()` immediately after use to prevent memory leaks
+- **Never trust client-side data** - All data from APIs, user inputs, localStorage, sessionStorage, or URL parameters must be treated as potentially malicious and validated server-side when possible
+- **Use Content Security Policy** - Implement CSP headers to restrict resource loading and prevent inline script execution
+- **Escape special characters** - When building HTML strings or attributes, escape `<`, `>`, `"`, `'`, and `&` characters; React does this automatically for JSX, but not for `dangerouslySetInnerHTML`
+
+## DOM Manipulation Safety Patterns
+
+**Safe patterns:**
+- Use React components and JSX for rendering (automatic escaping)
+- Use refs for DOM access when necessary
+- Validate data before DOM operations
+- Use DOMPurify for HTML sanitization
+- Use `URL` constructor for URL validation
+- Use `encodeURIComponent()` for URL parameters
+
+**Unsafe patterns to avoid:**
+- Direct `innerHTML` assignment with user data
+- `document.createElement()` with unsanitized attributes
+- `element.setAttribute()` with user-controlled values
+- `document.body.appendChild()` without validation
+- Building HTML strings with template literals containing user data
+- Using `eval()` or `Function()` constructor with user input
+
+## Examples
+
+<example>
+  ✅ **CORRECT - Safe DOM manipulation with validation**:
+  ```typescript
+  const handleDownload = async (fileName: string) => {
+    // Validate and sanitize file name
+    const sanitizedFileName = fileName.replace(/[^a-zA-Z0-9._-]/g, '_')
+    
+    // Validate resourceId to prevent injection in URL
+    if (!resourceId || typeof resourceId !== 'string' || !/^[a-zA-Z0-9_-]+$/.test(resourceId)) {
+      throw new Error('Invalid resource ID')
+    }
+    
+    const response = await fetch(`/api/download/${resourceId}`)
+    const blob = await response.blob()
+    const url = window.URL.createObjectURL(blob)
+    
+    // Use React ref or create element safely
+    const link = document.createElement('a')
+    link.href = url
+    link.download = sanitizedFileName // Sanitized value
+    link.style.display = 'none'
+    
+    document.body.appendChild(link)
+    link.click()
+    
+    // Cleanup immediately
+    window.URL.revokeObjectURL(url)
+    document.body.removeChild(link)
+  }
+  ```
+
+  ✅ **CORRECT - React component with proper escaping**:
+  ```typescript
+  interface ResourceCardProps {
+    title: string
+    description: string
+  }
+  
+  export function ResourceCard({ title, description }: ResourceCardProps) {
+    // React automatically escapes these values
+    return (
+      <div>
+        <h3>{title}</h3>
+        <p>{description}</p>
+      </div>
+    )
+  }
+  ```
+
+  ✅ **CORRECT - Sanitized HTML with DOMPurify**:
+  ```typescript
+  import DOMPurify from 'dompurify'
+  
+  export function SafeHTMLContent({ html }: { html: string }) {
+    const sanitized = DOMPurify.sanitize(html, {
+      ALLOWED_TAGS: ['p', 'b', 'i', 'em', 'strong', 'a'],
+      ALLOWED_ATTR: ['href', 'target']
+    })
+    
+    return <div dangerouslySetInnerHTML={{ __html: sanitized }} />
+  }
+  ```
+</example>
+
+<example type="invalid">
+  ❌ **WRONG - Unsanitized DOM manipulation** (from stack-builder.tsx):
+  ```typescript
+  const handleDownloadAll = async () => {
+    for (const resource of stack) {
+      const response = await fetch(`/api/resources/download/${resource.slug}`)
+      const blob = await response.blob()
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = resource.fileName // UNSAFE: No validation/sanitization
+      document.body.appendChild(a) // UNSAFE: Appending without validation
+      a.click()
+      window.URL.revokeObjectURL(url)
+      document.body.removeChild(a)
+    }
+  }
+  ```
+  This violates the rule because `resource.fileName` is used directly without sanitization, and DOM elements are manipulated without validation.
+
+  ❌ **WRONG - Direct innerHTML with user data**:
+  ```typescript
+  function displayUserContent(userInput: string) {
+    const div = document.getElementById('content')
+    div.innerHTML = userInput // UNSAFE: No sanitization
+  }
+  ```
+
+  ❌ **WRONG - Building HTML strings with user data**:
+  ```typescript
+  function createLink(url: string, text: string) {
+    return `<a href="${url}">${text}</a>` // UNSAFE: No escaping
+  }
+  ```
+
+  ❌ **WRONG - Unsafe attribute assignment**:
+  ```typescript
+  function setImageSource(userUrl: string) {
+    const img = document.createElement('img')
+    img.src = userUrl // UNSAFE: No URL validation
+    document.body.appendChild(img)
+  }
+  ```
+</example>

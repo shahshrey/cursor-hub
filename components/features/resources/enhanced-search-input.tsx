@@ -34,6 +34,17 @@ export function EnhancedSearchInput({
   const inputRef = useRef<HTMLInputElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const shouldReduceMotion = useReducedMotion()
+  const [modifierKey, setModifierKey] = useState('Ctrl')
+
+  useEffect(() => {
+    if (
+      typeof window !== 'undefined' &&
+      typeof navigator !== 'undefined' &&
+      navigator.platform.includes('Mac')
+    ) {
+      setModifierKey('⌘')
+    }
+  }, [])
 
   useEffect(() => {
     const stored = localStorage.getItem(SEARCH_HISTORY_KEY)
@@ -177,7 +188,7 @@ export function EnhancedSearchInput({
           }}
           onFocus={() => setIsFocused(true)}
           onKeyDown={handleKeyDown}
-          className="pl-10 pr-20 h-9 text-sm terminal-font"
+          className="pl-10 pr-20 h-12 text-base terminal-font"
         />
         <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
           {value && (
@@ -201,7 +212,7 @@ export function EnhancedSearchInput({
           {!value && (
             <div className="hidden sm:flex items-center gap-1 text-xs text-muted-foreground">
               <kbd className="px-1.5 py-0.5 text-xs font-semibold text-muted-foreground bg-muted border border-border rounded">
-                {navigator.platform.includes('Mac') ? '⌘' : 'Ctrl'}
+                {modifierKey}
               </kbd>
               <kbd className="px-1.5 py-0.5 text-xs font-semibold text-muted-foreground bg-muted border border-border rounded">
                 K

@@ -67,6 +67,7 @@ export function FavoriteButton({
           toast.success('Removed from favorites')
         }
         setIsFavorited(result.isFavorited)
+        window.dispatchEvent(new CustomEvent('favorite-changed'))
       }
     } catch (error) {
       console.error('Favorite toggle error:', error)
