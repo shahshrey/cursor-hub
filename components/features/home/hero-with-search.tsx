@@ -4,10 +4,12 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { Search, Sparkles, ArrowRight } from 'lucide-react'
+import { Search, Sparkles, ArrowRight, Command, FileCode, Terminal } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { RainbowButton } from '@/components/ui/rainbow-button'
 import { Input } from '@/components/ui/input'
+import { McpLogo } from '@/components/ui/mcp-logo'
+import { Badge } from '@/components/ui/badge'
 
 interface HeroWithSearchProps {
   totalResources: number
@@ -83,12 +85,53 @@ export function HeroWithSearch({ totalResources, userId }: HeroWithSearchProps) 
                 placeholder="Search commands, rules, MCPs, hooks..."
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                className="pl-10 h-12 text-base"
+                maxLength={100}
+                className="pl-10 h-12 text-base bg-background/50 border-white/10 focus-visible:border-primary/50 focus-visible:ring-primary/20 backdrop-blur-sm transition-all"
               />
             </div>
             <RainbowButton type="submit" size="lg" className="px-8 h-12">
               Search
             </RainbowButton>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-center gap-3 mt-6">
+            <span className="text-sm text-muted-foreground">Popular:</span>
+            <Link href="/browse?type=command">
+              <Badge
+                variant="secondary"
+                className="px-3 py-1.5 hover:bg-primary/20 hover:text-primary transition-colors cursor-pointer gap-1.5"
+              >
+                <Command className="w-3.5 h-3.5" />
+                Commands
+              </Badge>
+            </Link>
+            <Link href="/browse?type=rule">
+              <Badge
+                variant="secondary"
+                className="px-3 py-1.5 hover:bg-primary/20 hover:text-primary transition-colors cursor-pointer gap-1.5"
+              >
+                <FileCode className="w-3.5 h-3.5" />
+                Rules
+              </Badge>
+            </Link>
+            <Link href="/browse?type=mcp">
+              <Badge
+                variant="secondary"
+                className="px-3 py-1.5 hover:bg-primary/20 hover:text-primary transition-colors cursor-pointer gap-1.5"
+              >
+                <McpLogo size={14} />
+                MCPs
+              </Badge>
+            </Link>
+            <Link href="/browse?type=hook">
+              <Badge
+                variant="secondary"
+                className="px-3 py-1.5 hover:bg-primary/20 hover:text-primary transition-colors cursor-pointer gap-1.5"
+              >
+                <Terminal className="w-3.5 h-3.5" />
+                Hooks
+              </Badge>
+            </Link>
           </div>
         </motion.form>
 

@@ -1,0 +1,56 @@
+---
+description: Apply this rule when writing code that involves user input, file system access, authentication, or sensitive data handling. It enforces OWASP Top 10 security practices, specifically focusing on Input Validation, Injection Prevention, and Access Control.
+globs: 
+alwaysApply: false
+---
+
+# OWASP Top 10 Security Standards
+
+## Critical Rules
+
+- **Enforce Input Length Limits**: All user-facing text inputs (e.g., `<Input />`, `<textarea>`) MUST have a `maxLength` attribute defined to prevent Denial of Service (ReDoS) and buffer overflow issues.
+- **Sanitize URL Parameters**: Always use `encodeURIComponent()` when constructing URLs with dynamic parameters to prevent Injection and XSS.
+- **Prevent Path Traversal**: When resolving file paths based on user input, ALWAYS validate that the resolved path starts with the expected base directory using `path.resolve()` and `startsWith()`.
+- **Output Encoding**: Rely on framework built-in escaping (e.g., React's default protection) and avoid `dangerouslySetInnerHTML` unless absolutely necessary and sanitized.
+- **Fail Securely**: Ensure error handling does not leak sensitive stack traces or system paths to the client.
+
+## Examples
+
+<example>
+// ✅ CORRECT - Secure Input and URL Handling
+import { Input } from '@/components/ui/input'
+
+// Frontend: Enforce constraints
+<Input 
+  value={searchQuery}
+  onChange={e => setSearchQuery(e.target.value)}
+  maxLength={100} // Critical: Prevent unbounded input
+/>
+
+// URL Construction
+router.push(`/browse?q=${encodeURIComponent(searchQuery.trim())}`)
+
+// Backend: Path Traversal Check
+const resolvedPath = path.resolve(BASE_DIR, userInputPath)
+if (!resolvedPath.startsWith(path.resolve(BASE_DIR))) {
+  throw new Error('Access denied')
+}
+</example>
+
+<example type="invalid">
+// ❌ WRONG - Missing Constraints and Unsafe Handling
+import { Input } from '@/components/ui/input'
+
+// Missing maxLength - Vulnerable to large payloads
+<Input 
+  value={searchQuery}
+  onChange={e => setSearchQuery(e.target.value)} 
+/>
+
+// Potential Injection
+router.push(`/browse?q=${searchQuery}`) 
+
+// Vulnerable to Path Traversal
+const filePath = path.join(BASE_DIR, userInputPath) // No validation!
+const content = fs.readFileSync(filePath)
+</example>
