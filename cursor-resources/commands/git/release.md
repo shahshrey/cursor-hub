@@ -1,7 +1,7 @@
 <task name="Git Flow Release Branch">
 
 <task_objective>
-Create a new Git Flow release branch from develop with version bumping and changelog generation. Takes a semantic version as input, validates the version format, creates a release branch, updates package.json and CHANGELOG.md, and prepares the release for deployment to production.
+Execute creation of a Git Flow release branch from develop with version bumping and changelog preparation. This command helps take a semantic version as input, validate the version format, create the release branch, update package.json and CHANGELOG.md, and prepare the release for deployment to production.
 </task_objective>
 
 <detailed_sequence_steps>

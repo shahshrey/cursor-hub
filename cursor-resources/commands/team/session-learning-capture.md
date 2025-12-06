@@ -1,7 +1,7 @@
 <task name="Session Learning Capture">
 
 <task_objective>
-Capture and document session learnings with automatic knowledge integration and memory updates. Process project learnings, implementation corrections, structure insights, and workflow improvements by detecting new knowledge, classifying and categorizing it, analyzing context, and integrating updates into project memory files while maintaining consistency and validating accuracy.
+Conduct capture and documentation of session learnings with automatic knowledge integration and memory updates. This command helps process project learnings, implementation corrections, structural insights, and workflow improvements by detecting new knowledge, classifying it, analyzing context, and integrating updates into memory files while maintaining consistency and validating accuracy.
 </task_objective>
 
 <detailed_sequence_steps>

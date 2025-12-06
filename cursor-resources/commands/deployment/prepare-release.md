@@ -1,7 +1,7 @@
 <task name="Prepare Release">
 
 <task_objective>
-Prepare and validate release packages with comprehensive testing, documentation, and automation. The workflow processes current version from !`git describe --tags --abbrev=0`, package version files, unreleased changes count, uncommitted changes status, and build status to systematically prepare a production-ready release with proper versioning, changelog generation, testing validation, documentation updates, and deployment readiness verification.
+Execute thorough preparation and validation of release packages with comprehensive testing, documentation, and automation. This command helps proce current version from !`git describe --tags --abbrev=0`, package version files, unreleased changes count, uncommitted changes status, and build status to systematically prepare a production-ready release with proper versioning, changelog generation, testing validation, documentation updates, and deployment readiness verification.
 </task_objective>
 
 <detailed_sequence_steps>

@@ -1,7 +1,7 @@
 <task name="Test Changelog Automation">
 
 <task_objective>
-Automate changelog testing workflow with comprehensive CI integration and validation. This workflow configures changelog generation, implements testing and validation workflows, and integrates with CI/CD systems for automated execution. The output is a complete changelog automation system with testing workflows, CI integration, validation rules, and maintenance procedures.
+Execute automated changelog testing with CI validation across release workflows. This command helps configure changelog generation, implement validation steps, and integrate automation into CI/CD with clear rules and maintenance procedures.
 </task_objective>
 
 <detailed_sequence_steps>

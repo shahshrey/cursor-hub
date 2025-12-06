@@ -1,7 +1,7 @@
 <task name="Migrate Svelte Version">
 
 <task_objective>
-Migrate Svelte/SvelteKit projects between versions, adopt new features like runes, and handle breaking changes. Input: Current Svelte/SvelteKit version, target version, codebase files, and migration requirements. Process: Analyze current implementation, create migration plan, update dependencies, run automated migration tools, convert syntax to new patterns, handle breaking changes, update configurations, and test thoroughly. Output: Fully migrated codebase with updated syntax, working application with all tests passing, updated configuration files, migration documentation with changes made, and rollback strategy if needed.
+Perform migrate Svelte/SvelteKit projects between versions, adopt new features like runes, and handle breaking changes. This command helps input: Current Svelte/SvelteKit version, target version, codebase files, and migration requirements. Process: Analyze current implementation, create migration plan, update dependencies, run automated migration tools, convert syntax to new patterns, handle breaking changes, update configurations, and test thoroughly. Output: Fully migrated codebase with updated syntax, working application with all tests passing, updated configuration files, migration documentation with changes made, and rollback strategy if needed.
 </task_objective>
 
 <detailed_sequence_steps>

@@ -1,7 +1,7 @@
 <task name="Generate Test Cases">
 
 <task_objective>
-Generate comprehensive test cases with automatic analysis and intelligent coverage optimization. This workflow analyzes code structure, recognizes test patterns, analyzes input spaces, designs test cases, and optimizes coverage. The output is a comprehensive test case suite with optimized coverage, intelligent mocking, proper assertions, and maintenance guidelines.
+Produce comprehensive test cases with automatic analysis and intelligent coverage optimization. This command helps analyze code structure, map input spaces, design cases, optimize coverage, and generate mocks and assertions with maintenance guidance.
 </task_objective>
 
 <detailed_sequence_steps>

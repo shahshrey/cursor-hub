@@ -1,7 +1,7 @@
 <task name="Git Flow Feature Branch">
 
 <task_objective>
-Create a new Git Flow feature branch from develop with proper naming and tracking. Takes a feature name as input, validates the repository state, creates a feature branch following Git Flow conventions, and sets up remote tracking for collaboration.
+Execute creation and remote tracking of a Git Flow feature branch from develop. This command helps take a feature name as input, validate repository readiness, create the branch following Git Flow conventions, and set up remote tracking for collaboration.
 </task_objective>
 
 <detailed_sequence_steps>

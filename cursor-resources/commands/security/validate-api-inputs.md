@@ -1,7 +1,7 @@
 <task name="Validate API Inputs">
 
 <task_objective>
-Implement robust input validation and sanitization for all API endpoints and server actions using Zod schemas. This workflow generates production-ready validation code that enforces data types, length constraints, format requirements, and sanitization to prevent injection attacks. It also audits existing endpoints to identify validation gaps and provides detailed remediation recommendations.
+Implement robust input validation and sanitization for all API endpoints and server actions using Zod schemas. This command helps thi workflow generates production-ready validation code that enforces data types, length constraints, format requirements, and sanitization to prevent injection attacks. It also audits existing endpoints to identify validation gaps and provides detailed remediation recommendations.
 </task_objective>
 
 <detailed_sequence_steps>

@@ -1,7 +1,7 @@
 <task name="Test Quality Analyzer">
 
 <task_objective>
-Analyze test suite quality with comprehensive metrics and actionable improvement insights. This workflow evaluates coverage quality, test effectiveness, maintainability, and performance to provide optimization strategies. The output is a comprehensive quality analysis with detailed metrics, improvement recommendations, optimization strategies, and quality tracking framework.
+Analyze test suite quality using comprehensive metrics and actionable insights. This command helps evaluate coverage effectiveness, maintainability, and performance to provide focused optimization strategies and quality tracking.
 </task_objective>
 
 <detailed_sequence_steps>

@@ -1,7 +1,7 @@
 <task name="Task Status">
 
 <task_objective>
-Check the current status of tasks in the orchestration system with various filtering and reporting options. The command provides comprehensive visibility into task progress, status distribution, and execution metrics across all active orchestrations, reading from TASK-STATUS-TRACKER.yaml files and generating formatted reports in terminal output with summary views, detailed views, timelines, and velocity metrics.
+Perform status checks on tasks in the orchestration system with various filtering and reporting options. This command helps provide comprehensive visibility into task progress, status distribution, and execution metrics across all active orchestrations, reading from TASK-STATUS-TRACKER.yaml files and generating formatted reports in terminal output with summary views, detailed views, timelines, and velocity metrics.
 </task_objective>
 
 <detailed_sequence_steps>

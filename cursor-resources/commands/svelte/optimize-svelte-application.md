@@ -1,7 +1,7 @@
 <task name="Optimize Svelte Application">
 
 <task_objective>
-Optimize Svelte/SvelteKit applications for performance, including bundle size reduction, rendering optimization, and loading performance. Input: Application codebase, build configuration, performance metrics, and optimization goals. Process: Analyze current performance with profiling tools, identify bottlenecks in bundle size and rendering, implement code splitting and lazy loading, optimize component reactivity, improve asset loading, configure caching strategies, and measure improvements. Output: Optimized application with reduced bundle size, improved Core Web Vitals, faster rendering performance, optimized asset delivery, comprehensive performance report with before/after metrics, and documentation of optimizations applied.
+Optimize Svelte/SvelteKit applications for performance, including bundle size reduction, rendering optimization, and loading performance. This command helps input: Application codebase, build configuration, performance metrics, and optimization goals. Process: Analyze current performance with profiling tools, identify bottlenecks in bundle size and rendering, implement code splitting and lazy loading, optimize component reactivity, improve asset loading, configure caching strategies, and measure improvements. Output: Optimized application with reduced bundle size, improved Core Web Vitals, faster rendering performance, optimized asset delivery, comprehensive performance report with before/after metrics, and documentation of optimizations applied.
 </task_objective>
 
 <detailed_sequence_steps>

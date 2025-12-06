@@ -1,7 +1,7 @@
 <task name="Create PAC Epic">
 
 <task_objective>
-Create new PAC epic following Product as Code specification. This workflow takes epic name and optional flags as input ($ARGUMENTS), processes epic creation through guided workflow following PAC v0.1.0 specification, and outputs a properly structured epic YAML file in `.pac/epics/` with complete metadata, spec sections, and git integration.
+Execute creation of a new PAC epic that adheres to the Product as Code specification. This command helps take epic name and optional flags as inputs ($ARGUMENTS) to produce a guided PAC v0.1.0-compliant epic YAML in `.pac/epics/` with complete metadata, spec sections, and git-ready integration.
 </task_objective>
 
 <detailed_sequence_steps>

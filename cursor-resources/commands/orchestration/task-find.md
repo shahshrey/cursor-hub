@@ -1,7 +1,7 @@
 <task name="Task Find">
 
 <task_objective>
-Search and locate tasks across all orchestrations using various criteria including task ID, content, status, dependencies, and metadata. The workflow provides powerful search functionality with regex support, fuzzy matching, boolean operators, and field-specific queries, scanning all task files in the `/task-orchestration/` directory tree and returning formatted results with task details, location paths, and optional export capabilities for integration with other commands.
+Execute searches across all orchestrations using criteria including task ID, content, status, dependencies, and metadata. This command helps provide powerful search functionality with regex support, fuzzy matching, boolean operators, and field-specific queries, scanning all task files in the `/task-orchestration/` directory tree and returning formatted results with task details, location paths, and optional export capabilities for integration with other commands.
 </task_objective>
 
 <detailed_sequence_steps>

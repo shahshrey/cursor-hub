@@ -1,7 +1,7 @@
 <task name="Execute Task List">
 
 <task_objective>
-Act as a world-class developer to execute a tasklist from the `/agent-helpers/tasks` folder by reading the implementation guide, reviewing the codebase, and systematically completing all tasks in order until finished. The output will be completed tasks with appropriate git commits and a final status update.
+Perform act as a world-class developer to execute a tasklist from the `/agent-helpers/tasks` folder by reading the implementation guide, reviewing the codebase, and systematically completing all tasks in order until finished. This command helps the output will be completed tasks with appropriate git commits and a final status update.
 </task_objective>
 
 <detailed_sequence_steps>

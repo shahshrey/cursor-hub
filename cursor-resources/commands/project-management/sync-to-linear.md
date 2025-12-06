@@ -1,7 +1,7 @@
 <task name="Sync Project to Linear">
 
 <task_objective>
-Sync project structure and requirements to Linear workspace with comprehensive task breakdown. This workflow takes project description and optional flags as input ($ARGUMENTS including team-id, create-new, epic-name), analyzes project requirements and structure, and outputs a complete Linear project hierarchy with organized epics, parent tasks, detailed subtasks, proper labeling, priorities, and dependency relationships.
+Execute synchronization of project structure and requirements to a Linear workspace with comprehensive task breakdown. This command helps take project description and optional flags as inputs ($ARGUMENTS including team-id, create-new, epic-name) to create a Linear hierarchy of organized epics, parent tasks, subtasks, labels, priorities, and dependency relationships.
 </task_objective>
 
 <detailed_sequence_steps>

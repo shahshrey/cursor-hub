@@ -1,7 +1,7 @@
 <task name="Setup Kubernetes Deployment">
 
 <task_objective>
-Configure comprehensive Kubernetes deployment with manifests, security, scaling, and production best practices. The workflow processes application type and deployment requirements to generate a production-ready Kubernetes deployment configuration with proper resource management, security policies, and operational procedures.
+Execute comprehensive Kubernetes deployment configuration with manifests, security, scaling, and production best practices. This command helps proce application type and deployment requirements to generate a production-ready Kubernetes deployment configuration with proper resource management, security policies, and operational procedures.
 </task_objective>
 
 <detailed_sequence_steps>

@@ -1,7 +1,7 @@
 <task name="Create Svelte Component">
 
 <task_objective>
-Create new Svelte components with best practices, TypeScript support, and testing. Input: Component name, purpose, required props interface, events to emit, slots needed, and state management requirements. Process: Gather component specifications, determine component type, create component file with proper structure, implement props with TypeScript/JSDoc typing, add accessibility features, create accompanying test file, and generate usage examples. Output: Production-ready Svelte component with proper typing, accessible markup, scoped styles, comprehensive tests, and usage documentation.
+Create new Svelte components with best practices, TypeScript support, and testing. This command helps input: Component name, purpose, required props interface, events to emit, slots needed, and state management requirements. Process: Gather component specifications, determine component type, create component file with proper structure, implement props with TypeScript/JSDoc typing, add accessibility features, create accompanying test file, and generate usage examples. Output: Production-ready Svelte component with proper typing, accessible markup, scoped styles, comprehensive tests, and usage documentation.
 </task_objective>
 
 <detailed_sequence_steps>

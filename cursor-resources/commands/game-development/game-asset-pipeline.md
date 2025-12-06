@@ -1,7 +1,7 @@
 <task name="Game Asset Pipeline & Processing System">
 
 <task_objective>
-Build automated game asset processing pipelines with optimization, validation, and multi-platform delivery systems. This workflow creates comprehensive asset management infrastructure that handles import validation, multi-platform optimization, build integration, and quality assurance for textures, 3D models, audio, and animations. Accepts $ARGUMENTS for pipeline type: --art, --audio, --models, --textures, or --comprehensive asset processing.
+Execute automated game asset processing pipelines with optimization, validation, and multi-platform delivery systems. This command helps establish comprehensive asset management infrastructure that handles import validation, multi-platform optimization, build integration, and quality assurance for textures, 3D models, audio, and animations, with $ARGUMENTS for pipeline type: --art, --audio, --models, --textures, or --comprehensive asset processing.
 </task_objective>
 
 <detailed_sequence_steps>

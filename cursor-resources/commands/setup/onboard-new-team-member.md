@@ -1,7 +1,7 @@
 <task name="Onboard New Team Member">
 
 <task_objective>
-Guide a new developer through a comprehensive onboarding process to get them fully productive and integrated into the team. The workflow covers environment setup, project familiarization, development environment configuration, making their first contribution, granting necessary access and permissions, and reviewing key documentation. The output will be a fully onboarded developer who can independently contribute to the codebase with all necessary tools and access configured.
+Guide a new developer through a structured onboarding journey to reach full productivity and team integration. This command helps ensure environment setup, project familiarity, access provisioning, and a first contribution that builds confidence.
 </task_objective>
 
 <how_to_ask_followup_question>

@@ -1,7 +1,7 @@
 <task name="Bulk Import Issues">
 
 <task_objective>
-Bulk import GitHub issues to Linear with comprehensive progress tracking and error handling. Execute efficient bulk import of GitHub issues to Linear workspace with advanced filtering, batch processing, rate limit management, data transformation, and comprehensive error recovery. The output will be complete import results with success metrics, failed item reports, mapping documentation, and performance analytics for large-scale issue migration.
+Execute bulk import of GitHub issues into Linear with thorough progress tracking and error handling. This command helps run efficient large-scale imports with advanced filtering, batch processing, rate limit management, data transformation, and resilient error recovery.
 </task_objective>
 
 <how_to_ask_followup_question>

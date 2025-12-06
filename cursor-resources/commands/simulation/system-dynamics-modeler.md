@@ -1,7 +1,7 @@
 <task name="System Dynamics Modeler">
 
 <task_objective>
-Model complex system dynamics with feedback loops, delays, and emergent behavior analysis. Takes system type as input (business ecosystem, organizational dynamics, market evolution, or feedback loops), processes it through system dynamics frameworks including system architecture, feedback structure, dynamic simulation, emergent behavior analysis, policy testing, and learning laboratory capabilities, and generates complete system dynamics model with causal structure, simulation results, policy recommendations, and strategic insights for complex system optimization and management.
+Model complex system dynamics with feedback loops, delays, and emergent behavior analysis. This command helps take system types as input (business ecosystem, organizational dynamics, market evolution, or feedback loops), process them through system dynamics frameworks including system architecture, feedback structure, dynamic simulation, emergent behavior analysis, policy testing, and learning laboratory capabilities, and generate a system dynamics model with causal structure, simulation results, policy recommendations, and strategic insights for complex system optimization and management.
 </task_objective>
 
 <detailed_sequence_steps>

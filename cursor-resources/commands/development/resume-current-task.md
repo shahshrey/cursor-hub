@@ -1,7 +1,7 @@
 <task name="Resume Current Task">
 
 <task_objective>
-Resume and continue work on the current task or workflow until completion. This workflow checks the status of existing todos, marks completed items as done, and proceeds with the next pending tasks. The goal is to maintain momentum on multi-step tasks by automatically continuing where the previous interaction left off.
+Perform resume and continue work on the current task or workflow until completion. This command helps thi workflow checks the status of existing todos, marks completed items as done, and proceeds with the next pending tasks. The goal is to maintain momentum on multi-step tasks by automatically continuing where the previous interaction left off.
 </task_objective>
 
 <detailed_sequence_steps>

@@ -1,7 +1,7 @@
 <task name="Setup Monitoring and Observability">
 
 <task_objective>
-Implement production-ready monitoring and observability with comprehensive insights. The input includes application type detection, existing monitoring configurations, infrastructure setup, and logging patterns from the codebase. The output will be a complete observability platform with real-time monitoring, intelligent alerting, and comprehensive analytics dashboards.
+Implement end-to-end monitoring and observability with actionable insights and resilient alerting. This command helps deliver real-time visibility, intelligent alerting, and analytics dashboards tailored to the application stack.
 </task_objective>
 
 <detailed_sequence_steps>

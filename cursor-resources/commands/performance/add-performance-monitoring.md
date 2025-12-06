@@ -1,7 +1,7 @@
 <task name="Add Performance Monitoring">
 
 <task_objective>
-Setup comprehensive application performance monitoring with metrics, alerting, and observability. This workflow takes the monitoring type preference as input (APM, RUM, or custom), defines key performance indicators and service level objectives, configures monitoring tools and data collection, implements error tracking and alerting systems, and outputs a complete monitoring infrastructure with dashboards and automated analysis.
+Implement comprehensive application performance monitoring with metrics, alerting, and observability. This command helps configure preferred monitoring types (APM, RUM, or custom), define key performance indicators and service level objectives, set up monitoring tools and data collection, implement error tracking and alerting systems, and deliver a complete monitoring infrastructure with dashboards and automated analysis.
 </task_objective>
 
 <detailed_sequence_steps>

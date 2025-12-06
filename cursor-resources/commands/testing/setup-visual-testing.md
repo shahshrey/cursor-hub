@@ -1,7 +1,7 @@
 <task name="Setup Visual Testing">
 
 <task_objective>
-Setup comprehensive visual regression testing with responsive design validation and accessibility checking. This workflow selects visual testing tools, creates visual baselines, designs test scenarios, integrates with CI/CD, configures regression detection, and implements accessibility testing. The output is a complete visual testing setup with baseline management, regression detection, CI integration, and comprehensive validation workflows.
+Set up visual regression testing with responsive validation and accessibility checks. This command helps choose tools, create baselines, design scenarios, integrate CI workflows, configure regression detection, and implement accessibility validation.
 </task_objective>
 
 <detailed_sequence_steps>

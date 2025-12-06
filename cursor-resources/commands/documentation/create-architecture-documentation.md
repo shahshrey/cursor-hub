@@ -1,7 +1,7 @@
 <task name="Architecture Documentation Generator">
 
 <task_objective>
-Generate comprehensive architecture documentation with diagrams, ADRs, and interactive visualization. Input: Project structure, existing architecture files, services/containers configuration, and API definitions. Processing: Analyze system architecture, select documentation framework, document system context, create container/service architecture, document components and data flow, create ADRs, and automate documentation maintenance. Output: Comprehensive architecture documentation with C4 diagrams, architecture decision records, data models, security architecture, quality attributes documentation, and automated generation systems.
+Generate comprehensive architecture documentation with diagrams, ADRs, and interactive visualization. This command helps use project structure, existing architecture files, services/containers configuration, and API definitions to analyze system architecture, select documentation frameworks, document system context, create container/service architecture, document components and data flow, create ADRs, and automate documentation maintenance for C4 diagrams, decision records, data models, security architecture, quality attributes documentation, and automated generation systems.
 </task_objective>
 
 <detailed_sequence_steps>

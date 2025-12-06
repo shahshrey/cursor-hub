@@ -1,7 +1,7 @@
 <task name="Analyze and Explain Code Functionality">
 
 <task_objective>
-Analyze and explain code functionality by systematically examining code context, providing high-level overviews, breaking down structure, analyzing line-by-line, explaining algorithms and logic, describing data structures, and documenting dependencies to help developers understand code comprehensively. Accepts code reference via $ARGUMENTS.
+Perform systematic analysis to explain code functionality by examining context, providing high-level overviews, breaking down structure, analyzing logic, and detailing dependencies. This command helps developers understand code for $ARGUMENTS through structured explanations of algorithms, data structures, and implementation flow.
 </task_objective>
 
 <detailed_sequence_steps>

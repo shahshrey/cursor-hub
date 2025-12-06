@@ -1,7 +1,7 @@
 <task name="Optimize Vercel Deployment">
 
 <task_objective>
-Optimize and deploy Next.js applications to Vercel with comprehensive performance monitoring and configuration best practices. Takes target environment argument (production, preview, development) and optional flags (--analyze, --preview) as input, performs pre-deployment validation (build checks, environment variables, security headers), executes optimized deployment with proper configuration, implements post-deployment monitoring (Core Web Vitals tracking, health checks, performance validation), and provides rollback strategy with detailed deployment report.
+Execute optimized deployments of Next.js applications to Vercel with performance and reliability safeguards. This command helps validate environments and configurations, run targeted analysis options, monitor Core Web Vitals post-deploy, and supply rollback and reporting workflows tailored to each environment.
 </task_objective>
 
 <detailed_sequence_steps>

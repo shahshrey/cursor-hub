@@ -1,7 +1,7 @@
 <task name="Issue Triage">
 
 <task_objective>
-Intelligently triage and prioritize issues with automatic categorization, prioritization, and team assignment. Analyze issues, classify by category, assess priority, route to appropriate teams, manage labels, and assign SLAs to ensure consistent and efficient issue handling with balanced workload distribution.
+Execute intelligent triage and prioritization of issues with automated categorization and team assignment. This command helps analyze issues, classify categories, assess priority, route to teams, manage labels, and assign SLAs to ensure consistent and efficient handling with balanced workload distribution.
 </task_objective>
 
 <detailed_sequence_steps>

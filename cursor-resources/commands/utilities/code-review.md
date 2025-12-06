@@ -1,7 +1,7 @@
 <task name="Code Quality Review">
 
 <task_objective>
-Perform comprehensive code quality review with security, performance, and architecture analysis by examining repository structure, assessing code quality, conducting security reviews, analyzing performance, evaluating architecture and design, checking testing coverage, reviewing documentation, and providing prioritized recommendations. Accepts target via $ARGUMENTS.
+Conduct comprehensive code quality review with security, performance, and architecture analysis of the target repository. This command helps evaluate $ARGUMENTS by examining structure, quality, security, performance, testing, and documentation to produce prioritized recommendations.
 </task_objective>
 
 <detailed_sequence_steps>

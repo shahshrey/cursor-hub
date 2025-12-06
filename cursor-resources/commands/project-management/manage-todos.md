@@ -1,7 +1,7 @@
 <task name="Manage Project Todos">
 
 <task_objective>
-Manage project todos in todos.md file at project root. This workflow takes action and task details as input ($ARGUMENTS - add/complete/remove/list/undo/due/past-due/next with task descriptions and optional dates), processes todo management operations, and outputs updated todos.md file organized into Active and Completed sections with proper formatting, due dates, and completion timestamps.
+Execute management of project todos in the root todos.md using structured actions. This command helps take action and task details as inputs ($ARGUMENTS - add/complete/remove/list/undo/due/past-due/next with descriptions and optional dates) to update Active and Completed sections with formatted entries, due dates, and completion timestamps.
 </task_objective>
 
 <detailed_sequence_steps>

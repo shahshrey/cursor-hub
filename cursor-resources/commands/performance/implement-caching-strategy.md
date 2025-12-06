@@ -1,7 +1,7 @@
 <task name="Implement Caching Strategy">
 
 <task_objective>
-Design and implement comprehensive caching solutions for improved performance and scalability. This workflow takes the cache type preference as input (browser, application, or database), analyzes application architecture and data access patterns, designs multi-layer caching architecture, implements caching solutions with intelligent invalidation strategies, and outputs a complete caching infrastructure with monitoring and optimization.
+Implement comprehensive caching solutions to boost performance and scalability. This command helps select cache types (browser, application, or database), analyze application architecture and data access patterns, design multi-layer caching with intelligent invalidation, and deliver a complete caching infrastructure with monitoring and optimization.
 </task_objective>
 
 <detailed_sequence_steps>

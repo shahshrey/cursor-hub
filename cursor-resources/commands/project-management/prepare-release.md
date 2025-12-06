@@ -1,7 +1,7 @@
 <task name="Prepare Release">
 
 <task_objective>
-Prepare and execute project release with version management and changelog updates. This workflow takes version type as input ($ARGUMENTS - patch/minor/major/prerelease or auto-detect), analyzes changes since last release, and outputs updated version files, comprehensive CHANGELOG.md entries, updated documentation, and properly tagged release following semantic versioning principles.
+Perform preparation and execution of a project release with version management and changelog updates. This command helps take a version type as input ($ARGUMENTS - patch/minor/major/prerelease or auto-detect) to analyze changes, update version files, refresh CHANGELOG.md and documentation, and produce properly tagged releases aligned with semantic versioning.
 </task_objective>
 
 <detailed_sequence_steps>

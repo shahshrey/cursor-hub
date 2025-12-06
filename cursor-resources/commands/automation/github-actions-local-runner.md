@@ -1,7 +1,7 @@
 <task name="GitHub Actions Local Runner">
 
 <task_objective>
-Execute GitHub Actions workflows locally using act to test and debug CI/CD pipelines before pushing to GitHub. This workflow validates workflow syntax, verifies Docker environment setup, selects and runs specific workflows with appropriate secrets and configurations, and provides debugging capabilities for troubleshooting workflow issues.
+Perform local execution of GitHub Actions workflows using act to test and debug CI/CD pipelines before pushing to GitHub. This command helps validate workflow syntax, verify Docker environment setup, select and run specific workflows, and troubleshoot workflow issues with detailed debugging capabilities.
 </task_objective>
 
 <detailed_sequence_steps>

@@ -1,7 +1,7 @@
 <task name="Sync Linear to Issues">
 
 <task_objective>
-Sync Linear tasks to GitHub issues with state mapping and attachment handling. Execute comprehensive synchronization of Linear tasks to GitHub issues with task discovery, state mapping, content transformation, GitHub integration, attachment migration, and comment synchronization. The output will be complete synchronization results with created issues, attachment migrations, comment transfers, and comprehensive sync reporting.
+Synchronize Linear tasks to GitHub issues with state mapping and attachment handling. This command helps execute complete task transfers with discovery, state mapping, content transformation, GitHub integration, attachment migration, and comment synchronization.
 </task_objective>
 
 <how_to_ask_followup_question>

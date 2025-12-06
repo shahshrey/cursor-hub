@@ -1,7 +1,7 @@
 <task name="Standup Report">
 
 <task_objective>
-Generate comprehensive daily standup reports with team activity analysis and progress tracking. Analyze git activity, Linear task progress, pull request activity, team collaboration patterns, and identify blockers to provide actionable insights for team coordination and meeting efficiency optimization.
+Generate daily standup reports that analyze team activity and track progress. This command helps review git activity, Linear task progress, pull request activity, collaboration patterns, and blockers to provide actionable insights for coordination and efficient meetings.
 </task_objective>
 
 <detailed_sequence_steps>

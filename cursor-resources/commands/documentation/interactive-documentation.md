@@ -1,7 +1,7 @@
 <task name="Interactive Documentation Platform">
 
 <task_objective>
-Create interactive documentation with live examples, code playgrounds, and user engagement features. Input: Documentation content, static site generators, component libraries, and hosting setup. Processing: Build platform foundation, integrate live code playgrounds, add interactive tutorials, implement user engagement systems, and deploy. Output: Comprehensive interactive documentation platform with live code execution, API testing, tutorial systems, and user feedback integration.
+Create interactive documentation with live examples, code playgrounds, and user engagement features. This command helps combine documentation content, static site generators, component libraries, and hosting setup to build a platform foundation, integrate live code playgrounds, add interactive tutorials, implement user engagement systems, and deploy with live code execution, API testing, tutorial systems, and user feedback integration.
 </task_objective>
 
 <detailed_sequence_steps>

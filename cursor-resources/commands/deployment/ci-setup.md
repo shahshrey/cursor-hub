@@ -1,7 +1,7 @@
 <task name="CI/CD Pipeline Setup">
 
 <task_objective>
-Setup comprehensive CI/CD pipeline with automated testing, building, and deployment. The workflow processes project type and deployment requirements to generate a complete continuous integration and deployment system with automated testing, code quality gates, security scanning, multi-environment deployment, and monitoring integration.
+Execute comprehensive CI/CD pipeline setup with automated testing, building, and deployment. This command helps proce project type and deployment requirements to generate a complete continuous integration and deployment system with automated testing, code quality gates, security scanning, multi-environment deployment, and monitoring integration.
 </task_objective>
 
 <detailed_sequence_steps>

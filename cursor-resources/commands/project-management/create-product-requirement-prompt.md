@@ -1,7 +1,7 @@
 <task name="Create Product Requirement Prompt">
 
 <task_objective>
-Create comprehensive Product Requirement Prompt (PRP) with research and validation. This workflow takes feature description as input ($ARGUMENTS), conducts systematic research through documentation review, web research, and codebase exploration, and outputs a production-ready PRP that provides curated codebase intelligence and implementation guidance for AI agents to ship code on the first pass.
+Conduct creation of a comprehensive Product Requirement Prompt with research and validation. This command helps take a feature description as input ($ARGUMENTS) to drive documentation review, web research, and codebase exploration that produce a production-ready PRP with curated intelligence and implementation guidance for AI agents.
 </task_objective>
 
 <detailed_sequence_steps>

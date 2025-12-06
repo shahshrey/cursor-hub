@@ -1,7 +1,7 @@
 <task name="Orchestration Commit">
 
 <task_objective>
-Create git commits aligned with task completion, maintaining clean version control synchronized with task progress. The workflow automatically generates well-structured commits following Conventional Commits specification when tasks move to QA or completion, using task metadata, changed files, and implementation notes to create meaningful commit messages, and updates TASK-STATUS-TRACKER.yaml with git tracking information for bidirectional task-commit linkage.
+Execute git commits aligned with task completion to maintain clean version control synchronized with task progress. This command helps automatically generate well-structured commits following the Conventional Commits specification when tasks move to QA or completion, using task metadata, changed files, and implementation notes to create meaningful commit messages, and updates TASK-STATUS-TRACKER.yaml with git tracking information for bidirectional task-commit linkage.
 </task_objective>
 
 <detailed_sequence_steps>

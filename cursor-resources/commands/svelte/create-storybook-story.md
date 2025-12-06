@@ -1,7 +1,7 @@
 <task name="Create Storybook Story">
 
 <task_objective>
-Create comprehensive Storybook stories for Svelte components using modern patterns and best practices. Input: Target Svelte component file with its props, slots, events, and states. Process: Analyze component interface, create story file using Svelte CSF v5 syntax, define all prop argTypes, create story variants for different states and use cases, add interactive play functions, and document component usage. Output: Comprehensive `.stories.svelte` file with multiple story variants demonstrating component functionality, proper controls configuration, accessibility tests, interaction tests, and complete component documentation.
+Create comprehensive Storybook stories for Svelte components using modern patterns and best practices. This command helps input: Target Svelte component file with its props, slots, events, and states. Process: Analyze component interface, create story file using Svelte CSF v5 syntax, define all prop argTypes, create story variants for different states and use cases, add interactive play functions, and document component usage. Output: Comprehensive `.stories.svelte` file with multiple story variants demonstrating component functionality, proper controls configuration, accessibility tests, interaction tests, and complete component documentation.
 </task_objective>
 
 <detailed_sequence_steps>

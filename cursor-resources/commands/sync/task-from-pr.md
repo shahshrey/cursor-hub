@@ -1,7 +1,7 @@
 <task name="Task from PR">
 
 <task_objective>
-Create Linear tasks from GitHub pull requests with intelligent content extraction and task sizing. Extract comprehensive PR data, parse description structure, identify key components, analyze changes, and generate properly sized Linear tasks with team assignments. The output will be successfully created Linear tasks with comprehensive PR context, accurate sizing estimates, proper team assignments, and complete bidirectional linking.
+Create Linear tasks from GitHub pull requests using intelligent content extraction and sizing. This command helps generate well-scoped tasks by parsing PR details, identifying key components, analyzing changes, estimating size, assigning teams, and establishing bidirectional links.
 </task_objective>
 
 <how_to_ask_followup_question>

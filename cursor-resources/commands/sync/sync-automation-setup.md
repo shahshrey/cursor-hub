@@ -1,7 +1,7 @@
 <task name="Sync Automation Setup">
 
 <task_objective>
-Setup comprehensive automated synchronization workflows with monitoring and CI/CD integration. Configure production-ready automated synchronization infrastructure including webhook configuration, CI/CD integration, sync server deployment, database and state management, and comprehensive monitoring and alerting. The output will be complete automation infrastructure with webhook integration, CI/CD workflows, monitoring dashboards, and production deployment capabilities.
+Set up comprehensive automated synchronization workflows with monitoring and CI/CD integration. This command helps configure production-ready automation with webhook setup, CI/CD pipelines, deployment, state management, and monitoring with alerts.
 </task_objective>
 
 <how_to_ask_followup_question>

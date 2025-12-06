@@ -1,7 +1,7 @@
 <task name="Developer Onboarding Guide Generator">
 
 <task_objective>
-Create comprehensive developer onboarding guide with environment setup, workflows, and interactive tutorials. Input: Project setup files, existing documentation, development tools, team structure, and CI/CD setup. Processing: Analyze onboarding requirements, create environment setup guide, document codebase and workflows, establish team communication procedures, curate learning resources, define first tasks, and implement feedback systems. Output: Comprehensive onboarding experience with environment setup instructions, project overview, development workflows, learning resources, progressive task assignments, security training, and feedback mechanisms tailored to role and project needs.
+Create comprehensive developer onboarding guide with environment setup, workflows, and interactive tutorials. This command helps use project setup files, existing documentation, development tools, team structure, and CI/CD setup to analyze onboarding requirements, create environment setup guides, document codebase and workflows, establish team communication procedures, curate learning resources, define first tasks, and implement feedback systems for a tailored onboarding experience.
 </task_objective>
 
 <detailed_sequence_steps>

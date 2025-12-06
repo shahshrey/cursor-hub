@@ -1,7 +1,7 @@
 <task name="Performance Audit">
 
 <task_objective>
-Conduct comprehensive performance audit with metrics, bottleneck identification, and optimization recommendations. This workflow takes the target area as input (frontend, backend, or full), analyzes technology stack and code performance, examines database, network, and memory performance, runs profiling and benchmarking, and outputs prioritized optimization recommendations with measurable impact.
+Conduct a comprehensive performance audit to surface bottlenecks and optimization opportunities. This command helps take the target area (frontend, backend, or full), analyze technology stack and code performance across database, network, and memory, run profiling and benchmarking, and deliver prioritized optimization recommendations with measurable impact.
 </task_objective>
 
 <detailed_sequence_steps>

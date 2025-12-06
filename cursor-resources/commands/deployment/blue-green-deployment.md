@@ -1,7 +1,7 @@
 <task name="Blue-Green Deployment">
 
 <task_objective>
-Implement blue-green deployment strategy with zero-downtime switching, health validation, and automatic rollback. The workflow processes load balancer configuration, current deployment version, container orchestration setup, health endpoints, and DNS configuration to create production-grade blue-green deployment infrastructure with comprehensive validation, monitoring, automated switching, database migration handling, and instant rollback capabilities.
+Execute zero-downtime blue-green deployments with validated switching, health checks, and automated rollback. This command helps proce load balancer configuration, current deployment version, container orchestration setup, health endpoints, and DNS configuration to create production-grade blue-green deployment infrastructure with comprehensive validation, monitoring, automated switching, database migration handling, and instant rollback capabilities.
 </task_objective>
 
 <detailed_sequence_steps>

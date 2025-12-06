@@ -1,7 +1,7 @@
 <task name="Market Response Modeler">
 
 <task_objective>
-Model comprehensive market and customer responses with segment analysis, behavioral prediction, and optimization. Takes market trigger as input (product launch, pricing change, marketing campaign, or competitive response), processes it through response frameworks including market segmentation, response behavior modeling, competitive response integration, simulation, prediction algorithms, and optimization, and generates complete market response prediction with segment analysis, optimization recommendations, competitive scenarios, and implementation guidelines for maximum market impact.
+Perform modeling of comprehensive market and customer responses with segment analysis, behavioral prediction, and optimization. This command helps take market triggers as input (product launch, pricing change, marketing campaign, or competitive response), process them through response frameworks including market segmentation, response behavior modeling, competitive response integration, simulation, prediction algorithms, and optimization, and generate market response predictions with segment analysis, optimization recommendations, competitive scenarios, and implementation guidelines for maximum market impact.
 </task_objective>
 
 <detailed_sequence_steps>

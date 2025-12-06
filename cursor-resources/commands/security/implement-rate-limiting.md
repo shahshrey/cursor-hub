@@ -1,7 +1,7 @@
 <task name="Implement Rate Limiting">
 
 <task_objective>
-Protect API endpoints and server actions from brute-force attacks and DDoS by implementing rate limiting and throttling mechanisms. This workflow helps determine appropriate rate limits for different endpoint types, generates production-ready rate limiting code for both serverful and serverless architectures, and audits existing endpoints to ensure comprehensive protection.
+Perform protect API endpoints and server actions from brute-force attacks and DDoS by implementing rate limiting and throttling mechanisms. This command helps thi workflow helps determine appropriate rate limits for different endpoint types, generates production-ready rate limiting code for both serverful and serverless architectures, and audits existing endpoints to ensure comprehensive protection.
 </task_objective>
 
 <detailed_sequence_steps>

@@ -1,7 +1,7 @@
 <task name="Update Dependencies">
 
 <task_objective>
-Systematically update project dependencies with comprehensive testing and compatibility validation. The input includes package manager detection, outdated packages list, security issues scan, and lock files from the codebase. The output will be an updated dependency manifest with comprehensive testing results, security audit report, and upgrade documentation.
+Perform systematic dependency upgrades with rigorous compatibility checks and automated validation. This command helps produce updated manifests backed by test coverage, security audit outcomes, and clear upgrade notes.
 </task_objective>
 
 <detailed_sequence_steps>

@@ -1,7 +1,7 @@
 <task name="Setup Rate Limiting">
 
 <task_objective>
-Implement production-ready rate limiting system with sophisticated algorithms and user policies. The input includes framework detection, existing rate limiting code, Redis availability, and API endpoint counts from the codebase. The output will be a complete rate limiting system with intelligent policies, comprehensive monitoring, and advanced abuse prevention capabilities.
+Implement robust rate limiting with layered algorithms and policy enforcement tuned for production. This command helps provide intelligent throttling, abuse prevention safeguards, and actionable monitoring for API traffic.
 </task_objective>
 
 <detailed_sequence_steps>

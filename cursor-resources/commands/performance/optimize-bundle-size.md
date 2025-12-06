@@ -1,7 +1,7 @@
 <task name="Optimize Bundle Size">
 
 <task_objective>
-Reduce and optimize bundle sizes through analysis, configuration, and code splitting strategies. This workflow takes the build tool type as input (Webpack, Vite, or Rollup), analyzes current bundle composition and sizes, implements optimizations including code splitting, tree shaking, and dependency optimization, and outputs significantly reduced bundle sizes with monitoring and validation.
+Reduce and optimize bundle sizes through targeted analysis, configuration, and code splitting strategies. This command helps take the build tool type (Webpack, Vite, or Rollup), analyze current bundle composition and sizes, implement optimizations including code splitting, tree shaking, and dependency optimization, and deliver significantly reduced bundle sizes with monitoring and validation.
 </task_objective>
 
 <detailed_sequence_steps>

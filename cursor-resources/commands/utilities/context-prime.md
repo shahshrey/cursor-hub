@@ -1,7 +1,7 @@
 <task name="Context Prime">
 
 <task_objective>
-Prime the context with essential project information by reading the README.md file and analyzing the project file structure using git to understand the project's context, organization, and key components.
+Perform context priming with essential project information by reading the README.md file and analyzing the project file structure using git. This command helps prepare $ARGUMENTS with clear understanding of project organization and key components for downstream tasks.
 </task_objective>
 
 <detailed_sequence_steps>

@@ -1,7 +1,7 @@
 <task name="Create Jobs-to-be-Done Document">
 
 <task_objective>
-Create Jobs-to-be-Done (JTBD) analysis for product features. This workflow takes feature name as input ($ARGUMENTS), analyzes product documentation and feature ideas, and outputs a comprehensive JTBD document (product-development/current-feature/JTBD.md) that captures user motivations, pain points, and desired outcomes from the user's perspective.
+Conduct creation of a Jobs-to-be-Done (JTBD) analysis for product features. This command helps take a feature name as input ($ARGUMENTS) to analyze product documentation and ideas, producing a comprehensive JTBD document (product-development/current-feature/JTBD.md) that captures user motivations, pain points, and desired outcomes.
 </task_objective>
 
 <detailed_sequence_steps>

@@ -1,7 +1,7 @@
 <task name="Memory Spring Cleaning">
 
 <task_objective>
-Clean and organize project memory files with implementation synchronization and pattern updates. Discover memory files, analyze implementation drift, validate patterns, optimize content, synchronize updates with actual code, and ensure quality to maintain accurate and useful project documentation.
+Conduct thorough cleanup and organization of project memory files with implementation synchronization. This command helps discover memory files, analyze implementation drift, validate patterns, optimize content, synchronize updates with code, and ensure quality so project documentation stays accurate and useful.
 </task_objective>
 
 <detailed_sequence_steps>

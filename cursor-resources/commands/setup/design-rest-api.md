@@ -1,7 +1,7 @@
 <task name="Design REST API">
 
 <task_objective>
-Design comprehensive RESTful API architecture with industry best practices including endpoints, authentication, authorization, and documentation. The input includes framework detection, existing API routes, authentication components, and documentation from the codebase. The output will be a complete API specification with endpoints, authentication mechanisms, validation rules, OpenAPI documentation, and client SDKs.
+Design a robust RESTful API architecture with well-structured endpoints, auth controls, and documentation. This command helps produce a complete API specification with validation rules, OpenAPI docs, and client SDK guidance.
 </task_objective>
 
 <detailed_sequence_steps>

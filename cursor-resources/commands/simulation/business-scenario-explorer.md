@@ -1,7 +1,7 @@
 <task name="Business Scenario Explorer">
 
 <task_objective>
-Explore multiple business timeline scenarios with comprehensive risk analysis and strategic optimization. Takes business context as input (market expansion, product launch, funding scenarios, or comprehensive business strategy), processes it through scenario frameworks including baseline, optimistic, pessimistic, disruption scenarios with constraint analysis and decision optimization, and generates a comprehensive scenario matrix with probability-weighted outcomes, strategic recommendations, risk mitigation strategies, and actionable decision frameworks.
+Execute comprehensive exploration of business timeline scenarios with risk analysis and strategic optimization. This command helps take business context as input (market expansion, product launch, funding scenarios, or comprehensive business strategy), process it through scenario frameworks including baseline, optimistic, pessimistic, and disruption analyses with constraint evaluation and decision optimization, and generate a scenario matrix with probability-weighted outcomes, strategic recommendations, risk mitigation strategies, and actionable decision frameworks.
 </task_objective>
 
 <detailed_sequence_steps>

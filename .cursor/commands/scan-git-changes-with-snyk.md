@@ -1,7 +1,7 @@
 <task name="Scan Git Changes with Snyk">
 
 <task_objective>
-Automatically scan current Git changes (staged, unstaged, and committed) for security vulnerabilities using Snyk Code (SAST), identify issues in modified files, automatically fix security issues where possible using Snyk scan results, and rescan to verify fixes are applied correctly. The workflow uses Snyk MCP tools to perform comprehensive security analysis on changed code files and dependencies, ensuring no new security issues are introduced before committing changes.
+Perform automatically scan current Git changes (staged, unstaged, and committed) for security vulnerabilities using Snyk Code (SAST), identify issues in modified files, automatically fix security issues where possible using Snyk scan results, and rescan to verify fixes are applied correctly. This command helps us Snyk MCP tools to perform comprehensive security analysis on changed code files and dependencies, ensuring no new security issues are introduced before committing changes.
 </task_objective>
 
 <detailed_sequence_steps>

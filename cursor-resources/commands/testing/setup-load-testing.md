@@ -1,7 +1,7 @@
 <task name="Setup Load Testing">
 
 <task_objective>
-Configure comprehensive load testing with performance analysis and bottleneck identification. This workflow analyzes application architecture, defines testing objectives, selects appropriate tools, designs test scenarios, implements performance monitoring, and provides optimization recommendations. The output is a complete load testing setup with configured scenarios, performance monitoring, bottleneck analysis, and optimization recommendations.
+Implement robust load testing with performance analysis and bottleneck detection. This command helps assess architecture, define objectives, select tools, design scenarios, enable monitoring, and deliver optimization recommendations.
 </task_objective>
 
 <detailed_sequence_steps>

@@ -1,7 +1,7 @@
 <task name="Penetration Test">
 
 <task_objective>
-Perform penetration testing and vulnerability assessment on application following ethical hacking methodologies. Input includes running services detection via netstat or lsof, web framework identification from package.json or requirements.txt, API endpoints count from route definitions, and authentication implementation check. Processing involves systematic testing phases (reconnaissance, vulnerability assessment, exploitation testing, authentication testing, API security testing, infrastructure testing) using OWASP Testing Guide and NIST guidelines, targeting areas based on arguments (--web-app, --api, --auth, or --full-scan). Output is a comprehensive penetration test report with executive summary, detailed findings, risk ratings, and remediation roadmap.
+Perform penetration testing and vulnerability assessment on application following ethical hacking methodologies. This command helps input includes running services detection via netstat or lsof, web framework identification from package.json or requirements.txt, API endpoints count from route definitions, and authentication implementation check. Processing involves systematic testing phases (reconnaissance, vulnerability assessment, exploitation testing, authentication testing, API security testing, infrastructure testing) using OWASP Testing Guide and NIST guidelines, targeting areas based on arguments (--web-app, --api, --auth, or --full-scan). Output is a comprehensive penetration test report with executive summary, detailed findings, risk ratings, and remediation roadmap.
 </task_objective>
 
 <detailed_sequence_steps>

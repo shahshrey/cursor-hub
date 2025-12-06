@@ -1,7 +1,7 @@
 <task name="Orchestration Optimize">
 
 <task_objective>
-Analyze and optimize task orchestrations to improve efficiency, reduce bottlenecks, and maximize team productivity. The workflow performs comprehensive analysis of active and historical orchestrations by identifying bottlenecks, analyzing velocity metrics, detecting parallelization opportunities, suggesting resource rebalancing, and providing actionable recommendations with impact projections, outputting detailed optimization reports and optionally applying safe optimizations automatically.
+Perform analysis and optimization of task orchestrations to improve efficiency, reduce bottlenecks, and maximize team productivity. This command helps perform comprehensive analysis of active and historical orchestrations by identifying bottlenecks, analyzing velocity metrics, detecting parallelization opportunities, suggesting resource rebalancing, and providing actionable recommendations with impact projections, outputting detailed optimization reports and optionally applying safe optimizations automatically.
 </task_objective>
 
 <detailed_sequence_steps>

@@ -1,7 +1,7 @@
 <task name="Audit Codebase Quality">
 
 <task_objective>
-Conduct a comprehensive review of the provided codebase to identify and report on various problematic code patterns across 62 categories including legacy code, security vulnerabilities, architectural issues, and documentation gaps. The review analyzes code quality, architecture, dependencies, and documentation to provide structured, detailed, and actionable recommendations for improvement.
+Conduct a comprehensive review of the provided codebase to identify and report on various problematic code patterns across 62 categories including legacy code, security vulnerabilities, architectural issues, and documentation gaps. This command helps analyze code quality, architecture, dependencies, and documentation to provide structured, detailed, and actionable recommendations for improvement.
 </task_objective>
 
 <detailed_sequence_steps>

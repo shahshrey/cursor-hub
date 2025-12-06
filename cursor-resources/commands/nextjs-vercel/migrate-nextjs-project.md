@@ -1,7 +1,7 @@
 <task name="Migrate Next.js Project">
 
 <task_objective>
-Provide comprehensive migration assistance for Next.js applications transitioning between major versions and patterns. Takes migration type flags (--pages-to-app, --js-to-ts, --class-to-hooks, --analyze) as input, analyzes current project structure (Pages Router vs App Router, JavaScript vs TypeScript usage, component patterns), and executes systematic migration with pre-migration analysis, incremental conversion of pages/components/API routes, validation at each step, and generates detailed migration report with recommendations for modernization.
+Perform comprehensive migrations of Next.js applications across major versions and architectural patterns. This command helps interpret migration flags, analyze current routing and typing patterns, execute staged conversions with validation checkpoints, and produce modernization reports with prioritized recommendations.
 </task_objective>
 
 <detailed_sequence_steps>

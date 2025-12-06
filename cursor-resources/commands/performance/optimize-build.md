@@ -1,7 +1,7 @@
 <task name="Optimize Build">
 
 <task_objective>
-Optimize build processes and speed for faster development cycles and deployments. This workflow takes the build system type as input, analyzes current build performance and configuration, implements optimizations across dependencies, caching, bundling, and asset processing, and outputs significantly improved build times with comprehensive validation and monitoring.
+Accelerate build processes and efficiency for faster development cycles and deployments. This command helps analyze current build performance and configuration, implement optimizations across dependencies and caching, and deliver significantly improved build times with comprehensive validation and monitoring.
 </task_objective>
 
 <detailed_sequence_steps>

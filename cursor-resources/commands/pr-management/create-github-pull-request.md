@@ -1,7 +1,7 @@
 <task name="Create GitHub Pull Request">
 
 <task_objective>
-Guide the user through creating a well-structured pull request with comprehensive context, clear descriptions, and all necessary information for reviewers. The process ensures all changes are properly documented, tested, and ready for review, resulting in a complete GitHub pull request with proper title, description, testing notes, and validation checklist.
+Create a complete GitHub pull request with validated changes, organized context, and clear guidance for reviewers. This command helps ensure every change is documented, tested, and packaged with the proper title, description, testing notes, and validation checklist for review readiness.
 </task_objective>
 
 <how_to_ask_followup_question>

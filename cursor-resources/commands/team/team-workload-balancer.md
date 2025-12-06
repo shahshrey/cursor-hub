@@ -1,7 +1,7 @@
 <task name="Team Workload Balancer">
 
 <task_objective>
-Analyze and optimize team workload distribution with skill matching and capacity planning. Assess current workload, match skills to tasks, plan capacity, integrate performance data, and generate optimal task assignments to maximize team efficiency while preventing burnout and ensuring equitable workload distribution.
+Optimize team workload distribution through skill matching and capacity planning. This command helps assess current workload, match skills to tasks, plan capacity, integrate performance data, and generate optimal assignments to maximize efficiency, prevent burnout, and ensure equitable distribution.
 </task_objective>
 
 <detailed_sequence_steps>

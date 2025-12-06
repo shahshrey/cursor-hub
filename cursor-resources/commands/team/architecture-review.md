@@ -1,7 +1,7 @@
 <task name="Architecture Review">
 
 <task_objective>
-Perform comprehensive system architecture analysis and improvement planning. Map component hierarchy, evaluate design patterns, analyze dependency architecture, trace data flow, assess scalability and performance, and review security architecture to provide actionable improvement recommendations and implementation roadmap.
+Perform comprehensive system architecture analysis and improvement planning. This command helps map component hierarchies, evaluate design patterns, analyze dependencies, trace data flow, assess scalability and performance, and review security to deliver actionable improvement roadmaps.
 </task_objective>
 
 <detailed_sequence_steps>

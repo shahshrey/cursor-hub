@@ -1,7 +1,7 @@
 <task name="Generate Linear Work Log">
 
 <task_objective>
-Generate a technical work log comment for a Linear issue based on recent git commits by checking Linear MCP availability, extracting git information, generating work log content with dry technical language, handling existing work logs, and posting formatted updates to the specified Linear issue.
+Generate a technical work log comment for a Linear issue based on recent git commits with validation of Linear MCP availability. This command helps post precise updates to $ARGUMENTS by extracting git history, composing dry technical logs, handling existing entries, and submitting formatted comments.
 </task_objective>
 
 <detailed_sequence_steps>

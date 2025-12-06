@@ -1,7 +1,7 @@
 <task name="Simulate Project Timeline">
 
 <task_objective>
-Simulate project outcomes with variable modeling, risk assessment, and resource optimization. This workflow takes project type and optional parameters as input ($ARGUMENTS including duration, team-size, risk-level), processes comprehensive scenario modeling with multiple variables and risk factors, and outputs timeline predictions with confidence intervals, critical path analysis, risk-adjusted resource recommendations, and Monte Carlo simulation results.
+Perform simulation of project outcomes using variable modeling, risk assessment, and resource optimization. This command helps take project type and optional parameters ($ARGUMENTS including duration, team-size, risk-level) to generate timeline predictions, critical path analysis, risk-adjusted resource recommendations, and Monte Carlo simulation results.
 </task_objective>
 
 <detailed_sequence_steps>

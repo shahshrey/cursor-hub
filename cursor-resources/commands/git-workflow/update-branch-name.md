@@ -1,7 +1,7 @@
 <task name="Update Branch Name">
 
 <task_objective>
-Update the current branch name to be descriptive and meaningful based on actual work being done. Input: Current git branch state. Processing: Analyze changes between current branch and main branch HEAD, examine modified files to understand work scope, determine appropriate descriptive branch name following naming conventions, update branch name. Output: Renamed branch with descriptive name and verification of successful update.
+Rename the current branch to a descriptive, meaningful name that reflects the work in progress. This command helps analyze diffs against main, infer scope, propose a naming convention, apply the rename, and verify the updated branch state.
 </task_objective>
 
 <detailed_sequence_steps>

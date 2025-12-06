@@ -1,7 +1,7 @@
 <task name="Task Move">
 
 <task_objective>
-Move tasks between status folders following the task management protocol. The workflow validates status transitions against allowed state changes, enforces protocol rules (one task per agent in progress, dependency checks), physically moves task files between status directories, updates TASK-STATUS-TRACKER.yaml with status history and timestamps, updates EXECUTION-TRACKER.md metrics, and maintains complete audit trail with transition reasons.
+Perform moving of tasks between status folders following the task management protocol. This command helps validate status transitions against allowed state changes, enforces protocol rules (one task per agent in progress, dependency checks), physically moves task files between status directories, updates TASK-STATUS-TRACKER.yaml with status history and timestamps, updates EXECUTION-TRACKER.md metrics, and maintains complete audit trail with transition reasons.
 </task_objective>
 
 <detailed_sequence_steps>

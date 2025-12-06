@@ -1,7 +1,7 @@
 <task name="Setup Code Linting">
 
 <task_objective>
-Setup comprehensive code linting system with quality analysis and automated enforcement. The input includes language detection, existing linter configurations, package manager identification, and code quality tools from the codebase. The output will be a complete linting system with automated quality gates, team standards enforcement, and comprehensive code analysis.
+Establish comprehensive code linting with quality analysis and automated enforcement across languages. This command helps provide enforced quality gates, team-aligned standards, and actionable code analysis outputs.
 </task_objective>
 
 <detailed_sequence_steps>

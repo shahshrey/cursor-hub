@@ -1,7 +1,7 @@
 <task name="Mock SvelteKit Modules">
 
 <task_objective>
-Mock SvelteKit modules and functionality in Storybook stories for isolated component development. Input: Component dependencies on SvelteKit modules ($app/stores, $app/navigation, $app/forms) and required mock scenarios (authenticated states, loading states, form states). Process: Analyze component module usage, configure module mocks using parameters, set up store mocks, create navigation mocks, and configure link/form handling. Output: Comprehensive mock configurations enabling component testing in isolation with all SvelteKit module dependencies properly mocked and multiple story variants demonstrating different application states.
+Perform mock SvelteKit modules and functionality in Storybook stories for isolated component development. This command helps input: Component dependencies on SvelteKit modules ($app/stores, $app/navigation, $app/forms) and required mock scenarios (authenticated states, loading states, form states). Process: Analyze component module usage, configure module mocks using parameters, set up store mocks, create navigation mocks, and configure link/form handling. Output: Comprehensive mock configurations enabling component testing in isolation with all SvelteKit module dependencies properly mocked and multiple story variants demonstrating different application states.
 </task_objective>
 
 <detailed_sequence_steps>

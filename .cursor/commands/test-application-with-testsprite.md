@@ -1,7 +1,7 @@
 <task name="Test Application with TestSprite">
 
 <task_objective>
-Execute comprehensive end-to-end testing of the Cursor Hub application using TestSprite MCP tools. The workflow bootstraps TestSprite with project configuration (port 3000, frontend type, codebase scope), generates code summaries and standardized PRDs, creates frontend test plans covering all major features (search, filtering, authentication, favorites, downloads, keyboard shortcuts, landing page performance, etc.), generates and executes automated test code, and produces a detailed markdown test report with pass/fail analysis, severity ratings, console error logs, and actionable recommendations for fixing identified issues.
+Execute comprehensive end-to-end testing of the Cursor Hub application using TestSprite MCP tools. This command helps bootstrap TestSprite with project configuration (port 3000, frontend type, codebase scope), generates code summaries and standardized PRDs, creates frontend test plans covering all major features (search, filtering, authentication, favorites, downloads, keyboard shortcuts, landing page performance, etc.), generates and executes automated test code, and produces a detailed markdown test report with pass/fail analysis, severity ratings, console error logs, and actionable recommendations for fixing identified issues.
 </task_objective>
 
 <detailed_sequence_steps>

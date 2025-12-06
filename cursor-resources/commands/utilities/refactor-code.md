@@ -1,7 +1,7 @@
 <task name="Intelligently Refactor and Improve Code Quality">
 
 <task_objective>
-Intelligently refactor and improve code quality by following a systematic approach that includes pre-refactoring analysis, test coverage verification, incremental refactoring, code quality improvements, and comprehensive testing to ensure maintainability, performance, and reliability. Accepts target code via $ARGUMENTS.
+Perform intelligent refactoring to improve code quality through pre-refactoring analysis, test coverage verification, incremental changes, and comprehensive validation. This command helps enhance $ARGUMENTS for maintainability, performance, and reliability while keeping behavior intact.
 </task_objective>
 
 <detailed_sequence_steps>

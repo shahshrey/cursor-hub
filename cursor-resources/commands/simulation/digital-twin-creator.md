@@ -1,7 +1,7 @@
 <task name="Digital Twin Creator">
 
 <task_objective>
-Create calibrated digital twins with real-world validation, scenario testing, and decision optimization. Takes twin subject as input (manufacturing, business process, customer journey, or system performance), processes it through digital twin architecture including system mapping, data foundation, model construction, calibration, scenario simulation, and decision integration, and generates a production-ready digital twin with calibration reports, scenario testing capabilities, decision support features, and comprehensive documentation.
+Build calibrated digital twins with real-world validation, scenario testing, and decision optimization. This command helps take twin subjects as input (manufacturing, business process, customer journey, or system performance), process them through digital twin architecture covering system mapping, data foundation, model construction, calibration, scenario simulation, and decision integration, and generate a production-ready digital twin with calibration reports, scenario testing capabilities, decision support features, and comprehensive documentation.
 </task_objective>
 
 <detailed_sequence_steps>

@@ -1,7 +1,7 @@
 <task name="Retrospective Analyzer">
 
 <task_objective>
-Analyze team retrospectives with quantitative metrics and actionable insights generation. Evaluate sprint performance, assess team collaboration, analyze process effectiveness, review quality metrics, evaluate individual contributions, and generate actionable insights to drive continuous improvement with data-driven recommendations.
+Analyze team retrospectives using quantitative metrics to generate actionable insights. This command helps evaluate sprint performance, assess collaboration, analyze process effectiveness, review quality metrics, examine individual contributions, and produce data-driven recommendations for continuous improvement.
 </task_objective>
 
 <detailed_sequence_steps>

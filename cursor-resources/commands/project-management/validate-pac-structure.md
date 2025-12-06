@@ -1,7 +1,7 @@
 <task name="Validate PAC Structure">
 
 <task_objective>
-Validate Product as Code project structure and files for PAC specification compliance. This workflow takes validation scope as input ($ARGUMENTS - specific files/epics or entire structure), processes comprehensive validation checks across structure, configuration, epics, tickets, and cross-references, and outputs a detailed validation report with compliance status, issues found, and specific fix recommendations with optional auto-fix capability.
+Perform validation of Product as Code project structure and files for PAC specification compliance. This command helps take validation scope inputs ($ARGUMENTS - specific files/epics or entire structure) to run comprehensive checks across configuration, epics, tickets, and cross-references, producing a detailed compliance report with issues, fixes, and optional auto-fix actions.
 </task_objective>
 
 <detailed_sequence_steps>

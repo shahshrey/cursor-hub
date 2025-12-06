@@ -1,7 +1,7 @@
 <task name="Test Next.js API Routes">
 
 <task_objective>
-Test and validate Next.js API routes with comprehensive test scenarios and automated testing tools. Takes route path argument and optional flags (--method, --data, --headers) as input, analyzes API route implementation (App Router vs Pages Router, supported HTTP methods, authentication requirements), generates comprehensive test suite (unit tests, integration tests, authentication tests, validation tests, performance tests, error handling), provides manual testing commands (cURL, HTTPie), creates test data fixtures, and outputs detailed test report with coverage metrics and recommendations.
+Perform comprehensive testing of Next.js API routes with automated and manual scenarios. This command helps parse route inputs and flags, analyze implementation details across routers and auth paths, generate thorough test suites with fixtures and CLI commands, and deliver detailed reports with coverage metrics and recommendations.
 </task_objective>
 
 <detailed_sequence_steps>

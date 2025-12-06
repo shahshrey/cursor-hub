@@ -1,7 +1,7 @@
 <task name="Address PR Review Comments">
 
 <task_objective>
-This workflow systematically addresses all review comments on a GitHub Pull Request. It takes a PR number as input, fetches all inline review comments using GitHub CLI, analyzes each comment to understand the requested changes, makes the necessary code modifications across all affected files, verifies the changes with linters and compilation checks, and produces a comprehensive summary of all changes made - all without committing anything until the user is ready.
+Perform systematically addresses all review comments on a GitHub Pull Request. This command helps take a PR number as input, fetches all inline review comments using GitHub CLI, analyzes each comment to understand the requested changes, makes the necessary code modifications across all affected files, verifies the changes with linters and compilation checks, and produces a comprehensive summary of all changes made - all without committing anything until the user is ready.
 </task_objective>
 
 <expected_output>

@@ -1,7 +1,7 @@
 <task name="Test Coverage">
 
 <task_objective>
-Analyze and improve test coverage with comprehensive reporting and gap identification. This workflow configures coverage tools, measures line/branch/function/statement coverage, identifies critical gaps, and provides actionable improvement recommendations. The output is a comprehensive coverage analysis with detailed reports, gap identification, improvement recommendations, and quality metrics tracking.
+Conduct thorough coverage analysis to improve line, branch, function, and statement testing. This command helps configure coverage tools, measure results, surface critical gaps, and recommend targeted improvements with tracked quality metrics.
 </task_objective>
 
 <detailed_sequence_steps>

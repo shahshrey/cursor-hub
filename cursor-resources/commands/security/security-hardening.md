@@ -1,7 +1,7 @@
 <task name="Security Hardening">
 
 <task_objective>
-Harden application security configuration and implement comprehensive security controls based on security best practices. Input includes framework detection from package.json, requirements.txt, or Cargo.toml, security headers check via curl on running server, environment configuration from .env* files for security-related variables, and dependency audit status. Processing involves implementing security controls across six areas (authentication & authorization, input validation, secure communication, data protection, security headers, infrastructure security) based on focus arguments (--headers, --auth, --encryption, --infrastructure, or comprehensive hardening). Output is a hardened application with comprehensive security controls, proper configuration, and monitoring capabilities.
+Perform harden application security configuration and implement comprehensive security controls based on security best practices. This command helps input includes framework detection from package.json, requirements.txt, or Cargo.toml, security headers check via curl on running server, environment configuration from .env* files for security-related variables, and dependency audit status. Processing involves implementing security controls across six areas (authentication & authorization, input validation, secure communication, data protection, security headers, infrastructure security) based on focus arguments (--headers, --auth, --encryption, --infrastructure, or comprehensive hardening). Output is a hardened application with comprehensive security controls, proper configuration, and monitoring capabilities.
 </task_objective>
 
 <detailed_sequence_steps>

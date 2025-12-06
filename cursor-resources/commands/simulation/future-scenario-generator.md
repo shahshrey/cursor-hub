@@ -1,7 +1,7 @@
 <task name="Future Scenario Generator">
 
 <task_objective>
-Generate comprehensive future scenarios with plausibility scoring, trend integration, and strategic implications. Takes time horizon as input (near-term, medium-term, long-term, or disruption-focused scenarios), processes it through scenario frameworks including trend analysis, scenario architecture, plausibility assessment, wild card integration, strategic implications, and monitoring, and generates a comprehensive scenario portfolio with plausibility scores, strategic implications, monitoring indicators, and decision frameworks for multiple future possibilities.
+Generate comprehensive future scenarios with plausibility scoring, integrated trend analysis, and strategic implications. This command helps take time horizons as input (near-term, medium-term, long-term, or disruption-focused scenarios), process them through scenario frameworks including trend analysis, scenario architecture, plausibility assessment, wild card integration, strategic implications, and monitoring, and generate a scenario portfolio with plausibility scores, strategic implications, monitoring indicators, and decision frameworks for multiple future possibilities.
 </task_objective>
 
 <detailed_sequence_steps>

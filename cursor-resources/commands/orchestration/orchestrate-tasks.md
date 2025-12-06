@@ -1,7 +1,7 @@
 <task name="Orchestrate Tasks">
 
 <task_objective>
-Initiate the task orchestration workflow using the three-agent system (task-orchestrator, task-decomposer, and dependency-analyzer) to create a comprehensive execution plan. The workflow processes requirements from direct task lists, file references, or mixed context, and generates a complete orchestration structure with atomic task files, dependency analysis, and master coordination documents in the `/task-orchestration/MM_DD_YYYY/descriptive_task_name/` directory structure.
+Perform orchestration initiation using the three-agent system (task-orchestrator, task-decomposer, and dependency-analyzer) to create a comprehensive execution plan. This command helps process requirements from direct task lists, file references, or mixed context, and generates a complete orchestration structure with atomic task files, dependency analysis, and master coordination documents in the `/task-orchestration/MM_DD_YYYY/descriptive_task_name/` directory structure.
 </task_objective>
 
 <detailed_sequence_steps>

@@ -1,7 +1,7 @@
 <task name="Setup Development Environment">
 
 <task_objective>
-Configure complete development environment with modern tools and best practices. The input includes operating system detection, existing development tools, package managers, and IDE configurations. The output will be a complete development environment with documented setup process, team configurations, and troubleshooting guides.
+Configure a complete development environment with modern tooling and reliable workflows. This command helps deliver a documented setup with aligned runtimes, IDE configurations, and troubleshooting guidance for the team.
 </task_objective>
 
 <detailed_sequence_steps>

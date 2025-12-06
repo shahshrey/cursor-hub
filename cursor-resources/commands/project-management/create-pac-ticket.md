@@ -1,7 +1,7 @@
 <task name="Create PAC Ticket">
 
 <task_objective>
-Create new PAC ticket within an epic following Product as Code specification. This workflow takes ticket name, epic ID, and optional flags as input ($ARGUMENTS), processes ticket creation through guided workflow following PAC v0.1.0 specification, and outputs a properly structured ticket YAML file in `.pac/tickets/` linked to parent epic with complete metadata and spec sections.
+Execute creation of a new PAC ticket within an epic that aligns with the Product as Code specification. This command helps take ticket name, epic ID, and optional flags as inputs ($ARGUMENTS) to produce a guided PAC v0.1.0-compliant ticket YAML in `.pac/tickets/` linked to the parent epic with complete metadata and spec sections.
 </task_objective>
 
 <detailed_sequence_steps>

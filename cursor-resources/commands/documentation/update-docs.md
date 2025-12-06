@@ -1,7 +1,7 @@
 <task name="Documentation Update & Synchronization">
 
 <task_objective>
-Systematically update project documentation with implementation status, API changes, and synchronized content. Input: Documentation structure, specs directory, implementation status indicators, recent changes, and project progress files. Processing: Analyze documentation status, review implementation and testing results, update phase documents, mark completed items, synchronize specifications, and update project-wide documentation. Output: Updated and synchronized documentation with current implementation status, completion percentages, best practices, testing procedures, and comprehensive project status.
+Execute systematic updates to project documentation with implementation status, API changes, and synchronized content. This command helps use documentation structure, specs directory, implementation status indicators, recent changes, and project progress files to analyze status, review implementation and testing results, update phase documents, mark completed items, synchronize specifications, and refresh project-wide documentation for current implementation status, completion percentages, best practices, testing procedures, and comprehensive project status.
 </task_objective>
 
 <detailed_sequence_steps>

@@ -1,7 +1,7 @@
 <task name="Add Changelog Entry">
 
 <task_objective>
-Generate and maintain project changelog with Keep a Changelog format. The workflow processes existing @CHANGELOG.md, recent commits from !`git log --oneline -10`, current version from !`git describe --tags --abbrev=0`, and package version from @package.json to create properly formatted changelog entries categorized by change type following Keep a Changelog and Semantic Versioning standards.
+Perform end-to-end generation and maintenance of the project changelog using Keep a Changelog standards. This command helps proce existing @CHANGELOG.md, recent commits from !`git log --oneline -10`, current version from !`git describe --tags --abbrev=0`, and package version from @package.json to create properly formatted changelog entries categorized by change type following Keep a Changelog and Semantic Versioning standards.
 </task_objective>
 
 <detailed_sequence_steps>

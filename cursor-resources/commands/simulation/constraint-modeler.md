@@ -1,7 +1,7 @@
 <task name="Constraint Modeler">
 
 <task_objective>
-Model system constraints with validation, dependency mapping, and optimization strategies. Takes constraint domain as input (business, technical, regulatory, or resource constraints), processes it through comprehensive constraint frameworks including hard, soft, and dynamic constraints with dependency mapping and validation, and generates a complete constraint model with interaction matrices, validation reports, optimization recommendations, and scenario boundary definitions.
+Perform systematic modeling of system constraints with validation, dependency mapping, and optimization strategies. This command helps take constraint domains as input (business, technical, regulatory, or resource constraints), process them through comprehensive frameworks covering hard, soft, and dynamic constraints with dependency mapping and validation, and generate a complete constraint model with interaction matrices, validation reports, optimization recommendations, and scenario boundary definitions.
 </task_objective>
 
 <detailed_sequence_steps>

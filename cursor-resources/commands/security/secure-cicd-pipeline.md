@@ -8,7 +8,7 @@ tags: [cicd, devops, security, automation, container-security, secret-management
 <task name="Secure CI/CD Pipeline">
 
 <task_objective>
-Systematically audit and harden the CI/CD pipeline by implementing principle of least privilege for credentials, integrating automated security gates (SAST, linting, testing), securing secret management, hardening container and infrastructure configurations, and establishing backup and rollback procedures. The output will be a secured CI/CD pipeline with documented security controls and configuration changes.
+Perform systematically audit and harden the CI/CD pipeline by implementing principle of least privilege for credentials, integrating automated security gates (SAST, linting, testing), securing secret management, hardening container and infrastructure configurations, and establishing backup and rollback procedures. This command helps the output will be a secured CI/CD pipeline with documented security controls and configuration changes.
 </task_objective>
 
 <detailed_sequence_steps>

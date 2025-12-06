@@ -1,7 +1,7 @@
 <task name="Create Git Worktrees">
 
 <task_objective>
-Create git worktrees for managing multiple branches simultaneously without switching contexts. Input: Optional PR numbers or branch names, or flag to create worktrees for all open PRs. Processing: Fetch branch information from GitHub or repository, validate branches exist, create directory structure for worktrees, add git worktrees for each branch. Output: Git worktrees created in ./tree/<BRANCH_NAME> directories, worktree list displaying all active worktrees, optional cleanup of stale worktrees.
+Create git worktrees to manage multiple branches simultaneously without context switching. This command helps accept PR numbers or branch names, validate branch availability, provision worktree directories, add worktrees, and optionally clean up stale entries while reporting active worktrees.
 </task_objective>
 
 <how_to_ask_followup_question>

@@ -1,7 +1,7 @@
 <task name="Optimize Database Performance">
 
 <task_objective>
-Optimize database queries, indexing, and performance for improved response times and scalability. This workflow takes the database type as input (PostgreSQL, MySQL, or MongoDB), analyzes current database performance and query patterns, implements optimizations including query rewriting, indexing, and schema design, and outputs comprehensive performance improvements with monitoring and validation.
+Improve database queries, indexing, and performance to achieve faster responses and better scalability. This command helps take the database type (PostgreSQL, MySQL, or MongoDB), analyze current database performance and query patterns, implement optimizations including query rewriting, indexing, and schema design, and deliver comprehensive performance improvements with monitoring and validation.
 </task_objective>
 
 <detailed_sequence_steps>

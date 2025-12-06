@@ -1,7 +1,7 @@
 <task name="Initialize Project">
 
 <task_objective>
-Initialize new project with essential structure, configuration, and development environment setup. This workflow takes project type and framework as input ($ARGUMENTS), processes project setup through structure creation, framework configuration, and tooling setup, and outputs a fully configured project ready for development with proper testing, CI/CD, and documentation.
+Execute initialization of a new project with essential structure, configuration, and development environment setup. This command helps take project type and framework as inputs ($ARGUMENTS) to build structure, configure tooling, and deliver a fully prepared project with testing, CI/CD, and documentation.
 </task_objective>
 
 <detailed_sequence_steps>

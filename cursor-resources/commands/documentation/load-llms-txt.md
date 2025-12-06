@@ -1,7 +1,7 @@
 <task name="External Documentation Context Loader">
 
 <task_objective>
-Load and process external documentation context from llms.txt files or custom sources. Input: External URLs (Xatu data repository or custom sources), project context, and local cache status. Processing: Validate URL accessibility, download and cache content, process and structure information. Output: Loaded external documentation context integrated with project context and cached locally for offline access.
+Perform loading and processing of external documentation context from llms.txt files or custom sources. This command helps validate URL accessibility, download and cache content, and process and structure information so external documentation context integrates with project context and remains cached locally for offline access.
 </task_objective>
 
 <detailed_sequence_steps>

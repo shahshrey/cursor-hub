@@ -1,7 +1,7 @@
 <task name="Execute and Fix Failing Tests">
 
 <task_objective>
-Execute the complete test suite and systematically fix any failing tests by analyzing error messages, identifying patterns, and addressing failures one at a time until all tests pass. The output will be a fully passing test suite with verified fixes that don't introduce new failures.
+Perform comprehensive execution of the full test suite and sequentially resolve each failure until all tests pass. This command helps deliver a fully passing test suite with verified fixes that avoid introducing new failures.
 </task_objective>
 
 <detailed_sequence_steps>

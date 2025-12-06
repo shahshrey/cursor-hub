@@ -1,7 +1,7 @@
 <task name="Write Tests">
 
 <task_objective>
-Write comprehensive unit and integration tests with framework-specific best practices. This workflow analyzes target code, designs test strategies, implements framework-specific patterns, creates mocks, and generates comprehensive test cases. The output is a comprehensive test suite with unit tests, integration tests, proper mocking, test utilities, and coverage optimization.
+Write comprehensive unit and integration tests using framework-aligned practices. This command helps analyze target code, craft strategies, implement patterns, build mocks and utilities, and generate broad test cases with coverage optimization.
 </task_objective>
 
 <detailed_sequence_steps>

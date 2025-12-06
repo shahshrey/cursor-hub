@@ -1,7 +1,7 @@
 <task name="Migration Guide Generator">
 
 <task_objective>
-Create comprehensive migration guides with step-by-step procedures, validation, and rollback strategies. Input: Current system versions, dependencies, database schemas, infrastructure setup, and migration history. Processing: Analyze migration scope, assess impact, document breaking changes, create step-by-step procedures, establish testing strategies, and plan deployment. Output: Systematic migration guide with safety measures, rollback procedures, validation steps, and comprehensive documentation for framework, database, cloud, or architecture migrations.
+Execute creation of comprehensive migration guides with step-by-step procedures, validation, and rollback strategies. This command helps use current system versions, dependencies, database schemas, infrastructure setup, and migration history to analyze migration scope, assess impact, document breaking changes, create step-by-step procedures, establish testing strategies, and plan deployment for systematic guides with safety measures, rollback procedures, validation steps, and comprehensive documentation across migration types.
 </task_objective>
 
 <detailed_sequence_steps>

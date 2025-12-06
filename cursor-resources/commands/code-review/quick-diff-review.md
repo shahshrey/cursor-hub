@@ -1,7 +1,7 @@
 <task name="Quick Diff Review">
 
 <task_objective>
-Perform a quick, focused review of existing code diffs to catch obvious issues, code smells, and common mistakes before proceeding to a detailed code review. The output will be a summary of findings with a recommendation on whether the code is ready for detailed review, needs minor fixes, or requires major rework.
+Perform a quick, focused review of existing code diffs to catch obvious issues, code smells, and common mistakes. This command helps identify readiness for detailed review by summarizing findings and recommending next steps.
 </task_objective>
 
 <detailed_sequence_steps>

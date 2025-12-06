@@ -1,7 +1,7 @@
 <task name="Estimate Assistant">
 
 <task_objective>
-Generate accurate task estimates using historical data, complexity analysis, and team velocity metrics. Analyze historical patterns, assess complexity, integrate team velocity, model confidence intervals, calibrate estimates, and factor in context to provide data-driven estimates with confidence levels and accuracy tracking.
+Generate data-driven task estimates using historical analysis, complexity review, and team velocity metrics. This command helps analyze historical patterns, assess complexity, integrate velocity, model confidence intervals, calibrate estimates, and factor in context to deliver accurate estimates with confidence levels and accuracy tracking.
 </task_objective>
 
 <detailed_sequence_steps>

@@ -1,7 +1,7 @@
 <task name="CI/CD Pipeline Manager">
 
 <task_objective>
-Manage and automate comprehensive CI/CD pipeline configuration with GitHub Actions, multi-environment deployment strategies, security scanning, performance testing, and workflow orchestration. This workflow creates production-ready pipelines with quality gates, matrix testing, artifact management, and monitoring capabilities for modern software delivery.
+Perform comprehensive configuration and management of CI/CD pipelines using GitHub Actions, multi-environment deployment strategies, and security scanning. This command helps create production-ready pipelines with quality gates, matrix testing, artifact management, and monitoring capabilities for modern software delivery.
 </task_objective>
 
 <detailed_sequence_steps>

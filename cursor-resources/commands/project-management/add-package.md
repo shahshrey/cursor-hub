@@ -1,7 +1,7 @@
 <task name="Add Package to Workspace">
 
 <task_objective>
-Add and configure new project dependencies with proper structure and dependencies. This workflow takes package information as input ($ARGUMENTS in format: name [type]), processes it through package setup and configuration, and outputs a fully integrated package within the workspace with proper testing and documentation.
+Execute adding and configuring new project dependencies with proper structure and alignment. This command helps take package information as input ($ARGUMENTS in format: name [type]) to run package setup and configuration, delivering a fully integrated package within the workspace with testing and documentation.
 </task_objective>
 
 <detailed_sequence_steps>

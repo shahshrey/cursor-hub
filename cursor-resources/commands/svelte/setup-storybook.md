@@ -1,7 +1,7 @@
 <task name="Setup Storybook">
 
 <task_objective>
-Initialize and configure Storybook for SvelteKit projects with optimal settings and structure. Input: SvelteKit project structure, required addons, and configuration preferences. Process: Install Storybook dependencies, configure for SvelteKit framework, set up Svelte CSF addon, create configuration files, establish project structure, and add essential scripts. Output: Fully configured Storybook installation with proper SvelteKit integration, example stories, essential addons configured, npm scripts for development and building, and ready-to-use Storybook development environment.
+Perform initialize and configure Storybook for SvelteKit projects with optimal settings and structure. This command helps input: SvelteKit project structure, required addons, and configuration preferences. Process: Install Storybook dependencies, configure for SvelteKit framework, set up Svelte CSF addon, create configuration files, establish project structure, and add essential scripts. Output: Fully configured Storybook installation with proper SvelteKit integration, example stories, essential addons configured, npm scripts for development and building, and ready-to-use Storybook development environment.
 </task_objective>
 
 <detailed_sequence_steps>

@@ -1,7 +1,7 @@
 <task name="Implement Next.js Security Controls">
 
 <task_objective>
-Implement comprehensive security controls for Next.js applications focusing on SSR/SSG data exposure prevention, XSS mitigation, and Content Security Policy configuration. This workflow guides both proactive implementation and defensive auditing of security measures to protect against common web vulnerabilities in server-side rendered and statically generated applications.
+Implement comprehensive security controls for Next.js applications focusing on SSR/SSG data exposure prevention, XSS mitigation, and Content Security Policy configuration. This command helps thi workflow guides both proactive implementation and defensive auditing of security measures to protect against common web vulnerabilities in server-side rendered and statically generated applications.
 </task_objective>
 
 <detailed_sequence_steps>

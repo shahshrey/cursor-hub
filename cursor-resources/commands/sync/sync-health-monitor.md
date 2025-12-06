@@ -1,7 +1,7 @@
 <task name="Sync Health Monitor">
 
 <task_objective>
-Monitor and diagnose GitHub-Linear sync health with performance analytics and automated troubleshooting. Implement comprehensive sync health monitoring system with API health assessment, sync performance analysis, error pattern detection, webhook diagnostics, data integrity validation, and automated troubleshooting. The output will be complete health assessment with performance metrics, error analysis, recommended optimizations, and automated diagnostic reports.
+Monitor and diagnose GitHub-Linear synchronization health using performance analytics and automated troubleshooting. This command helps implement full health monitoring with API assessments, performance analysis, error pattern detection, webhook diagnostics, data integrity validation, and automated fixes.
 </task_objective>
 
 <how_to_ask_followup_question>

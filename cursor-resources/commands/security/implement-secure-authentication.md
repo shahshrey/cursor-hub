@@ -1,7 +1,7 @@
 <task name="Implement Secure Authentication and Authorization">
 
 <task_objective>
-Guide the implementation of industry-standard authentication and authorization mechanisms in the application, ensuring proper session management, role-based access control, and secure credential handling. The output will be a fully configured authentication system with proper security measures including secure token storage, RBAC enforcement, and OAuth integration where applicable.
+Guide the implementation of industry-standard authentication and authorization mechanisms in the application, ensuring proper session management, role-based access control, and secure credential handling. This command helps the output will be a fully configured authentication system with proper security measures including secure token storage, RBAC enforcement, and OAuth integration where applicable.
 </task_objective>
 
 <detailed_sequence_steps>

@@ -1,7 +1,7 @@
 <task name="Game Performance Analysis & Optimization">
 
 <task_objective>
-Analyze game performance bottlenecks and generate optimization recommendations across multiple platforms. This workflow processes performance data from game engines (Unity/Unreal/Godot) to identify rendering, memory, CPU, and platform-specific issues, outputting comprehensive audit reports with prioritized optimization strategies and monitoring implementations. Accepts $ARGUMENTS for profile type: --fps, --memory, --rendering, or --comprehensive analysis.
+Conduct cross-platform game performance profiling to uncover bottlenecks and drive optimization actions. This command helps process performance data from game engines (Unity/Unreal/Godot) to identify rendering, memory, CPU, and platform-specific issues, output comprehensive audit reports with prioritized optimization strategies, and configure monitoring implementations, with $ARGUMENTS for profile type: --fps, --memory, --rendering, or --comprehensive analysis.
 </task_objective>
 
 <detailed_sequence_steps>

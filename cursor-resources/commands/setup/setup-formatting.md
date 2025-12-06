@@ -1,7 +1,7 @@
 <task name="Setup Code Formatting">
 
 <task_objective>
-Setup comprehensive code formatting system with automated enforcement and team consistency. The input includes language detection, existing formatter configurations, package manager identification, and IDE configurations from the codebase. The output will be a complete formatting system with automated enforcement, team configurations, and style compliance monitoring.
+Establish comprehensive code formatting with automated enforcement and consistent team standards. This command helps provide a fully configured formatting stack with shared settings, continuous checks, and style compliance visibility.
 </task_objective>
 
 <detailed_sequence_steps>

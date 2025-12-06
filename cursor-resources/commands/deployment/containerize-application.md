@@ -1,7 +1,7 @@
 <task name="Containerize Application">
 
 <task_objective>
-Containerize application with optimized Docker configuration, security, and multi-stage builds. The workflow processes application type detected from @package.json, @setup.py, @go.mod, or @pom.xml, existing Docker configuration, dependencies, and port configuration to generate production-ready container images with minimal size, security hardening, and optimal runtime performance.
+Perform full application containerization with optimized Docker configuration, security, and multi-stage builds. This command helps proce application type detected from @package.json, @setup.py, @go.mod, or @pom.xml, existing Docker configuration, dependencies, and port configuration to generate production-ready container images with minimal size, security hardening, and optimal runtime performance.
 </task_objective>
 
 <detailed_sequence_steps>

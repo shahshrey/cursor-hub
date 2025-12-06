@@ -1,7 +1,7 @@
 <task name="Systematically Debug and Fix Errors">
 
 <task_objective>
-Systematically debug and fix errors by following a comprehensive debugging methodology that includes error information gathering, reproduction, stack trace analysis, code investigation, hypothesis formation, systematic investigation, and solution implementation to resolve issues effectively. Accepts error description via $ARGUMENTS.
+Execute systematic debugging to diagnose and fix errors through information gathering, reproduction, stack trace analysis, code investigation, hypothesis testing, and solution implementation. This command helps resolve $ARGUMENTS efficiently by following a disciplined debugging methodology and verifying fixes.
 </task_objective>
 
 <detailed_sequence_steps>

@@ -1,7 +1,7 @@
 <task name="Clean Branches">
 
 <task_objective>
-Clean up merged and stale git branches by systematically analyzing repository state, identifying merged and stale branches, performing interactive branch review with safety precautions, cleaning up local and remote branches, coordinating with team, and documenting procedures with rollback capabilities. Accepts options via $ARGUMENTS.
+Execute cleanup of merged and stale git branches through systematic repository analysis and safety-checked branch review. This command helps accept options via $ARGUMENTS while coordinating team review, removing local and remote branches, documenting procedures, and preserving rollback capabilities.
 </task_objective>
 
 <detailed_sequence_steps>

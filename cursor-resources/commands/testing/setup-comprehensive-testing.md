@@ -1,7 +1,7 @@
 <task name="Setup Comprehensive Testing">
 
 <task_objective>
-Setup complete testing infrastructure with multi-layer testing strategy across unit, integration, e2e, visual, and performance testing. This workflow designs testing strategy, configures multiple testing frameworks, and integrates with CI/CD for automated execution. The output is a complete testing infrastructure with configured frameworks, CI integration, quality metrics, and maintenance workflows.
+Establish a full-spectrum testing infrastructure across unit, integration, e2e, visual, and performance layers. This command helps design the testing strategy, configure multiple frameworks, and integrate executions into CI/CD with quality metrics and maintenance workflows.
 </task_objective>
 
 <detailed_sequence_steps>

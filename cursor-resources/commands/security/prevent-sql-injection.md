@@ -1,7 +1,7 @@
 <task name="Prevent SQL Injection">
 
 <task_objective>
-Eliminate SQL injection vulnerabilities by ensuring all database queries use parameterized queries or ORM methods instead of string concatenation. This workflow generates secure database query code, audits existing queries for vulnerabilities, and provides detailed remediation guidance with code examples for each database technology used in the project.
+Perform eliminate SQL injection vulnerabilities by ensuring all database queries use parameterized queries or ORM methods instead of string concatenation. This command helps thi workflow generates secure database query code, audits existing queries for vulnerabilities, and provides detailed remediation guidance with code examples for each database technology used in the project.
 </task_objective>
 
 <detailed_sequence_steps>

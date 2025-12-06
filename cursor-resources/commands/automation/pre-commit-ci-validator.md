@@ -1,7 +1,7 @@
 <task name="Pre-Commit CI Validator">
 
 <task_objective>
-Run comprehensive CI checks and systematically fix issues until the repository is in a clean working state. This workflow validates code quality through linting, type checking, building, and testing, then stages changes appropriately. It ensures all CI checks pass before commits and provides detailed error diagnosis and resolution for any failures encountered.
+Perform comprehensive CI validation and systematic issue resolution to ensure a clean repository state. This command helps validate code quality through linting, type checking, building, and testing, while ensuring all CI checks pass before staging appropriate changes.
 </task_objective>
 
 <detailed_sequence_steps>

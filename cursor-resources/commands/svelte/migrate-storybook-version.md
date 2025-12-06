@@ -1,7 +1,7 @@
 <task name="Migrate Storybook Version">
 
 <task_objective>
-Migrate Storybook configurations and stories to newer versions, including Svelte CSF v5 and @storybook/sveltekit framework. Input: Current Storybook setup (version, configuration files, and story files). Process: Analyze current setup, update dependencies, migrate configuration syntax, convert story formats, update module mocking patterns, and validate functionality. Output: Fully migrated Storybook installation with updated configurations, converted stories using modern syntax, and verified working setup with all addons functional.
+Perform migrate Storybook configurations and stories to newer versions, including Svelte CSF v5 and @storybook/sveltekit framework. This command helps input: Current Storybook setup (version, configuration files, and story files). Process: Analyze current setup, update dependencies, migrate configuration syntax, convert story formats, update module mocking patterns, and validate functionality. Output: Fully migrated Storybook installation with updated configurations, converted stories using modern syntax, and verified working setup with all addons functional.
 </task_objective>
 
 <detailed_sequence_steps>

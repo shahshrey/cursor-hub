@@ -1,7 +1,7 @@
 <task name="Game Analytics & Player Intelligence System">
 
 <task_objective>
-Implement game analytics systems with player behavior tracking, performance monitoring, and business intelligence integration. This workflow creates comprehensive analytics infrastructure including session tracking, crash reporting, revenue analytics, A/B testing frameworks, and real-time monitoring with privacy compliance. Accepts $ARGUMENTS for analytics type: --player-behavior, --performance, --monetization, --retention, or --comprehensive analytics implementation.
+Execute comprehensive implementation of game analytics with player behavior tracking, performance monitoring, and business intelligence integration. This command helps establish session tracking, crash reporting, revenue analytics, A/B testing frameworks, and real-time monitoring with privacy compliance, supporting $ARGUMENTS for analytics type: --player-behavior, --performance, --monetization, --retention, or --comprehensive analytics implementation.
 </task_objective>
 
 <detailed_sequence_steps>

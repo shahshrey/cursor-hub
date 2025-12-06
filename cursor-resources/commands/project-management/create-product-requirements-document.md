@@ -1,7 +1,7 @@
 <task name="Create Product Requirements Document">
 
 <task_objective>
-Create Product Requirements Document (PRD) for new features. This workflow takes feature name as input ($ARGUMENTS), analyzes product documentation, feature ideas, and JTBD analysis, and outputs a comprehensive PRD (product-development/current-feature/PRD.md) that defines the what, why, and how of the product feature with clear specifications and success metrics.
+Conduct creation of a Product Requirements Document for new features. This command helps take a feature name as input ($ARGUMENTS) to analyze product documentation, feature ideas, and JTBD analysis, producing a comprehensive PRD (product-development/current-feature/PRD.md) with clear objectives, specifications, and success metrics.
 </task_objective>
 
 <detailed_sequence_steps>

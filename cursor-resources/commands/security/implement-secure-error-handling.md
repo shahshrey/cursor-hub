@@ -1,7 +1,7 @@
 <task name="Implement Secure Error Handling">
 
 <task_objective>
-Implement production-ready error handling that prevents data leaks by returning generic error messages to clients while securely logging detailed error information on the server. Follow OWASP Exception and Error Handling best practices, establish sustainable log retention policies, and ensure sensitive information is never exposed through error responses or logs.
+Implement production-ready error handling that prevents data leaks by returning generic error messages to clients while securely logging detailed error information on the server. This command helps follow OWASP Exception and Error Handling best practices, establish sustainable log retention policies, and ensure sensitive information is never exposed through error responses or logs.
 </task_objective>
 
 <how_to_ask_followup_question>

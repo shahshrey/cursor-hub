@@ -1,7 +1,7 @@
 <task name="Analyze Next.js Bundle">
 
 <task_objective>
-Analyze and optimize Next.js application bundle size with detailed recommendations for reducing JavaScript payload. Takes analysis mode flags (--build, --analyze, --report) as input, configures and runs webpack-bundle-analyzer, analyzes build output to identify bundle composition (client bundles, server bundles, vendor dependencies, page-specific chunks), calculates metrics against performance thresholds, identifies optimization opportunities (large dependencies, duplicate code, tree-shaking opportunities, code splitting gaps), and generates comprehensive report with prioritized action items and implementation examples.
+Perform comprehensive analysis and optimization of Next.js application bundle size. This command helps configure and run analysis modes, inspect build output for client and server bundle composition, identify heavy dependencies and code splitting gaps, and generate prioritized recommendations with actionable implementation examples.
 </task_objective>
 
 <detailed_sequence_steps>

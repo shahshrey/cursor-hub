@@ -1,7 +1,7 @@
 <task name="E2E Setup">
 
 <task_objective>
-Configure comprehensive end-to-end testing suite with framework selection and optimization. This workflow selects the optimal E2E testing tool, configures test environments, implements page object patterns, sets up test data management, and integrates with CI/CD. The output is a complete E2E testing setup with framework configuration, test suites, CI integration, and maintenance workflows.
+Configure an end-to-end testing suite with optimal framework selection and tuning. This command helps choose the best E2E tool, configure environments, implement page objects, manage test data, and integrate suites into CI/CD with maintenance workflows.
 </task_objective>
 
 <detailed_sequence_steps>

@@ -1,7 +1,7 @@
 <task name="Add Property-Based Testing">
 
 <task_objective>
-Implement comprehensive property-based testing framework with invariant analysis and automated test generation. This workflow selects appropriate property testing tools, identifies testable properties, designs custom generators, and implements property tests. The output is a complete property-based testing setup with identified properties, custom generators, integrated test suite, and performance optimization.
+Establish property-based testing with invariant analysis and automated generation. This command helps choose tooling, identify properties, design custom generators, and integrate property tests with performance optimizations.
 </task_objective>
 
 <detailed_sequence_steps>

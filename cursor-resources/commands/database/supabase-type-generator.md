@@ -1,7 +1,7 @@
 <task name="Supabase Type Generator">
 
 <task_objective>
-Generate comprehensive TypeScript types from Supabase schema with automatic synchronization and validation. The workflow accepts generation scopes (all-tables, specific-table, functions, enums, views) and uses Supabase MCP integration to extract database schema, generate TypeScript interfaces, create utility types, configure import paths, validate type compatibility, and monitor schema changes. Outputs include TypeScript type definition files, application integration code, validation reports, synchronization procedures, and developer documentation.
+Generate comprehensive TypeScript types from Supabase schema with automatic synchronization and validation. This command helps ensure type safety by extracting database schemas, creating TypeScript interfaces, and validating compatibility through seamless Supabase MCP integration.
 </task_objective>
 
 <detailed_sequence_steps>

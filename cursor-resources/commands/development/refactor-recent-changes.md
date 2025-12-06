@@ -1,7 +1,7 @@
 <task name="Refactor Recent Changes">
 
 <task_objective>
-Review recently changed files in the repository and perform small, focused refactors to make the codebase easier for AI agents to navigate in the future. Use git diff to identify changed files and their directly related modules, then refactor by splitting large files into smaller single-purpose files (target under 500 lines), organizing folder hierarchies, tightening module boundaries, removing dead code, and simplifying APIs. Keep code behaviorally identical and document all changes. Output will be refactored code files with updated documentation headers.
+Review recently changed files in the repository and perform small, focused refactors to make the codebase easier for AI agents to navigate in the future. This command helps use git diff to identify changed files and their directly related modules, then refactor by splitting large files into smaller single-purpose files (target under 500 lines), organizing folder hierarchies, tightening module boundaries, removing dead code, and simplifying APIs. Keep code behaviorally identical and document all changes. Output will be refactored code files with updated documentation headers.
 </task_objective>
 
 <detailed_sequence_steps>

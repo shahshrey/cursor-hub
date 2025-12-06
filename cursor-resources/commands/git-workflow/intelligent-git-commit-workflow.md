@@ -1,7 +1,7 @@
 <task name="Intelligent Git Commit Workflow">
 
 <task_objective>
-Examine git diffs, logically group changes into cohesive commits, and handle the iterative cycles of linting and testing that occur after each commit. The workflow creates atomic commits using conventional commit format while managing pre-commit hooks (autoflake, isort, black, pytest) and distinguishing between code-related and infrastructure-related test failures. Each commit represents a single, complete change with proper formatting and quality validation.
+Analyze git diffs to group changes into cohesive commits while managing linting and testing cycles. This command helps create atomic conventional commits, coordinate pre-commit tooling like autoflake/isort/black/pytest, and separate code and infrastructure issues for a clean history.
 </task_objective>
 
 <detailed_sequence_steps>

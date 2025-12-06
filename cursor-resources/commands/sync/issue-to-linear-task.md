@@ -1,7 +1,7 @@
 <task name="Issue to Linear Task">
 
 <task_objective>
-Convert individual GitHub issues to Linear tasks with comprehensive data preservation. Execute precise conversion of GitHub issues to Linear tasks with complete field mapping, content migration including comments and attachments, bidirectional reference management, and comprehensive validation. The output will be successfully converted Linear tasks with complete data preservation, accurate field mappings, bidirectional references, and comprehensive conversion summary.
+Convert individual GitHub issues into Linear tasks with complete data preservation. This command helps perform precise conversions with full field mapping, migration of comments and attachments, bidirectional references, and thorough validation.
 </task_objective>
 
 <how_to_ask_followup_question>

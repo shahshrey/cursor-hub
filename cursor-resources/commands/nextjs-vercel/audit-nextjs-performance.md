@@ -1,7 +1,7 @@
 <task name="Audit Next.js Performance">
 
 <task_objective>
-Conduct comprehensive performance analysis of Next.js applications with actionable optimization recommendations. Takes audit type flags (--lighthouse, --bundle, --runtime, --all) as input, analyzes application build output, bundle composition, runtime performance metrics, and Core Web Vitals, then generates detailed report with performance scores, bottleneck identification, specific optimization strategies for images/CSS/JavaScript, and implementation roadmap prioritized by impact.
+Conduct comprehensive performance audits of Next.js applications to surface optimization opportunities. This command helps run targeted analysis modes, measure bundle composition and runtime metrics, uncover Core Web Vitals bottlenecks, and deliver prioritized remediation steps with implementation guidance.
 </task_objective>
 
 <detailed_sequence_steps>

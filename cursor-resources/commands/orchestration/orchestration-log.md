@@ -1,7 +1,7 @@
 <task name="Orchestration Log">
 
 <task_objective>
-Log work from orchestrated tasks to external project management tools like Linear, Obsidian, Jira, or GitHub Issues. The workflow detects available destination connections from task metadata and MCP integrations, formats work log entries with task details, time spent, progress notes, and code statistics, presents user with destination choice when multiple options exist, and creates or appends structured log entries to selected destinations with bidirectional links and metadata tagging.
+Perform logging of work from orchestrated tasks to external project management tools like Linear, Obsidian, Jira, or GitHub Issues. This command helps detect available destination connections from task metadata and MCP integrations, formats work log entries with task details, time spent, progress notes, and code statistics, presents user with destination choice when multiple options exist, and creates or appends structured log entries to selected destinations with bidirectional links and metadata tagging.
 </task_objective>
 
 <detailed_sequence_steps>

@@ -1,7 +1,7 @@
 <task name="Comprehensive PR Review">
 
 <task_objective>
-Conduct thorough multi-perspective code review of a pull request and update GitHub with comprehensive feedback. Input: PR link or number. Processing: Execute six specialized reviews (Product Manager, Developer, Quality Engineer, Security Engineer, DevOps, UI/UX Designer), identify all improvements needed, implement fixes immediately. Output: Complete GitHub review comment with all perspectives addressed, all identified improvements implemented immediately without deferrals.
+Conduct multi-perspective reviews of pull requests and apply improvements immediately. This command helps gather PR context, run product/developer/QA/security/DevOps/UI analyses, and post comprehensive GitHub feedback with implemented fixes.
 </task_objective>
 
 <detailed_sequence_steps>

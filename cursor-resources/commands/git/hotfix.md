@@ -1,7 +1,7 @@
 <task name="Git Flow Hotfix Branch">
 
 <task_objective>
-Create a new Git Flow hotfix branch from main for emergency production fixes. Takes a hotfix name as input, validates the emergency status, creates a hotfix branch from production code, determines the patch version bump, and prepares for immediate deployment after fixing critical issues.
+Execute creation of a Git Flow hotfix branch from main for emergency production remediation. This command helps take a hotfix name as input, validate the critical nature of the issue, create the branch from production code, determine the patch version bump, and prepare for immediate deployment after resolving the problem.
 </task_objective>
 
 <detailed_sequence_steps>

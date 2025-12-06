@@ -1,7 +1,7 @@
 <task name="File Analysis Tool">
 
 <task_objective>
-Perform comprehensive analysis of specified files to identify code quality issues, security vulnerabilities, performance bottlenecks, dependency problems, language-specific patterns, and test coverage gaps with actionable recommendations for improvement. Accepts file path via $ARGUMENTS.
+Conduct comprehensive analysis of specified files to uncover code quality issues, security vulnerabilities, performance bottlenecks, dependency problems, language-specific patterns, and test coverage gaps with actionable recommendations. This command helps accept file paths via $ARGUMENTS by delivering targeted improvements across quality, security, performance, dependencies, patterns, and testing.
 </task_objective>
 
 <detailed_sequence_steps>

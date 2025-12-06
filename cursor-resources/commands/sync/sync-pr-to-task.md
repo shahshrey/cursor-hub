@@ -1,7 +1,7 @@
 <task name="Sync PR to Task">
 
 <task_objective>
-Link GitHub pull requests to Linear tasks with automated state synchronization and workflow integration. Implement comprehensive pull request to Linear task linking system with reference detection, PR analysis, state synchronization, task updates, GitHub enhancement, and workflow automation. The output will be complete PR-task integration with automated synchronization, workflow enhancement, state management, and comprehensive relationship tracking.
+Link GitHub pull requests to Linear tasks with automated state synchronization and workflow integration. This command helps establish robust PR-task connections with reference detection, PR analysis, state sync, task updates, GitHub enhancements, and workflow automation.
 </task_objective>
 
 <how_to_ask_followup_question>
