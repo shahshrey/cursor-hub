@@ -1,7 +1,7 @@
 <task name="Linear Task to Issue">
 
 <task_objective>
-Convert Linear tasks to GitHub issues with relationship preservation and metadata mapping. Execute precise conversion of Linear tasks to GitHub issues with comprehensive content transformation, attachment migration, comment import, and cross-reference setup. The output will be successfully created GitHub issues with complete data migration, accurate field mappings, preserved relationships, and comprehensive conversion report.
+Convert Linear tasks into GitHub issues while preserving relationships and metadata. This command helps execute accurate transformations with content migration, attachment handling, comment import, and cross-reference setup.
 </task_objective>
 
 <how_to_ask_followup_question>

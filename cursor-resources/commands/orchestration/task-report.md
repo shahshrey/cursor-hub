@@ -1,7 +1,7 @@
 <task name="Task Report">
 
 <task_objective>
-Generate comprehensive reports on task execution, progress, and metrics. The workflow reads task data from TASK-STATUS-TRACKER.yaml files and task files across orchestrations, calculates performance metrics including velocity, completion rates, quality scores, and resource utilization, formats data according to specified report type (executive summary, sprint report, daily standup, performance, dependencies), and outputs formatted reports to terminal or file in markdown, HTML, PDF, or CSV formats.
+Generate comprehensive reports on task execution, progress, and metrics across orchestrations. This command helps read task data from TASK-STATUS-TRACKER.yaml files and task files across orchestrations, calculates performance metrics including velocity, completion rates, quality scores, and resource utilization, formats data according to specified report type (executive summary, sprint report, daily standup, performance, dependencies), and outputs formatted reports to terminal or file in markdown, HTML, PDF, or CSV formats.
 </task_objective>
 
 <detailed_sequence_steps>

@@ -1,7 +1,7 @@
 <task name="Setup CDN Optimization">
 
 <task_objective>
-Configure CDN for optimal content delivery, caching, and global performance optimization. This workflow takes the CDN provider preference as input, analyzes application traffic patterns and content types, configures CDN settings with optimal caching policies, implements compression and asset optimization, and outputs a fully configured CDN setup with monitoring and security measures.
+Configure CDN delivery for optimal performance, caching, and global content acceleration. This command helps take the CDN provider preference, analyze application traffic patterns and content types, configure CDN settings with optimal caching policies, implement compression and asset optimization, and deliver a fully configured CDN setup with monitoring and security measures.
 </task_objective>
 
 <detailed_sequence_steps>

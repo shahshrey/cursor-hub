@@ -1,7 +1,7 @@
 <task name="Decision Quality Analyzer">
 
 <task_objective>
-Analyze and improve team decision-making quality with comprehensive bias detection. Assess decision processes, detect cognitive biases, evaluate outcomes, test scenarios, analyze timing, and integrate learning to enhance team decision quality through systematic bias mitigation and process optimization.
+Conduct rigorous analysis to improve team decision-making quality with systematic bias detection. This command helps assess decision processes, detect cognitive biases, evaluate outcomes, test scenarios, analyze timing, and integrate learning to enhance decision quality through bias mitigation and process optimization.
 </task_objective>
 
 <detailed_sequence_steps>

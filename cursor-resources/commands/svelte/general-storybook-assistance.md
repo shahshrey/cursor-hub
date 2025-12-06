@@ -1,7 +1,7 @@
 <task name="General Storybook Assistance">
 
 <task_objective>
-Provide general-purpose Storybook assistance for SvelteKit projects, including setup guidance, best practices, and common tasks. Input: User's Storybook-related question or task request, current project state, and existing Storybook configuration. Process: Assess request type (setup, story creation, configuration, optimization, or troubleshooting), analyze current Storybook installation, provide relevant guidance or implementation, and recommend best practices. Output: Comprehensive assistance with actionable guidance, code examples, configuration recommendations, and implementation steps tailored to the specific request and project context.
+Perform provide general-purpose Storybook assistance for SvelteKit projects, including setup guidance, best practices, and common tasks. This command helps input: User's Storybook-related question or task request, current project state, and existing Storybook configuration. Process: Assess request type (setup, story creation, configuration, optimization, or troubleshooting), analyze current Storybook installation, provide relevant guidance or implementation, and recommend best practices. Output: Comprehensive assistance with actionable guidance, code examples, configuration recommendations, and implementation steps tailored to the specific request and project context.
 </task_objective>
 
 <detailed_sequence_steps>

@@ -1,7 +1,7 @@
 <task name="Create QA Testing Guide">
 
 <task_objective>
-Generate a comprehensive QA testing guide for Pull Request changes by analyzing the git diff and creating actionable testing guidance that helps QA understand features, test focus areas, required test data, areas of caution, and regression testing suggestions. The output will be logged as a comment to the specified Linear ticket.
+Perform generation of a comprehensive QA testing guide for Pull Request changes by analyzing the git diff and creating actionable guidance that clarifies features, test focus areas, required test data, areas of caution, and regression testing suggestions. This command helps log the QA guidance as a comment to the specified Linear ticket.
 </task_objective>
 
 <detailed_sequence_steps>

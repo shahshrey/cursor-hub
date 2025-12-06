@@ -1,7 +1,7 @@
 <task name="Fix GitHub Issue">
 
 <task_objective>
-Analyze and fix a GitHub issue by fetching issue details, understanding the problem, implementing necessary changes, and verifying the fix. Input: GitHub issue number. Processing: Fetch issue details using GitHub CLI, search codebase for relevant files, implement changes, run tests, validate with linting and type checking. Output: Fixed code with descriptive commit, passing tests, and code quality validation.
+Fix a GitHub issue by investigating its details, implementing targeted changes, and validating the result. This command helps fetch issue context, locate relevant code, apply and test fixes, and produce verified commits linked to the issue.
 </task_objective>
 
 <detailed_sequence_steps>

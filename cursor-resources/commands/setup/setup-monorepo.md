@@ -1,7 +1,7 @@
 <task name="Setup Monorepo">
 
 <task_objective>
-Implement production-ready monorepo with advanced workspace management and build orchestration. The input includes repository structure, package manager detection, existing monorepo configurations, and project count from the codebase. The output will be a complete monorepo setup with optimized build system, comprehensive tooling, and team productivity enhancements.
+Implement a production-ready monorepo with structured workspaces and coordinated build orchestration. This command helps establish an optimized build system with shared tooling, scalable workflows, and improved team productivity.
 </task_objective>
 
 <detailed_sequence_steps>

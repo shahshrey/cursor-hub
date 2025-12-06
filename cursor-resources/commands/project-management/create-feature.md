@@ -1,7 +1,7 @@
 <task name="Create Feature">
 
 <task_objective>
-Scaffold new feature with boilerplate code, tests, and documentation. This workflow takes feature name and optional type as input ($ARGUMENTS), processes it through comprehensive planning, implementation, testing, and documentation phases, and outputs a complete, production-ready feature integrated into the codebase with proper testing and documentation.
+Execute scaffolding of a new feature with boilerplate code, tests, and documentation. This command helps process feature name and optional type inputs ($ARGUMENTS) through planning, implementation, testing, and documentation phases to deliver a production-ready feature integrated into the codebase with full coverage.
 </task_objective>
 
 <detailed_sequence_steps>

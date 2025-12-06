@@ -1,7 +1,7 @@
 <task name="Team Velocity Tracker">
 
 <task_objective>
-Track and analyze team velocity with predictive forecasting and performance optimization recommendations. Analyze historical velocity patterns, assess consistency, integrate capacity factors, and generate predictive forecasts to enable sustainable performance and accurate sprint planning.
+Track and analyze team velocity with predictive forecasting and performance optimization. This command helps examine historical velocity patterns, assess consistency, integrate capacity factors, and generate forecasts to enable sustainable performance and accurate sprint planning.
 </task_objective>
 
 <detailed_sequence_steps>

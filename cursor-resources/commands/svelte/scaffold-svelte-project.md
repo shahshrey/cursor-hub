@@ -1,7 +1,7 @@
 <task name="Scaffold Svelte Project">
 
 <task_objective>
-Scaffold new SvelteKit projects, features, or modules with best practices and optimal project structure. Input: User specification of project type (new SvelteKit project, feature module, or component library) and required integrations. Process: Initialize project using appropriate tools, configure essential dependencies, set up project structure, and generate starter code. Output: Fully scaffolded project or feature module with configuration files, proper directory structure, and example implementations ready for development.
+Perform scaffold new SvelteKit projects, features, or modules with best practices and optimal project structure. This command helps input: User specification of project type (new SvelteKit project, feature module, or component library) and required integrations. Process: Initialize project using appropriate tools, configure essential dependencies, set up project structure, and generate starter code. Output: Fully scaffolded project or feature module with configuration files, proper directory structure, and example implementations ready for development.
 </task_objective>
 
 <detailed_sequence_steps>

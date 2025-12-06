@@ -1,7 +1,7 @@
 <task name="Enforce Minimal Changes Principle">
 
 <task_objective>
-Apply the minimal changes principle to review and refactor existing code, ensuring only necessary modifications are made for the specific task at hand. These rules MUST be followed for all code changes unless a task or project-specific rule explicitly overrides them. Agents must continue iterating and applying these rules until the user's code task is fully and correctly resolved.
+Perform apply the minimal changes principle to review and refactor existing code, ensuring only necessary modifications are made for the specific task at hand. This command helps these rules MUST be followed for all code changes unless a task or project-specific rule explicitly overrides them. Agents must continue iterating and applying these rules until the user's code task is fully and correctly resolved.
 </task_objective>
 
 <detailed_sequence_steps>

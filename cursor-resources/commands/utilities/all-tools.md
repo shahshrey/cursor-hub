@@ -1,7 +1,7 @@
 <task name="Display All Available Development Tools">
 
 <task_objective>
-Display all available development tools from the system prompt in a formatted, organized structure that helps developers quickly understand what tools are available in the current Cursor session, their exact function signatures, and their primary purposes for quick reference and planning.
+Display all available development tools from the system prompt in a formatted, organized structure for quick reference. This command helps developers working with $ARGUMENTS quickly understand available tools, their function signatures, and primary purposes for planning.
 </task_objective>
 
 <detailed_sequence_steps>

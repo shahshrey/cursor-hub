@@ -1,7 +1,7 @@
 <task name="Setup Docker Containers">
 
 <task_objective>
-Implement production-ready Docker containerization with optimized builds and development workflows. The input includes application type detection from @package.json or @requirements.txt, existing Docker configurations, dependency lock files, and service requirements. The output will be a complete Docker setup with optimized containers, development workflows, production deployment, and comprehensive documentation.
+Execute production-ready Docker containerization with optimized builds and streamlined development workflows. This command helps produce a complete Docker setup with efficient containers, reliable dev and prod workflows, and clearly documented deployment steps.
 </task_objective>
 
 <detailed_sequence_steps>

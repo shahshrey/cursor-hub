@@ -1,7 +1,7 @@
 <task name="Update PAC Ticket Status">
 
 <task_objective>
-Update PAC ticket status and track progress in Product as Code workflow. This workflow takes ticket ID and status flags as input ($ARGUMENTS), processes status updates with validation and workflow integration, and outputs updated ticket YAML with new status, timestamps, and automated suggestions for git workflow actions based on status transitions.
+Execute status updates for PAC tickets to track progress within the Product as Code workflow. This command helps take ticket ID and status flags as inputs ($ARGUMENTS) to validate transitions, update ticket YAML with timestamps, and provide automated git workflow suggestions based on status changes.
 </task_objective>
 
 <detailed_sequence_steps>

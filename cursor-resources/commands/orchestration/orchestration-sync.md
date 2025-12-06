@@ -1,7 +1,7 @@
 <task name="Orchestration Sync">
 
 <task_objective>
-Synchronize task status with git commits, ensuring consistency between version control and task tracking. The workflow analyzes git history to identify task-related commits, extracts task references from commit messages and branch names, updates TASK-STATUS-TRACKER.yaml based on commit evidence, and reports discrepancies between git state and task tracking for bidirectional consistency validation.
+Perform synchronization of task status with git commits to ensure consistency between version control and task tracking. This command helps analyze git history to identify task-related commits, extracts task references from commit messages and branch names, updates TASK-STATUS-TRACKER.yaml based on commit evidence, and reports discrepancies between git state and task tracking for bidirectional consistency validation.
 </task_objective>
 
 <detailed_sequence_steps>

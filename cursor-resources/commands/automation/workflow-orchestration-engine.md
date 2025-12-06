@@ -1,7 +1,7 @@
 <task name="Workflow Orchestration Engine">
 
 <task_objective>
-Create and manage complex automation workflows with task dependency management, parallel execution, scheduling capabilities, and cross-platform support. This workflow enables building sophisticated automation pipelines with conditional logic, retry mechanisms, monitoring, and integration with external services like Docker, HTTP APIs, and databases.
+Perform orchestration of complex automation workflows involving task dependencies, parallel execution, and scheduling. This command helps build sophisticated automation pipelines with conditional logic, retry mechanisms, monitoring, and integration with external services like Docker, HTTP APIs, and databases.
 </task_objective>
 
 <detailed_sequence_steps>

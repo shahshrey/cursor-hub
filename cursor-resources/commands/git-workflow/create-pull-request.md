@@ -1,7 +1,7 @@
 <task name="Create Pull Request">
 
 <task_objective>
-Create a new branch, commit changes, and submit a pull request with proper formatting and structure. Input: Current changes or modified files. Processing: Create branch based on changes, format files using Biome, analyze changes to split into logical commits, create descriptive commit messages for each unit, push branch to remote, create PR with proper summary and test plan following template. Output: New branch with atomic commits, pushed to remote, pull request created on GitHub with formatted description following PR template structure.
+Create a branch, organize commits, and open a well-structured pull request. This command helps format files, group changes into atomic commits with descriptive messages, push the branch, and generate a PR with a complete summary and test plan.
 </task_objective>
 
 <how_to_ask_followup_question>

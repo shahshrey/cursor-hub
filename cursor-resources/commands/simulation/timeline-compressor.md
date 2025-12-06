@@ -1,7 +1,7 @@
 <task name="Timeline Compressor">
 
 <task_objective>
-Compress real-world timelines into rapid simulation cycles with accelerated learning and decision optimization. Takes timeline type as input (product development, market adoption, business transformation, or competitive response), processes it through compression frameworks including timeline architecture, compression strategy, rapid iteration engine, confidence management, scenario multiplication, and decision integration, and generates compressed timeline analysis with acceleration strategies, scenario outcomes, confidence assessments, and implementation roadmaps for exponential learning and decision advantage.
+Compress real-world timelines into rapid simulation cycles with accelerated learning and decision optimization. This command helps take timeline types as input (product development, market adoption, business transformation, or competitive response), process them through compression frameworks including timeline architecture, compression strategy, rapid iteration engine, confidence management, scenario multiplication, and decision integration, and generate compressed timeline analyses with acceleration strategies, scenario outcomes, confidence assessments, and implementation roadmaps for exponential learning and decision advantage.
 </task_objective>
 
 <detailed_sequence_steps>

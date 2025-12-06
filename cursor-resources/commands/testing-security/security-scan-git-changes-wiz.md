@@ -1,7 +1,7 @@
 <task name="Security Scan Git Changes with Wiz">
 
 <task_objective>
-Perform a security scan of files changed in the current Git working tree using Wiz CLI by authenticating if needed, identifying changed files, running appropriate security scans (code scan for secrets/vulnerabilities and IaC scan for infrastructure files), and interpreting the raw Wiz output to provide natural language feedback with actionable security recommendations.
+Execute a targeted Wiz CLI security scan on current Git changes by authenticating, enumerating modified files, and running code and IaC checks with actionable interpretation. This command helps surface security issues in changed files with prioritized recommendations based on Wiz scan results.
 </task_objective>
 
 <detailed_sequence_steps>

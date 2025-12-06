@@ -1,7 +1,7 @@
 <task name="Convert Code Analysis to Linear Tasks">
 
 <task_objective>
-Convert code analysis to Linear tasks by scanning the codebase for TODO/FIXME comments, technical debt markers, deprecated code, and other indicators, then automatically creating organized, prioritized Linear tasks with proper context, code references, and actionable descriptions to ensure important code improvements aren't forgotten.
+Convert code analysis findings into Linear tasks by scanning the codebase for TODO/FIXME comments, technical debt markers, deprecated code, and other indicators. This command helps transform $ARGUMENTS into organized, prioritized Linear tasks with proper context, code references, and actionable descriptions so important improvements are captured.
 </task_objective>
 
 <detailed_sequence_steps>

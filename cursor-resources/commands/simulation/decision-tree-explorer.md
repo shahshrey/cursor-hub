@@ -1,7 +1,7 @@
 <task name="Decision Tree Explorer">
 
 <task_objective>
-Explore complex decision branches with probability analysis, expected value calculation, and optimization. Takes decision context as input (strategic, investment, operational, or crisis response), processes it through decision frameworks including option generation, probability assessment, expected value analysis, sensitivity analysis, risk assessment, and optimization, and generates a complete decision tree with probability-weighted outcomes, expected value calculations, risk assessments, and strategic recommendations with implementation guidance.
+Conduct exploration of complex decision branches with probability analysis, expected value calculation, and optimization. This command helps take decision context as input (strategic, investment, operational, or crisis response), process it through frameworks covering option generation, probability assessment, expected value analysis, sensitivity analysis, risk assessment, and optimization, and generate a decision tree with probability-weighted outcomes, expected value calculations, risk assessments, and strategic recommendations with implementation guidance.
 </task_objective>
 
 <detailed_sequence_steps>

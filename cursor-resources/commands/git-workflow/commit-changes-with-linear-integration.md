@@ -1,7 +1,7 @@
 <task name="Commit Changes with Linear Integration">
 
 <task_objective>
-Analyze git changes in a monorepo and create appropriate commits with Linear ticket integration. The workflow ensures commits follow conventional commit format, include Linear ticket references, are made on feature branches (not main), exclude sensitive files, and update Linear issue status upon completion. Each commit will be in the format: `<type>(AVA-XXX): <description>`.
+Create conventional commits in a monorepo while integrating required Linear ticket references. This command helps enforce feature-branch usage, include ticket IDs, exclude sensitive files, update Linear status, and format commits as `<type>(AVA-XXX): <description>`.
 </task_objective>
 
 <detailed_sequence_steps>

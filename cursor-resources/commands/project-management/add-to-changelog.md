@@ -1,7 +1,7 @@
 <task name="Add to Changelog">
 
 <task_objective>
-Add entry to project changelog following Keep a Changelog format. This workflow takes version, change-type, and message as inputs ($ARGUMENTS), processes the changelog update, and outputs a properly formatted CHANGELOG.md file with the new entry under the appropriate version and category.
+Execute adding a new entry to the project changelog following the Keep a Changelog format. This command helps take version, change-type, and message inputs ($ARGUMENTS) to produce a properly formatted CHANGELOG.md update with the entry under the correct version and category.
 </task_objective>
 
 <detailed_sequence_steps>

@@ -12,7 +12,7 @@ ai_optimized: true
 <task name="Secure Secrets Management">
 
 <task_objective>
-Automatically discover, audit, and secure all sensitive data in the codebase by scanning for hard-coded secrets, migrating them to environment variables with validation, configuring proper .gitignore rules, implementing encryption patterns, and establishing secure coding standards. Execute this workflow autonomously using grep, file reading/writing, and code analysis tools.
+Perform automatically discover, audit, and secure all sensitive data in the codebase by scanning for hard-coded secrets, migrating them to environment variables with validation, configuring proper .gitignore rules, implementing encryption patterns, and establishing secure coding standards. This command helps execute this workflow autonomously using grep, file reading/writing, and code analysis tools.
 </task_objective>
 
 <detailed_sequence_steps>

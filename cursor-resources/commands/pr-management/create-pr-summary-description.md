@@ -1,7 +1,7 @@
 <task name="Create PR Summary Description">
 
 <task_objective>
-Generate a concise yet thorough Pull Request summary for co-workers by analyzing the git diff between the current branch and main. The output will be a well-structured markdown document highlighting key changes, PR purpose, and areas requiring reviewer attention to facilitate effective code review.
+Generate an actionable Pull Request summary by analyzing the diff between the current branch and main to highlight intent and key changes. This command helps produce a well-structured markdown summary that surfaces major modifications, PR purpose, and reviewer focus areas for efficient code review.
 </task_objective>
 
 <detailed_sequence_steps>

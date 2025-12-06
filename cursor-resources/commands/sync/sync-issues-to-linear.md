@@ -1,7 +1,7 @@
 <task name="Sync Issues to Linear">
 
 <task_objective>
-Sync GitHub issues to Linear workspace with comprehensive field mapping and rate limit management. Execute comprehensive synchronization of GitHub issues to Linear workspace with intelligent field mapping, data validation, Linear integration, rate limit management, and progress tracking. The output will be complete synchronization results with success metrics, error reports, mapping summaries, and comprehensive sync analytics.
+Synchronize GitHub issues to Linear with comprehensive field mapping and rate limit management. This command helps run reliable issue transfers with intelligent mapping, validation, Linear integration, rate limit control, and progress tracking.
 </task_objective>
 
 <how_to_ask_followup_question>

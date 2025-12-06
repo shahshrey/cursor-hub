@@ -1,7 +1,7 @@
 <task name="Smart Git Commit">
 
 <task_objective>
-Create well-formatted commits with conventional commit format and emoji following best practices. Input: Optional commit message or flags (--no-verify, --amend). Processing: Run pre-commit checks (lint, build, docs), analyze staged/unstaged changes using git diff, determine if changes should be split into multiple commits, generate emoji conventional commit messages. Output: One or more atomic commits with descriptive messages in format [emoji] [type]: [description], verified code quality, updated documentation.
+Create well-structured conventional commits with emoji formatting and validation. This command helps run pre-commit checks, analyze staged and unstaged diffs, optionally split changes, and produce atomic commits in the `[emoji] [type]: [description]` format.
 </task_objective>
 
 <how_to_ask_followup_question>

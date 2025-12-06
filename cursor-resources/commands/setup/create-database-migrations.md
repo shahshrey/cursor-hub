@@ -1,7 +1,7 @@
 <task name="Create Database Migrations">
 
 <task_objective>
-Create comprehensive database migrations with proper versioning and rollback capabilities. The input includes ORM detection, existing migration files, database configuration, and current schema state from the codebase. The output will be production-ready migration files with comprehensive rollback support, proper indexing, and data safety measures.
+Perform creation of comprehensive database migrations with robust versioning and rollback safeguards. This command helps deliver production-ready migration files with proper indexing, data safety measures, and documented rollback paths.
 </task_objective>
 
 <detailed_sequence_steps>

@@ -1,7 +1,7 @@
 <task name="Sync Conflict Resolver">
 
 <task_objective>
-Resolve synchronization conflicts with intelligent strategies and automated resolution. Implement comprehensive conflict resolution system with detection, intelligent resolution strategies, pattern analysis, configuration management, reporting, and automated prevention. The output will be resolved conflicts with detailed resolution reports, updated sync state, pattern analysis insights, and optimized conflict prevention strategies.
+Resolve synchronization conflicts using intelligent strategies and automated resolution. This command helps build a complete conflict resolution system with detection, adaptive strategies, pattern analysis, configuration controls, reporting, and preventative safeguards.
 </task_objective>
 
 <how_to_ask_followup_question>

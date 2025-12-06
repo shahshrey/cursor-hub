@@ -1,7 +1,7 @@
 <task name="Setup CI/CD Pipeline">
 
 <task_objective>
-Implement production-ready CI/CD pipeline with comprehensive automation and best practices. The input includes version control platform detection, existing CI configurations, test framework, and deployment configurations from the codebase. The output will be a complete CI/CD pipeline with automated testing, secure deployments, monitoring integration, and comprehensive documentation.
+Implement a comprehensive CI/CD pipeline with automated testing, security, and deployment controls. This command helps deliver reliable builds, secure releases, integrated monitoring, and documented operational workflows.
 </task_objective>
 
 <detailed_sequence_steps>

@@ -1,7 +1,7 @@
 <task name="Secure Next.js SSR/SSG Application">
 
 <task_objective>
-Secure Next.js server-side rendering (SSR) and static site generation (SSG) applications by preventing data exposure, eliminating XSS vulnerabilities, and implementing Content Security Policy. Execute systematic audits and implement hardening measures across server components, client rendering, and HTTP security headers.
+Perform secure Next.js server-side rendering (SSR) and static site generation (SSG) applications by preventing data exposure, eliminating XSS vulnerabilities, and implementing Content Security Policy. This command helps execute systematic audits and implement hardening measures across server components, client rendering, and HTTP security headers.
 </task_objective>
 
 <detailed_sequence_steps>

@@ -1,7 +1,7 @@
 <task name="Document API">
 
 <task_objective>
-Generate comprehensive API documentation from codebase with interactive examples and testing capabilities. Input: API endpoints, routes, handlers, and specifications. Processing: Analyze code, select appropriate documentation tools, generate specifications, and set up interactive documentation. Output: Complete API documentation with OpenAPI/Swagger specs, interactive UI, and testing capabilities.
+Generate comprehensive API documentation from the codebase with interactive examples and testing capabilities. This command helps use API endpoints, routes, handlers, and specifications to analyze code, select appropriate documentation tools, generate specifications, and set up interactive documentation for complete OpenAPI/Swagger specs, interactive UI, and testing capabilities.
 </task_objective>
 
 <detailed_sequence_steps>

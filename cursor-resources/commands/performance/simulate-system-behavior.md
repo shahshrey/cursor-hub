@@ -1,7 +1,7 @@
 <task name="Simulate System Behavior">
 
 <task_objective>
-Create comprehensive system behavior simulations to predict performance, identify bottlenecks, and optimize capacity planning. This workflow takes system architecture details and performance goals as input, models system components and load patterns, runs performance simulations, identifies bottlenecks, and outputs detailed optimization recommendations with capacity planning insights.
+Simulate system behavior to predict performance, reveal bottlenecks, and guide capacity planning. This command helps take system architecture details and performance goals as input, model system components and load patterns, run performance simulations, identify bottlenecks, and deliver detailed optimization recommendations with capacity planning insights.
 </task_objective>
 
 <detailed_sequence_steps>

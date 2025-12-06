@@ -1,7 +1,7 @@
 <task name="Verify Task Implementation">
 
 <task_objective>
-Review completed work against the task list by examining related changes using git diff and confirming whether implementations fully satisfy requirements. Verify completeness, correctness, and usability through code analysis, marking tasks as done when validated or providing actionable feedback when gaps exist.
+Review completed work against the task list by examining related changes using git diff to confirm implementations fully satisfy requirements. This command helps verify completeness, correctness, and usability through code analysis, ensuring tasks are properly validated or provided with actionable feedback.
 </task_objective>
 
 <detailed_sequence_steps>

@@ -1,7 +1,7 @@
 <task name="Secure Dependency Supply Chain">
 
 <task_objective>
-Implement comprehensive dependency management and supply chain security practices to protect the project from compromised packages, typosquatting attacks, and vulnerable dependencies. Ensure lockfiles are present, audit mechanisms are configured, and dangerous post-install scripts are controlled.
+Implement comprehensive dependency management and supply chain security practices to protect the project from compromised packages, typosquatting attacks, and vulnerable dependencies. This command helps ensure lockfiles are present, audit mechanisms are configured, and dangerous post-install scripts are controlled.
 </task_objective>
 
 <detailed_sequence_steps>

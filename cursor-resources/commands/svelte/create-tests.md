@@ -1,7 +1,7 @@
 <task name="Create Tests">
 
 <task_objective>
-Create comprehensive tests for Svelte components and SvelteKit routes, including unit tests, component tests, and E2E tests. Input: Target code to test (component, route, store, utility function), component interface and behavior, and required test scenarios. Process: Analyze target for testing needs, determine appropriate test types, create test files with comprehensive coverage, implement tests for happy paths and edge cases, add accessibility and interaction tests, and verify all tests pass. Output: Complete test file with multiple test cases covering functionality, component tests with user interaction scenarios, route tests with load function and form action coverage, proper mocks and test utilities, and passing test suite with good coverage.
+Create comprehensive tests for Svelte components and SvelteKit routes, including unit tests, component tests, and E2E tests. This command helps input: Target code to test (component, route, store, utility function), component interface and behavior, and required test scenarios. Process: Analyze target for testing needs, determine appropriate test types, create test files with comprehensive coverage, implement tests for happy paths and edge cases, add accessibility and interaction tests, and verify all tests pass. Output: Complete test file with multiple test cases covering functionality, component tests with user interaction scenarios, route tests with load function and form action coverage, proper mocks and test utilities, and passing test suite with good coverage.
 </task_objective>
 
 <detailed_sequence_steps>

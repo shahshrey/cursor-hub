@@ -1,7 +1,7 @@
 <task name="Optimize Memory Usage">
 
 <task_objective>
-Analyze and optimize memory usage patterns to prevent leaks and improve application performance. This workflow takes the target area as input (frontend, backend, or database), profiles current memory usage and identifies leaks, implements optimizations including garbage collection tuning, object pooling, and memory-efficient patterns, and outputs comprehensive memory improvements with monitoring and validation.
+Optimize memory usage patterns to prevent leaks and enhance application performance. This command helps accept the target area (frontend, backend, or database), profile current memory usage and identify leaks, implement optimizations including garbage collection tuning, object pooling, and memory-efficient patterns, and deliver comprehensive memory improvements with monitoring and validation.
 </task_objective>
 
 <detailed_sequence_steps>

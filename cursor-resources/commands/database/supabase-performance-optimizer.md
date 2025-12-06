@@ -1,7 +1,7 @@
 <task name="Supabase Performance Optimizer">
 
 <task_objective>
-Optimize Supabase database performance with intelligent analysis and automated improvements. The workflow accepts optimization types (queries, indexes, storage, rls, functions) and uses Supabase MCP integration to analyze query execution times, recommend index optimizations, review RLS policies, optimize storage patterns, and improve database function performance. Outputs include optimization plans, index recommendations, query optimizations, performance reports, and monitoring setup.
+Optimize Supabase database performance through intelligent analysis and automated improvement strategies. This command helps enhance system responsiveness by analyzing query execution, recommending index optimizations, reviewing RLS policies, and improving storage patterns via Supabase MCP integration.
 </task_objective>
 
 <detailed_sequence_steps>

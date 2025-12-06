@@ -1,7 +1,7 @@
 <task name="Supabase Schema Sync">
 
 <task_objective>
-Synchronize database schema between local and Supabase with comprehensive validation and conflict resolution. The workflow accepts sync actions (pull, push, diff, validate) and uses Supabase MCP integration to compare local versus remote schemas, execute synchronization operations, apply schema migrations, handle conflict resolution, and validate data integrity. Outputs include schema sync reports, migration scripts, conflict resolution documentation, validation reports, and team collaboration updates.
+Perform synchronize database schema between local environments and Supabase with comprehensive validation and conflict resolution. This command helps maintain schema consistency by comparing structures, executing synchronization operations, and managing conflicts through Supabase MCP integration.
 </task_objective>
 
 <detailed_sequence_steps>

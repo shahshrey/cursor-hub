@@ -1,7 +1,7 @@
 <task name="Migration Assistant">
 
 <task_objective>
-Execute comprehensive system migrations with planning, analysis, execution, verification, and rollback capabilities. Validate prerequisites, plan migration strategy, analyze risks, manage execution, verify results, and provide rollback procedures to ensure safe and successful system migrations with comprehensive safety measures.
+Execute comprehensive system migrations with structured planning, execution, verification, and rollback coverage. This command helps validate prerequisites, plan migration strategy, analyze risks, manage execution, verify results, and provide rollback procedures to ensure safe and successful migrations with robust safeguards.
 </task_objective>
 
 <detailed_sequence_steps>

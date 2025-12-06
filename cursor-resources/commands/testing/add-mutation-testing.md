@@ -1,7 +1,7 @@
 <task name="Add Mutation Testing">
 
 <task_objective>
-Setup comprehensive mutation testing framework with quality metrics and CI integration. This workflow selects appropriate mutation testing tools, configures mutation operators, optimizes performance, and integrates with CI/CD pipelines. The output is a complete mutation testing setup with configured framework, CI integration, quality thresholds, and analysis workflows.
+Perform end-to-end mutation testing setup with quality metrics and CI integration. This command helps select appropriate mutation tools, configure mutation operators, optimize performance, and integrate with CI/CD pipelines to deliver a ready-to-use mutation testing workflow.
 </task_objective>
 
 <detailed_sequence_steps>

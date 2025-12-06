@@ -1,7 +1,7 @@
 <task name="Testing Plan Integration">
 
 <task_objective>
-Create comprehensive integration testing plan with inline test strategy and refactoring suggestions. This workflow analyzes code testability, designs integration test approaches, identifies refactoring opportunities, and plans test execution. The output is a comprehensive integration test plan with test case specifications, refactoring recommendations, implementation strategy, and quality metrics.
+Develop an integration testing plan with embedded strategy and refactoring guidance. This command helps assess code testability, design integration approaches, identify refactoring opportunities, and plan execution with metrics.
 </task_objective>
 
 <detailed_sequence_steps>

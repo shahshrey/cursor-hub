@@ -1,7 +1,7 @@
 <task name="Scaffold New Feature">
 
 <task_objective>
-Create a well-structured foundation for a new feature following project conventions by planning the scope, setting up file structure, defining types, creating base components with tests, and documenting the feature. The output will be a fully scaffolded feature ready for implementation.
+Create a well-structured foundation for a new feature following project conventions by planning the scope, setting up file structure, defining types, creating base components with tests, and documenting the feature. This command helps the output will be a fully scaffolded feature ready for implementation.
 </task_objective>
 
 <detailed_sequence_steps>

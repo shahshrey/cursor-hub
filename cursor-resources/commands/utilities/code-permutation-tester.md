@@ -1,7 +1,7 @@
 <task name="Code Permutation Tester">
 
 <task_objective>
-Test multiple code variations through simulation before implementation with quality gates and performance prediction by systematically evaluating different implementation approaches, running comprehensive simulations, applying quality gates, predicting performance, analyzing trade-offs, and providing evidence-based recommendations. Accepts testing scope via $ARGUMENTS.
+Execute systematic testing of multiple code variations through simulation before implementation with quality gates and performance prediction. This command helps accept testing scope via $ARGUMENTS by evaluating approaches, running simulations, applying quality gates, predicting performance, analyzing trade-offs, and delivering evidence-based recommendations.
 </task_objective>
 
 <detailed_sequence_steps>

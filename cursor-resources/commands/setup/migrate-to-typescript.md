@@ -1,7 +1,7 @@
 <task name="Migrate to TypeScript">
 
 <task_objective>
-Systematically migrate JavaScript codebase to TypeScript with proper typing and tooling. The input includes project structure from @package.json, JavaScript and TypeScript file counts, and build system configurations. The output will be a fully typed TypeScript codebase with strict type checking, comprehensive IntelliSense, and improved developer productivity.
+Perform a structured migration from JavaScript to TypeScript with strong typing and tooling alignment. This command helps produce a fully typed codebase with strict checks, richer IntelliSense, and higher developer productivity.
 </task_objective>
 
 <detailed_sequence_steps>

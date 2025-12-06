@@ -1,7 +1,7 @@
 <task name="Systematic Code Review Process">
 
 <task_objective>
-Guide the user through a systematic approach to reviewing pull requests and code changes. The workflow will analyze the code across multiple dimensions including quality, security, testing, and documentation, ultimately producing a comprehensive review assessment with actionable feedback.
+Execute a systematic approach to reviewing pull requests and code changes. This command helps analyze code across multiple dimensions including quality, security, testing, and documentation, producing a comprehensive review assessment with actionable feedback.
 </task_objective>
 
 <detailed_sequence_steps>

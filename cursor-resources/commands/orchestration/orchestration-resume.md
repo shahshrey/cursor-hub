@@ -1,7 +1,7 @@
 <task name="Orchestration Resume">
 
 <task_objective>
-Resume work on existing task orchestrations after session loss or context switch. The workflow scans for active orchestrations with non-completed tasks, loads complete context including task status, progress metrics, recent git activity, and working state, presents current state summary with in-progress tasks, blocked tasks, and next available tasks, and provides quick actions to continue work seamlessly with task details, file context, and dependency information immediately accessible.
+Resume work on existing task orchestrations after session loss or context switch. This command helps scan for active orchestrations with non-completed tasks, loads complete context including task status, progress metrics, recent git activity, and working state, presents current state summary with in-progress tasks, blocked tasks, and next available tasks, and provides quick actions to continue work seamlessly with task details, file context, and dependency information immediately accessible.
 </task_objective>
 
 <detailed_sequence_steps>

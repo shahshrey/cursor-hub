@@ -1,7 +1,7 @@
 <task name="Git Status">
 
 <task_objective>
-Analyze the current state of the git repository by running git status commands, analyzing repository state, reading key files, and providing a comprehensive summary that helps developers quickly understand what changes are pending, the repository's sync status, and whether any actions are needed before continuing work. Supports arguments via $ARGUMENTS.
+Execute thorough assessment of the current git repository state using status and diff commands with synthesized summaries. This command helps support $ARGUMENTS by quickly showing pending changes, sync status, and any actions needed before continuing work.
 </task_objective>
 
 <detailed_sequence_steps>

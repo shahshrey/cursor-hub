@@ -1,7 +1,7 @@
 <task name="Troubleshooting Guide Generator">
 
 <task_objective>
-Generate systematic troubleshooting documentation with diagnostic procedures, common issues, and automated solutions. Input: System architecture, log locations, monitoring setup, error patterns, and health endpoints. Processing: Document system architecture, identify common issues, create diagnostic procedures, document error codes, establish escalation paths, and provide recovery procedures. Output: Comprehensive troubleshooting guide with diagnostic commands, issue categories with solutions, error code references, escalation matrix, and recovery procedures.
+Generate systematic troubleshooting documentation with diagnostic procedures, common issues, and automated solutions. This command helps use system architecture, log locations, monitoring setup, error patterns, and health endpoints to document architecture, identify common issues, create diagnostic procedures, document error codes, establish escalation paths, and provide recovery procedures for comprehensive guides with commands, solutions, references, escalation matrix, and recovery steps.
 </task_objective>
 
 <detailed_sequence_steps>

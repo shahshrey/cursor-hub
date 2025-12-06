@@ -1,7 +1,7 @@
 <task name="Supabase Backup Manager">
 
 <task_objective>
-Manage comprehensive Supabase database backups with automated scheduling and recovery procedures. The workflow accepts operation arguments (backup, restore, schedule, validate, cleanup) and uses Supabase MCP integration to execute backup operations, validate backup integrity, configure automated schedules, and implement disaster recovery procedures. Outputs include backup files, recovery validation reports, automated backup schedules, and disaster recovery documentation.
+Perform comprehensive management of Supabase database backups with automated scheduling and recovery procedures. This command helps ensure data safety by executing backup operations, validating integrity, configuring automated schedules, and implementing disaster recovery procedures using Supabase MCP integration.
 </task_objective>
 
 <detailed_sequence_steps>

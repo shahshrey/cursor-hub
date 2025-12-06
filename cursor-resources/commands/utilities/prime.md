@@ -1,7 +1,7 @@
 <task name="Enhanced AI Mode for Complex Tasks">
 
 <task_objective>
-Initialize a new Cursor session with comprehensive project context by analyzing codebase structure, reading project documentation, understanding project context, and providing a concise overview to "prime" the AI assistant with essential project knowledge for more effective assistance on complex tasks.
+Perform initialization of a new Cursor session with comprehensive project context by analyzing codebase structure, reading project documentation, and understanding project context. This command helps prime the AI assistant with essential knowledge for $ARGUMENTS by providing a concise overview that improves assistance on complex tasks.
 </task_objective>
 
 <detailed_sequence_steps>

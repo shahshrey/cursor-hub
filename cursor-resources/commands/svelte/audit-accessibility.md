@@ -1,7 +1,7 @@
 <task name="Audit Accessibility">
 
 <task_objective>
-Audit and improve accessibility in Svelte/SvelteKit applications, ensuring WCAG compliance and inclusive user experiences. Input: Application codebase, components, routes, and existing accessibility implementation. Process: Run automated accessibility tests, perform manual audits with assistive technologies, check WCAG 2.1 AA/AAA compliance, identify accessibility violations, prioritize issues by severity, and implement fixes with proper ARIA attributes and semantic HTML. Output: Comprehensive accessibility audit report with identified issues and severity ratings, implemented fixes for all critical and high-priority issues, WCAG compliance checklist, accessibility test suite, and documentation of accessibility improvements.
+Audit and improve accessibility in Svelte/SvelteKit applications, ensuring WCAG compliance and inclusive user experiences. This command helps input: Application codebase, components, routes, and existing accessibility implementation. Process: Run automated accessibility tests, perform manual audits with assistive technologies, check WCAG 2.1 AA/AAA compliance, identify accessibility violations, prioritize issues by severity, and implement fixes with proper ARIA attributes and semantic HTML. Output: Comprehensive accessibility audit report with identified issues and severity ratings, implemented fixes for all critical and high-priority issues, WCAG compliance checklist, accessibility test suite, and documentation of accessibility improvements.
 </task_objective>
 
 <detailed_sequence_steps>

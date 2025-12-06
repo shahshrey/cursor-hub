@@ -1,7 +1,7 @@
 <task name="Monte Carlo Simulator">
 
 <task_objective>
-Run Monte Carlo simulations with probability distributions, confidence intervals, and statistical analysis. Takes simulation target as input (financial projections, project timelines, market scenarios, or risk assessment), processes it through Monte Carlo frameworks including variable definition, simulation engine, output analysis, risk quantification, scenario clustering, and decision integration, and generates complete Monte Carlo analysis with probability distributions, risk metrics, scenario analysis, and statistically-grounded decision recommendations with quantified confidence levels.
+Execute Monte Carlo simulations with well-defined probability distributions, confidence intervals, and statistical analysis. This command helps take simulation targets as input (financial projections, project timelines, market scenarios, or risk assessment), process them through Monte Carlo frameworks including variable definition, simulation engine, output analysis, risk quantification, scenario clustering, and decision integration, and generate Monte Carlo analyses with probability distributions, risk metrics, scenario analysis, and statistically grounded decision recommendations with quantified confidence levels.
 </task_objective>
 
 <detailed_sequence_steps>

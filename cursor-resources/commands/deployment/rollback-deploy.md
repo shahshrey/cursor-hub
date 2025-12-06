@@ -1,7 +1,7 @@
 <task name="Deployment Rollback">
 
 <task_objective>
-Rollback deployment to previous version with safety checks, database considerations, and monitoring. The workflow processes current deployment version, available versions from git tags, container status, Kubernetes deployment state, and health status to systematically rollback to a stable previous version with pre-rollback validation, traffic management, database handling, health validation, and post-rollback monitoring.
+Perform controlled deployment rollbacks to previous versions with safety checks, database considerations, and monitoring. This command helps proce current deployment version, available versions from git tags, container status, Kubernetes deployment state, and health status to systematically rollback to a stable previous version with pre-rollback validation, traffic management, database handling, health validation, and post-rollback monitoring.
 </task_objective>
 
 <detailed_sequence_steps>

@@ -1,7 +1,7 @@
 <task name="Optimize API Performance">
 
 <task_objective>
-Analyze and optimize API performance for faster response times, higher throughput, and better scalability. This workflow takes the API type as input (REST, GraphQL, or gRPC), analyzes current performance metrics and bottlenecks, implements optimizations across request/response handling, database queries, caching, and infrastructure, and outputs comprehensive performance improvements with monitoring and validation.
+Optimize API performance to accelerate response times, increase throughput, and improve scalability. This command helps accept the API type (REST, GraphQL, or gRPC), analyze current performance metrics and bottlenecks, implement optimizations across request and response handling, database queries, caching, and infrastructure, and deliver comprehensive performance improvements with monitoring and validation.
 </task_objective>
 
 <detailed_sequence_steps>

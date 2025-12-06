@@ -1,7 +1,7 @@
 <task name="Configure Product as Code">
 
 <task_objective>
-Initialize Product as Code (PAC) project structure with templates and configuration. This workflow takes project name and optional flags as input ($ARGUMENTS), processes PAC structure setup including directories, configuration files, and templates, and outputs a complete PAC-enabled project with version-controlled product management capabilities following PAC v0.1.0 specification.
+Execute initialization of the Product as Code (PAC) project structure with templates and configuration. This command helps take project name and optional flags as inputs ($ARGUMENTS) to set up PAC directories, configuration files, and templates, delivering a PAC-enabled project with version-controlled product management following PAC v0.1.0.
 </task_objective>
 
 <detailed_sequence_steps>

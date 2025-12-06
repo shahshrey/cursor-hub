@@ -1,7 +1,7 @@
 <task name="Create New Workflow">
 
 <task_objective>
-Guide the user through the process of creating a new standardized Cursor workflow file according to the established conventions. The output will be a properly structured workflow file in the `.cursor/commands` directory.
+Guide the user through the process of creating a new standardized Cursor workflow file according to the established conventions. This command helps the output will be a properly structured workflow file in the `.cursor/commands` directory.
 </task_objective>
 
 <how_to_ask_followup_question>

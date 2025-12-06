@@ -1,7 +1,7 @@
 <task name="Create PR Acceptance Criteria">
 
 <task_objective>
-Generate comprehensive, testable acceptance criteria for Pull Request changes by analyzing the git diff and creating clear, boolean-verifiable statements that QA can use to validate the implementation. The output will be a properly formatted acceptance criteria document named `@acceptance-criteria-[feature-name].mdc` with Epic Goal, numbered AC sections, and Definition of Done.
+Generate comprehensive, testable acceptance criteria for Pull Request changes by analyzing the git diff and creating clear, boolean-verifiable statements that QA can use to validate the implementation. This command helps produce a properly formatted acceptance criteria document named `@acceptance-criteria-[feature-name].mdc` with Epic Goal, numbered AC sections, and Definition of Done.
 </task_objective>
 
 <detailed_sequence_steps>

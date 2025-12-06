@@ -1,7 +1,7 @@
 <task name="Changelog Automation Demo">
 
 <task_objective>
-Demonstrate changelog automation features with real examples and validation. The workflow processes existing changelog from @CHANGELOG.md, recent commits from git log, and current version information to showcase changelog generation, format validation, integration testing, and performance benchmarking without affecting the main workflow.
+Run a complete demonstration of changelog automation with real examples and validation. This command helps proce existing changelog from @CHANGELOG.md, recent commits from git log, and current version information to showcase changelog generation, format validation, integration testing, and performance benchmarking without affecting the main workflow.
 </task_objective>
 
 <detailed_sequence_steps>

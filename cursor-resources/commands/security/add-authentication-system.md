@@ -1,7 +1,7 @@
 <task name="Add Authentication System">
 
 <task_objective>
-Implement secure user authentication system with chosen method and security best practices. Input includes framework detection from package.json, requirements.txt, or Cargo.toml, existing auth configuration checks, security config from .env files, and database setup verification. Processing involves selecting from authentication methods (username/password, OAuth 2.0, JWT, SAML, MFA, or passwordless) based on arguments, implementing comprehensive authentication and authorization flows, and applying OWASP authentication guidelines. Output is a production-ready authentication system with comprehensive security controls and user-friendly interface.
+Implement secure user authentication system with chosen method and security best practices. This command helps input includes framework detection from package.json, requirements.txt, or Cargo.toml, existing auth configuration checks, security config from .env files, and database setup verification. Processing involves selecting from authentication methods (username/password, OAuth 2.0, JWT, SAML, MFA, or passwordless) based on arguments, implementing comprehensive authentication and authorization flows, and applying OWASP authentication guidelines. Output is a production-ready authentication system with comprehensive security controls and user-friendly interface.
 </task_objective>
 
 <detailed_sequence_steps>

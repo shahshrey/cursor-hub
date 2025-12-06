@@ -1,7 +1,7 @@
 <task name="Sync Status Monitor">
 
 <task_objective>
-Monitor GitHub-Linear sync health status with performance metrics and diagnostics. Analyze synchronization status between GitHub and Linear, providing comprehensive health metrics, consistency checks, sync history analysis, real-time monitoring, webhook status, queue management, diagnostic reports, alert configuration, and performance visualization. The output will be detailed sync status reports with recommendations, metrics, and actionable insights.
+Assess GitHub-Linear synchronization status with performance metrics and diagnostics. This command helps analyze sync health through consistency checks, history review, real-time monitoring, webhook and queue status, diagnostic reporting, alerting, and performance visualization.
 </task_objective>
 
 <how_to_ask_followup_question>

@@ -1,7 +1,7 @@
 <task name="Test Automation Orchestrator">
 
 <task_objective>
-Orchestrate comprehensive test automation with intelligent execution optimization and resource management. This workflow analyzes test suites across the project, classifies test types, and implements optimized execution strategies with parallel processing, dependency management, and pipeline integration. The output is a complete test orchestration system with optimized execution, intelligent resource management, comprehensive monitoring, and performance analytics.
+Orchestrate intelligent test automation with optimized execution and resource management. This command helps classify suites, design parallelized strategies, manage dependencies, and integrate pipelines with monitoring and analytics.
 </task_objective>
 
 <detailed_sequence_steps>

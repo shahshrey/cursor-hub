@@ -1,7 +1,7 @@
 <task name="Analyze GitHub PR Quality">
 
 <task_objective>
-Perform a comprehensive review of a GitHub Pull Request using automated tools and best practices by checking out the PR branch, analyzing the diff against main, identifying potential issues across code quality, security, testing, and maintainability dimensions, and generating a detailed review report that highlights specific concerns with file locations and line numbers.
+Perform a thorough analysis of a GitHub Pull Request using automated checks and structured review criteria to collect diffs, evaluate quality, and prepare findings. This command helps identify code, security, testing, and maintainability issues with precise file and line references for a clear review report.
 </task_objective>
 
 <detailed_sequence_steps>

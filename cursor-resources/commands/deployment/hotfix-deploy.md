@@ -1,7 +1,7 @@
 <task name="Emergency Hotfix Deployment">
 
 <task_objective>
-Deploy critical hotfixes with emergency procedures, validation, and rollback capabilities. The workflow processes current production version from git tags, production branch status, recent commits, and deployment health status to execute emergency hotfix deployment with minimal changes, accelerated testing, fast-track review, staging validation, and production deployment with comprehensive monitoring and rollback readiness.
+Conduct critical hotfix deployments with emergency procedures, validation, and rollback readiness. This command helps proce current production version from git tags, production branch status, recent commits, and deployment health status to execute emergency hotfix deployment with minimal changes, accelerated testing, fast-track review, staging validation, and production deployment with comprehensive monitoring and rollback readiness.
 </task_objective>
 
 <detailed_sequence_steps>

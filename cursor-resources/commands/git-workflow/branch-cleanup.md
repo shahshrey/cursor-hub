@@ -1,7 +1,7 @@
 <task name="Git Branch Cleanup and Organization">
 
 <task_objective>
-Perform comprehensive branch cleanup and organize repository structure by identifying and removing merged branches, stale remotes, and old branches. Input: Repository state and optional mode flags (dry-run, force, remote-only, local-only). Processing: Identify branches for cleanup, perform safety checks, categorize branches, synchronize remote references, clean up with appropriate confirmation. Output: Cleaned repository with summary of deleted branches, pruned remotes, recovery information with git reflog references and commands.
+Perform comprehensive branch cleanup to remove merged, stale, or obsolete branches safely. This command helps analyze local and remote state, apply safeguards, categorize branches, and execute cleanup with summaries, reflog recovery info, and optional modes.
 </task_objective>
 
 <how_to_ask_followup_question>

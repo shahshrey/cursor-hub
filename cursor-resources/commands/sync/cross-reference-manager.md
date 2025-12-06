@@ -1,7 +1,7 @@
 <task name="Cross-Reference Manager">
 
 <task_objective>
-Manage cross-platform reference links between GitHub and Linear with integrity checking. Implement comprehensive cross-reference management system that maintains bidirectional links, performs integrity auditing, repairs broken references, visualizes mapping networks, validates link functionality, and exports documentation. The output will be a complete reference management system with integrity reports, repair summaries, mapping visualizations, and comprehensive cross-platform link maintenance.
+Manage bidirectional reference links between GitHub and Linear while maintaining integrity. This command helps deliver comprehensive cross-reference maintenance with integrity auditing, repair workflows, mapping visualization, link validation, and documentation exports.
 </task_objective>
 
 <how_to_ask_followup_question>

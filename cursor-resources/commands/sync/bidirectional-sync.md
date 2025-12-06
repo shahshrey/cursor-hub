@@ -1,7 +1,7 @@
 <task name="Bidirectional Sync">
 
 <task_objective>
-Enable comprehensive bidirectional GitHub-Linear synchronization with conflict resolution. Implement robust bidirectional synchronization system between GitHub Issues and Linear tasks with sync state management, conflict detection, resolution strategies, transaction management, webhook integration, and data integrity validation. The output will be complete bidirectional sync system with conflict resolution, webhook integration, performance metrics, and comprehensive sync reporting.
+Perform comprehensive bidirectional synchronization between GitHub issues and Linear tasks with robust conflict resolution. This command helps implement end-to-end synchronization with sync state management, conflict detection and resolution strategies, transaction management, webhook integration, and data integrity validation.
 </task_objective>
 
 <how_to_ask_followup_question>

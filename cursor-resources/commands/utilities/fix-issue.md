@@ -1,7 +1,7 @@
 <task name="Fix Issue">
 
 <task_objective>
-Identify and resolve code issues by analyzing issue details from GitHub, reproducing the problem, performing root cause analysis, designing and implementing solutions, testing thoroughly, and creating pull requests with proper documentation. Accepts issue reference via $ARGUMENTS.
+Execute end-to-end identification and resolution of code issues by analyzing GitHub details, reproducing problems, performing root cause analysis, designing fixes, implementing changes, testing thoroughly, and preparing pull requests. This command helps address issue references via $ARGUMENTS with documented, tested, and merge-ready solutions.
 </task_objective>
 
 <detailed_sequence_steps>

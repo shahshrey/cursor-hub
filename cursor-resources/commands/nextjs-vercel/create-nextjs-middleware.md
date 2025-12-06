@@ -1,7 +1,7 @@
 <task name="Create Next.js Middleware">
 
 <task_objective>
-Create optimized Next.js middleware with comprehensive functionality for authentication, rate limiting, redirects, and routing logic. Takes middleware type and feature flags (--auth, --rate-limit, --redirect, --rewrite) as input, analyzes existing project middleware and authentication setup, generates complete middleware implementation with modular utility functions (auth verification, rate limiting, CORS handling, security headers, redirects), implements middleware composition for combining multiple concerns, creates comprehensive test suite, and provides production-ready TypeScript code with proper error handling and performance monitoring.
+Create optimized Next.js middleware that enforces authentication, rate limiting, redirects, and routing rules. This command helps interpret middleware feature flags, analyze existing project setup, generate modular implementations with supporting utilities and tests, and produce production-ready TypeScript middleware with robust error handling and performance safeguards.
 </task_objective>
 
 <detailed_sequence_steps>

@@ -1,7 +1,7 @@
 <task name="Supabase Migration Assistant">
 
 <task_objective>
-Generate and manage Supabase database migrations with comprehensive testing and validation. The workflow accepts migration types (create, alter, seed, rollback) and uses Supabase MCP integration to analyze schema requirements, generate migration SQL files, create TypeScript types, test migrations on development data, and implement rollback procedures. Outputs include migration SQL files, TypeScript type definitions, test validation reports, rollback procedures, and deployment documentation.
+Generate and manage Supabase database migrations with comprehensive testing and validation protocols. This command helps ensure safe schema evolution by analyzing requirements, creating SQL files and TypeScript types, and verifying changes through rigorous testing and rollback procedure implementation.
 </task_objective>
 
 <detailed_sequence_steps>

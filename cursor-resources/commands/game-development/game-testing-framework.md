@@ -1,7 +1,7 @@
 <task name="Game Testing Framework & Automation">
 
 <task_objective>
-Implement comprehensive game testing frameworks with automated validation, performance testing, and multi-platform verification. This workflow creates scalable testing infrastructure for game development projects, including unit tests, integration tests, performance benchmarks, and automated gameplay validation. Accepts $ARGUMENTS for test type: --unit, --integration, --performance, --automation, or --comprehensive testing suite.
+Develop comprehensive game testing frameworks with automated validation, performance testing, and multi-platform verification. This command helps deliver scalable testing infrastructure for game development projects, including unit tests, integration tests, performance benchmarks, and automated gameplay validation, with $ARGUMENTS for test type: --unit, --integration, --performance, --automation, or --comprehensive testing suite.
 </task_objective>
 
 <detailed_sequence_steps>

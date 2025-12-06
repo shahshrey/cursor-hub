@@ -1,7 +1,7 @@
 <task name="Simulation Calibrator">
 
 <task_objective>
-Calibrate simulation accuracy with systematic validation, bias detection, and continuous improvement. Takes simulation type as input (business, technical, behavioral, or strategic simulation), processes it through calibration frameworks including baseline assessment, bias detection, validation loops, real-time calibration, quality assurance, and improvement roadmap, and generates calibrated simulation with validated accuracy metrics, bias correction reports, continuous improvement systems, and enhanced decision support reliability.
+Perform calibration of simulation accuracy with systematic validation, bias detection, and continuous improvement. This command helps take simulation types as input (business, technical, behavioral, or strategic simulation), process them through calibration frameworks including baseline assessment, bias detection, validation loops, real-time calibration, quality assurance, and improvement roadmap, and generate calibrated simulations with validated accuracy metrics, bias correction reports, continuous improvement systems, and enhanced decision support reliability.
 </task_objective>
 
 <detailed_sequence_steps>

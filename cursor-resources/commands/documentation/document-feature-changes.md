@@ -1,7 +1,7 @@
 <task name="Document Feature Changes">
 
 <task_objective>
-Scan the current branch for changes and generate comprehensive README documentation for all new or modified features. The output will be `{feature}-readme.md` files in appropriate directories with complete sections covering Overview, Architecture, Key Components, Implementation Details, Dependencies, Configuration, Testing, Debugging, Future Considerations, and Maintainer Notes. This workflow focuses on closing knowledge transfer gaps through accurate, concise documentation while preserving all existing code unchanged.
+Perform scanning of the current branch for changes to generate comprehensive README documentation for all new or modified features. This command helps produce `{feature}-readme.md` files in appropriate directories with complete sections covering Overview, Architecture, Key Components, Implementation Details, Dependencies, Configuration, Testing, Debugging, Future Considerations, and Maintainer Notes to close knowledge transfer gaps while preserving existing code unchanged.
 </task_objective>
 
 <detailed_sequence_steps>

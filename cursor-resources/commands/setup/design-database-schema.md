@@ -1,7 +1,7 @@
 <task name="Design Database Schema">
 
 <task_objective>
-Design optimized database schemas with comprehensive data modeling based on the specified schema type (relational, NoSQL, hybrid, or normalized). The input includes application requirements, existing schema (if any), and performance needs from the codebase. The output will be a complete schema design with DDL scripts, ER diagrams, performance analysis, and migration strategy.
+Design optimized database schemas tailored to relational, NoSQL, hybrid, or normalized requirements. This command helps produce complete schema blueprints with DDL scripts, ER diagrams, performance analysis, and migration plans.
 </task_objective>
 
 <detailed_sequence_steps>

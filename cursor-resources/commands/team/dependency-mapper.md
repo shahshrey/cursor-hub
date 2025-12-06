@@ -1,7 +1,7 @@
 <task name="Dependency Mapper">
 
 <task_objective>
-Map project and task dependencies with critical path analysis and circular dependency detection. Extract code dependencies, analyze task relationships, construct dependency graphs, detect circular dependencies, optimize execution order, and assess risks to provide visual representations and optimization recommendations.
+Perform comprehensive mapping of project and task dependencies with critical path and circular dependency analysis. This command helps extract code dependencies, analyze task relationships, build dependency graphs, detect cycles, optimize execution order, and assess risks to provide clear visualizations and optimization recommendations.
 </task_objective>
 
 <detailed_sequence_steps>

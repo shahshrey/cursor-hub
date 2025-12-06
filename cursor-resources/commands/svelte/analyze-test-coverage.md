@@ -1,7 +1,7 @@
 <task name="Analyze Test Coverage">
 
 <task_objective>
-Analyze test coverage, identify testing gaps, and provide recommendations for improving test coverage in Svelte/SvelteKit projects. Input: Project codebase, existing test files, coverage reports, and testing infrastructure. Process: Run coverage analysis tools, examine coverage metrics, identify untested components and functions, categorize gaps by criticality, and generate prioritized testing recommendations. Output: Comprehensive coverage report with identified gaps, priority matrix for test implementation, specific test recommendations with examples, coverage improvement plan with effort estimates, and target coverage thresholds.
+Analyze test coverage, identify testing gaps, and provide recommendations for improving test coverage in Svelte/SvelteKit projects. This command helps input: Project codebase, existing test files, coverage reports, and testing infrastructure. Process: Run coverage analysis tools, examine coverage metrics, identify untested components and functions, categorize gaps by criticality, and generate prioritized testing recommendations. Output: Comprehensive coverage report with identified gaps, priority matrix for test implementation, specific test recommendations with examples, coverage improvement plan with effort estimates, and target coverage thresholds.
 </task_objective>
 
 <detailed_sequence_steps>

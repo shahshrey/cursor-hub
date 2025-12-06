@@ -1,7 +1,7 @@
 <task name="Initialize Reference Documentation">
 
 <task_objective>
-Build comprehensive reference documentation for project implementation details by using the summarize tool to analyze files, creating organized reference files in the /ref directory with markdown format, and updating CLAUDE.md with pointers to important documentation files while avoiding usage limits.
+Build comprehensive reference documentation for project implementation details by using the summarize tool to analyze files, creating organized reference files in the /ref directory, and updating CLAUDE.md with pointers to important documentation while managing usage limits. This command helps capture essential references for $ARGUMENTS by structuring summaries, organizing /ref content, and updating navigation pointers efficiently.
 </task_objective>
 
 <detailed_sequence_steps>

@@ -1,7 +1,7 @@
 <task name="Merge Resolver">
 
 <task_objective>
-This workflow resolves merge conflicts for a specific pull request by analyzing git history, commit messages, and code changes to make intelligent resolution decisions. It takes a PR number as input, checks out the PR branch, attempts to rebase onto the target branch (typically main), identifies conflicts, analyzes the intent behind conflicting changes, applies intelligent resolutions that preserve valuable changes from both sides, and completes the rebase - all using non-interactive git operations.
+Resolve merge conflicts for a specific pull request by analyzing git history, commit messages, and code changes to make intelligent resolution decisions. This command helps take a PR number as input, checks out the PR branch, attempts to rebase onto the target branch (typically main), identifies conflicts, analyzes the intent behind conflicting changes, applies intelligent resolutions that preserve valuable changes from both sides, and completes the rebase - all using non-interactive git operations.
 </task_objective>
 
 <expected_output>

@@ -1,7 +1,7 @@
 <task name="Clean Python Codebase">
 
 <task_objective>
-Fix all black, isort, flake8 and mypy issues in the entire codebase to ensure code quality, proper formatting, import organization, linting compliance, and type checking correctness across all Python files.
+Execute repo-wide remediation of black, isort, flake8, and mypy issues across the Python codebase to enforce formatting, import organization, linting compliance, and type correctness. This command helps keep Python files consistent and compliant for $ARGUMENTS by resolving formatting, lint, and typing problems.
 </task_objective>
 
 <detailed_sequence_steps>

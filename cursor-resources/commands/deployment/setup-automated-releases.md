@@ -1,7 +1,7 @@
 <task name="Setup Automated Releases">
 
 <task_objective>
-Setup automated release workflows with semantic versioning, conventional commits, and comprehensive automation. The workflow processes project structure and versioning approach to generate a fully automated release system that determines version bumps from commits, generates changelogs, creates GitHub releases, and manages the entire release lifecycle with minimal manual intervention.
+Implement automated release workflows with semantic versioning, conventional commits, and comprehensive automation. This command helps proce project structure and versioning approach to generate a fully automated release system that determines version bumps from commits, generates changelogs, creates GitHub releases, and manages the entire release lifecycle with minimal manual intervention.
 </task_objective>
 
 <detailed_sequence_steps>

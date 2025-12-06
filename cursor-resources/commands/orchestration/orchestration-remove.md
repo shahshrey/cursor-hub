@@ -1,7 +1,7 @@
 <task name="Orchestration Remove">
 
 <task_objective>
-Safely remove a task from the orchestration system, updating all references and dependencies. The workflow analyzes removal impact by checking dependencies and references across all orchestration files and git history, updates dependent tasks by removing references and adjusting blockers, updates all tracking files (TASK-STATUS-TRACKER.yaml, EXECUTION-TRACKER.md, MASTER-COORDINATION.md), moves task file to archive or deletes permanently based on options, and maintains complete audit trail with removal reason and affected items.
+Execute safe removal of tasks from the orchestration system while updating all references and dependencies. This command helps analyze removal impact by checking dependencies and references across all orchestration files and git history, updates dependent tasks by removing references and adjusting blockers, updates all tracking files (TASK-STATUS-TRACKER.yaml, EXECUTION-TRACKER.md, MASTER-COORDINATION.md), moves task files to archive or deletes permanently based on options, and maintains a complete audit trail with removal reason and affected items.
 </task_objective>
 
 <detailed_sequence_steps>

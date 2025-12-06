@@ -1,7 +1,7 @@
 <task name="Automated API Documentation Generator">
 
 <task_objective>
-Auto-generate API reference documentation with multiple output formats and automated deployment. Input: Code annotations, API framework, existing specifications, and CI/CD pipeline. Processing: Analyze API structure, select documentation tools, add code annotations, generate specifications, set up interactive documentation, and automate deployment. Output: Automated API documentation generation system with multiple formats, interactive UI, and CI/CD integration.
+Perform auto-generation of API reference documentation with multiple output formats and automated deployment. This command helps use code annotations, API frameworks, existing specifications, and CI/CD pipelines to analyze API structure, select documentation tools, add annotations, generate specifications, set up interactive documentation, and automate deployment for an integrated documentation system with multiple formats, interactive UI, and CI/CD integration.
 </task_objective>
 
 <detailed_sequence_steps>

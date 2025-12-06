@@ -1,7 +1,7 @@
 <task name="Implement GraphQL API">
 
 <task_objective>
-Build production-ready GraphQL API with comprehensive functionality and performance optimization. The input includes framework detection (Apollo, GraphQL Yoga), existing GraphQL files, database integration configurations, and authentication patterns from the codebase. The output will be a complete GraphQL API with optimized resolvers, real-time subscriptions, security controls, and developer documentation.
+Execute implementation of a production-grade GraphQL API with performant schema, resolvers, and subscriptions. This command helps deliver a secure, optimized GraphQL surface with real-time capabilities, strong integrations, and developer-ready documentation.
 </task_objective>
 
 <detailed_sequence_steps>

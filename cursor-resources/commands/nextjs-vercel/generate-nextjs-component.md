@@ -1,7 +1,7 @@
 <task name="Generate Next.js Component">
 
 <task_objective>
-Generate optimized React components for Next.js applications following best practices and project conventions. Takes component name and type flags (--client, --server, --page, --layout) as input, analyzes project structure (framework detection, TypeScript/JavaScript, styling approach, existing patterns), creates comprehensive component files (main component, styles, types, tests, stories), implements proper patterns (Server Components by default, Client Components with 'use client', proper TypeScript typing, accessibility features), and generates complete file structure with barrel exports and documentation.
+Generate optimized React components for Next.js applications that align with project conventions. This command helps parse component flags, analyze framework and styling patterns, scaffold fully typed component files with tests and stories, and enforce correct Server or Client Component usage with accessible defaults.
 </task_objective>
 
 <detailed_sequence_steps>

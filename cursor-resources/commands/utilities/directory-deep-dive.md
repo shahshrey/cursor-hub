@@ -1,7 +1,7 @@
 <task name="Directory Deep Dive">
 
 <task_objective>
-Analyze the architecture, implementation principles, and design patterns of a specified directory (or current working directory) and its subdirectories. Generate comprehensive documentation (AGENTS.md) that captures key architectural decisions, implementation details, common patterns, and important context for future development work in that area.
+Conduct in-depth analysis of a specified directory (or current working directory) and its subdirectories to map architecture, implementation principles, and design patterns. This command helps generate comprehensive documentation for $ARGUMENTS that captures key architectural decisions, implementation details, common patterns, and important context for future development work in that area.
 </task_objective>
 
 <detailed_sequence_steps>

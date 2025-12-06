@@ -2,7 +2,7 @@
 <task name="Mitigate Common Web Security Risks">
 
 <task_objective>
-Scan codebase for XSS, CSRF, SQL/NoSQL injection, CORS misconfigurations, and missing security headers. Fix all vulnerabilities by implementing sanitization, parameterized queries, CSRF tokens, restricted CORS policies, and secure headers.
+Perform scan codebase for XSS, CSRF, SQL/NoSQL injection, CORS misconfigurations, and missing security headers. This command helps fix all vulnerabilities by implementing sanitization, parameterized queries, CSRF tokens, restricted CORS policies, and secure headers.
 </task_objective>
 
 <detailed_sequence_steps>

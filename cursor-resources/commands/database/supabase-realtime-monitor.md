@@ -1,7 +1,7 @@
 <task name="Supabase Realtime Monitor">
 
 <task_objective>
-Monitor and optimize Supabase realtime connections with comprehensive performance analysis and debugging support. The workflow accepts monitoring types (connections, subscriptions, performance, debug, analytics) and uses Supabase MCP integration to monitor active connections, track subscription performance, analyze message throughput, identify connection issues, and generate usage analytics. Outputs include performance analytics, optimization recommendations, debugging tools, usage reports, and developer documentation.
+Monitor and optimize Supabase realtime connections with comprehensive performance analysis and debugging support. This command helps maintain system stability by tracking active connections, analyzing subscription performance, and identifying issues through deep integration with Supabase MCP.
 </task_objective>
 
 <detailed_sequence_steps>

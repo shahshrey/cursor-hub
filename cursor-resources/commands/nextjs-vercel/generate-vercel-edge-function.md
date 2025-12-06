@@ -1,7 +1,7 @@
 <task name="Generate Vercel Edge Function">
 
 <task_objective>
-Generate optimized Vercel Edge Functions with comprehensive features for geolocation-based content delivery, authentication, data transformation, and proxy/caching. Takes function name and type flags (--auth, --geo, --transform, --proxy) as input, analyzes project structure and framework configuration, creates complete edge function implementation with proper file structure (main handler, types, utilities, tests), implements requested features (JWT authentication, geolocation routing, data transformation, caching proxy), and generates production-ready TypeScript code with error handling and performance optimization.
+Generate optimized Vercel Edge Functions for geolocation delivery, authentication, data transformation, and proxy caching. This command helps interpret function flags, inspect project configuration, scaffold complete edge handlers with supporting utilities and tests, and deliver production-ready TypeScript implementations with performance-focused safeguards.
 </task_objective>
 
 <detailed_sequence_steps>

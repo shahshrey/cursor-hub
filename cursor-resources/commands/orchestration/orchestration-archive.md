@@ -1,7 +1,7 @@
 <task name="Orchestration Archive">
 
 <task_objective>
-Archive completed orchestrations while preserving valuable data, metrics, and lessons learned for future reference. The workflow performs comprehensive analysis of finished orchestrations, extracts performance metrics and insights, creates structured archive in `/archived-orchestrations/YYYY/QN/MM_DD_YYYY_project_name/` with analytics reports, visualizations, and git correlation data, and generates searchable knowledge base entries and reusable templates.
+Perform archival of completed orchestrations while preserving valuable data, metrics, and lessons learned for future reference. This command helps analyze finished orchestrations, extract performance metrics and insights, create structured archives in `/archived-orchestrations/YYYY/QN/MM_DD_YYYY_project_name/` with analytics reports, visualizations, and git correlation data, and generate searchable knowledge base entries and reusable templates.
 </task_objective>
 
 <detailed_sequence_steps>

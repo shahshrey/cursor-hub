@@ -1,7 +1,7 @@
 <task name="Generate Tests">
 
 <task_objective>
-Generate comprehensive test suite with unit, integration, and edge case coverage for the target code or component. This workflow analyzes the target file/component structure, identifies testable elements, examines existing patterns, creates test files, implements test cases with proper setup/teardown, adds mocks and utilities, and verifies coverage completeness. The output is a complete test suite including unit tests, integration tests, edge case tests, mock implementations, test utilities, and verification of test coverage.
+Generate comprehensive unit, integration, and edge-case test suites for the target code or component. This command helps analyze structure, identify testable elements, create files with setup/teardown, add mocks and utilities, and verify coverage completeness.
 </task_objective>
 
 <detailed_sequence_steps>

@@ -1,7 +1,7 @@
 <task name="Review PR with GH CLI">
 
 <task_objective>
-Perform a comprehensive review of a GitHub Pull Request using the `gh` CLI tool by gathering PR information, analyzing changes, assessing code quality and testing, asking for user confirmation on the review decision, optionally drafting a comment, and submitting the review (approve or request changes). The review follows a friendly, humble tone and focuses on constructive feedback with specific file and line references when needed.
+Conduct a full GitHub Pull Request review using the `gh` CLI to gather context, evaluate changes, and prepare a recommendation. This command helps deliver friendly, constructive feedback with specific file and line references while guiding users through approval or change requests.
 </task_objective>
 
 <how_to_ask_followup_question>

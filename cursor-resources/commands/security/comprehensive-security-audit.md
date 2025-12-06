@@ -1,7 +1,7 @@
 <task name="Comprehensive Security Audit for AI-Generated Applications">
 
 <task_objective>
-Perform a systematic, multi-layered security audit of an AI-generated full-stack application by analyzing code, dependencies, configurations, and deployment settings. Identify vulnerabilities, hardcoded secrets, insecure patterns, and compliance gaps. Generate actionable remediation steps and verify fixes through automated testing and validation.
+Perform a systematic, multi-layered security audit of an AI-generated full-stack application by analyzing code, dependencies, configurations, and deployment settings. This command helps identify vulnerabilities, hardcoded secrets, insecure patterns, and compliance gaps. Generate actionable remediation steps and verify fixes through automated testing and validation.
 </task_objective>
 
 <detailed_sequence_steps>

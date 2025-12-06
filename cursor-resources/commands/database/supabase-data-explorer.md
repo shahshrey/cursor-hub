@@ -1,7 +1,7 @@
 <task name="Supabase Data Explorer">
 
 <task_objective>
-Explore and analyze Supabase database data with intelligent querying and visualization capabilities. The workflow accepts table names or query specifications (query, export, inspect) and uses Supabase MCP integration for safe read-only data exploration, executing SQL queries, analyzing data patterns, generating insights, and creating data exports. Outputs include query results, data insights, statistical summaries, export files, and performance recommendations.
+Execute deep exploration and analysis of Supabase database data using intelligent querying and visualization capabilities. This command helps understand data patterns, generate insights, and create safe read-only exports by leveraging Supabase MCP integration for query execution and schema inspection.
 </task_objective>
 
 <detailed_sequence_steps>

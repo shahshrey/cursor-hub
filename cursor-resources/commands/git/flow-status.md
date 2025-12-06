@@ -1,7 +1,7 @@
 <task name="Git Flow Status">
 
 <task_objective>
-Display comprehensive Git Flow status including branch type detection, sync status with remote, working directory changes, commit history, merge targets, and actionable recommendations. Provides a detailed overview of the current repository state and suggests next steps based on the Git Flow workflow.
+Execute a comprehensive Git Flow status review covering branch detection, remote sync state, working directory changes, commit history, merge targets, and actionable recommendations. This command helps provide a detailed overview of the current repository state and suggests next steps based on the Git Flow workflow.
 </task_objective>
 
 <detailed_sequence_steps>

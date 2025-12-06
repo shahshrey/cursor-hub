@@ -1,7 +1,7 @@
 <task name="Troubleshoot Storybook">
 
 <task_objective>
-Diagnose and fix common Storybook issues in SvelteKit projects, including build errors, module problems, and configuration issues. Input: Error messages, stack traces, Storybook configuration files, and project setup details. Process: Analyze error symptoms, identify root cause category (build, module resolution, styling, environment, performance, or addon conflicts), apply appropriate fixes, validate solution, and document resolution. Output: Working Storybook installation with all errors resolved, proper configuration in place, all stories rendering correctly, and documentation of fixes applied for team reference.
+Perform diagnose and fix common Storybook issues in SvelteKit projects, including build errors, module problems, and configuration issues. This command helps input: Error messages, stack traces, Storybook configuration files, and project setup details. Process: Analyze error symptoms, identify root cause category (build, module resolution, styling, environment, performance, or addon conflicts), apply appropriate fixes, validate solution, and document resolution. Output: Working Storybook installation with all errors resolved, proper configuration in place, all stories rendering correctly, and documentation of fixes applied for team reference.
 </task_objective>
 
 <detailed_sequence_steps>

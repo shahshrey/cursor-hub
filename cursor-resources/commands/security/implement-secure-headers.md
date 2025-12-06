@@ -1,7 +1,7 @@
 <task name="Implement Secure HTTP Headers">
 
 <task_objective>
-Configure and audit secure HTTP headers across the application to protect against common web vulnerabilities including XSS attacks, clickjacking, and MIME-sniffing exploits. This workflow ensures that Content-Security-Policy, X-Frame-Options, and X-Content-Type-Options headers are properly implemented on all endpoints, providing a foundational layer of security for the application.
+Configure and audit secure HTTP headers across the application to protect against common web vulnerabilities including XSS attacks, clickjacking, and MIME-sniffing exploits. This command helps thi workflow ensures that Content-Security-Policy, X-Frame-Options, and X-Content-Type-Options headers are properly implemented on all endpoints, providing a foundational layer of security for the application.
 </task_objective>
 
 <detailed_sequence_steps>

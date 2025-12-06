@@ -1,7 +1,7 @@
 <task name="Maintain File Documentation Headers">
 
 <task_objective>
-Review and maintain top-of-file documentation headers for all created or edited files. Create concise, context-rich documentation that orients future AI agents efficiently without bloating their context window. The output will be updated file headers with appropriate comment syntax for each file type.
+Perform review and maintenance of top-of-file documentation headers for all created or edited files. This command helps create concise, context-rich documentation that orients future AI agents efficiently without bloating their context window, producing updated file headers with appropriate comment syntax for each file type.
 </task_objective>
 
 <detailed_sequence_steps>

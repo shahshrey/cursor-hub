@@ -1,7 +1,7 @@
 <task name="Dependency Audit">
 
 <task_objective>
-Audit dependencies for security vulnerabilities, license compliance, and update recommendations. Input includes package files (package.json, requirements.txt, Cargo.toml, pom.xml), lock files, security scan results from npm audit, pip check, or cargo audit, and outdated package listings. Processing involves comprehensive analysis of vulnerability scanning, version analysis, license compliance, supply chain security, and performance impact based on scope arguments (--security, --licenses, --updates, or --all). Output is a prioritized security report with critical vulnerabilities, recommended actions, and compliance status.
+Audit dependencies for security vulnerabilities, license compliance, and update recommendations. This command helps input includes package files (package.json, requirements.txt, Cargo.toml, pom.xml), lock files, security scan results from npm audit, pip check, or cargo audit, and outdated package listings. Processing involves comprehensive analysis of vulnerability scanning, version analysis, license compliance, supply chain security, and performance impact based on scope arguments (--security, --licenses, --updates, or --all). Output is a prioritized security report with critical vulnerabilities, recommended actions, and compliance status.
 </task_objective>
 
 <detailed_sequence_steps>

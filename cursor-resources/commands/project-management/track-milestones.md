@@ -1,7 +1,7 @@
 <task name="Track Milestones">
 
 <task_objective>
-Track and analyze project milestone progress with predictive analytics. This workflow takes time period as input ($ARGUMENTS or defaults to current sprint/quarter), analyzes project activity and milestone data, and outputs a comprehensive milestone tracking report with progress indicators, predictive analytics, risk assessments, and actionable recommendations for milestone delivery optimization.
+Execute tracking and analysis of project milestone progress with predictive analytics. This command helps take a time period as input ($ARGUMENTS or default to current sprint/quarter) to analyze activity and milestone data, producing reports with progress indicators, predictive insights, risk assessments, and actionable recommendations for delivery optimization.
 </task_objective>
 
 <detailed_sequence_steps>

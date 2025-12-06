@@ -1,7 +1,7 @@
 <task name="Sync Vercel Environment Variables">
 
 <task_objective>
-Synchronize environment variables between local development environment and Vercel deployment platforms. Takes sync operation flags (--pull, --push, --validate, --backup) as input, analyzes local environment files (.env.local, .env.development, .env.production) and Vercel project configuration, and executes bidirectional synchronization with validation, backup, security checks, and comprehensive diff reporting to maintain environment parity across development, preview, and production environments.
+Perform synchronized management of environment variables across local and Vercel deployments. This command helps interpret sync flags, analyze local files and remote configuration, execute bidirectional updates with validation and backups, and produce security-checked diffs to keep environments aligned.
 </task_objective>
 
 <detailed_sequence_steps>

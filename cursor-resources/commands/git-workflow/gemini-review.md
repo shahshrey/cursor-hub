@@ -1,7 +1,7 @@
 <task name="Gemini PR Review Automation">
 
 <task_objective>
-Transform Gemini Code Assist PR reviews into prioritized TodoLists with automated execution. Input: GitHub PR number with Gemini review comments. Processing: Fetch PR details, parse and categorize review comments by severity, assess impact and effort, create prioritized TodoList. Output: Structured TodoList with priority ordering (must-fix/should-fix/nice-to-have), effort estimates, execution plan, and decision record for accepted/deferred/rejected changes.
+Transform Gemini Code Assist PR reviews into prioritized, executable TodoLists. This command helps fetch PR details, categorize review comments by severity, estimate effort, and produce an ordered plan with decisions for immediate or deferred changes.
 </task_objective>
 
 <how_to_ask_followup_question>

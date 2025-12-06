@@ -1,7 +1,7 @@
 <task name="Deployment Monitoring and Observability">
 
 <task_objective>
-Setup comprehensive deployment monitoring with observability, alerting, health checks, and performance tracking. The workflow processes current monitoring state and infrastructure setup to generate a complete observability stack with Prometheus, Grafana, Alertmanager, log aggregation, distributed tracing, and automated alerting for deployment health, performance metrics, and business impact assessment.
+Execute comprehensive deployment monitoring setup covering observability, alerting, health checks, and performance tracking. This command helps proce current monitoring state and infrastructure setup to generate a complete observability stack with Prometheus, Grafana, Alertmanager, log aggregation, distributed tracing, and automated alerting for deployment health, performance metrics, and business impact assessment.
 </task_objective>
 
 <detailed_sequence_steps>

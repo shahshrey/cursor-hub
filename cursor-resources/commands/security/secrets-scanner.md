@@ -1,7 +1,7 @@
 <task name="Secrets Scanner">
 
 <task_objective>
-Scan codebase for exposed secrets, credentials, and sensitive information with comprehensive remediation. Input includes git status for uncommitted files, count of scannable files (*.js, *.py, *.env*, *.yml), recent commits containing sensitive keywords (password, key, secret, token), and environment files. Processing involves detecting API keys & tokens, database credentials, certificates & keys, authentication secrets, and configuration leaks based on scope arguments (--api-keys, --passwords, --certificates, or --fix), then providing remediation actions including secure alternatives and best practices. Output is a detailed security report with risk levels, file locations, line numbers, immediate actions, and long-term security improvements.
+Perform scan codebase for exposed secrets, credentials, and sensitive information with comprehensive remediation. This command helps input includes git status for uncommitted files, count of scannable files (*.js, *.py, *.env*, *.yml), recent commits containing sensitive keywords (password, key, secret, token), and environment files. Processing involves detecting API keys & tokens, database credentials, certificates & keys, authentication secrets, and configuration leaks based on scope arguments (--api-keys, --passwords, --certificates, or --fix), then providing remediation actions including secure alternatives and best practices. Output is a detailed security report with risk levels, file locations, line numbers, immediate actions, and long-term security improvements.
 </task_objective>
 
 <detailed_sequence_steps>

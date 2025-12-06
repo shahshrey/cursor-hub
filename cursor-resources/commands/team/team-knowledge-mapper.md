@@ -1,7 +1,7 @@
 <task name="Team Knowledge Mapper">
 
 <task_objective>
-Map team knowledge and expertise with skill gap analysis and learning path recommendations. Create comprehensive skill matrices, identify knowledge gaps, analyze expertise distribution, and design learning paths to optimize team capabilities and reduce bus factor risks through strategic knowledge management.
+Perform mapping of team knowledge and expertise with skill gap analysis and learning path recommendations. This command helps create skill matrices, identify gaps, analyze expertise distribution, and design learning paths to optimize capabilities and reduce bus factor risks through strategic knowledge management.
 </task_objective>
 
 <detailed_sequence_steps>

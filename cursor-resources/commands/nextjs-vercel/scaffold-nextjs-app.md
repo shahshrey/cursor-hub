@@ -1,7 +1,7 @@
 <task name="Scaffold Next.js Application">
 
 <task_objective>
-Create a new Next.js application with optimized configuration and best practices. Takes a project name as input, detects environment capabilities (Node.js, npm versions), applies optional flags (--typescript, --tailwind, --app-router), and generates a production-ready Next.js application with proper directory structure, configuration files, starter components, development scripts, and comprehensive documentation.
+Create a new Next.js application with optimized configuration and best-practice defaults. This command helps accept project inputs and flags, assess environment capabilities, scaffold production-ready structure and tooling, and deliver starter components with aligned scripts and configuration.
 </task_objective>
 
 <detailed_sequence_steps>

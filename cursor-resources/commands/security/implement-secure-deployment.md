@@ -1,7 +1,7 @@
 <task name="Implement Secure Deployment">
 
 <task_objective>
-Execute pre-deployment security audits and implement production-ready configuration for Next.js applications. This workflow automates scanning for hardcoded secrets, validates environment configurations, generates secure deployment configurations, implements monitoring code, and produces security verification scripts to ensure applications are deployment-ready.
+Execute pre-deployment security audits and implement production-ready configuration for Next.js applications. This command helps thi workflow automates scanning for hardcoded secrets, validates environment configurations, generates secure deployment configurations, implements monitoring code, and produces security verification scripts to ensure applications are deployment-ready.
 </task_objective>
 
 <detailed_sequence_steps>

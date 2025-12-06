@@ -1,7 +1,7 @@
 <task name="Documentation Maintenance & Quality Assurance">
 
 <task_objective>
-Implement comprehensive documentation maintenance system with quality assurance, validation, and automated updates. Input: Existing documentation files, external links, images, and content structure. Processing: Systematic content audits, link validation, style checking, optimization, and automated synchronization. Output: Maintained documentation with comprehensive audit reports, validated links, consistent formatting, and automated update procedures.
+Implement comprehensive documentation maintenance system with quality assurance, validation, and automated updates. This command helps use existing documentation files, external links, images, and content structure to run systematic content audits, validate links, check style, optimize content, and automate synchronization for maintained documentation with audit reports, validated links, consistent formatting, and automated update procedures.
 </task_objective>
 
 <detailed_sequence_steps>

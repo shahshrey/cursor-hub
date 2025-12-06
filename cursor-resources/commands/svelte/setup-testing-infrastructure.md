@@ -1,7 +1,7 @@
 <task name="Setup Testing Infrastructure">
 
 <task_objective>
-Set up comprehensive testing infrastructure for Svelte/SvelteKit projects, including unit testing, component testing, and E2E testing frameworks. Input: SvelteKit project structure, testing requirements (unit, integration, E2E), and preferred testing tools. Process: Assess current state, install and configure Vitest for unit/component tests, install and configure Playwright for E2E tests, set up test helpers and utilities, configure coverage reporting, create test structure, and add npm scripts. Output: Complete testing infrastructure with Vitest and Playwright configured, test setup files and helpers, example tests demonstrating patterns, npm scripts for all test types, coverage reporting enabled, and CI/CD integration ready.
+Set up comprehensive testing infrastructure for Svelte/SvelteKit projects, including unit testing, component testing, and E2E testing frameworks. This command helps input: SvelteKit project structure, testing requirements (unit, integration, E2E), and preferred testing tools. Process: Assess current state, install and configure Vitest for unit/component tests, install and configure Playwright for E2E tests, set up test helpers and utilities, configure coverage reporting, create test structure, and add npm scripts. Output: Complete testing infrastructure with Vitest and Playwright configured, test setup files and helpers, example tests demonstrating patterns, npm scripts for all test types, coverage reporting enabled, and CI/CD integration ready.
 </task_objective>
 
 <detailed_sequence_steps>

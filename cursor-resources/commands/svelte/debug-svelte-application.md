@@ -1,7 +1,7 @@
 <task name="Debug Svelte Application">
 
 <task_objective>
-Help debug Svelte and SvelteKit issues by analyzing error messages, stack traces, and common problems. Input: Error messages, stack traces, relevant code files, and description of unexpected behavior. Process: Analyze error type and context, identify root cause category (compilation, runtime, configuration, or SvelteKit-specific), examine relevant code, check for common pitfalls, and provide specific fixes with explanations. Output: Clear diagnosis of the issue, specific code fixes, step-by-step resolution guide, explanation of root cause, and preventive measures to avoid similar issues.
+Perform help debug Svelte and SvelteKit issues by analyzing error messages, stack traces, and common problems. This command helps input: Error messages, stack traces, relevant code files, and description of unexpected behavior. Process: Analyze error type and context, identify root cause category (compilation, runtime, configuration, or SvelteKit-specific), examine relevant code, check for common pitfalls, and provide specific fixes with explanations. Output: Clear diagnosis of the issue, specific code fixes, step-by-step resolution guide, explanation of root cause, and preventive measures to avoid similar issues.
 </task_objective>
 
 <detailed_sequence_steps>

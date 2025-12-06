@@ -1,7 +1,7 @@
 <task name="Split PR into Smaller PRs">
 
 <task_objective>
-Decompose large PRs into smaller, reviewable chunks by analyzing the commit range, detecting dependencies, creating optimal PR structures, and automating GitHub PR creation with AI-generated summaries. The output will be multiple GitHub PRs (ideally 1200 lines each, maximum 2000 lines) with proper dependency chains, Linear ticket integration, and comprehensive PR descriptions. Each PR will be named using Linear ticket format: `proj-XYZ-N-short-description`.
+Execute a decomposition of large Pull Requests into smaller, reviewable units by analyzing commit ranges, dependencies, and optimal grouping before creating branches. This command helps generate multiple GitHub PRs with clear dependency chains, Linear ticket alignment, and comprehensive descriptions sized for manageable reviews, each named using the Linear ticket format `proj-XYZ-N-short-description`.
 </task_objective>
 
 <how_to_ask_followup_question>

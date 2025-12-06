@@ -1,7 +1,7 @@
 <task name="Deep Analysis and Problem Solving Mode">
 
 <task_objective>
-Engage deep analysis and problem solving mode to comprehensively analyze complex problems through multi-dimensional thinking, generate multiple solutions with detailed evaluation, apply cross-domain thinking, and provide structured recommendations with meta-analysis for thorough decision-making. Accepts problem or question via $ARGUMENTS.
+Engage deep analysis and problem-solving mode to comprehensively examine complex problems with multi-dimensional thinking and structured recommendations. This command helps process $ARGUMENTS by generating multiple solutions, evaluating trade-offs, applying cross-domain reasoning, and delivering meta-analysis for thorough decision-making.
 </task_objective>
 
 <detailed_sequence_steps>

@@ -1,7 +1,7 @@
 <task name="Fix Failing Tests">
 
 <task_objective>
-Troubleshoot and fix failing tests in Svelte/SvelteKit projects, including debugging test issues and resolving common testing problems. Input: Failing test output with error messages and stack traces, test files, and component/code under test. Process: Analyze test failures, identify failure patterns and root causes, apply appropriate fixes for timing issues, mocking problems, or test logic errors, verify fixes, and implement preventive measures. Output: All tests passing, fixed test files with proper assertions and setup, resolved timing and async issues, corrected mocks, improved test stability, and documentation of fixes with prevention strategies.
+Perform troubleshoot and fix failing tests in Svelte/SvelteKit projects, including debugging test issues and resolving common testing problems. This command helps input: Failing test output with error messages and stack traces, test files, and component/code under test. Process: Analyze test failures, identify failure patterns and root causes, apply appropriate fixes for timing issues, mocking problems, or test logic errors, verify fixes, and implement preventive measures. Output: All tests passing, fixed test files with proper assertions and setup, resolved timing and async issues, corrected mocks, improved test stability, and documentation of fixes with prevention strategies.
 </task_objective>
 
 <detailed_sequence_steps>

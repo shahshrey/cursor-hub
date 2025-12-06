@@ -1,7 +1,7 @@
 <task name="Perform Comprehensive Security Audit">
 
 <task_objective>
-Perform a comprehensive security review of the codebase to identify and fix vulnerabilities across authentication, input validation, data protection, dependencies, API security, and file operations. The output will be a security assessment report with identified vulnerabilities and implemented fixes.
+Conduct a comprehensive security review of the codebase to identify and remediate vulnerabilities across authentication, input validation, data protection, dependencies, API security, and file operations. This command helps produce a security assessment report with identified vulnerabilities and implemented fixes.
 </task_objective>
 
 <detailed_sequence_steps>

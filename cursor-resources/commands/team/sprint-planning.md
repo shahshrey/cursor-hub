@@ -1,7 +1,7 @@
 <task name="Sprint Planning">
 
 <task_objective>
-Plan and organize sprint workflows with Linear integration and capacity analysis. Check Linear integration, gather sprint context, analyze current state, generate comprehensive sprint plan, and provide interactive planning assistance to optimize sprint backlog, assess risks, and ensure realistic sprint commitments.
+Conduct comprehensive sprint planning with Linear integration and capacity analysis. This command helps verify integrations, gather sprint context, analyze current state, and generate a plan to optimize backlog, assess risks, and ensure realistic sprint commitments.
 </task_objective>
 
 <detailed_sequence_steps>

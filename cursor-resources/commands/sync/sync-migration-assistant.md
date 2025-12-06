@@ -1,7 +1,7 @@
 <task name="Sync Migration Assistant">
 
 <task_objective>
-Execute comprehensive data migration between GitHub and Linear with enterprise-grade capabilities. Implement large-scale data migration system with pre-migration assessment, migration planning, data extraction, transformation engine, migration execution, and post-migration validation. The output will be complete migration system with phased execution, comprehensive validation, detailed reporting, and enterprise-grade reliability for large-scale data transitions.
+Execute comprehensive data migration between GitHub and Linear with enterprise-grade controls. This command helps deliver large-scale migrations through assessment, planning, data extraction, transformation, execution, and post-migration validation with detailed reporting.
 </task_objective>
 
 <how_to_ask_followup_question>

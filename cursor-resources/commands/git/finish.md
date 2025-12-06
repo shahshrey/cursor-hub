@@ -1,7 +1,7 @@
 <task name="Git Flow Finish Branch">
 
 <task_objective>
-Complete and merge current Git Flow branch (feature/release/hotfix) with proper cleanup and tagging. Detects the branch type, validates pre-merge conditions, merges to appropriate target branches, creates tags for releases and hotfixes, and performs cleanup by deleting merged branches. Supports arguments for controlling branch deletion and tag creation.
+Execute completion and merging of the current Git Flow branch (feature/release/hotfix) with disciplined cleanup and tagging. This command helps detect the branch type, validate pre-merge conditions, merge to appropriate targets, create tags for releases and hotfixes, and perform cleanup with configurable branch deletion and tagging behavior.
 </task_objective>
 
 <detailed_sequence_steps>

@@ -1,7 +1,7 @@
 <task name="Check Project Health">
 
 <task_objective>
-Analyze overall project health and generate comprehensive metrics report. This workflow takes evaluation period as input ($ARGUMENTS or defaults to last 30 days), analyzes code quality, delivery performance, team health, and dependency health dimensions, and outputs a detailed markdown report with health scores, metrics tables, trend analysis, risk assessment, and prioritized actionable recommendations.
+Conduct analysis of overall project health and generate a comprehensive metrics report. This command helps take an evaluation period as input ($ARGUMENTS or default to last 30 days) to assess code quality, delivery performance, team health, and dependencies, producing a detailed report with scores, trends, risks, and prioritized recommendations.
 </task_objective>
 
 <detailed_sequence_steps>

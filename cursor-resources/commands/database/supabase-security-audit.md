@@ -1,7 +1,7 @@
 <task name="Supabase Security Audit">
 
 <task_objective>
-Conduct comprehensive Supabase security audit with RLS policy analysis and vulnerability assessment. The workflow accepts audit scopes (rls, permissions, auth, api-keys, comprehensive) and uses Supabase MCP integration to review Row Level Security policies, analyze permission hierarchies, assess authentication security, audit API key management, and identify security vulnerabilities. Outputs include security audit reports, vulnerability assessments, policy recommendations, security improvements, and compliance validation documentation.
+Conduct a comprehensive Supabase security audit including RLS policy analysis and vulnerability assessment. This command helps secure your database by reviewing Row Level Security policies, analyzing permission hierarchies, and identifying vulnerabilities using Supabase MCP integration.
 </task_objective>
 
 <detailed_sequence_steps>

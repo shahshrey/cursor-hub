@@ -1,7 +1,7 @@
 <task name="Architecture Scenario Explorer">
 
 <task_objective>
-Explore architectural decisions through systematic scenario analysis with trade-off evaluation and future-proofing assessment by generating architecture options, developing comprehensive scenarios, analyzing trade-offs, assessing adaptability, simulating behavior, evaluating risks, and generating Architecture Decision Records with implementation strategies. Accepts architecture scope via $ARGUMENTS.
+Perform comprehensive exploration of architectural decisions through systematic scenario analysis with trade-off evaluation and future-proofing assessment. This command helps accept architecture scope via $ARGUMENTS by generating architecture options, developing scenarios, analyzing trade-offs, assessing adaptability, simulating behavior, evaluating risks, and producing Architecture Decision Records with implementation strategies.
 </task_objective>
 
 <detailed_sequence_steps>

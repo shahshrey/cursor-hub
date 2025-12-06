@@ -1,7 +1,7 @@
 <task name="Git Bisect Helper and Automation">
 
 <task_objective>
-Guide automated git bisect sessions to find regression commits with smart test execution. Input: Good commit, bad commit, and optional test command or mode flags. Processing: Set up bisect session, execute tests at each bisect point, analyze commit changes, interpret test results, automatically mark commits as good/bad. Output: Identification of exact commit that introduced regression, detailed bisect log with reasoning, recovery commands, and comprehensive report with file changes and implementation suggestions.
+Automate git bisect sessions to pinpoint regression commits with guided testing. This command helps configure the bisect range, run and interpret tests at each step, and deliver the exact bad commit with logs, recovery commands, and recommendations.
 </task_objective>
 
 <how_to_ask_followup_question>

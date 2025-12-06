@@ -1,7 +1,7 @@
 <task name="Unity Project Setup & Development Environment">
 
 <task_objective>
-Initialize a professional Unity game development project with industry-standard structure, essential packages, and platform-optimized configurations. The workflow will create a production-ready Unity project that scales from prototype to shipped game, following Unity's recommended patterns and industry best practices. Accepts project configuration via $ARGUMENTS (project-name, platform flags: --2d, --3d, --mobile, --vr, --console).
+Execute setup of a professional Unity game development project with industry-standard structure, essential packages, and platform-optimized configurations. This command helps create a production-ready Unity project that scales from prototype to shipped game, follows Unity's recommended patterns and industry best practices, and accepts project configuration via $ARGUMENTS (project-name, platform flags: --2d, --3d, --mobile, --vr, --console).
 </task_objective>
 
 <detailed_sequence_steps>
