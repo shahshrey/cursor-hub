@@ -1,9 +1,6 @@
 ---
-description: Frontend security best practices for DOM manipulation and XSS prevention
-globs: ["**/*.{ts,tsx,js,jsx}"]
-alwaysApply: true
+alwaysApply: false
 ---
-
 # Frontend Security Best Practices
 
 ## Critical Rules
