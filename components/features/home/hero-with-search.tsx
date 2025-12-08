@@ -1,22 +1,43 @@
 'use client'
 
 import { useState } from 'react'
+import type { ComponentType } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { Sparkles, ArrowRight } from 'lucide-react'
+import { Sparkles, ArrowRight, Terminal, ScrollText, Cpu, GitBranch } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { RainbowButton } from '@/components/ui/rainbow-button'
 import { EnhancedSearchInput } from '@/components/features/resources/enhanced-search-input'
+import type { ResourceType } from '@/types/resources'
 
 interface HeroWithSearchProps {
   totalResources: number
   userId: string | null
+  typeCounts: Record<ResourceType, number>
+  topCategories: { name: string; count: number }[]
 }
 
-export function HeroWithSearch({ totalResources, userId }: HeroWithSearchProps) {
+const typeQuickLinks: {
+  type: ResourceType
+  label: string
+  icon: ComponentType<{ className?: string }>
+}[] = [
+  { type: 'command', label: 'Commands', icon: Terminal },
+  { type: 'rule', label: 'Rules', icon: ScrollText },
+  { type: 'mcp', label: 'MCPs', icon: Cpu },
+  { type: 'hook', label: 'Hooks', icon: GitBranch },
+]
+
+export function HeroWithSearch({
+  totalResources,
+  userId,
+  typeCounts,
+  topCategories,
+}: HeroWithSearchProps) {
   const [searchQuery, setSearchQuery] = useState('')
   const router = useRouter()
+  const popularSearches = topCategories.slice(0, 6).map(category => category.name)
 
   const handleSearch = (e?: React.FormEvent) => {
     if (e) e.preventDefault()
@@ -30,6 +51,14 @@ export function HeroWithSearch({ totalResources, userId }: HeroWithSearchProps) 
   const handleSelectSuggestion = (suggestion: string) => {
     setSearchQuery(suggestion)
     router.push(`/browse?q=${encodeURIComponent(suggestion)}`)
+  }
+
+  const handleTypeNavigate = (type: ResourceType) => {
+    router.push(`/browse?type=${type}`)
+  }
+
+  const handleCategoryNavigate = (category: string) => {
+    router.push(`/browse?category=${encodeURIComponent(category)}`)
   }
 
   return (
@@ -87,6 +116,7 @@ export function HeroWithSearch({ totalResources, userId }: HeroWithSearchProps) 
                 resultsCount={0}
                 totalCount={totalResources}
                 onSelectSuggestion={handleSelectSuggestion}
+                quickSuggestions={popularSearches}
               />
             </div>
             <RainbowButton type="submit" size="lg" className="px-8 h-12">
@@ -94,6 +124,100 @@ export function HeroWithSearch({ totalResources, userId }: HeroWithSearchProps) 
             </RainbowButton>
           </form>
         </motion.div>
+
+        {popularSearches.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.55 }}
+            className="flex flex-wrap items-center justify-center gap-2 mb-6 text-sm"
+          >
+            <span className="text-muted-foreground">Try:</span>
+            {popularSearches.map(suggestion => (
+              <Button
+                key={suggestion}
+                type="button"
+                variant="secondary"
+                size="sm"
+                className="rounded-full h-8 px-3"
+                onClick={() => handleSelectSuggestion(suggestion)}
+              >
+                {suggestion}
+              </Button>
+            ))}
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="h-8 px-3"
+              onClick={() => router.push('/browse?sort=downloads')}
+            >
+              Trending now
+            </Button>
+          </motion.div>
+        )}
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.55 }}
+          className="max-w-3xl mx-auto mb-6 grid grid-cols-2 sm:grid-cols-4 gap-3"
+        >
+          {typeQuickLinks.map(item => {
+            const Icon = item.icon
+            const count = typeCounts[item.type] || 0
+            return (
+              <Button
+                key={item.type}
+                type="button"
+                variant="outline"
+                className="justify-between h-12 px-3 text-left"
+                onClick={() => handleTypeNavigate(item.type)}
+              >
+                <span className="flex items-center gap-2">
+                  <Icon className="w-4 h-4 text-muted-foreground" />
+                  <span className="font-semibold">{item.label}</span>
+                </span>
+                <span className="text-xs text-muted-foreground font-mono">{count}</span>
+              </Button>
+            )
+          })}
+        </motion.div>
+
+        {topCategories.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="flex flex-wrap items-center justify-center gap-2 mb-8 text-sm"
+          >
+            <span className="text-muted-foreground">Popular categories:</span>
+            {topCategories.map(category => (
+              <Button
+                key={category.name}
+                type="button"
+                variant="secondary"
+                size="sm"
+                className="rounded-full h-8 px-3"
+                onClick={() => handleCategoryNavigate(category.name)}
+              >
+                <span>{category.name}</span>
+                <span className="text-xs text-muted-foreground ml-2 font-mono">
+                  {category.count}
+                </span>
+              </Button>
+            ))}
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="h-8 px-3"
+              onClick={() => router.push('/browse')}
+            >
+              View all
+            </Button>
+          </motion.div>
+        )}
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}

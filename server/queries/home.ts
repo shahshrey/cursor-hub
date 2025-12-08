@@ -46,6 +46,11 @@ export async function getHomePageData() {
     popularResources = index.resources.slice(0, 8)
   }
 
+  const topCategories = Object.entries(categoryCounts)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 6)
+    .map(([name, count]) => ({ name, count }))
+
   const featuredByType: Record<ResourceType, ResourceMetadata[]> = {
     command: index.resources.filter(r => r.type === 'command').slice(0, 2),
     rule: index.resources.filter(r => r.type === 'rule').slice(0, 2),
@@ -61,5 +66,6 @@ export async function getHomePageData() {
     popularResources,
     featuredByType,
     categories: index.categories,
+    topCategories,
   }
 }

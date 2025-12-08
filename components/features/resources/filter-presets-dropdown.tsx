@@ -154,7 +154,8 @@ export function FilterPresetsDropdown({
         <SheetHeader>
           <SheetTitle className="terminal-font">Filter Presets</SheetTitle>
           <SheetDescription className="terminal-font text-xs">
-            Save and quickly apply your favorite filter combinations
+            Save and quickly apply your favorite filter combinations. Star a preset to pin it to the
+            top.
           </SheetDescription>
         </SheetHeader>
 

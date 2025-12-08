@@ -19,6 +19,8 @@ interface ResourceListViewProps {
   downloadCount?: number
   isFavorited?: boolean
   onPreview?: () => void
+  highlightTags?: string
+  highlightQuery?: string
 }
 
 export function ResourceListView({
@@ -26,9 +28,29 @@ export function ResourceListView({
   downloadCount = 0,
   isFavorited = false,
   onPreview,
+  highlightTags = '',
+  highlightQuery = '',
 }: ResourceListViewProps) {
   const TypeIconComponent = getResourceTypeIcon(resource.type)
   const shouldReduceMotion = useReducedMotion()
+  const highlightMatches = (text: string, query: string) => {
+    const normalizedQuery = query.trim()
+    if (!normalizedQuery) return text
+    const escapedQuery = normalizedQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    const regex = new RegExp(`(${escapedQuery})`, 'gi')
+    const parts = text.split(regex)
+    return parts.map((part, index) =>
+      index % 2 === 1 ? (
+        <mark key={index} className="rounded-sm bg-terminal-green/20 px-0.5 text-foreground">
+          {part}
+        </mark>
+      ) : (
+        <span key={index}>{part}</span>
+      )
+    )
+  }
+  const downloadLabel =
+    downloadCount === 0 ? 'Be the first to try' : `${downloadCount.toLocaleString()} downloads`
 
   const cardVariants = shouldReduceMotion
     ? {}
@@ -57,9 +79,11 @@ export function ResourceListView({
             <div className="flex-1 min-w-0">
               <div className="flex items-start justify-between gap-4 mb-2">
                 <div className="min-w-0 flex-1">
-                  <h3 className="text-lg font-semibold mb-1 line-clamp-1">{resource.title}</h3>
+                  <h3 className="text-lg font-semibold mb-1 line-clamp-1">
+                    {highlightMatches(resource.title, highlightQuery)}
+                  </h3>
                   <p className="text-sm text-muted-foreground line-clamp-2 mb-2">
-                    {resource.description || resource.excerpt}
+                    {highlightMatches(resource.description || resource.excerpt, highlightQuery)}
                   </p>
                 </div>
 
@@ -85,18 +109,31 @@ export function ResourceListView({
                 </span>
                 <div className="flex items-center gap-1 text-xs text-muted-foreground">
                   <Download className="h-3 w-3" />
-                  <span>{downloadCount} downloads</span>
+                  <span>{downloadLabel}</span>
                 </div>
                 {resource.tags.length > 0 && (
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex items-center gap-1.5 flex-wrap">
                     {resource.tags.slice(0, 3).map((tag, index) => (
-                      <Badge key={index} variant="outline" className="text-xs">
-                        {tag}
+                      <Badge
+                        key={index}
+                        variant="outline"
+                        className={`text-xs ${
+                          highlightTags && tag.toLowerCase().includes(highlightTags)
+                            ? 'bg-terminal-green/15 border-terminal-green/40 text-foreground'
+                            : ''
+                        }`}
+                      >
+                        {highlightTags ? highlightMatches(tag, highlightTags) : tag}
                       </Badge>
                     ))}
                     {resource.tags.length > 3 && (
                       <Badge variant="outline" className="text-xs">
                         +{resource.tags.length - 3}
+                      </Badge>
+                    )}
+                    {highlightTags && (
+                      <Badge variant="secondary" className="text-[11px]">
+                        Tags match: {highlightTags}
                       </Badge>
                     )}
                   </div>

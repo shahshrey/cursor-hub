@@ -5,6 +5,7 @@ import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import dynamic from 'next/dynamic'
 import type { ResourceMetadata, ResourceType, ResourceDownloadData } from '@/types/resources'
 import { ResourceCard } from './resource-card'
+import { ResourceListView } from './resource-list-view'
 import { HorizontalFilterBar } from './horizontal-filter-bar'
 import { FilterSidebar } from './filter-sidebar'
 import { CuratedStacks } from './curated-stacks'
@@ -24,6 +25,7 @@ import { QuickFilters } from './quick-filters'
 import { EmptyState } from './empty-state'
 import { KeyboardShortcutsHelp } from './keyboard-shortcuts-help'
 import type { FilterPreset } from '@/lib/preset-storage'
+import { ViewToggle, type ViewMode } from './view-toggle'
 
 const ResourcePreviewModal = dynamic(
   () => import('./resource-preview-modal').then(m => m.ResourcePreviewModal),
@@ -75,6 +77,8 @@ export function TerminalResourceBrowser({
   )
   const [downloadCounts, setDownloadCounts] = useState<Record<string, number>>({})
   const [isSavePresetOpen, setIsSavePresetOpen] = useState(false)
+  const [viewMode, setViewMode] = useState<ViewMode>('grid')
+  const [searchScope, setSearchScope] = useState<'all' | 'title' | 'description' | 'tags'>('all')
 
   useEffect(() => {
     // Initialize params from current searchParams to preserve other query params
@@ -167,6 +171,26 @@ export function TerminalResourceBrowser({
       },
     },
     {
+      key: 'A',
+      shift: true,
+      callback: () => setSearchScope('all'),
+    },
+    {
+      key: 'T',
+      shift: true,
+      callback: () => setSearchScope('title'),
+    },
+    {
+      key: 'D',
+      shift: true,
+      callback: () => setSearchScope('description'),
+    },
+    {
+      key: 'G',
+      shift: true,
+      callback: () => setSearchScope('tags'),
+    },
+    {
       key: 'Escape',
       callback: () => {
         if (searchQuery || activeType !== 'all' || activeCategory) {
@@ -204,6 +228,17 @@ export function TerminalResourceBrowser({
       }
     }
   }, [urlType, urlCategory, searchParams])
+
+  useEffect(() => {
+    const savedViewMode = localStorage.getItem('resource-view-mode')
+    if (savedViewMode === 'list' || savedViewMode === 'grid') {
+      setViewMode(savedViewMode)
+    }
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem('resource-view-mode', viewMode)
+  }, [viewMode])
 
   useEffect(() => {
     setCurrentPage(1)
@@ -319,6 +354,20 @@ export function TerminalResourceBrowser({
   const filteredResources = useMemo(() => {
     let results = [...searchResults]
 
+    if (debouncedQuery.trim().length >= 2 && searchScope !== 'all') {
+      const query = debouncedQuery.trim().toLowerCase()
+      results = results.filter(resource => {
+        if (searchScope === 'title') {
+          return resource.title.toLowerCase().includes(query)
+        }
+        if (searchScope === 'description') {
+          const descriptionText = (resource.description || resource.excerpt || '').toLowerCase()
+          return descriptionText.includes(query)
+        }
+        return resource.tags.some(tag => tag.toLowerCase().includes(query))
+      })
+    }
+
     results = results.sort((a, b) => {
       switch (sortBy) {
         case 'name':
@@ -333,7 +382,7 @@ export function TerminalResourceBrowser({
     })
 
     return results
-  }, [searchResults, sortBy])
+  }, [searchResults, sortBy, debouncedQuery, searchScope])
 
   const availableCategories = useMemo(() => {
     if (activeType === 'all') {
@@ -427,6 +476,30 @@ export function TerminalResourceBrowser({
   }, [filteredResources, currentPage, itemsPerPage])
 
   const totalPages = Math.ceil(filteredResources.length / itemsPerPage)
+  const totalFiltered = filteredResources.length
+  const pageStart = totalFiltered === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1
+  const pageEnd = totalFiltered === 0 ? 0 : Math.min(totalFiltered, currentPage * itemsPerPage)
+  const contextTotal = useMemo(() => {
+    if (!filterCounts) return totalCount
+    if (activeCategory) {
+      if (activeType === 'all') {
+        return filterCounts.byCategory[activeCategory] || 0
+      }
+      return filterCounts.byCategoryAndType[activeCategory]?.[activeType] || 0
+    }
+
+    if (activeType === 'all') {
+      return filterCounts.byType.all
+    }
+
+    return filterCounts.byType[activeType]
+  }, [filterCounts, activeCategory, activeType, totalCount])
+  const highlightTags =
+    searchScope === 'tags' && debouncedQuery.trim().length >= 2
+      ? debouncedQuery.trim().toLowerCase()
+      : ''
+  const highlightQuery =
+    searchScope !== 'tags' && debouncedQuery.trim().length >= 2 ? debouncedQuery.trim() : ''
 
   return (
     <>
@@ -444,7 +517,7 @@ export function TerminalResourceBrowser({
           searchQuery={searchQuery}
           onSearchChange={handleSearchChange}
           resultsCount={filteredResources.length}
-          totalCount={totalCount}
+          totalCount={contextTotal}
           activeType={activeType}
           onTypeChange={setActiveType}
           activeCategory={activeCategory}
@@ -458,6 +531,11 @@ export function TerminalResourceBrowser({
           onLoadPreset={handleLoadPreset}
           onDeletePreset={handleDeletePreset}
           onToggleStarPreset={handleToggleStarPreset}
+          viewMode={viewMode}
+          onViewChange={setViewMode}
+          isSearching={isSearching}
+          searchScope={searchScope}
+          onSearchScopeChange={setSearchScope}
         />
 
         {!searchQuery && activeType === 'all' && !activeCategory && (
@@ -484,7 +562,7 @@ export function TerminalResourceBrowser({
             activeType={activeType}
           />
 
-          <div className="flex-1 min-w-0">
+          <div className="flex-1 min-w-0" aria-busy={isSearching} aria-live="polite">
             <ActiveFilters
               activeType={activeType}
               activeCategory={activeCategory}
@@ -497,8 +575,22 @@ export function TerminalResourceBrowser({
             <div className="mt-4 mb-2">
               <p className="text-xs text-muted-foreground terminal-font">
                 <span className="text-terminal-green">⎿</span> Showing{' '}
-                <span className="text-foreground font-bold">{filteredResources.length}</span> of{' '}
-                <span className="text-foreground font-semibold">{totalCount}</span> resources
+                <span className="text-foreground font-bold">
+                  {pageStart === 0
+                    ? 0
+                    : `${pageStart.toLocaleString()}-${pageEnd.toLocaleString()}`}
+                </span>{' '}
+                of{' '}
+                <span className="text-foreground font-semibold">
+                  {totalFiltered.toLocaleString()}
+                </span>{' '}
+                results
+                {totalFiltered !== contextTotal && (
+                  <span className="text-muted-foreground">
+                    {' '}
+                    from {contextTotal.toLocaleString()} total
+                  </span>
+                )}
                 {activeType !== 'all' && filterCounts && (
                   <span className="ml-2">
                     ({filterCounts.byType[activeType]} {activeType}s
@@ -517,16 +609,33 @@ export function TerminalResourceBrowser({
               />
             ) : filteredResources.length > 0 ? (
               <>
-                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
-                  {paginatedResources.map(resource => (
-                    <ResourceCard
-                      key={resource.slug}
-                      resource={resource}
-                      downloadCount={downloadCounts[resource.slug] || 0}
-                      onPreview={() => handlePreview(resource)}
-                    />
-                  ))}
-                </div>
+                {viewMode === 'grid' ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
+                    {paginatedResources.map(resource => (
+                      <ResourceCard
+                        key={resource.slug}
+                        resource={resource}
+                        downloadCount={downloadCounts[resource.slug] || 0}
+                        onPreview={() => handlePreview(resource)}
+                        highlightTags={highlightTags}
+                        highlightQuery={highlightQuery}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {paginatedResources.map(resource => (
+                      <ResourceListView
+                        key={resource.slug}
+                        resource={resource}
+                        downloadCount={downloadCounts[resource.slug] || 0}
+                        onPreview={() => handlePreview(resource)}
+                        highlightTags={highlightTags}
+                        highlightQuery={highlightQuery}
+                      />
+                    ))}
+                  </div>
+                )}
 
                 {totalPages > 1 && (
                   <div className="flex items-center justify-center gap-2 pt-8">
