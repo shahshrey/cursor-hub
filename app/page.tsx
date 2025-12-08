@@ -21,7 +21,12 @@ export default async function Home() {
     <div className="min-h-screen">
       <Header />
 
-      <HeroWithSearch totalResources={data.totalResources} userId={userId} />
+      <HeroWithSearch
+        totalResources={data.totalResources}
+        userId={userId}
+        typeCounts={data.typeCounts}
+        topCategories={data.topCategories}
+      />
 
       <FeaturedResources
         resources={data.popularResources}

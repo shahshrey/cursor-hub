@@ -982,3 +982,66 @@ Fetch Latest Download Count from Supabase
 
 This PRD reflects the current state of Cursor Hub as implemented in the codebase. For feature requests or updates, submit a GitHub issue or contact the product team.
 
+## Cursor Hub Knowledge Transfer
+
+### What It Is
+- Next.js 16 App Router app to discover ~500+ Cursor resources (commands, rules, MCPs, hooks).
+- Static catalog from `cursor-resources/` plus Supabase metrics (downloads, favorites) and Clerk auth.
+- Demo: `cursor-hub-shahshreys-projects.vercel.app`.
+
+### Core Architecture
+- Data source: markdown/MDC/JSON/SH files under `cursor-resources/{commands|rules|mcps|hooks}/<category>/`.
+- Indexing: `scripts/index-resources.ts` builds `public/data/resources-index.json`; must run after resource changes (`npm run resources:index`).
+- Runtime access: `lib/resources.ts` caches index in memory; guards path traversal and allowed extensions.
+- UI shell: `app/layout.tsx` sets dark theme, dynamic background, Clerk provider, Toaster.
+- Pages: `app/page.tsx` (home, featured lists, CTA), `app/(browse)/browse/page.tsx` (browse entry), `app/(dashboard)/dashboard/page.tsx` (favorites, gated by Clerk).
+
+### Search & Browse Experience
+- Client browser: `components/features/resources/terminal-resource-browser.tsx` handles query params, debounced search, scopes (all/title/description/tags), sort (downloads/name/recent), grid/list, pagination, presets, quick filters, keyboard shortcuts (`/`, `Shift+A/T/D/G`, `Esc`, `Ctrl+S`).
+- Filter counts: `lib/filter-counts.ts`; presets in `localStorage` via `lib/preset-storage.ts` and `use-filter-presets`.
+- Download counts fetched from Supabase for visible results; listens for `resource-downloaded` events to update UI.
+
+### APIs
+- Search: `app/api/resources/search/route.ts` (Fuse over cached index; params `q`, `type`, `category`, `limit`; rate-limited, Zod validated).
+- Download: `app/api/resources/download/[slug]/route.ts` (validates slug, returns preview or attachment; schedules `increment_download` via `after`; rate-limited).
+- Summary: `app/api/resources/summary/route.ts` (counts, categories; long cache).
+
+### Auth & Persistence
+- Auth: Clerk (`@clerk/nextjs`); server helpers used in pages/actions.
+- Supabase:
+  - Clients: `lib/supabase/server.ts` (no session persistence), `lib/supabase/client.ts` (browser).
+  - Downloads: `server/actions/resources.ts` RPCs (`increment_download_count`, `get_popular_resources`).
+  - Favorites: `server/actions/favorites.ts`, `server/queries/favorites.ts`; inserts/deletes rows, revalidates dashboard.
+
+### Validation, Errors, Limits
+- Validation: `lib/validation.ts` (slug, search params, filter state).
+- Errors: `lib/errors.ts` (AppError hierarchy, sanitized responses).
+- Rate limiting: `lib/middleware/rate-limit.ts` in-memory per IP+path (search 60/min, download 30/min, API 100/15min).
+
+### Data Shapes
+- `ResourceMetadata`: `slug`, `title`, `description`, `type` (command|rule|mcp|hook), `category`, `filePath`, `tags`, `searchContent`, `createdAt`, optional `downloadCount`.
+- `ResourceIndex`: `resources[]`, `categories` map by type, `totalCount`, `generatedAt`.
+
+### Build & Ops
+- Env vars: `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`, `CLERK_SECRET_KEY`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
+- Scripts: `npm run resources:index`, `npm run dev`, `npm run build` (runs index first), `npm run db:start|stop|reset|types|push`, `npm run perf:check`.
+- Caching: home revalidates hourly; browse revalidates daily; API responses cached per headers; index cached in-memory (restart to refresh after rebuild).
+
+### UX Notes
+- When no filters active, shows curated stacks and quick filters.
+- Keyboard shortcuts improve navigation; view mode persisted in `localStorage`.
+- Preview modal is lazy-loaded for SSR friendliness.
+
+### Risks & Gotchas
+- Must regenerate `resources-index.json` after adding/editing resources or runtime fails.
+- Rate limiter is per-instance memory; distributed deployments vary per node.
+- Download increments are best-effort (1s timeout, optimistic UI update).
+- LocalStorage usage means SSR-safe checks are needed (already present).
+
+### Useful Paths
+- Catalog pipeline: `scripts/index-resources.ts`, `public/data/resources-index.json`, `lib/resources.ts`.
+- Home data: `server/queries/home.ts`.
+- Browse UI: `components/features/resources/terminal-resource-browser.tsx`.
+- APIs: `app/api/resources/search/route.ts`, `app/api/resources/download/[slug]/route.ts`, `app/api/resources/summary/route.ts`.
+- Favorites: `server/actions/favorites.ts`, `server/queries/favorites.ts`.
+- Search utils: `lib/search.ts`; presets: `lib/preset-storage.ts`; counts: `lib/filter-counts.ts`.

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Input } from '@/components/ui/input'
-import { Search, X } from 'lucide-react'
+import { Search, X, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useReducedMotion } from 'framer-motion'
@@ -14,6 +14,7 @@ interface EnhancedSearchInputProps {
   resultsCount: number
   totalCount: number
   onSelectSuggestion?: (suggestion: string) => void
+  quickSuggestions?: string[]
 }
 
 const SEARCH_HISTORY_KEY = 'cursor-resources-search-history'
@@ -26,15 +27,24 @@ export function EnhancedSearchInput({
   resultsCount,
   totalCount,
   onSelectSuggestion,
+  quickSuggestions = [],
 }: EnhancedSearchInputProps) {
   const [isFocused, setIsFocused] = useState(false)
   const [suggestions, setSuggestions] = useState<string[]>([])
   const [searchHistory, setSearchHistory] = useState<string[]>([])
   const [selectedIndex, setSelectedIndex] = useState(-1)
+  const [isLoading, setIsLoading] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const shouldReduceMotion = useReducedMotion()
   const [modifierKey, setModifierKey] = useState('Ctrl')
+  const normalizedQuickSuggestions = Array.from(
+    new Set(
+      quickSuggestions
+        .map(suggestion => suggestion.trim())
+        .filter(suggestion => suggestion.length > 0)
+    )
+  ).slice(0, MAX_SUGGESTIONS)
 
   useEffect(() => {
     if (
@@ -61,9 +71,11 @@ export function EnhancedSearchInput({
     const fetchSuggestions = async () => {
       if (value.trim().length < 2) {
         setSuggestions([])
+        setIsLoading(false)
         return
       }
 
+      setIsLoading(true)
       try {
         const response = await fetch(
           `/api/resources/search?q=${encodeURIComponent(value)}&limit=${MAX_SUGGESTIONS}`
@@ -80,11 +92,16 @@ export function EnhancedSearchInput({
         }
       } catch {
         setSuggestions([])
+      } finally {
+        setIsLoading(false)
       }
     }
 
     const timeoutId = setTimeout(fetchSuggestions, 200)
-    return () => clearTimeout(timeoutId)
+    return () => {
+      clearTimeout(timeoutId)
+      setIsLoading(false)
+    }
   }, [value])
 
   const saveToHistory = useCallback((query: string) => {
@@ -100,7 +117,12 @@ export function EnhancedSearchInput({
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const allSuggestions =
-      value.trim().length >= 2 ? suggestions : searchHistory.slice(0, MAX_SUGGESTIONS)
+      value.trim().length >= 2
+        ? suggestions
+        : [
+            ...normalizedQuickSuggestions,
+            ...searchHistory.filter(item => !normalizedQuickSuggestions.includes(item)),
+          ].slice(0, MAX_SUGGESTIONS)
 
     if (e.key === 'ArrowDown') {
       e.preventDefault()
@@ -169,9 +191,16 @@ export function EnhancedSearchInput({
   }, [isFocused])
 
   const displaySuggestions =
-    value.trim().length >= 2 ? suggestions : searchHistory.slice(0, MAX_SUGGESTIONS)
+    value.trim().length >= 2
+      ? suggestions
+      : [
+          ...normalizedQuickSuggestions,
+          ...searchHistory.filter(item => !normalizedQuickSuggestions.includes(item)),
+        ].slice(0, MAX_SUGGESTIONS)
 
-  const showSuggestions = isFocused && displaySuggestions.length > 0
+  const showSuggestions =
+    isFocused && (displaySuggestions.length > 0 || (value.trim().length >= 2 && !isLoading))
+  const effectiveResults = resultsCount || (value.trim().length >= 2 ? suggestions.length : 0)
 
   return (
     <div ref={containerRef} className="relative flex-1 w-full lg:w-auto">
@@ -188,6 +217,7 @@ export function EnhancedSearchInput({
           }}
           onFocus={() => setIsFocused(true)}
           onKeyDown={handleKeyDown}
+          aria-busy={isLoading}
           className="pl-10 pr-20 h-12 text-base terminal-font"
         />
         <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
@@ -204,11 +234,16 @@ export function EnhancedSearchInput({
               <X className="h-3 w-3" />
             </Button>
           )}
-          {value && (
-            <div className="text-xs text-muted-foreground terminal-font">
-              {resultsCount}/{totalCount}
-            </div>
-          )}
+          {value &&
+            (isLoading ? (
+              <Loader2 className="h-3.5 w-3.5 animate-spin text-muted-foreground" />
+            ) : effectiveResults > 0 ? (
+              <div className="text-xs text-muted-foreground terminal-font">
+                {effectiveResults}/{totalCount}
+              </div>
+            ) : (
+              <div className="text-[11px] text-muted-foreground">Press Enter to search</div>
+            ))}
           {!value && (
             <div className="hidden sm:flex items-center gap-1 text-xs text-muted-foreground">
               <kbd className="px-1.5 py-0.5 text-xs font-semibold text-muted-foreground bg-muted border border-border rounded">
@@ -232,20 +267,27 @@ export function EnhancedSearchInput({
             className="absolute top-full left-0 right-0 mt-1 bg-card border border-border rounded-lg shadow-lg z-50 max-h-[400px] overflow-y-auto"
           >
             <div className="p-2">
-              {value.trim().length < 2 && searchHistory.length > 0 && (
-                <div className="flex items-center justify-between px-2 py-1 mb-1">
-                  <span className="text-xs font-semibold text-muted-foreground terminal-font">
-                    Recent Searches
-                  </span>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={clearHistory}
-                    className="h-6 text-xs terminal-font"
-                  >
-                    Clear
-                  </Button>
+              {value.trim().length >= 2 && !isLoading && displaySuggestions.length === 0 && (
+                <div className="px-3 py-2 text-sm text-muted-foreground">
+                  No matches yet. Press Enter to search all resources.
                 </div>
+              )}
+              {value.trim().length < 2 && searchHistory.length > 0 && (
+                <>
+                  <div className="flex items-center justify-between px-2 py-1 mb-1">
+                    <span className="text-xs font-semibold text-muted-foreground terminal-font">
+                      Recent Searches
+                    </span>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={clearHistory}
+                      className="h-6 text-xs terminal-font"
+                    >
+                      Clear
+                    </Button>
+                  </div>
+                </>
               )}
               {displaySuggestions.map((suggestion, index) => (
                 <motion.button
@@ -262,6 +304,11 @@ export function EnhancedSearchInput({
                     <Search className="h-3 w-3 shrink-0 text-muted-foreground" />
                     <span className="truncate">{suggestion}</span>
                   </span>
+                  {value.trim().length < 2 && (
+                    <span className="text-[10px] uppercase tracking-wide text-muted-foreground/80 font-semibold">
+                      {normalizedQuickSuggestions.includes(suggestion) ? 'Popular' : 'Recent'}
+                    </span>
+                  )}
                   {value.trim().length < 2 && searchHistory.includes(suggestion) && (
                     <Button
                       variant="ghost"

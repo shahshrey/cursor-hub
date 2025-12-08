@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import { X, Filter } from 'lucide-react'
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import type { FilterCounts } from '@/lib/filter-counts'
@@ -24,6 +25,7 @@ export function FilterSidebar({
   activeType = 'all',
 }: FilterSidebarProps) {
   const [isMobileOpen, setIsMobileOpen] = useState(false)
+  const [categoryQuery, setCategoryQuery] = useState('')
 
   const getCategoryCount = (category?: string): number => {
     if (!filterCounts) return 0
@@ -38,6 +40,22 @@ export function FilterSidebar({
 
     return filterCounts.byCategoryAndType[category]?.[activeType] || 0
   }
+
+  const sortedCategories = useMemo(
+    () =>
+      [...categories].sort((a, b) => {
+        const countDiff = getCategoryCount(b) - getCategoryCount(a)
+        if (countDiff !== 0) return countDiff
+        return a.localeCompare(b)
+      }),
+    [categories, activeType, filterCounts]
+  )
+
+  const filteredCategories = useMemo(() => {
+    if (!categoryQuery.trim()) return sortedCategories
+    const query = categoryQuery.trim().toLowerCase()
+    return sortedCategories.filter(category => category.toLowerCase().includes(query))
+  }, [categoryQuery, sortedCategories])
 
   const CategoryFilters = () => (
     <div className="space-y-4">
@@ -58,6 +76,13 @@ export function FilterSidebar({
           </Button>
         )}
       </div>
+      <Input
+        value={categoryQuery}
+        onChange={event => setCategoryQuery(event.target.value)}
+        placeholder="Search categories"
+        className="h-9 text-xs terminal-font"
+        aria-label="Search categories"
+      />
       <div className="space-y-2">
         <Badge
           variant={!activeCategory ? 'default' : 'outline'}
@@ -72,7 +97,10 @@ export function FilterSidebar({
           )}
         </Badge>
         <div className="flex flex-col gap-1.5 max-h-[calc(100vh-300px)] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent">
-          {categories.map(category => {
+          {filteredCategories.length === 0 && (
+            <div className="text-xs text-muted-foreground px-1">No categories match.</div>
+          )}
+          {filteredCategories.map(category => {
             const count = getCategoryCount(category)
             const isDisabled = count === 0
             return (

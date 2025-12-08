@@ -47,6 +47,17 @@ export function EmptyState({
   onSuggestedCategory,
 }: EmptyStateProps) {
   const hasActiveFilters = searchQuery.trim().length >= 2 || activeType !== 'all' || activeCategory
+  const categoryLabel = activeCategory.replace(/-/g, ' ')
+  const dynamicSearches = Array.from(
+    new Set(
+      [
+        activeCategory ? `${categoryLabel} basics` : null,
+        activeType !== 'all' ? `${activeType} best practices` : null,
+        searchQuery ? `${searchQuery} guide` : null,
+        ...SUGGESTED_SEARCHES,
+      ].filter(Boolean) as string[]
+    )
+  )
 
   return (
     <div className="flex flex-col items-center justify-center py-16 px-4">
@@ -96,7 +107,7 @@ export function EmptyState({
                     <span>Popular searches</span>
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    {SUGGESTED_SEARCHES.map(suggestion => (
+                    {dynamicSearches.map(suggestion => (
                       <Button
                         key={suggestion}
                         variant="outline"
