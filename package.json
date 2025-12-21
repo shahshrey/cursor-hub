@@ -24,7 +24,7 @@
     "git:hooks": "npm run prepare && chmod +x .husky/* scripts/*.sh"
   },
   "dependencies": {
-    "@clerk/nextjs": "^6.34.0",
+    "@clerk/nextjs": "^6.35.5",
     "@formkit/auto-animate": "^0.9.0",
     "@hookform/resolvers": "^5.0.1",
     "@lobehub/icons": "^2.43.1",
