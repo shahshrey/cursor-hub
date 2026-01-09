@@ -1,0 +1,183 @@
+---
+description: Apply this rule when working on AI/ML systems requiring ethical review, bias assessment, fairness evaluation, regulatory compliance (EU AI Act, NIST AI RMF), or responsible AI implementation. Essential for projects involving high-risk AI decisions, demographic data processing, algorithmic fairness, or when implementing privacy-preserving techniques. Use when designing bias monitoring systems, creating model cards, conducting algorithmic impact assessments, or implementing explainable AI methods. Critical for healthcare AI, financial AI, employment systems, or any AI affecting vulnerable populations.
+globs:
+alwaysApply: false
+---
+
+# AI Ethics Advisor
+
+## Critical Rules
+
+- Evaluate AI systems through fundamental ethical principles: fairness, transparency, accountability, privacy, human agency, and non-maleficence
+- Assess bias across multiple dimensions: demographic, socioeconomic, cultural, temporal, and confirmation bias
+- Conduct systematic bias detection through data audits, model behavior testing, and outcome monitoring
+- Apply appropriate fairness metrics: individual fairness, group fairness (demographic parity, equalized odds, equalized opportunity, calibration), and procedural fairness
+- Ensure regulatory compliance with EU AI Act (risk classification, conformity assessment, transparency obligations, human oversight), US AI standards (NIST AI RMF), and industry-specific requirements (HIPAA, GDPR, Fair Credit Reporting Act, FERPA)
+- Implement technical safeguards including bias monitoring pipelines, privacy-preserving techniques (differential privacy, federated learning, homomorphic encryption), and explainable AI methods (LIME/SHAP, attention mechanisms, counterfactual explanations)
+- Establish organizational practices: ethics review boards, bias testing in CI/CD, stakeholder engagement, and incident response protocols
+- Maintain comprehensive documentation: model cards, algorithmic impact assessments, audit trails, and regular ethics reviews
+- Design human-in-the-loop systems with meaningful control, override capability, escalation paths, and feedback loops
+- Execute pre-deployment testing including bias assessment across all user groups, red team exercises, stakeholder consultation, and pilot testing
+- Implement post-deployment continuous monitoring with dashboards, regular audit cycles, user feedback mechanisms, and rapid response protocols
+
+## Ethical Impact Assessment Template
+
+```
+🔍 AI ETHICS EVALUATION
+
+System Overview
+- Purpose and intended use cases
+- Target user demographics  
+- Decision-making authority level
+- Potential societal impact scope
+
+Risk Analysis
+- High-risk decision categories identified
+- Vulnerable populations affected
+- Potential harm scenarios mapped
+- Mitigation strategies required
+```
+
+## Bias Detection Protocol
+
+**Data Audit**
+- Training data representation analysis
+- Historical bias identification in datasets
+- Protected class distribution evaluation
+- Data quality and completeness assessment
+
+**Model Behavior Testing**
+- Systematic testing across demographic groups
+- Edge case performance evaluation
+- Adversarial bias probing
+- Intersectional bias analysis
+
+**Outcome Monitoring**
+- Real-world performance disparities
+- User feedback sentiment analysis
+- Long-term impact tracking
+- Unintended consequence identification
+
+## Fairness Metrics Framework
+
+**Individual Fairness**: Similar individuals receive similar treatment with consistent decision-making across cases
+
+**Group Fairness**
+- Demographic Parity: Equal positive prediction rates
+- Equalized Odds: Equal true/false positive rates
+- Equalized Opportunity: Equal true positive rates
+- Calibration: Equal probability accuracy across groups
+
+**Procedural Fairness**: Transparent decision processes with right to explanation and appeal, consistent rule application, and due process protection
+
+## Regulatory Compliance Requirements
+
+**EU AI Act**
+- Risk Classification: Minimal, limited, high, unacceptable
+- Conformity Assessment: Required documentation and testing
+- Transparency Obligations: User notification requirements
+- Human Oversight: Meaningful human control mandates
+
+**US AI Standards (NIST AI RMF)**
+- Govern: Organizational AI governance structures
+- Map: AI system and context understanding
+- Measure: Risk and impact quantification  
+- Manage: Risk response and monitoring
+
+**Industry-Specific**
+- Healthcare: HIPAA, FDA AI/ML guidance
+- Finance: Fair Credit Reporting Act, GDPR
+- Employment: Equal Employment Opportunity laws
+- Education: FERPA, algorithmic accountability
+
+## Technical Implementation Guidance
+
+**Bias Monitoring Implementation**
+```python
+class BiasMonitor:
+    def __init__(self, protected_attributes):
+        self.protected_attributes = protected_attributes
+        self.thresholds = self.set_fairness_thresholds()
+    
+    def evaluate_fairness(self, predictions, actuals, demographics):
+        results = {}
+        for attr in self.protected_attributes:
+            results[attr] = self.calculate_fairness_metrics(
+                predictions, actuals, demographics[attr]
+            )
+        return self.flag_violations(results)
+```
+
+**Privacy-Preserving Techniques**
+- Differential Privacy: Statistical privacy guarantees
+- Federated Learning: Distributed model training
+- Homomorphic Encryption: Computation on encrypted data
+- Data Minimization: Collect only necessary information
+
+**Explainable AI Methods**
+- LIME/SHAP: Local and global feature importance
+- Attention Mechanisms: Highlighting decision factors
+- Counterfactual Explanations: "What if" scenario analysis
+- Rule Extraction: Converting models to interpretable rules
+
+**Human-in-the-Loop Design**
+- Meaningful Control: Humans can effectively intervene
+- Override Capability: System decisions can be reversed
+- Escalation Paths: Complex cases routed to humans
+- Feedback Loops: Human input improves system performance
+
+## Risk Mitigation Strategy
+
+**Pre-deployment**
+- Comprehensive bias testing across all user groups
+- Red team exercises for adversarial bias discovery
+- Stakeholder consultation and feedback incorporation
+- Pilot testing with affected communities
+
+**Post-deployment**
+- Continuous monitoring dashboards for bias metrics
+- Regular audit cycles with external validation
+- User feedback collection and bias reporting mechanisms
+- Rapid response protocols for bias incident management
+
+## Assessment Report Format
+
+```
+🛡️ AI ETHICS ASSESSMENT REPORT
+
+Executive Summary
+- Overall risk level: [Low/Medium/High/Critical]
+- Key ethical concerns identified
+- Required actions before deployment
+- Ongoing monitoring requirements
+
+Bias Analysis Results
+[Quantitative metrics across demographic groups]
+
+Regulatory Compliance Status
+[Gap analysis against applicable regulations]
+
+Recommended Mitigations
+[Prioritized list of technical and process improvements]
+
+Monitoring Plan
+[Ongoing oversight and evaluation strategy]
+```
+
+## Examples
+
+<example>
+  Team is building a resume screening AI for hiring. Apply this rule to:
+  - Assess bias in historical hiring data used for training
+  - Test model performance across demographic groups (race, gender, age)
+  - Ensure compliance with Equal Employment Opportunity laws
+  - Implement explainable AI so candidates understand decisions
+  - Design human oversight where recruiters can override AI decisions
+  - Create audit trails for all AI-assisted hiring decisions
+  - Monitor ongoing performance for demographic disparities
+  - Document the system with algorithmic impact assessment
+</example>
+
+<example type="invalid">
+  Team is building a basic content recommendation system for a blog with no high-risk decisions, no personal data processing, and no demographic targeting. This rule should not be applied as there are no significant ethical risks, vulnerable populations, or regulatory requirements. Use lightweight privacy practices and standard monitoring instead of full ethical review framework.
+</example>

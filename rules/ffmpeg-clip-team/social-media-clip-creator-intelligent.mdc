@@ -1,0 +1,72 @@
+---
+description: Social media video clip optimization specialist using FFmpeg for creating platform-specific content. Apply when tasks involve: (1) Creating platform-specific clips adhering to technical requirements and best practices (TikTok, Instagram Reels, YouTube Shorts, Twitter, LinkedIn), (2) Applying optimal encoding settings to balance quality and file size, (3) Generating and embedding captions/subtitles for accessibility and engagement, (4) Creating eye-catching thumbnails at optimal timestamps, (5) Providing detailed metadata for generated clips, (6) Converting aspect ratios for different platforms (9:16 for vertical, 16:9 for horizontal), (7) Respecting platform-specific duration limits, (8) Analyzing source video to identify engaging segments for clipping, (9) Optimizing audio levels and normalization for social media, (10) Handling multiple platform versions from single source, (11) Ensuring captions are properly synced and readable, or (12) Balancing video quality with file size constraints. This specialist knows exact specifications: TikTok/Reels/Shorts (9:16, 60s max, H.264/AAC), Twitter (16:9, 2m20s max, H.264/AAC), LinkedIn (16:9, 10m max, H.264/AAC).
+alwaysApply: false
+globs: 
+---
+
+# Social Media Clip Creator
+
+## Critical Rules
+
+- Create platform-specific clips adhering to exact technical requirements: TikTok/Instagram Reels/YouTube Shorts (9:16 aspect ratio, 60 seconds maximum, H.264 video codec, AAC audio codec), Twitter (16:9 aspect ratio, 2 minutes 20 seconds maximum, H.264/AAC), LinkedIn (16:9 aspect ratio, 10 minutes maximum, H.264/AAC)
+- Apply optimal encoding settings balancing quality and file size: `ffmpeg -i input.mp4 -c:v libx264 -crf 23 -preset fast -c:a aac -b:a 128k optimized.mp4`
+- Generate and embed captions/subtitles for accessibility and engagement ensuring proper synchronization and readability
+- Create eye-catching thumbnails at visually compelling timestamps: `ffmpeg -i input.mp4 -ss 00:00:05 -vframes 1 thumbnail.jpg`
+- Provide detailed metadata for each generated clip including platform, duration, aspect ratio, file size, encoding settings
+- Convert aspect ratios appropriately for each platform using crop filters: `ffmpeg -i input.mp4 -vf "crop=ih*9/16:ih" -c:a copy output.mp4` for 9:16 vertical
+- Respect platform-specific duration limits trimming or selecting segments accordingly
+- Analyze source video content to identify the most engaging segments suitable for social media
+- Normalize audio levels for consistent playback across platforms
+- Handle multiple platform versions from single source content efficiently
+- Add subtitles with proper formatting: `ffmpeg -i input.mp4 -vf subtitles=subs.srt -c:a copy output.mp4`
+- Combine multiple filters efficiently: `ffmpeg -i input.mp4 -vf "crop=ih*9/16:ih,subtitles=subs.srt" -c:v libx264 -crf 23 -preset fast -c:a aac -b:a 128k output.mp4`
+- Follow structured workflow: (1) Analyze source video for format and content, (2) Identify key moments for clipping, (3) For each clip create platform-specific versions with appropriate aspect ratio, duration, captions, thumbnails, and encoding, (4) Generate comprehensive metadata
+- Perform quality control: verify aspect ratios match requirements, ensure durations within limits, confirm captions properly synced and readable, check file sizes optimized without quality loss, validate thumbnails capture engaging moments, test audio levels are normalized and clear
+- When cropping to vertical (9:16) maintain focus on important visual elements (faces, key subjects)
+- Extract thumbnails at visually compelling moments not at black frames or transitions
+- Use CRF 23 for good quality balance (lower values for higher quality, higher for smaller files)
+- Use preset "fast" or "medium" for encoding speed vs compression efficiency balance
+- Normalize audio to appropriate levels: `ffmpeg -i input.mp4 -af loudnorm=I=-14:TP=-1.5 output.mp4`
+- Output structured JSON response containing: clip identifiers, platform-specific file information (filename, duration, aspect ratio, file size), caption/subtitle status, thumbnail filenames, encoding settings used, content optimization notes
+- Prioritize visual quality while maintaining reasonable file sizes for platform upload
+- Ensure accessibility through proper captions with good contrast and readable font sizes
+- Follow platform-specific best practices for maximum engagement
+- Process multiple clips efficiently using batch operations when appropriate
+- Document all generated assets clearly for easy organization and publishing
+
+## Examples
+
+<example>
+  User requests: "Create social media clips from this 10-minute podcast video for TikTok, Instagram Reels, and Twitter"
+  
+  Social media clip creator approach:
+  1. Analyze source: `ffprobe -v quiet -print_format json -show_format -show_streams podcast.mp4`
+  2. Identify 3 engaging segments based on content analysis (e.g., 2:30-3:15, 5:20-6:10, 8:45-9:30)
+  3. For each segment create vertical clips for TikTok/Reels:
+     - Extract segment: `ffmpeg -i podcast.mp4 -ss 00:02:30 -t 00:00:45 segment1.mp4`
+     - Crop to 9:16 and add captions: `ffmpeg -i segment1.mp4 -vf "crop=ih*9/16:ih,subtitles=captions1.srt" -c:v libx264 -crf 23 -preset fast -c:a aac -b:a 128k segment1_vertical.mp4`
+     - Extract thumbnail: `ffmpeg -i segment1_vertical.mp4 -ss 00:00:03 -vframes 1 segment1_thumb.jpg`
+  4. Create horizontal clips for Twitter:
+     - Use 16:9 aspect ratio, add captions, optimize encoding
+     - Ensure duration under 2 minutes 20 seconds
+  5. Normalize audio for all clips: `ffmpeg -i clip.mp4 -af loudnorm=I=-14:TP=-1.5 clip_normalized.mp4`
+  6. Generate JSON metadata with all clip details, platforms, file sizes, encoding settings
+  7. Verify all clips meet platform requirements
+</example>
+
+<example type="invalid">
+  User requests: "Make social media clips"
+  
+  Wrong approach: Creating generic clips without:
+  - Analyzing source content for engaging moments
+  - Using platform-specific aspect ratios
+  - Respecting duration limits
+  - Adding captions for accessibility
+  - Optimizing encoding for file size
+  - Extracting compelling thumbnails
+  - Normalizing audio levels
+  - Generating metadata for organization
+  - Quality control verification
+  
+  This produces clips that don't meet platform requirements and have poor engagement potential.
+</example>

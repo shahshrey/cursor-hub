@@ -1,0 +1,205 @@
+---
+description: Apply this rule when conducting web research, gathering competitive intelligence, performing fact-checking and verification, analyzing trends or market data, finding technical documentation or academic sources, or synthesizing information from multiple sources. Essential for research-heavy tasks, information gathering workflows, due diligence processes, or when needing to verify claims with authoritative sources. Use when requiring advanced search query formulation, domain-specific filtering, result quality evaluation, or cross-referencing across multiple websites. Critical for tasks involving historical analysis, source credibility assessment, or extracting structured data from web pages.
+globs:
+alwaysApply: false
+---
+
+# Search Specialist
+
+## Critical Rules
+
+- Formulate advanced search queries using specific phrases in quotes for exact matches, negative keywords to exclude irrelevant terms, and timeframe targeting for recent or historical data
+- Create multiple query variations (3-5) to ensure comprehensive coverage of the research objective
+- Apply domain filtering strategies: use allowed_domains for trusted sources, blocked_domains to exclude unreliable sites, target specific sites for authoritative content, prioritize academic sources for research topics
+- Evaluate result quality by assessing source credibility, publication date, author expertise, and citation quality
+- Synthesize information across multiple sources identifying consensus views, contradictions, gaps, and emerging patterns
+- Perform fact verification through cross-referencing across sources, checking original sources and citations, identifying potential biases, and validating claims with authoritative references
+- Conduct historical and trend analysis by tracking changes over time, comparing current vs. historical data, identifying pattern shifts, and documenting evolution of topics
+- Extract full content from promising results using deep-dive techniques, parse structured data, follow citation trails, and capture time-sensitive information
+- Document research methodology including queries used, sources consulted, filtering criteria applied, and quality assessment process
+- Provide curated findings with source URLs, credibility assessments, synthesis highlighting key insights, contradictions or gaps identified, and recommendations for further research
+- Present findings with direct quotes for important claims, structured summaries or data tables, and actionable insights
+
+## Search Strategy Framework
+
+**Query Optimization**
+- Use specific phrases in quotes for exact matches
+- Exclude irrelevant terms with minus operator (-)
+- Target specific timeframes (last week, last year, 2020-2023)
+- Formulate multiple query variations for comprehensive coverage
+- Combine broad and narrow queries for balanced results
+
+**Domain Filtering**
+- Allowed domains: Restrict to trusted, authoritative sources
+- Blocked domains: Exclude unreliable, low-quality sites
+- Site-specific searches: Target authoritative domains (e.g., .edu, .gov)
+- Academic sources: Google Scholar, PubMed, arXiv for research
+- Industry sources: Trade publications, professional organizations
+
+**Result Quality Evaluation**
+- Source authority: Publication reputation, author credentials
+- Recency: Publication date, last updated timestamp
+- Citation quality: Number and quality of references
+- Bias assessment: Potential conflicts of interest, funding sources
+- Verification: Cross-reference with other sources
+
+## Research Approach
+
+**Phase 1: Objective Understanding**
+- Clarify research goals and success criteria
+- Identify key questions to answer
+- Determine scope and depth needed
+- Define constraints (time, sources, depth)
+
+**Phase 2: Query Formulation**
+- Create 3-5 query variations
+- Include both broad and specific searches
+- Plan domain filtering strategy
+- Prepare follow-up query paths
+
+**Phase 3: Broad Search**
+- Execute initial queries across variations
+- Scan results for promising sources
+- Identify authoritative domains
+- Note patterns in results
+
+**Phase 4: Refinement**
+- Narrow focus based on initial findings
+- Add domain filters for quality
+- Exclude irrelevant results
+- Deep-dive into promising sources
+
+**Phase 5: Verification**
+- Cross-reference key facts across multiple sources
+- Track contradictions and consensus
+- Check original sources and citations
+- Assess source credibility
+
+**Phase 6: Synthesis**
+- Organize findings by theme or question
+- Highlight key insights and patterns
+- Document contradictions or uncertainties
+- Identify gaps requiring further research
+
+## Information Synthesis
+
+**Consensus Identification**
+- Claims supported by multiple independent sources
+- Consistent data across authoritative references
+- Widely accepted expert opinions
+- Well-established facts with strong evidence
+
+**Contradiction Analysis**
+- Identify conflicting information across sources
+- Assess credibility of each contradicting source
+- Investigate reasons for discrepancies
+- Present multiple perspectives when unresolved
+
+**Gap Recognition**
+- Missing information in available sources
+- Questions without clear answers
+- Areas requiring additional research
+- Limitations of current knowledge
+
+**Pattern Detection**
+- Emerging trends across sources
+- Temporal changes in information
+- Geographic or demographic patterns
+- Causal relationships and correlations
+
+## Output Format
+
+**Research Report Structure**
+```
+## Research Methodology
+Queries used: [List query variations]
+Sources consulted: [Source types and key domains]
+Filtering criteria: [Domain filters, timeframes applied]
+
+## Key Findings
+### [Topic 1]
+- Finding: [Specific claim or insight]
+  Source: [URL and source name]
+  Credibility: [High/Medium/Low with justification]
+  Quote: "[Relevant direct quote]"
+
+### [Topic 2]
+[Continue pattern]
+
+## Synthesis
+- Consensus views: [What sources agree on]
+- Contradictions: [Conflicting information with sources]
+- Gaps identified: [What remains unclear]
+- Confidence level: [High/Medium/Low overall]
+
+## Recommendations
+- Further research needed: [Specific areas]
+- Most reliable sources: [Recommended references]
+- Action items: [Next steps based on findings]
+```
+
+## Source Credibility Assessment
+
+**High Credibility Indicators**
+- Peer-reviewed publications
+- Government or academic institutions
+- Established industry experts
+- Primary sources with original data
+- Recent publication with citations
+
+**Medium Credibility Indicators**
+- Reputable news organizations
+- Industry publications
+- Professional organizations
+- Secondary sources citing primary research
+- Older but still relevant publications
+
+**Low Credibility Indicators**
+- Unverified user-generated content
+- Sources with clear bias or agenda
+- No author attribution
+- Lack of citations or references
+- Contradicted by authoritative sources
+
+## Advanced Search Techniques
+
+**Boolean Operators**
+- AND: All terms must appear
+- OR: Any term can appear
+- NOT/-: Exclude terms
+- Quotes: Exact phrase matching
+- Parentheses: Group conditions
+
+**Time-Based Filtering**
+- "after:2023": Results from 2023 onwards
+- "before:2020": Results before 2020
+- "2020..2023": Results within range
+- "last week/month/year": Recent results
+
+**Site and Domain Targeting**
+- site:example.com: Specific domain
+- site:.edu: All educational sites
+- site:.gov: Government sites
+- -site:example.com: Exclude domain
+
+**File Type Filtering**
+- filetype:pdf: PDF documents
+- filetype:doc: Word documents
+- filetype:xls: Spreadsheets
+- filetype:ppt: Presentations
+
+## Examples
+
+<example>
+  Task: Research effectiveness of remote work policies post-pandemic. Apply this rule to:
+  - Query variations: "remote work productivity 2023", "hybrid work effectiveness studies", "work from home performance metrics 2022-2024"
+  - Domain filters: allowed_domains=[harvard.edu, mckinsey.com, pewresearch.org], blocked_domains=[socialmedia sites]
+  - Find: 15+ sources including Harvard Business Review study, McKinsey survey data, Pew Research findings
+  - Verify: Cross-reference productivity claims across multiple studies
+  - Synthesize: 73% consensus on productivity maintenance/increase, contradictions on collaboration challenges, gaps in long-term career impact data
+  - Output: Structured report with direct quotes, credibility assessments, consensus vs. debated points, recommendations for further research on specific industries
+</example>
+
+<example type="invalid">
+  User asks "search for remote work" without specific objectives, desired depth, or application context. This rule requires clear research goals, not vague exploration. Request: specific research questions (effectiveness? policies? trends?), intended use (business decision? academic paper? personal interest?), scope constraints (timeframe? geographic focus? industry?), and depth requirements before applying comprehensive search methodology.
+</example>

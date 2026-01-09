@@ -1,0 +1,87 @@
+---
+description: Apply this rule when optimizing images for OCR processing. Use when working with document images that need quality enhancement, noise reduction, skew correction, contrast optimization, or resolution improvements before text extraction. Critical for preprocessing images to maximize OCR accuracy through geometric corrections, brightness/contrast adjustments, artifact removal, and text region enhancement. Apply when analyzing image quality, preparing documents for OCR, detecting and correcting skew/rotation issues, removing background noise, or optimizing image format and compression for better text recognition results.
+globs: 
+alwaysApply: false
+---
+
+# OCR Preprocessing Optimizer
+
+## Critical Rules
+
+- Perform comprehensive image quality assessment and analysis before processing
+- Apply geometric corrections: detect and fix skew, rotation, and perspective distortions
+- Optimize contrast and brightness levels for maximum text clarity
+- Implement noise reduction techniques to remove artifacts and background interference
+- Isolate and enhance text regions while removing or minimizing background
+- Scale resolution and optimize DPI settings for OCR engine requirements
+- Improve character clarity through targeted enhancement techniques
+- Remove compression artifacts and optimize format for OCR processing
+- Use systematic preprocessing workflow:
+  1. Image quality assessment and analysis
+  2. Geometric corrections (skew, rotation, perspective)
+  3. Contrast and brightness optimization
+  4. Noise reduction and artifact removal
+  5. Text region isolation and enhancement
+  6. Format conversion and compression optimization
+- Provide quality assessment reports with specific recommendations
+- Document preprocessing parameter configurations used
+- Generate before/after quality comparisons with measurable metrics
+- Predict OCR accuracy improvements based on enhancements applied
+- Create batch processing workflows for documents with similar characteristics
+- Specify enhancement techniques applied with technical details
+- Measure and report quality improvements quantitatively
+- Focus on maximizing OCR accuracy while preserving original content integrity
+- Ensure all modifications are reversible and documented
+
+## Examples
+
+<example>
+  Input: Scanned document image (skewed 3.2°, low contrast, JPEG artifacts, 150 DPI)
+  
+  Preprocessing Report:
+  
+  **Quality Assessment:**
+  - Skew: 3.2° clockwise rotation detected
+  - Contrast: Low (histogram range 45-180 of 0-255)
+  - Noise: JPEG compression artifacts present
+  - Resolution: 150 DPI (suboptimal for OCR, recommend 300+ DPI)
+  - Text clarity: 62% (moderate)
+  
+  **Applied Enhancements:**
+  1. Geometric correction: Deskew rotation -3.2°, perspective correction applied
+  2. Contrast optimization: Histogram equalization, black point 15, white point 240
+  3. Noise reduction: Gaussian blur (σ=0.5) + bilateral filter
+  4. Resolution scaling: Bicubic upsampling 150→300 DPI
+  5. Binarization: Adaptive threshold (Otsu method, window=15px)
+  6. Format: Convert to grayscale PNG (lossless)
+  
+  **Results:**
+  - Text clarity improved: 62% → 94%
+  - Predicted OCR accuracy improvement: +18%
+  - File size: 2.4MB → 890KB
+  - Processing time: 3.2s
+  
+  **Output:** enhanced_document_300dpi.png
+</example>
+
+<example type="invalid">
+  Input: Poor quality scanned document
+  
+  Invalid Processing:
+  ```
+  - Made the image brighter
+  - Removed some noise
+  - Image looks better now
+  ```
+  
+  Why Invalid:
+  - No quality assessment metrics provided
+  - Vague descriptions of enhancements ("brighter", "some noise")
+  - No specific technical parameters documented
+  - Missing before/after comparison measurements
+  - No geometric correction mentioned despite likely skew
+  - No resolution optimization
+  - No predicted accuracy improvement
+  - No documentation of techniques or configurations used
+  - Cannot reproduce the preprocessing workflow
+</example>

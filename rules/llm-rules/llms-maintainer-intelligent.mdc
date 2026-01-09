@@ -1,0 +1,207 @@
+---
+description: Apply this rule when implementing AI Engine Optimization (AEO) for websites, creating or updating llms.txt roadmap files for AI crawler navigation, after completing site builds or major content changes, when restructuring site content or navigation, or when implementing discoverability features for LLM-based search tools. Essential for projects with documentation sites, content-heavy applications, public-facing websites, or when optimizing for AI-powered search and discovery. Use after adding new pages, routes, or documentation sections that should be indexed by AI systems.
+globs:
+alwaysApply: false
+---
+
+# LLMs.txt Maintainer
+
+## Critical Rules
+
+- Generate or update `./public/llms.txt` file following exact sequence: identify site root and base URL, discover candidate pages, extract metadata, build skeleton, populate entries, detect differences, optionally commit, provide summary
+- Identify base URL from `process.env.BASE_URL`, `NEXT_PUBLIC_SITE_URL`, or `package.json` "homepage" field; ask user if none found
+- Recursively scan directories: `/app`, `/pages`, `/content`, `/docs`, `/blog` for user-facing content pages
+- Ignore paths matching patterns: `/_*` (private/internal), `/api/` routes, `/admin/` or `/beta/` paths, files ending in `.test`, `.spec`, `.stories`
+- Extract metadata in priority order: Next.js App Router `export const metadata`, legacy `<Head><title>` and `<meta name="description">`, front-matter YAML in MD/MDX files
+- Generate concise descriptions (≤120 chars) starting with action verbs ("Learn", "Explore", "See") if no metadata present
+- Truncate titles to ≤70 chars and descriptions to ≤120 chars
+- Preserve manual content blocks bounded by `# BEGIN CUSTOM` ... `# END CUSTOM` markers
+- Organize page entries by top-level folders (Docs, Blog, Marketing, etc.) with Section, Title, URL, and Desc fields
+- Compare new content with existing llms.txt and only write if changes detected
+- Provide clear summary with page count, sections affected, and update status
+- Never write outside `public/llms.txt` file path
+- Warn user if >500 entries detected and request curation guidance
+- Ask for confirmation before deleting existing entries
+- Never expose secret environment variables in responses
+- Always preserve user's custom content blocks
+
+## LLMs.txt File Structure
+
+**Header Template**
+```
+# ===== LLMs Roadmap =====
+Site: {baseUrl}
+Generated: {ISO-date-time}
+User-agent: *
+Allow: /
+Train: no
+Attribution: required
+License: {baseUrl}/terms
+```
+
+**Page Entry Format**
+```
+Section: Docs
+Title: Quick-Start Guide
+URL: /docs/getting-started
+Desc: Learn to call the API in 5 minutes.
+
+Title: API Reference
+URL: /docs/api
+Desc: Endpoint specs & rate limits.
+```
+
+## Discovery Process
+
+**Directory Scanning**
+- Scan `/app`, `/pages`, `/content`, `/docs`, `/blog` recursively
+- Focus only on user-facing content pages
+- Skip private, internal, test, and API routes
+- Identify all route files and content documents
+
+**Metadata Extraction Priority**
+1. Next.js App Router: `export const metadata = { title, description }`
+2. Legacy Pages: `<Head><title>` and `<meta name="description">`
+3. Markdown/MDX: Front-matter YAML blocks
+4. Auto-generation: Create from file path and context if no metadata
+
+**Description Generation Rules**
+- Start with action verbs: "Learn", "Explore", "See", "Understand", "Build", "Configure"
+- Maximum 120 characters
+- Focus on user benefit and content summary
+- Be specific about what page contains
+- Avoid marketing fluff
+
+## Update Workflow
+
+**Step 1: Base URL Identification**
+```bash
+Check process.env.BASE_URL
+Check process.env.NEXT_PUBLIC_SITE_URL
+Check package.json "homepage" field
+If all fail → ask user for domain
+```
+
+**Step 2: Page Discovery**
+```bash
+Scan target directories recursively
+Filter out ignored patterns
+Collect all content files
+Extract routes and URLs
+```
+
+**Step 3: Metadata Collection**
+```bash
+For each file:
+  Try metadata export
+  Try HTML meta tags
+  Try front-matter
+  Generate if needed
+  Truncate to limits
+```
+
+**Step 4: Content Assembly**
+```bash
+Load existing llms.txt if present
+Preserve CUSTOM blocks
+Generate new sections
+Organize by folder structure
+Format entries consistently
+```
+
+**Step 5: Difference Detection**
+```bash
+Compare new vs existing content
+Identify additions, deletions, changes
+If no changes → report "No update needed"
+If changes → prepare write operation
+```
+
+**Step 6: File Writing**
+```bash
+Write atomically to public/llms.txt
+Preserve file permissions
+Verify write success
+```
+
+**Step 7: Git Operations (Optional)**
+```bash
+If Git available and appropriate:
+  git add public/llms.txt
+  git commit -m "chore(aeo): update llms.txt"
+  git push
+```
+
+## Output Format
+
+**Update Summary**
+```
+✅ Updated llms.txt
+- Total pages: 47
+- Sections: Docs (23), Blog (15), API (9)
+- Changes: 5 new pages, 2 updated descriptions
+- Next steps: Deploy to production for AI crawler access
+```
+
+**No Changes**
+```
+ℹ️ llms.txt already current
+- Last generated: 2024-01-15T10:30:00Z
+- Total pages: 47
+- No action needed
+```
+
+## Safety Constraints
+
+**File Operations**
+- Only write to `public/llms.txt`
+- Never modify other files
+- Verify path before writing
+- Handle permission errors gracefully
+
+**Data Protection**
+- Never expose environment secrets
+- Redact sensitive URLs
+- Respect `.gitignore` patterns
+- Preserve custom content blocks
+
+**Scale Management**
+- Warn if >500 entries
+- Suggest filtering or curation
+- Prevent accidental mass deletion
+- Confirm destructive operations
+
+## Error Handling
+
+**Base URL Issues**
+- Cannot determine base URL → ask user explicitly
+- Invalid URL format → validate and request correction
+- Missing environment variables → provide setup guidance
+
+**File Permissions**
+- Cannot write to public/ → suggest permission fixes
+- Directory doesn't exist → offer to create
+- Git conflicts → provide resolution steps
+
+**Metadata Extraction**
+- Parsing failures → generate reasonable defaults
+- Missing directories → handle gracefully
+- Empty content folders → report status
+- Malformed metadata → skip and continue
+
+## Examples
+
+<example>
+  Project has Next.js docs site with /docs and /blog directories. Base URL is https://docs.example.com. Apply this rule to:
+  - Scan /app/docs and /app/blog directories recursively
+  - Extract metadata from Next.js App Router metadata exports
+  - Generate llms.txt with Docs section (API Reference, Getting Started, SDK Guide) and Blog section (Release Notes, Tutorials)
+  - Preserve existing "# BEGIN CUSTOM" section for manually curated API changelog
+  - Detect 3 new doc pages since last generation
+  - Write updated llms.txt to public/llms.txt
+  - Report: "✅ Updated llms.txt - 32 pages, added 3 new docs"
+</example>
+
+<example type="invalid">
+  User asks to "update the sitemap.xml file" or "create robots.txt". This rule is specifically for llms.txt roadmap files used by AI crawlers, not traditional SEO files like sitemap.xml or robots.txt. Do not apply this rule for standard web crawler optimization. Use appropriate SEO tools or documentation for those files instead.
+</example>

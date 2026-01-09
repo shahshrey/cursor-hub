@@ -1,0 +1,240 @@
+---
+description: Apply this rule when implementing GraphQL API security, configuring authorization patterns, protecting against GraphQL-specific attacks (depth bombs, complexity exploitation, DoS), implementing field-level or operation-level access control, setting up rate limiting, configuring input validation and sanitization, implementing query allowlisting, disabling introspection in production, handling authentication and authorization, implementing row-level security (RLS), configuring CORS and security headers, setting up security monitoring and audit logging, detecting anomalous query patterns, implementing query timeout protection, conducting security audits or penetration testing, or addressing GraphQL security vulnerabilities. Use proactively for any GraphQL security implementation, authorization requirements, protection against abuse, or when security concerns are identified.
+alwaysApply: false
+---
+
+# GraphQL Security Specialist
+
+## Critical Rules
+
+- Disable introspection and playground in production environments to prevent schema exposure
+- Implement query depth limiting (max 7-10 levels) to prevent depth bomb attacks
+- Configure query complexity analysis with maximum cost limits and appropriate cost factors
+- Implement query allowlisting in production to restrict operations to known safe queries
+- Apply field-level authorization using directives (@auth) with role validation
+- Implement context-based authorization in resolvers with role and ownership checks
+- Apply row-level security (RLS) to filter data based on user permissions and roles
+- Validate and sanitize all user inputs using custom scalars and input validation
+- Configure rate limiting per IP with appropriate windows and request limits
+- Implement query timeout protection (recommended 30 seconds) to prevent resource exhaustion
+- Use structured error handling that prevents information leakage through error messages
+- Implement comprehensive security logging for authentication failures, suspicious queries, and rate limit violations
+- Configure anomaly detection to flag suspicious query patterns (excessive depth, multiple list fields)
+- Apply input sanitization to prevent injection attacks using appropriate libraries
+- Configure proper CORS policies and security headers (CSP)
+- Implement token validation and secure refresh handling
+- Apply authentication requirement for all operations unless explicitly public
+- Prevent admin privilege escalation with proper role validation
+- Validate resource ownership before allowing operations
+- Use custom GraphQL scalars for type-safe validation (EmailAddress, URL, NonEmptyString)
+- Implement slowdown middleware for expensive operations
+- Configure security metrics dashboards and incident response procedures
+- Retain and analyze security audit logs for compliance and threat detection
+- Conduct regular security testing and penetration testing
+- Apply defense in depth with multiple security layers
+
+## Examples
+
+<example>
+  Query Depth and Complexity Protection:
+  
+  ```javascript
+  const depthLimit = require('graphql-depth-limit');
+  const costAnalysis = require('graphql-cost-analysis');
+  
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    validationRules: [depthLimit(7)],
+    plugins: [
+      costAnalysis({
+        maximumCost: 1000,
+        defaultCost: 1,
+        introspectionCost: 1000
+      })
+    ]
+  });
+  ```
+  
+  Field-Level Authorization:
+  
+  ```graphql
+  directive @auth(requires: Role = USER) on FIELD_DEFINITION
+  
+  type User {
+    id: ID!
+    email: String! @auth(requires: OWNER)
+    adminNotes: String @auth(requires: ADMIN)
+  }
+  ```
+  
+  ```javascript
+  class AuthDirective extends SchemaDirectiveVisitor {
+    visitFieldDefinition(field) {
+      const requiredRole = this.args.requires;
+      const originalResolve = field.resolve || defaultFieldResolver;
+      
+      field.resolve = async (source, args, context) => {
+        const user = await getUser(context.token);
+        if (!user) {
+          throw new AuthenticationError('Authentication required');
+        }
+        if (requiredRole === 'OWNER') {
+          if (source.userId !== user.id && user.role !== 'ADMIN') {
+            throw new ForbiddenError('Access denied');
+          }
+        }
+        return originalResolve(source, args, context, info);
+      };
+    }
+  }
+  ```
+  
+  Input Validation with Custom Scalars:
+  
+  ```javascript
+  const EmailAddressType = new GraphQLScalarType({
+    name: 'EmailAddress',
+    parseValue: value => {
+      if (!isValidEmail(value)) {
+        throw new GraphQLError('Invalid email address format');
+      }
+      return value;
+    }
+  });
+  ```
+  
+  Rate Limiting:
+  
+  ```javascript
+  const rateLimit = require('express-rate-limit');
+  
+  app.use('/graphql', rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+    message: 'Too many requests from this IP'
+  }));
+  ```
+  
+  Query Allowlisting:
+  
+  ```javascript
+  const allowedQueries = new Set(['a1b2c3d4...', 'f6e5d4c3...']);
+  
+  const server = new ApolloServer({
+    plugins: [{
+      requestDidStart() {
+        return {
+          didResolveOperation(requestContext) {
+            if (process.env.NODE_ENV === 'production') {
+              const queryHash = hash(requestContext.request.query);
+              if (!allowedQueries.has(queryHash)) {
+                throw new ForbiddenError('Query not allowed');
+              }
+            }
+          }
+        };
+      }
+    }]
+  });
+  ```
+  
+  Row-Level Security:
+  
+  ```javascript
+  const applyRowLevelSecurity = (user) => {
+    switch (user.role) {
+      case 'ADMIN':
+        return {};
+      case 'MANAGER':
+        return { where: { departmentId: user.departmentId }};
+      case 'USER':
+        return { where: { userId: user.id }};
+      default:
+        return { where: { id: null }};
+    }
+  };
+  ```
+  
+  Security Logging:
+  
+  ```javascript
+  const securityLogger = {
+    logAuthFailure: (ip, query, error) => {
+      console.error('AUTH_FAILURE', {
+        timestamp: new Date().toISOString(),
+        ip,
+        query: query.substring(0, 200),
+        error: error.message,
+        severity: 'HIGH'
+      });
+    }
+  };
+  ```
+</example>
+
+<example type="invalid">
+  Introspection Enabled in Production:
+  
+  ```javascript
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    introspection: true
+  });
+  ```
+  
+  No Query Depth Limiting (vulnerable to depth bombs):
+  
+  ```javascript
+  query maliciousQuery {
+    user {
+      friends {
+        friends {
+          friends {
+            friends {
+              friends {
+                id
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  ```
+  
+  No Authorization on Sensitive Fields:
+  
+  ```javascript
+  const resolvers = {
+    User: {
+      email: (user) => user.email
+    }
+  };
+  ```
+  
+  No Input Validation:
+  
+  ```javascript
+  const resolvers = {
+    Mutation: {
+      createPost: async (parent, args) => {
+        return createPost(args);
+      }
+    }
+  };
+  ```
+  
+  Information Leakage in Errors:
+  
+  ```javascript
+  throw new Error(`User not found in database table users with id ${id} at ${Date.now()}`);
+  ```
+  
+  No Rate Limiting:
+  
+  ```javascript
+  app.use('/graphql', graphqlHTTP({ schema }));
+  ```
+</example>

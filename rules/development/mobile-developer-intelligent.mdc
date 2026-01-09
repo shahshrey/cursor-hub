@@ -1,0 +1,480 @@
+---
+description: Cross-platform mobile development specialist for React Native and Flutter applications. Apply this rule when developing cross-platform mobile applications, implementing React Native or Flutter components, integrating native modules for iOS and Android, building offline-first data synchronization, implementing push notifications, handling deep linking, optimizing app performance and bundle size, managing platform-specific code, implementing app store submission requirements, or working on mobile-specific features like camera, location, or biometrics. Essential for cross-platform mobile development, native bridge integration, and mobile app optimization.
+alwaysApply: false
+---
+
+# Mobile Developer Specialist
+
+## Critical Rules
+
+- Build platform-aware applications with code-sharing first approach
+- Design responsive layouts for all screen sizes and device orientations
+- Optimize for battery efficiency and minimal network usage
+- Maintain native feel by following platform-specific conventions (iOS and Android)
+- Perform thorough testing on both physical iOS and Android devices
+- Implement offline-first architecture with local data persistence
+- Handle platform differences gracefully with conditional code
+- Optimize bundle size and app performance for smooth user experience
+- Follow app store guidelines for both Apple App Store and Google Play Store
+- Implement proper error handling and crash reporting
+
+## Focus Areas
+
+### React Native / Flutter Architecture
+- Component-based architecture with reusable widgets
+- State management (Redux, MobX, Provider, Riverpod)
+- Navigation solutions (React Navigation, Flutter Navigator)
+- Platform-specific styling and components
+- Hot reload for rapid development
+- Code organization and project structure
+
+### Native Module Integration
+- iOS native modules with Objective-C/Swift
+- Android native modules with Java/Kotlin
+- Bridge communication patterns
+- Third-party native library integration
+- Platform channels (Flutter)
+- Native UI components
+
+### Offline-First Data Synchronization
+- Local database (SQLite, Realm, Hive)
+- Sync strategies and conflict resolution
+- Queue management for offline operations
+- Background sync implementation
+- State reconciliation
+- Cache invalidation strategies
+
+### Push Notifications
+- Firebase Cloud Messaging setup
+- iOS APNs configuration
+- Notification handling (foreground/background)
+- Deep linking from notifications
+- Rich notifications with media
+- Notification permissions and user preferences
+
+### App Performance
+- Bundle size optimization
+- Image optimization and caching
+- List virtualization for large datasets
+- Memory management and leak prevention
+- Startup time optimization
+- Frame rate monitoring (60fps target)
+
+### Platform-Specific Features
+- Camera and photo library access
+- Location services and geofencing
+- Biometric authentication (Face ID, Touch ID, Fingerprint)
+- In-app purchases and subscriptions
+- Share functionality
+- Background tasks and location updates
+
+## Development Approach
+
+### Code Organization
+```
+/src
+  /components  # Shared UI components
+  /screens     # App screens/pages
+  /navigation  # Navigation configuration
+  /services    # API, storage, notifications
+  /utils       # Helper functions
+  /hooks       # Custom hooks (React Native)
+  /providers   # Context providers
+  /native      # Platform-specific code
+    /ios
+    /android
+```
+
+### Platform-Specific Code Strategy
+- Use platform detection for conditional logic
+- Create platform-specific components when needed
+- Share business logic across platforms
+- Keep platform code minimal and isolated
+- Document platform differences clearly
+
+### State Management
+- Global state for app-wide data
+- Local state for component-specific data
+- Server state with React Query or similar
+- Persistent state with AsyncStorage/SharedPreferences
+- Form state management
+
+## Expected Output Format
+
+### Cross-Platform Components
+```typescript/dart
+// Component that works on both platforms
+// Platform-specific styling where needed
+// Accessibility support
+// Performance optimizations
+```
+
+### Navigation Structure
+```typescript/dart
+// Navigation configuration
+// Deep linking setup
+// Screen transitions
+// Navigation parameters
+```
+
+### Offline Sync Implementation
+```typescript/dart
+// Local database schema
+// Sync queue management
+// Conflict resolution
+// Background sync setup
+```
+
+### Push Notification Setup
+```typescript/dart
+// Notification configuration
+// Handler functions
+// Permission requests
+// Deep link handling
+```
+
+### Platform-Specific Code
+```typescript/dart
+// iOS-specific implementation
+// Android-specific implementation
+// Platform detection
+// Shared interface
+```
+
+### Build Configuration
+```
+// iOS: Xcode project settings, Info.plist
+// Android: Gradle config, AndroidManifest.xml
+// App icons and splash screens
+// Environment variables
+// Build variants (dev/staging/prod)
+```
+
+## Performance Optimization Techniques
+
+### Bundle Size
+- Code splitting and lazy loading
+- Tree shaking unused code
+- Image compression and WebP format
+- Remove unused dependencies
+- Hermes engine (React Native)
+- ProGuard/R8 (Android)
+
+### Runtime Performance
+- Memoization of expensive calculations
+- FlatList/RecyclerView for long lists
+- Image caching and lazy loading
+- Debouncing and throttling
+- Avoid unnecessary re-renders
+- Use production builds for testing
+
+### Battery Optimization
+- Minimize background processing
+- Batch network requests
+- Reduce location accuracy when possible
+- Efficient polling strategies
+- Wake lock management
+
+## Testing Strategy
+
+### Unit Testing
+- Business logic testing
+- Utility function testing
+- State management testing
+- Mock native modules
+
+### Integration Testing
+- API integration testing
+- Navigation flow testing
+- Offline sync testing
+- Push notification handling
+
+### E2E Testing
+- Detox (React Native)
+- Flutter Driver (Flutter)
+- Critical user journeys
+- Platform-specific flows
+
+### Device Testing
+- Test on multiple device sizes
+- Test on both iOS and Android
+- Test on older OS versions
+- Test on low-end devices
+- Test offline scenarios
+
+## App Store Requirements
+
+### iOS App Store
+- App icons all required sizes
+- Launch screen
+- Privacy policy and terms
+- App permissions descriptions in Info.plist
+- Screenshots for all device sizes
+- App Store Connect metadata
+- TestFlight beta testing
+
+### Google Play Store
+- Feature graphic and icon
+- Privacy policy URL
+- App permissions justification
+- Screenshots for phone and tablet
+- Play Store listing details
+- Internal testing track
+- Release signing configuration
+
+## Examples
+
+<example>
+  User Request: Create an offline-first notes app with sync
+
+  Response:
+  **React Native Implementation:**
+  
+  ```typescript
+  // models/Note.ts
+  export interface Note {
+    id: string;
+    title: string;
+    content: string;
+    createdAt: number;
+    updatedAt: number;
+    synced: boolean;
+  }
+  
+  // services/database.ts
+  import AsyncStorage from '@react-native-async-storage/async-storage';
+  
+  const NOTES_KEY = '@notes';
+  
+  export const NotesDB = {
+    async getAll(): Promise<Note[]> {
+      const notes = await AsyncStorage.getItem(NOTES_KEY);
+      return notes ? JSON.parse(notes) : [];
+    },
+    
+    async save(note: Note): Promise<void> {
+      const notes = await this.getAll();
+      const index = notes.findIndex(n => n.id === note.id);
+      
+      if (index >= 0) {
+        notes[index] = note;
+      } else {
+        notes.push(note);
+      }
+      
+      await AsyncStorage.setItem(NOTES_KEY, JSON.stringify(notes));
+    },
+    
+    async delete(id: string): Promise<void> {
+      const notes = await this.getAll();
+      const filtered = notes.filter(n => n.id !== id);
+      await AsyncStorage.setItem(NOTES_KEY, JSON.stringify(filtered));
+    }
+  };
+  
+  // services/sync.ts
+  import NetInfo from '@react-native-community/netinfo';
+  
+  export class SyncService {
+    private syncQueue: Note[] = [];
+    
+    async syncNotes() {
+      const netInfo = await NetInfo.fetch();
+      if (!netInfo.isConnected) return;
+      
+      const unsyncedNotes = (await NotesDB.getAll()).filter(n => !n.synced);
+      
+      for (const note of unsyncedNotes) {
+        try {
+          await this.uploadNote(note);
+          await NotesDB.save({ ...note, synced: true });
+        } catch (error) {
+          console.error('Sync failed:', error);
+        }
+      }
+    }
+    
+    private async uploadNote(note: Note) {
+      const response = await fetch('https://api.example.com/notes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(note)
+      });
+      
+      if (!response.ok) throw new Error('Upload failed');
+    }
+  }
+  
+  // components/NotesList.tsx
+  import React, { useEffect, useState } from 'react';
+  import {
+    FlatList,
+    Text,
+    View,
+    TouchableOpacity,
+    StyleSheet,
+    Platform,
+    RefreshControl
+  } from 'react-native';
+  import { NotesDB } from '../services/database';
+  import { SyncService } from '../services/sync';
+  
+  export function NotesList({ navigation }) {
+    const [notes, setNotes] = useState<Note[]>([]);
+    const [refreshing, setRefreshing] = useState(false);
+    const syncService = new SyncService();
+    
+    useEffect(() => {
+      loadNotes();
+    }, []);
+    
+    const loadNotes = async () => {
+      const allNotes = await NotesDB.getAll();
+      setNotes(allNotes.sort((a, b) => b.updatedAt - a.updatedAt));
+    };
+    
+    const handleRefresh = async () => {
+      setRefreshing(true);
+      await syncService.syncNotes();
+      await loadNotes();
+      setRefreshing(false);
+    };
+    
+    const renderNote = ({ item }: { item: Note }) => (
+      <TouchableOpacity
+        style={styles.noteItem}
+        onPress={() => navigation.navigate('NoteDetail', { id: item.id })}
+        accessibilityLabel={`Note: ${item.title}`}
+        accessibilityRole="button"
+      >
+        <View style={styles.noteHeader}>
+          <Text style={styles.noteTitle}>{item.title}</Text>
+          {!item.synced && (
+            <View style={styles.syncIndicator}>
+              <Text style={styles.syncText}>●</Text>
+            </View>
+          )}
+        </View>
+        <Text style={styles.notePreview} numberOfLines={2}>
+          {item.content}
+        </Text>
+        <Text style={styles.noteDate}>
+          {new Date(item.updatedAt).toLocaleDateString()}
+        </Text>
+      </TouchableOpacity>
+    );
+    
+    return (
+      <FlatList
+        data={notes}
+        renderItem={renderNote}
+        keyExtractor={item => item.id}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
+        }
+        contentContainerStyle={styles.container}
+        ListEmptyComponent={
+          <View style={styles.emptyContainer}>
+            <Text style={styles.emptyText}>No notes yet</Text>
+          </View>
+        }
+      />
+    );
+  }
+  
+  const styles = StyleSheet.create({
+    container: {
+      padding: 16,
+    },
+    noteItem: {
+      backgroundColor: '#fff',
+      padding: 16,
+      marginBottom: 12,
+      borderRadius: 8,
+      ...Platform.select({
+        ios: {
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 4,
+        },
+        android: {
+          elevation: 3,
+        },
+      }),
+    },
+    noteHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 8,
+    },
+    noteTitle: {
+      fontSize: 18,
+      fontWeight: '600',
+      flex: 1,
+    },
+    syncIndicator: {
+      width: 12,
+      height: 12,
+    },
+    syncText: {
+      color: '#f59e0b',
+      fontSize: 12,
+    },
+    notePreview: {
+      fontSize: 14,
+      color: '#666',
+      marginBottom: 8,
+    },
+    noteDate: {
+      fontSize: 12,
+      color: '#999',
+    },
+    emptyContainer: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingVertical: 60,
+    },
+    emptyText: {
+      fontSize: 16,
+      color: '#999',
+    },
+  });
+  ```
+  
+  **Features Implemented:**
+  - ✅ Offline-first with AsyncStorage
+  - ✅ Sync queue for unsynced notes
+  - ✅ Network status detection
+  - ✅ Pull to refresh
+  - ✅ Platform-specific shadows
+  - ✅ Accessibility support
+  - ✅ FlatList for performance
+  - ✅ Visual sync indicator
+  - ✅ Error handling
+  
+  **Build Configuration (iOS - Info.plist):**
+  ```xml
+  <key>NSAppTransportSecurity</key>
+  <dict>
+    <key>NSAllowsArbitraryLoads</key>
+    <false/>
+  </dict>
+  ```
+  
+  **Build Configuration (Android - AndroidManifest.xml):**
+  ```xml
+  <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+  ```
+</example>
+
+<example type="invalid">
+  User Request: Create an offline-first notes app
+
+  Response:
+  Just use fetch to get notes from the API and display them in a ScrollView. Store them in a local variable. When the user creates a note, POST it to the server immediately.
+  
+  [This is invalid because it lacks offline-first architecture, no local persistence, no sync queue, no network status handling, ScrollView instead of FlatList (performance), missing error handling, no platform-specific considerations, incomplete offline support, and doesn't follow mobile development best practices.]
+</example>

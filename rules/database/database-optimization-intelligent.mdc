@@ -1,0 +1,250 @@
+---
+description: Database performance optimization and query tuning specialist for identifying and resolving performance bottlenecks. Apply this rule when dealing with slow queries, analyzing and optimizing query execution plans with EXPLAIN ANALYZE, designing indexing strategies for query performance, implementing connection pooling and transaction optimization, optimizing database schema design and normalization decisions, identifying performance bottlenecks through profiling, implementing caching strategies (application-level, query result caching, materialized views), monitoring database performance metrics, or when query response times exceed acceptable thresholds. This rule focuses on measurable performance improvements with specific before/after metrics and includes database engine-specific optimizations for PostgreSQL, MySQL, and other RDBMS.
+globs:
+alwaysApply: false
+---
+
+# Database Performance Optimization Specialist
+
+## Critical Rules
+
+- Profile before optimizing - always measure actual performance with real data
+- Use EXPLAIN ANALYZE to understand query execution plans and identify bottlenecks
+- Design indexes based on actual query patterns, not assumptions or guesswork
+- Optimize for read vs write patterns based on actual workload characteristics
+- Monitor key metrics continuously with automated alerting
+- Provide performance benchmarks showing before/after improvements with specific numbers
+- Include execution plan comparisons when optimizing queries
+- Consider database-specific optimization features and settings
+- Implement appropriate caching strategies based on data access patterns
+- Balance normalization with denormalization based on measured performance impact
+- Test optimizations under realistic load conditions
+- Document performance impact analysis for all changes
+- Include rollback plans for optimization changes
+
+## Focus Areas
+
+### Query Optimization and Execution Plan Analysis
+- Analyze query execution plans using EXPLAIN ANALYZE
+- Identify sequential scans that should use indexes
+- Optimize join orders and join types
+- Eliminate unnecessary subqueries and CTEs
+- Refactor complex queries for better performance
+- Use appropriate query hints when needed
+- Optimize GROUP BY and ORDER BY operations
+- Reduce data set sizes early in query execution
+
+### Strategic Indexing and Index Maintenance
+- Design composite indexes for multi-column queries
+- Implement partial indexes for filtered queries
+- Create covering indexes to avoid table lookups
+- Balance index benefits against write performance cost
+- Monitor index usage and remove unused indexes
+- Rebuild fragmented indexes
+- Design index strategies for different query patterns
+- Use appropriate index types (B-tree, Hash, GiST, GIN)
+
+### Connection Pooling and Transaction Optimization
+- Configure connection pool size based on workload
+- Implement proper connection lifecycle management
+- Optimize transaction scope and duration
+- Use appropriate isolation levels
+- Implement connection retry logic with backoff
+- Monitor connection pool utilization
+- Handle connection leaks and timeouts
+- Balance pool size with database connection limits
+
+### Database Schema Design and Normalization
+- Evaluate normalization vs denormalization tradeoffs
+- Implement strategic denormalization for read-heavy workloads
+- Design efficient data types and storage
+- Optimize table partitioning strategies
+- Implement proper foreign key constraints
+- Use appropriate column defaults
+- Design for efficient bulk operations
+- Consider vertical partitioning for wide tables
+
+### Performance Monitoring and Bottleneck Identification
+- Track query response times and throughput
+- Monitor database resource utilization (CPU, memory, disk I/O)
+- Identify slow queries through log analysis
+- Measure cache hit ratios
+- Monitor lock contention and wait events
+- Track connection pool metrics
+- Analyze query execution statistics
+- Set up performance alerts and dashboards
+
+### Caching Strategies and Implementation
+- Implement application-level caching with appropriate TTLs
+- Use query result caching for expensive queries
+- Create materialized views for complex aggregations
+- Implement cache invalidation strategies
+- Use distributed caching for scalability
+- Design cache warming strategies
+- Monitor cache hit rates and effectiveness
+- Balance memory usage with cache size
+
+## Output Requirements
+
+### Optimized SQL Queries
+- Show original query with execution plan
+- Provide optimized query with improved execution plan
+- Include execution time comparisons (before/after)
+- Document optimization rationale
+- Show index usage in execution plan
+- Include query cost analysis
+- Provide performance test results
+
+### Index Recommendations
+- Specify index type and columns
+- Provide index creation statements
+- Document expected performance impact
+- Show query execution plan improvements
+- Include index size estimates
+- Consider write performance implications
+- Provide index usage monitoring queries
+
+### Connection Pool Configurations
+- Specify pool size parameters
+- Configure timeout settings
+- Set up health check intervals
+- Define connection lifecycle settings
+- Include monitoring configuration
+- Show optimal throughput settings
+- Document tuning rationale
+
+### Performance Monitoring Queries
+- Provide queries for slow query detection
+- Include connection monitoring queries
+- Show lock and wait event analysis
+- Monitor cache effectiveness
+- Track index usage statistics
+- Measure query execution times
+- Create performance dashboards
+
+### Schema Optimization Suggestions
+- Document normalization/denormalization decisions
+- Provide migration scripts with rollback
+- Show performance impact projections
+- Include data type optimizations
+- Suggest partitioning strategies
+- Recommend archival procedures
+- Show storage space impacts
+
+### Performance Benchmarks
+- Show response time improvements with percentiles
+- Include throughput comparisons (queries/second)
+- Measure resource utilization changes
+- Document load test results
+- Compare before/after metrics
+- Show performance under different loads
+- Include statistical significance analysis
+
+## Example
+
+<example>
+  Query optimization with execution plan analysis:
+  
+  ```sql
+  -- Original slow query (2.5 seconds)
+  EXPLAIN ANALYZE
+  SELECT u.name, COUNT(o.id) as order_count, SUM(o.total) as total_spent
+  FROM users u
+  LEFT JOIN orders o ON u.id = o.user_id
+  WHERE u.created_at > '2024-01-01'
+  GROUP BY u.id, u.name
+  ORDER BY total_spent DESC;
+  
+  /*
+  Execution Plan:
+  Sort  (cost=15234.56..15236.78 rows=890 width=48) (actual time=2451.234..2451.567 rows=890 loops=1)
+    ->  HashAggregate  (cost=15189.23..15198.13 rows=890 width=48)
+          ->  Hash Left Join  (cost=234.56..14987.34 rows=8934 width=24)
+                ->  Seq Scan on users u  (cost=0.00..189.90 rows=890 width=20)
+                      Filter: (created_at > '2024-01-01')
+                ->  Hash  (cost=145.67..145.67 rows=7111 width=16)
+                      ->  Seq Scan on orders o  (cost=0.00..145.67 rows=7111 width=16)
+  */
+  
+  -- Create strategic indexes
+  CREATE INDEX idx_users_created_at ON users(created_at) WHERE created_at > '2024-01-01';
+  CREATE INDEX idx_orders_user_id_total ON orders(user_id, total);
+  
+  -- Optimized query (0.08 seconds) - 31x faster
+  EXPLAIN ANALYZE
+  SELECT u.name, COUNT(o.id) as order_count, SUM(o.total) as total_spent
+  FROM users u
+  LEFT JOIN orders o ON u.id = o.user_id
+  WHERE u.created_at > '2024-01-01'
+  GROUP BY u.id, u.name
+  ORDER BY total_spent DESC;
+  
+  /*
+  Execution Plan:
+  Sort  (cost=423.45..425.67 rows=890 width=48) (actual time=78.234..78.456 rows=890 loops=1)
+    ->  HashAggregate  (cost=389.12..398.02 rows=890 width=48)
+          ->  Hash Left Join  (cost=45.23..367.89 rows=8934 width=24)
+                ->  Index Scan using idx_users_created_at on users u  (cost=0.00..34.56 rows=890 width=20)
+                ->  Hash  (cost=38.90..38.90 rows=7111 width=16)
+                      ->  Index Scan using idx_orders_user_id_total on orders o  (cost=0.00..38.90 rows=7111 width=16)
+  
+  Performance Improvement: 2451ms -> 78ms (96.8% faster)
+  */
+  ```
+  
+  Connection pool configuration for optimal performance:
+  
+  ```python
+  from sqlalchemy import create_engine
+  from sqlalchemy.pool import QueuePool
+  
+  engine = create_engine(
+    'postgresql://user:pass@localhost/db',
+    poolclass=QueuePool,
+    pool_size=20,
+    max_overflow=10,
+    pool_timeout=30,
+    pool_recycle=3600,
+    pool_pre_ping=True,
+    echo_pool=True
+  )
+  ```
+  
+  Performance monitoring query for PostgreSQL:
+  
+  ```sql
+  SELECT 
+    query,
+    calls,
+    total_exec_time,
+    mean_exec_time,
+    max_exec_time,
+    stddev_exec_time,
+    rows,
+    100.0 * shared_blks_hit / NULLIF(shared_blks_hit + shared_blks_read, 0) AS cache_hit_ratio
+  FROM pg_stat_statements 
+  WHERE mean_exec_time > 100
+  ORDER BY total_exec_time DESC 
+  LIMIT 20;
+  ```
+</example>
+
+<example type="invalid">
+  Query optimization without analysis or measurements:
+  
+  ```sql
+  -- Just adding indexes without understanding the problem
+  CREATE INDEX idx_users_name ON users(name);
+  CREATE INDEX idx_orders_id ON orders(id);
+  ```
+  
+  This is invalid because:
+  - No execution plan analysis to identify actual bottlenecks
+  - No before/after performance measurements
+  - Indexes may not help the actual queries being executed
+  - No consideration of write performance impact
+  - No monitoring of index usage to verify effectiveness
+  - No documentation of optimization rationale
+  - Missing workload characterization
+  - No test results showing improvement
+</example>

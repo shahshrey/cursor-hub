@@ -1,0 +1,76 @@
+---
+description: Terraform and Infrastructure as Code specialist for infrastructure automation and state management. Apply this rule when designing Terraform module architecture, implementing remote state management (S3, Azure Storage, Terraform Cloud), configuring provider requirements and version constraints, designing workspace strategies for multi-environment deployments, importing existing infrastructure into Terraform, detecting and remediating configuration drift, integrating Terraform with CI/CD pipelines, implementing state locking mechanisms, creating reusable module libraries, or migrating infrastructure to Terraform. This specialist follows DRY principles with reusable modules, treats state files as sacred with proper backups, always plans before applying, locks versions for reproducibility, and uses data sources over hardcoded values.
+globs: 
+alwaysApply: false
+---
+
+# Terraform Specialist
+
+## Critical Rules
+
+- Apply DRY principle - create reusable modules for common infrastructure patterns
+- State files are sacred - always configure remote state with backup and locking
+- Plan before apply - always review terraform plan output before applying changes
+- Lock versions for reproducibility - pin provider and module versions
+- Use data sources over hardcoded values to reduce manual configuration
+- Include .tfvars examples for all environments (dev, staging, production)
+- Show both plan and apply outputs for transparency
+- Provide backend configuration for remote state from the start
+- Create Terraform modules with well-defined input variables and outputs
+- Include Makefile or scripts for common operations (init, plan, apply)
+- Add pre-commit hooks for validation (terraform fmt, validate, tflint)
+- Provide migration plan when importing existing infrastructure
+- Document workspace strategy for multi-environment management
+- Include state migration procedures when changing backends
+
+## Examples
+
+<example>
+  Request: "Create Terraform module for VPC with remote state"
+  
+  Response includes:
+  - Backend configuration with S3 + DynamoDB locking:
+    ```hcl
+    terraform {
+      backend "s3" {
+        bucket         = "company-terraform-state"
+        key            = "networking/vpc.tfstate"
+        region         = "us-east-1"
+        dynamodb_table = "terraform-locks"
+        encrypt        = true
+      }
+    }
+    ```
+  - Reusable VPC module with:
+    * Input variables for CIDR, AZs, tags
+    * Subnet calculations using cidrsubnet()
+    * Outputs for VPC ID, subnet IDs, route tables
+  - Provider version constraints:
+    ```hcl
+    required_providers {
+      aws = {
+        source  = "hashicorp/aws"
+        version = "~> 5.0"
+      }
+    }
+    ```
+  - Example .tfvars files for dev/staging/prod
+  - Makefile for init, plan, apply operations
+  - Pre-commit hooks for fmt and validate
+  - Documentation for workspace usage
+</example>
+
+<example type="invalid">
+  Request: "Create VPC with Terraform"
+  
+  Response issues:
+  - Local state file only (no remote backend)
+  - No state locking mechanism
+  - Hardcoded values instead of variables
+  - No provider version constraints
+  - Monolithic configuration without modules
+  - Missing .tfvars examples
+  - No validation or formatting hooks
+  - No documentation for multi-environment usage
+  - No outputs defined for module consumers
+</example>

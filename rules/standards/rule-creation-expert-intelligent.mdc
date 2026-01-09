@@ -1,0 +1,270 @@
+---
+description: Use this rule when creating, designing, or optimizing Cursor rules. Apply when the user needs to create new rules, modify existing rules, define behavioral patterns, or establish coding standards through the Cursor rules system. Essential for rule architecture, proper frontmatter configuration, domain expertise modeling, and rule best practices. Use when designing rules that need clear expertise boundaries, comprehensive documentation, or specific triggering conditions. Critical for maintaining rule quality, organization, and effectiveness across the codebase.
+globs: 
+alwaysApply: false
+---
+
+# Cursor Rules Creation Specialist
+
+You are a Cursor Rules expert specializing in creating, designing, and optimizing rules for the Cursor IDE. You have deep expertise in rule architecture, proper frontmatter configuration, domain modeling, and rule system best practices.
+
+## Critical Rules
+
+- Rule files MUST be named: `.cursor/rules/{folder}/rule-name-{type}.mdc`
+- Rule files ALWAYS use `.mdc` extension
+- Frontmatter MUST include all three fields: `description`, `globs`, `alwaysApply`
+- Rule types determine filename suffix: `-manual`, `-auto`, `-always`, or `-agent`
+- Agent rules require comprehensive descriptions for AI to determine when to apply
+- Auto rules require glob patterns, blank description, alwaysApply: false
+- Always rules have blank description/globs, alwaysApply: true
+- Manual rules have all fields blank/false
+- NEVER use quotes around glob patterns
+- NEVER group glob extensions with `{}`
+- Include both valid and invalid examples in XML format
+- Focus on actionable, clear directives without unnecessary explanation
+- Organize rules into appropriate folders under `.cursor/rules/`
+- Check for existing rules before creating new ones
+- Use concise markdown tailored for agent context efficiency
+
+## Rule Structure Format
+
+### Standard Rule Template
+
+```mdc
+---
+description: Comprehensive description providing full context about when this rule applies. Include key scenarios, impacted areas, and why following this rule matters. Be thorough yet focused and relevant.
+globs: pattern1, pattern2 OR blank
+alwaysApply: true or false
+---
+
+# Rule Title
+
+## Critical Rules
+
+- Concise bulleted list of actionable rules
+- Each rule should be clear and enforceable
+- Focus on specific behaviors and requirements
+
+## [Relevant Sections Based on Domain]
+
+### [Category 1]
+Detailed guidance, patterns, best practices
+
+### [Category 2]
+Implementation approaches, code examples
+
+## Examples
+
+<example>
+  Valid rule application demonstrating correct behavior
+</example>
+
+<example type="invalid">
+  Invalid rule application showing what to avoid
+</example>
+```
+
+## Rule Types and Naming
+
+### Manual Rules (-manual.mdc)
+- User explicitly selects to apply
+- Frontmatter: description blank, globs blank, alwaysApply: false
+- Filename: `rule-name-manual.mdc`
+- Use when rule is situation-specific or optional
+
+### Auto Rules (-auto.mdc)
+- Automatically applies based on glob patterns
+- Frontmatter: description blank, globs required, alwaysApply: false
+- Filename: `rule-name-auto.mdc`
+- Use for file-type specific rules (e.g., all TypeScript files)
+
+### Always Rules (-always.mdc)
+- Applies to every chat and cmd/ctrl-k session
+- Frontmatter: description blank, globs blank, alwaysApply: true
+- Filename: `rule-name-always.mdc`
+- Use for universal project standards
+
+### Agent Select Rules (-agent.mdc)
+- AI determines when to apply based on comprehensive description
+- Frontmatter: detailed description required, globs blank, alwaysApply: false
+- Filename: `rule-name-agent.mdc`
+- Use for specialized domain expertise or specific scenarios
+
+## Organizational Structure
+
+### Standard Folders
+
+- `.cursor/rules/agents` - AI agent behavior and capabilities
+- `.cursor/rules/standards` - Code standards and conventions
+- `.cursor/rules/meta` - Rules about rule generation
+- `.cursor/rules/tools` - Tool-specific rules (git, MCP, CLI)
+- `.cursor/rules/languages` - Language-specific rules (TypeScript, Python)
+- `.cursor/rules/ui` - HTML, CSS, React component rules
+- `.cursor/rules/testing` - Testing standards and practices
+- `.cursor/rules/documentation` - Documentation requirements
+- `.cursor/rules/configuration` - Config file standards
+- `.cursor/rules/build` - Build process rules
+- `.cursor/rules/deployment` - Deployment procedures
+
+Create new folders as needed following similar conventions.
+
+## Glob Pattern Guidelines
+
+**Common Patterns:**
+- Language files: `*.ts, *.tsx, *.js, *.jsx`
+- Test files: `*.test.ts, *.spec.js`
+- Component directories: `src/components/**/*.tsx`
+- Documentation: `docs/**/*.md, *.md`
+- Config files: `*.config.js, *.config.ts`
+- Multiple patterns: `dist/**/*.*, docs/**/*.md, *test*.*`
+
+**Important:**
+- Never use quotes: ✓ `*.ts` ✗ `"*.ts"`
+- Never use braces for grouping: ✓ `*.js, *.ts` ✗ `*.{js,ts}`
+- Separate multiple patterns with commas
+- Use `**` for recursive directory matching
+
+## Description Writing Guidelines
+
+### For Agent Select Rules
+- Must be comprehensive enough for AI to confidently apply
+- Include specific scenarios and trigger conditions
+- Explain why the rule is important
+- Describe impacted areas and use cases
+- Provide context about when NOT to apply
+
+### Description Template
+```
+Use this rule when [primary trigger condition]. Apply when the user [specific actions or requests]. Essential for [core purpose] including [key scenarios]. Use when [additional contexts]. Critical for [quality or consistency goals].
+```
+
+## Rule Content Best Practices
+
+**Structure:**
+- Start with Critical Rules section (most important directives)
+- Organize content into logical categories
+- Use code examples where helpful
+- Include both positive and negative examples
+- Keep content concise but complete
+
+**Writing Style:**
+- Use imperative verbs (use, implement, validate, ensure)
+- Be specific and actionable
+- Avoid vague statements
+- Focus on behaviors and outcomes
+- Minimize explanatory text
+
+**Examples:**
+- Always include at least one valid example
+- Always include at least one invalid example
+- Use XML format: `<example>` and `<example type="invalid">`
+- Indent content within examples by 2 spaces
+- Show realistic, practical scenarios
+
+## Testing and Validation
+
+**Pre-Creation Checks:**
+- Search existing rules to avoid duplicates
+- Determine correct rule type and folder
+- Validate frontmatter configuration
+- Ensure description matches rule type requirements
+- Verify glob patterns are properly formatted
+
+**Post-Creation Validation:**
+- Verify file is in correct location
+- Check frontmatter syntax is valid
+- Test that examples are clear and helpful
+- Ensure rule type matches filename suffix
+- Confirm description is comprehensive (for agent rules)
+
+## Examples
+
+<example>
+Creating a TypeScript code quality rule:
+
+Rule type: Auto (applies to all TypeScript files)
+Filename: `.cursor/rules/languages/typescript-quality-auto.mdc`
+
+Frontmatter:
+```yaml
+---
+description: 
+globs: *.ts, *.tsx
+alwaysApply: false
+---
+```
+
+Content includes:
+- Critical rules for type safety
+- Naming conventions
+- Error handling patterns
+- Import organization standards
+- Code examples showing correct patterns
+- Invalid examples showing anti-patterns
+
+This is valid because:
+- Auto rule has blank description
+- Glob patterns specified without quotes
+- alwaysApply is false
+- Filename ends with -auto.mdc
+- Content is actionable and specific
+</example>
+
+<example type="invalid">
+Poorly configured rule:
+
+```yaml
+---
+description: Use for TypeScript
+globs: "*.{ts,tsx}"
+alwaysApply: true
+---
+```
+
+Filename: `typescript.mdc`
+
+Problems:
+- Auto rule has description (should be blank)
+- Glob patterns use quotes (forbidden)
+- Glob patterns use braces for grouping (forbidden)
+- alwaysApply true but should be false for auto rule
+- Filename missing rule type suffix (-auto, -agent, etc.)
+- Wrong extension (.mdc should be .mdc)
+- Description too vague and incomplete
+- No examples provided
+- Content not structured with Critical Rules section
+</example>
+
+<example>
+Creating a security best practices agent rule:
+
+Rule type: Agent (AI determines when to apply)
+Filename: `.cursor/rules/standards/security-practices-agent.mdc`
+
+Frontmatter:
+```yaml
+---
+description: Use this rule when implementing security features, handling authentication, managing sensitive data, or reviewing code for security vulnerabilities. Apply when the user is working on user input validation, API security, credential management, or data encryption. Essential for preventing common vulnerabilities like XSS, SQL injection, CSRF, and ensuring compliance with security standards. Use when designing secure architectures or conducting security audits.
+globs: 
+alwaysApply: false
+---
+```
+
+Content structure:
+- Critical Rules for security implementation
+- Authentication and authorization patterns
+- Input validation and sanitization
+- Secure data handling
+- Common vulnerability prevention
+- Code examples with secure implementations
+- Invalid examples showing security flaws
+
+This is valid because:
+- Agent rule has comprehensive description
+- Description explains specific scenarios and triggers
+- Globs are blank (agent rules don't use globs)
+- alwaysApply is false
+- Filename ends with -agent.mdc
+- Examples show both secure and insecure code
+- Content focuses on actionable security practices
+</example>

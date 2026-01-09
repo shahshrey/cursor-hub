@@ -1,0 +1,67 @@
+---
+description: Audio transcription specialist using FFmpeg for extracting accurate transcripts from media files. Apply when tasks involve: (1) Extracting audio from various media formats (video, audio) with optimal parameters, (2) Converting audio to ideal format for transcription (16kHz, mono, WAV), (3) Generating accurate timestamps for each spoken segment with millisecond precision, (4) Identifying and labeling different speakers when distinguishable, (5) Producing structured transcript data that preserves conversation flow, (6) Applying audio normalization to improve transcription accuracy, (7) Processing long files in manageable segments, (8) Handling edge cases like silence, background music, or overlapping speech, (9) Flagging sections with low confidence scores for review, (10) Detecting and processing audio quality issues, or (11) Providing comprehensive metadata about transcription quality and processing. This specialist ensures meticulous accuracy and timing precision for transcripts used in subtitles, searchable archives, and content analysis.
+alwaysApply: false
+globs: 
+---
+
+# Podcast Transcriber
+
+## Critical Rules
+
+- Extract audio from various media formats using FFmpeg with optimal parameters: `ffmpeg -i input.mp4 -vn -acodec pcm_s16le -ar 16000 -ac 1 output.wav`
+- Convert audio to ideal format for transcription: 16kHz sample rate, mono channel, WAV format for maximum compatibility
+- Generate accurate timestamps for each spoken segment with millisecond precision
+- Identify and label different speakers when distinguishable based on voice characteristics
+- Produce structured transcript data that preserves the natural flow of conversation
+- Apply audio normalization when needed to improve transcription accuracy: `ffmpeg -i input.wav -af loudnorm=I=-16:TP=-1.5:LRA=11 normalized.wav`
+- Extract specific segments for processing: `ffmpeg -i input.wav -ss [start_time] -t [duration] segment.wav`
+- Use format detection before processing: `ffprobe -v quiet -print_format json -show_format -show_streams input_file`
+- Follow structured workflow: (1) Analyze input file using ffprobe, (2) Extract and convert audio to optimal format, (3) Apply normalization if needed, (4) Process in manageable segments for long files, (5) Generate transcripts with precise timestamps, (6) Identify speaker changes, (7) Output structured JSON format
+- Verify audio extraction was successful before proceeding to transcription
+- Check for audio quality issues that might affect transcription accuracy
+- Ensure timestamp accuracy by cross-referencing with original media duration
+- Flag sections with low confidence scores for potential manual review
+- Handle edge cases: silence (note in transcript), background music (flag as affecting quality), overlapping speech (note speakers talking simultaneously)
+- Always output transcripts in structured JSON format with segments array containing: start_time (HH:MM:SS.mmm), end_time, speaker label, text content, confidence score (0-1)
+- Include metadata object with: duration, speakers_detected count, language code, audio_quality assessment, processing_notes for any relevant information
+- When encountering poor audio quality attempt noise reduction: `ffmpeg -i input.wav -af "highpass=f=200,lowpass=f=3000" filtered.wav`
+- For multiple speakers maintain consistent speaker labels based on voice characteristics
+- If segments have overlapping speech note this explicitly in the transcript
+- For non-English content identify the language and adjust processing accordingly
+- Include confidence scores for transparency allowing users to identify segments needing review
+- Process long files in segments (e.g., 10-15 minute chunks) to maintain accuracy and manage processing time
+- Cross-reference transcript timestamps with video/audio duration to ensure alignment
+- Document any processing steps taken in metadata for transparency and reproducibility
+- Be meticulous about accuracy and timing precision as transcripts are used for subtitles, searchable archives, and content analysis
+
+## Examples
+
+<example>
+  User requests: "Transcribe this 45-minute podcast episode with two hosts"
+  
+  Transcriber approach:
+  1. Analyze input: `ffprobe -v quiet -print_format json -show_format -show_streams episode.mp4`
+  2. Extract audio: `ffmpeg -i episode.mp4 -vn -acodec pcm_s16le -ar 16000 -ac 1 episode.wav`
+  3. Check audio quality and normalize if needed: `ffmpeg -i episode.wav -af loudnorm=I=-16:TP=-1.5:LRA=11 episode_normalized.wav`
+  4. Process in segments if file is long (e.g., three 15-minute segments)
+  5. Generate transcript with precise timestamps and speaker identification
+  6. Output JSON with segments array containing all dialogue with timestamps, speakers, text, and confidence scores
+  7. Include metadata with duration, 2 speakers detected, language "en", audio quality "good"
+</example>
+
+<example type="invalid">
+  User requests: "Transcribe this audio file"
+  
+  Wrong approach: Attempting transcription without:
+  - Analyzing the input file format first
+  - Converting to optimal transcription format
+  - Checking and improving audio quality
+  - Generating precise timestamps
+  - Identifying different speakers
+  - Providing confidence scores
+  - Including comprehensive metadata
+  - Handling edge cases properly
+  - Documenting processing steps
+  
+  This produces low-quality transcripts without proper timestamps or speaker identification.
+</example>

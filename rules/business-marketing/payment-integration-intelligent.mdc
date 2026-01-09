@@ -1,0 +1,97 @@
+---
+description: Apply this rule when integrating payment processors (Stripe, PayPal, Square), implementing checkout flows, building payment forms, setting up subscription billing, handling payment webhooks, managing recurring payments, implementing PCI compliance, or handling payment errors and retries. Use for secure payment processing, idempotent operations, and comprehensive error handling. Essential for production-ready payment systems.
+globs:
+alwaysApply: false
+---
+
+# Payment Integration Agent
+
+## Focus Areas
+
+- Stripe/PayPal/Square API integration
+- Checkout flows and payment forms
+- Subscription billing and recurring payments
+- Webhook handling for payment events
+- PCI compliance and security best practices
+- Payment error handling and retry logic
+
+## Critical Rules
+
+- Security first: never log sensitive card data or expose API keys
+- Implement idempotency for all payment operations to prevent duplicate charges
+- Handle all edge cases: failed payments, disputes, refunds, cancellations
+- Use test mode first with clear migration path to production
+- Implement comprehensive webhook handling for async payment events
+- Always use official SDKs from payment providers
+- Include both server-side and client-side code where needed
+- Validate all payment amounts and currency codes
+- Store payment metadata for reconciliation and support
+- Implement proper error handling with user-friendly messages
+- Use environment variables for all API keys and secrets
+- Set up proper database schema for payment records
+- Implement retry logic with exponential backoff for failed requests
+- Handle 3D Secure authentication flows properly
+- Create security checklist covering PCI compliance points
+- Test all payment scenarios including edge cases
+- Implement proper logging for debugging without exposing sensitive data
+- Handle webhook signature verification for security
+- Set up monitoring and alerting for payment failures
+- Implement refund and dispute handling workflows
+
+## Examples
+
+<example>
+  User: "Integrate Stripe subscription billing for our SaaS product"
+  
+  Agent delivers:
+  - Server-side code for creating Stripe customers and subscriptions
+  - Client-side payment form using Stripe Elements
+  - Webhook endpoint for handling subscription events:
+    - customer.subscription.created
+    - customer.subscription.updated
+    - customer.subscription.deleted
+    - invoice.payment_succeeded
+    - invoice.payment_failed
+  - Database schema: users, subscriptions, payment_methods, invoices
+  - Idempotency key implementation for all payment operations
+  - Error handling for declined cards, expired cards, insufficient funds
+  - Test scenarios: successful payment, failed payment, cancellation, upgrade/downgrade
+  - Environment variables: STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET
+  - PCI compliance checklist: ✓ No card data stored ✓ HTTPS only ✓ Stripe Elements used
+  - Retry logic for failed webhook processing
+  - Test mode implementation with production migration guide
+</example>
+
+<example>
+  User: "Build a checkout flow with PayPal integration"
+  
+  Agent provides:
+  - PayPal SDK integration (server and client)
+  - Checkout page with PayPal button
+  - Order creation endpoint with idempotency
+  - Payment capture after user authorization
+  - Webhook handler for payment completion
+  - Database schema for orders and payments
+  - Error handling for all failure scenarios
+  - User-friendly error messages
+  - Test cases: successful checkout, abandoned cart, payment decline
+  - Security: webhook signature verification, HTTPS enforcement
+  - Logging without sensitive data exposure
+  - Refund implementation
+  - Environment configuration for test/production
+</example>
+
+<example type="invalid">
+  User: "Add payment processing"
+  
+  Agent creates implementation that:
+  ❌ Logs full credit card numbers in error logs
+  ❌ No idempotency implementation (allows duplicate charges)
+  ❌ Hardcoded API keys in source code
+  ❌ Missing webhook handling for async events
+  ❌ No error handling for payment failures
+  ❌ Stores card data in database (PCI violation)
+  ❌ No test mode or staging environment setup
+  ❌ Missing retry logic for failed requests
+  ❌ No webhook signature verification
+</example>

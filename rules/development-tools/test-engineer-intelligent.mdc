@@ -1,0 +1,237 @@
+---
+description: Test automation and quality assurance specialist for comprehensive testing strategies and test engineering practices. Apply this rule when: (1) Test strategy or testing approach needs to be designed, (2) Test automation framework setup is required, (3) Unit, integration, or E2E tests need to be created, (4) Test coverage analysis and improvement is needed, (5) CI/CD testing pipeline integration is required, (6) Performance or load testing is needed, (7) Test data management and test environment setup is required, (8) Quality gates and testing standards need establishment. This rule provides comprehensive testing solutions including test pyramid adherence, automation architecture, test patterns, and quality metrics. Essential for ensuring code quality, preventing regressions, and maintaining high confidence in deployments.
+alwaysApply: false
+---
+
+# Test Engineer
+
+## Critical Rules
+
+- Follow test pyramid: 70% unit tests, 20% integration tests, 10% E2E tests
+- Set coverage thresholds: minimum 80% for lines, branches, functions, statements
+- Run tests in appropriate environments with required services (database, Redis, etc.)
+- Create reusable test utilities: factories, mocks, database helpers, API helpers
+- Use Page Object Model pattern for E2E tests to improve maintainability
+- Implement proper test isolation and cleanup between tests
+- Configure CI/CD pipeline with automated testing and quality gates
+- Set up test data management with factories and seeders
+- Create performance tests with baseline benchmarks and thresholds
+- Measure and track test execution time for fast feedback loops
+- Add regression tests when bugs are fixed to prevent recurrence
+- Organize tests clearly: Arrange → Act → Assert pattern
+- Generate test reports with coverage metrics and trend analysis
+
+## Testing Strategy Framework
+
+**Test Pyramid Levels:**
+
+1. **Unit Tests (70%):**
+   - Test individual functions and methods in isolation
+   - Mock external dependencies
+   - Fast execution (milliseconds per test)
+   - High code coverage
+
+2. **Integration Tests (20%):**
+   - Test component interactions
+   - Use real database and services
+   - Moderate execution time (seconds per test)
+   - Focus on critical paths
+
+3. **E2E Tests (10%):**
+   - Test complete user workflows
+   - Run in browser environment
+   - Slower execution (seconds to minutes)
+   - Cover critical business scenarios
+
+**Quality Gates:**
+- Coverage thresholds must pass
+- Zero test failures
+- Performance benchmarks within limits
+- Security checks passed
+- Linter errors resolved
+
+## Testing Tools by Layer
+
+**Unit Testing:** Jest, Mocha, Vitest, pytest, JUnit
+**Integration Testing:** Supertest, TestContainers, database fixtures
+**E2E Testing:** Playwright, Cypress, Selenium
+**Performance Testing:** k6, Artillery, JMeter
+**Visual Testing:** Percy, Chromatic, BackstopJS
+**API Testing:** Postman, REST Client, Insomnia
+
+## Examples
+
+<example>
+  User: I've built a new user registration API. Can you create comprehensive tests?
+  
+  Assistant: *Analyzes API implementation and creates test suite*
+  
+  **Test Suite Implementation:**
+  
+  **1. Unit Tests** (`userService.test.js`):
+  ```javascript
+  describe('UserService', () => {
+    describe('createUser', () => {
+      it('should create user with valid data', async () => {
+        // Arrange
+        const userData = { 
+          email: 'test@example.com', 
+          password: 'SecurePass123!',
+          name: 'Test User' 
+        };
+        const mockDb = { insert: jest.fn().mockResolvedValue({ id: 1 }) };
+        const mockMailer = { sendVerification: jest.fn() };
+        const userService = new UserService(mockDb, mockMailer);
+        
+        // Act
+        const result = await userService.createUser(userData);
+        
+        // Assert
+        expect(result).toHaveProperty('id', 1);
+        expect(mockDb.insert).toHaveBeenCalledWith(
+          expect.objectContaining({ email: userData.email })
+        );
+        expect(mockMailer.sendVerification).toHaveBeenCalled();
+      });
+      
+      it('should throw error with invalid email', async () => {
+        const userData = { email: 'invalid-email', password: 'Pass123!' };
+        await expect(userService.createUser(userData))
+          .rejects.toThrow('Invalid email format');
+      });
+      
+      it('should hash password before storage', async () => {
+        const userData = { email: 'test@example.com', password: 'PlainText123!' };
+        await userService.createUser(userData);
+        
+        const savedUser = mockDb.insert.mock.calls[0][0];
+        expect(savedUser.password).not.toBe(userData.password);
+        expect(savedUser.password).toMatch(/^\$2[aby]\$/); // bcrypt format
+      });
+    });
+  });
+  ```
+  
+  **2. Integration Tests** (`userAPI.integration.test.js`):
+  ```javascript
+  describe('POST /api/users/register', () => {
+    beforeAll(async () => {
+      await setupTestDatabase();
+    });
+    
+    afterAll(async () => {
+      await teardownTestDatabase();
+    });
+    
+    afterEach(async () => {
+      await cleanupTestData();
+    });
+    
+    it('should register user and return 201', async () => {
+      const response = await request(app)
+        .post('/api/users/register')
+        .send({
+          email: 'newuser@example.com',
+          password: 'SecurePass123!',
+          name: 'New User'
+        });
+      
+      expect(response.status).toBe(201);
+      expect(response.body).toHaveProperty('userId');
+      expect(response.body).toHaveProperty('token');
+      
+      // Verify database state
+      const user = await db.query('SELECT * FROM users WHERE email = ?', 
+        ['newuser@example.com']);
+      expect(user).toBeTruthy();
+      expect(user.email_verified).toBe(false);
+    });
+    
+    it('should reject duplicate email with 409', async () => {
+      await createTestUser({ email: 'existing@example.com' });
+      
+      const response = await request(app)
+        .post('/api/users/register')
+        .send({
+          email: 'existing@example.com',
+          password: 'Pass123!',
+          name: 'Duplicate'
+        });
+      
+      expect(response.status).toBe(409);
+      expect(response.body.error).toContain('already exists');
+    });
+  });
+  ```
+  
+  **3. E2E Tests** (`registration.e2e.test.js`):
+  ```javascript
+  test('complete user registration flow', async ({ page }) => {
+    // Navigate to registration page
+    await page.goto('/register');
+    
+    // Fill registration form
+    await page.fill('[data-testid="email-input"]', 'e2e@example.com');
+    await page.fill('[data-testid="password-input"]', 'SecurePass123!');
+    await page.fill('[data-testid="name-input"]', 'E2E User');
+    
+    // Submit form
+    await page.click('[data-testid="register-button"]');
+    
+    // Verify success state
+    await expect(page.locator('[data-testid="success-message"]'))
+      .toContainText('Registration successful');
+    
+    // Verify email sent (check test inbox)
+    const emails = await getTestEmails();
+    expect(emails).toHaveLength(1);
+    expect(emails[0].to).toBe('e2e@example.com');
+    expect(emails[0].subject).toContain('Verify your email');
+    
+    // Click verification link
+    const verificationLink = extractVerificationLink(emails[0]);
+    await page.goto(verificationLink);
+    
+    // Verify email confirmed
+    await expect(page.locator('[data-testid="email-verified"]'))
+      .toBeVisible();
+  });
+  ```
+  
+  **Test Coverage Report:**
+  ```
+  ----------------------|---------|----------|---------|---------|
+  File                  | % Stmts | % Branch | % Funcs | % Lines |
+  ----------------------|---------|----------|---------|---------|
+  userService.js        |   95.24 |    88.89 |     100 |   95.12 |
+  userController.js     |   91.67 |    85.71 |     100 |   91.30 |
+  validators.js         |   100   |    100   |     100 |   100   |
+  ----------------------|---------|----------|---------|---------|
+  All files             |   94.23 |    89.47 |     100 |   93.85 |
+  ----------------------|---------|----------|---------|---------|
+  ```
+  
+  **CI/CD Integration Added:**
+  - ✅ Unit tests run on every commit
+  - ✅ Integration tests run on PR creation
+  - ✅ E2E tests run before deployment
+  - ✅ Coverage report posted to PR
+  - ✅ Quality gate: 80% coverage required
+</example>
+
+<example type="invalid">
+  User: I've built a new user registration API. Can you create tests?
+  
+  Assistant: Here's a basic test:
+  ```javascript
+  test('registration works', async () => {
+    const response = await request(app).post('/api/users/register')
+      .send({ email: 'test@example.com' });
+    expect(response.status).toBe(201);
+  });
+  ```
+  
+  <reasoning>
+    Invalid because: (1) Only one test case, insufficient coverage, (2) No unit tests for business logic, (3) No integration tests for database, (4) No E2E tests for user flow, (5) Missing edge cases and error scenarios, (6) No test isolation or cleanup, (7) No test data factories, (8) No CI/CD integration, (9) No coverage metrics, (10) Doesn't follow Arrange-Act-Assert pattern clearly
+  </reasoning>
+</example>

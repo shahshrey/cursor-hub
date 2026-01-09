@@ -1,0 +1,100 @@
+---
+description: React performance optimization specialist rule for identifying and fixing performance bottlenecks in React applications. Apply this rule when: (1) React applications are loading slowly or experiencing slow initial render, (2) user interactions are janky or unresponsive in React apps, (3) bundle sizes are too large and affecting load times, (4) memory leaks or excessive memory usage in React components, (5) poor Core Web Vitals scores (LCP, FID, CLS) in React applications, (6) analyzing performance regressions in React apps, (7) optimizing component re-renders and reconciliation, (8) implementing code splitting and bundle optimization, (9) improving network performance with lazy loading and caching, or (10) using React profiling tools to identify performance issues. Always provide specific, measurable solutions with before/after performance comparisons.
+globs: 
+alwaysApply: false
+---
+
+# React Performance Optimization
+
+## Critical Rules
+
+- Profile React applications using React DevTools Profiler, Chrome DevTools, and Lighthouse before optimizing
+- Use React.memo for expensive components to prevent unnecessary re-renders
+- Implement useMemo and useCallback hooks to memoize expensive computations and callback functions
+- Apply code splitting with React.lazy and dynamic imports to reduce initial bundle size
+- Optimize bundle size through tree shaking and eliminating unused dependencies
+- Identify and fix memory leaks by ensuring proper cleanup in useEffect hooks
+- Implement lazy loading for images and components to improve initial load performance
+- Optimize Core Web Vitals specifically for React applications (LCP, FID, CLS)
+- Use virtualization for long lists to reduce DOM nodes and improve rendering performance
+- Implement prefetching and caching strategies for better network performance
+- Avoid creating inline functions and objects in render methods that cause re-renders
+- Use key props correctly to help React optimize reconciliation
+- Split large components into smaller, focused components for better performance
+- Implement suspense boundaries strategically for better loading experiences
+- Always provide specific before/after performance metrics with actual measurements
+- Focus on user-perceived performance improvements, not just technical metrics
+
+## Examples
+
+<example>
+  User reports: "Our React dashboard with 1000 items is slow and janky when scrolling"
+  
+  Agent applies react-performance-optimization rule and:
+  1. Profiles with React DevTools Profiler and identifies excessive re-renders in list items
+  2. Implements React.memo on ListItem component to prevent unnecessary re-renders
+  3. Adds virtualization using react-window to render only visible items (1000 → ~20 DOM nodes)
+  4. Uses useMemo for expensive data transformations that were recalculating on every render
+  5. Wraps callback props with useCallback to prevent child re-renders
+  6. Provides before/after metrics: 
+     - Initial render: 2800ms → 420ms
+     - Scroll FPS: 15fps → 60fps
+     - Memory usage: 180MB → 45MB
+  7. Includes React DevTools Profiler flamegraph comparison showing render time reduction
+  8. Recommends monitoring with web-vitals library for ongoing performance tracking
+  
+  This demonstrates systematic profiling, multiple optimization techniques, measurable improvements, and focus on user experience.
+</example>
+
+<example type="invalid">
+  User reports: "Our React dashboard with 1000 items is slow and janky when scrolling"
+  
+  Agent responds with:
+  - Suggests wrapping everything in React.memo without profiling first
+  - Generic advice to "use useMemo" without identifying expensive computations
+  - No consideration of virtualization for large lists
+  - No before/after performance metrics or measurements
+  - Doesn't address memory usage or potential memory leaks
+  - No specific Core Web Vitals improvements
+  - Missing code examples showing implementation
+  - No profiling tool usage to validate improvements
+  
+  This is invalid because it lacks systematic profiling, specific measurements, targeted optimizations, before/after comparisons, and doesn't demonstrate understanding of React-specific performance patterns like virtualization for large lists.
+</example>
+
+## React Performance Optimization Patterns
+
+### Component Memoization
+```javascript
+const ExpensiveComponent = React.memo(({ data, onUpdate }) => {
+  const processedData = useMemo(() => {
+    return data.map(item => ({
+      ...item,
+      computed: heavyComputation(item)
+    }));
+  }, [data]);
+
+  return (
+    <div>
+      {processedData.map(item => (
+        <Item key={item.id} item={item} onUpdate={onUpdate} />
+      ))}
+    </div>
+  );
+});
+```
+
+### Code Splitting
+```javascript
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+
+const App = () => (
+  <Router>
+    <Suspense fallback={<LoadingSpinner />}>
+      <Routes>
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
+    </Suspense>
+  </Router>
+);
+```

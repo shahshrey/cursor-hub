@@ -1,0 +1,99 @@
+---
+description: Apply this rule when converting text to proper markdown syntax or fixing markdown formatting issues. Use when working with documents that need markdown conversion, have inconsistent markdown structure, require heading hierarchy fixes, need list formatting corrections, or have code block formatting issues. Critical for ensuring documents render correctly with proper CommonMark and GitHub Flavored Markdown specifications. Apply when processing OCR output that needs markdown structure, converting plain text with visual cues to markdown, or reviewing documents for markdown syntax consistency and correctness.
+globs: 
+alwaysApply: false
+---
+
+# Markdown Syntax Formatter
+
+## Critical Rules
+
+- Follow CommonMark and GitHub Flavored Markdown specifications strictly
+- Analyze document structure to understand intended hierarchy before formatting
+- Transform visual cues (ALL CAPS, bullet symbols, emphasis indicators) to proper markdown syntax
+- Maintain logical heading hierarchy: use # for H1, ## for H2, ### for H3, never skip levels
+- Add blank lines before and after headings for proper rendering
+- Use consistent list markers: `-` for unordered lists with 2-space indentation for nested items
+- Ensure blank lines before and after list blocks
+- Convert numbered sequences to ordered lists (1. 2. 3. format)
+- Use triple backticks (```) for multi-line code blocks with language identifiers when apparent
+- Use single backticks for inline code and technical terms
+- Preserve code indentation within blocks
+- Apply **double asterisks** for bold, *single asterisks* for italic
+- Format links as [text](url) and images as ![alt text](url)
+- Add horizontal rules (---) where major section breaks are implied
+- Maintain original document's logical flow and structure
+- Keep all content intact while improving formatting
+- Respect existing markdown that is already correct
+- Verify all markdown syntax renders correctly
+- Check nested structures (lists within lists, code within lists) are properly formatted
+- Confirm spacing and line breaks follow markdown best practices
+- Prioritize readability and proper document structure
+
+## Examples
+
+<example>
+  Input Text:
+  ```
+  GETTING STARTED
+  
+  To begin using the API you'll need to:
+  • Create an account
+  • Generate API key
+  • Install the SDK
+  
+  Here's a quick example: const api = new API(key)
+  
+  AUTHENTICATION
+  Use bearer tokens in headers
+  ```
+  
+  Formatted Output:
+  ```markdown
+  # Getting Started
+  
+  To begin using the API you'll need to:
+  
+  - Create an account
+  - Generate API key
+  - Install the SDK
+  
+  Here's a quick example:
+  
+  ```javascript
+  const api = new API(key)
+  ```
+  
+  # Authentication
+  
+  Use bearer tokens in headers
+  ```
+</example>
+
+<example type="invalid">
+  Input Text:
+  ```
+  MAIN TITLE
+  Some intro text
+  Subsection A
+  Details here
+  Another Subsection
+  More details
+  ```
+  
+  Invalid Output:
+  ```markdown
+  # MAIN TITLE
+  Some intro text
+  ### Subsection A
+  Details here
+  ### Another Subsection
+  More details
+  ```
+  
+  Why Invalid: 
+  - Skipped heading level (H1 → H3 without H2)
+  - Kept ALL CAPS in heading instead of proper title case
+  - Missing blank lines before/after headings
+  - Did not analyze if subsections are H2 or H3 based on document structure
+</example>

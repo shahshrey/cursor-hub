@@ -1,0 +1,506 @@
+---
+description: Neon serverless database architecture specialist for schema design and ORM integration. Apply this rule when designing database schemas for Neon Serverless Postgres, integrating Drizzle ORM with neon-http adapter, optimizing for serverless cold starts and connection management, implementing efficient query patterns with prepared statements and batch operations, creating database migrations with Drizzle Kit, handling transactions in serverless environments, implementing proper error handling for connection timeouts, designing scalable schema structures with proper indexes and constraints, or when working with Neon-specific features and performance optimizations. This rule provides comprehensive guidance on Drizzle ORM setup, connection configuration, schema design patterns, query optimization, and serverless-specific best practices for Neon databases.
+globs:
+alwaysApply: false
+---
+
+# Neon Database Architecture Specialist
+
+## Critical Rules
+
+- Always use Drizzle ORM with `neon-http` adapter for serverless environments
+- Use `@neondatabase/serverless` package with `neon-http` driver
+- Optimize for serverless cold starts with efficient connection patterns
+- Implement proper connection lifecycle in serverless functions
+- Design schemas with appropriate PostgreSQL types (JSONB, arrays, enums)
+- Use prepared statements for repeated queries to improve performance
+- Implement batch operations for multiple inserts/updates
+- Handle connection errors with retry logic and timeouts
+- Always specify `encoding="utf-8"` for file operations
+- Use environment variables for DATABASE_URL with validation
+- Test schemas and queries with realistic data volumes
+- Implement proper transaction handling in serverless context
+- Provide working code examples with verification steps
+- Document Neon-specific optimizations and considerations
+
+## Work Process
+
+### Environment Analysis
+```bash
+# Find existing Drizzle configuration and schema files
+find . -name "drizzle.config.*" -o -name "schema.*" -o -name "migrations/*"
+
+# Search for database connection patterns
+grep -r "DATABASE_URL\|drizzle\|neon" . --include="*.ts" --include="*.js"
+```
+
+### Implementation Focus
+- Use Drizzle ORM with `neon-http` adapter for optimal serverless performance
+- Optimize for serverless cold starts and minimal connection overhead
+- Implement efficient connection patterns for ephemeral functions
+- Design scalable schema structures with proper indexing
+
+## Response Format
+
+```
+🏗️ DATABASE ARCHITECTURE
+
+## Analysis
+- Current setup: [Drizzle/connection status]
+- Performance issues: [identified bottlenecks]
+- Schema complexity: [assessment]
+
+## Implementation
+1. [Connection setup with neon-http]
+2. [Schema design with Drizzle]
+3. [Migration strategy]
+4. [Performance optimizations]
+
+## Verification
+- [ ] Schema validation completed
+- [ ] Connection test passed
+- [ ] Query performance benchmarked
+- [ ] Migration tested
+- [ ] Error handling implemented
+```
+
+## Technical Standards
+
+### Connection Management
+- Use environment variables for DATABASE_URL with proper validation
+- Implement proper lifecycle management in serverless functions
+- Handle connection errors with retry logic and exponential backoff
+- Optimize connection pooling for serverless characteristics
+- Use connection timeouts appropriate for serverless limits
+
+### Schema Design
+- Design normalized, efficient schemas following best practices
+- Use appropriate Postgres types (JSONB for flexible data, arrays, enums)
+- Implement proper constraints and indexes for query performance
+- Design for data integrity with foreign keys and check constraints
+- Plan for schema evolution with migration strategies
+
+### Query Optimization
+- Use prepared statements for repeated queries
+- Implement batch operations for bulk data manipulation
+- Optimize for Neon's serverless characteristics
+- Design efficient indexes based on query patterns
+- Minimize data transfer with selective queries
+
+## Neon Serverless Setup
+
+### Installation
+```bash
+# Install Neon serverless driver and Drizzle ORM
+npm install @neondatabase/serverless drizzle-orm
+
+# Install Drizzle Kit for migrations
+npm install -D drizzle-kit
+```
+
+### Connection Configuration
+```typescript
+// src/db.ts
+import { drizzle } from "drizzle-orm/neon-http";
+import { neon } from "@neondatabase/serverless";
+
+if (!process.env.DATABASE_URL) {
+  throw new Error("DATABASE_URL environment variable is not defined");
+}
+
+const sql = neon(process.env.DATABASE_URL);
+
+export const db = drizzle({ client: sql });
+```
+
+### Environment Variables
+```env
+# .env or .env.local
+DATABASE_URL=postgresql://user:password@ep-xxx.region.aws.neon.tech/dbname?sslmode=require
+```
+
+## Schema Design with Drizzle
+
+### Basic Schema Definition
+```typescript
+// src/schema.ts
+import {
+  pgTable,
+  serial,
+  text,
+  timestamp,
+  jsonb,
+  pgEnum,
+  integer,
+  boolean,
+  uuid
+} from "drizzle-orm/pg-core";
+
+export const userRoleEnum = pgEnum("user_role", ["admin", "user", "guest"]);
+
+export const usersTable = pgTable("users", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  name: text("name").notNull(),
+  email: text("email").notNull().unique(),
+  role: userRoleEnum("role").default("user"),
+  metadata: jsonb("metadata"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow()
+});
+
+export const postsTable = pgTable("posts", {
+  id: serial("id").primaryKey(),
+  userId: uuid("user_id").notNull().references(() => usersTable.id, {
+    onDelete: "cascade"
+  }),
+  title: text("title").notNull(),
+  content: text("content").notNull(),
+  published: boolean("published").default(false),
+  publishedAt: timestamp("published_at"),
+  createdAt: timestamp("created_at").defaultNow()
+});
+
+export type User = typeof usersTable.$inferSelect;
+export type NewUser = typeof usersTable.$inferInsert;
+export type Post = typeof postsTable.$inferSelect;
+export type NewPost = typeof postsTable.$inferInsert;
+```
+
+## Drizzle Configuration
+
+### Drizzle Kit Config
+```typescript
+// drizzle.config.ts
+import { config } from "dotenv";
+import { defineConfig } from "drizzle-kit";
+
+config({ path: ".env" });
+
+if (!process.env.DATABASE_URL) {
+  throw new Error("DATABASE_URL is not defined");
+}
+
+export default defineConfig({
+  schema: "./src/schema.ts",
+  out: "./migrations",
+  dialect: "postgresql",
+  dbCredentials: {
+    url: process.env.DATABASE_URL
+  }
+});
+```
+
+### Generate and Run Migrations
+```bash
+# Generate migration from schema
+npx drizzle-kit generate
+
+# Push schema directly to database (dev only)
+npx drizzle-kit push
+
+# Run migrations
+npx drizzle-kit migrate
+```
+
+## Query Patterns
+
+### Efficient Query Operations
+```typescript
+import { db } from "./db";
+import { usersTable, postsTable } from "./schema";
+import { eq, and, desc, sql } from "drizzle-orm";
+
+export async function getUserWithPosts(userId: string) {
+  const user = await db
+    .select()
+    .from(usersTable)
+    .where(eq(usersTable.id, userId))
+    .limit(1);
+  
+  if (!user.length) return null;
+  
+  const posts = await db
+    .select()
+    .from(postsTable)
+    .where(eq(postsTable.userId, userId))
+    .orderBy(desc(postsTable.createdAt));
+  
+  return { ...user[0], posts };
+}
+
+export async function batchInsertUsers(users: NewUser[]) {
+  return db.insert(usersTable).values(users).returning();
+}
+
+export async function updateUserMetadata(
+  userId: string,
+  metadata: Record<string, any>
+) {
+  return db
+    .update(usersTable)
+    .set({ 
+      metadata,
+      updatedAt: new Date()
+    })
+    .where(eq(usersTable.id, userId))
+    .returning();
+}
+```
+
+### Prepared Statements
+```typescript
+import { placeholder } from "drizzle-orm";
+
+export const getUserByEmail = db
+  .select()
+  .from(usersTable)
+  .where(eq(usersTable.email, placeholder("email")))
+  .prepare("get_user_by_email");
+
+const user = await getUserByEmail.execute({ email: "user@example.com" });
+```
+
+### Complex Queries with Joins
+```typescript
+export async function getPublishedPostsWithAuthors() {
+  return db
+    .select({
+      postId: postsTable.id,
+      postTitle: postsTable.title,
+      postContent: postsTable.content,
+      publishedAt: postsTable.publishedAt,
+      authorName: usersTable.name,
+      authorEmail: usersTable.email
+    })
+    .from(postsTable)
+    .innerJoin(usersTable, eq(postsTable.userId, usersTable.id))
+    .where(eq(postsTable.published, true))
+    .orderBy(desc(postsTable.publishedAt));
+}
+```
+
+## Transaction Handling
+
+### Transactional Operations
+```typescript
+export async function createUserWithProfile(
+  user: NewUser,
+  profileData: any
+) {
+  return await db.transaction(async (tx) => {
+    const [newUser] = await tx
+      .insert(usersTable)
+      .values(user)
+      .returning();
+    
+    await tx
+      .insert(postsTable)
+      .values({
+        userId: newUser.id,
+        title: "Welcome Post",
+        content: "Welcome to the platform!",
+        published: true,
+        publishedAt: new Date()
+      });
+    
+    return newUser;
+  });
+}
+```
+
+## Error Handling
+
+### Connection Error Handling
+```typescript
+export async function safeQuery<T>(
+  operation: () => Promise<T>
+): Promise<T> {
+  try {
+    return await operation();
+  } catch (error: any) {
+    if (error.message?.includes("connection pool timeout")) {
+      throw new Error("Database connection timeout - please try again");
+    }
+    
+    if (error.message?.includes("unique constraint")) {
+      throw new Error("Record already exists");
+    }
+    
+    throw error;
+  }
+}
+
+export async function getUserSafely(userId: string) {
+  return safeQuery(() =>
+    db.select().from(usersTable).where(eq(usersTable.id, userId))
+  );
+}
+```
+
+## Serverless Optimizations
+
+### Efficient Batch Operations
+```typescript
+export async function batchCreatePosts(posts: NewPost[]) {
+  const BATCH_SIZE = 100;
+  const results = [];
+  
+  for (let i = 0; i < posts.length; i += BATCH_SIZE) {
+    const batch = posts.slice(i, i + BATCH_SIZE);
+    const inserted = await db
+      .insert(postsTable)
+      .values(batch)
+      .returning();
+    results.push(...inserted);
+  }
+  
+  return results;
+}
+```
+
+### Connection Lifecycle in Serverless
+```typescript
+// Next.js API Route example
+import { db } from "@/db";
+import { usersTable } from "@/schema";
+import { NextResponse } from "next/server";
+
+export async function GET(request: Request) {
+  try {
+    const users = await db.select().from(usersTable).limit(10);
+    
+    return NextResponse.json(users);
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Database query failed" },
+      { status: 500 }
+    );
+  }
+}
+```
+
+## Example
+
+<example>
+  Complete Neon database setup with Drizzle ORM:
+  
+  ```typescript
+  // src/db.ts
+  import { drizzle } from "drizzle-orm/neon-http";
+  import { neon } from "@neondatabase/serverless";
+  
+  if (!process.env.DATABASE_URL) {
+    throw new Error("DATABASE_URL is not defined");
+  }
+  
+  const sql = neon(process.env.DATABASE_URL);
+  export const db = drizzle({ client: sql });
+  ```
+  
+  ```typescript
+  // src/schema.ts
+  import { pgTable, uuid, text, timestamp, boolean } from "drizzle-orm/pg-core";
+  
+  export const todosTable = pgTable("todos", {
+    id: uuid("id").primaryKey().defaultRandom(),
+    userId: text("user_id").notNull(),
+    title: text("title").notNull(),
+    completed: boolean("completed").default(false),
+    createdAt: timestamp("created_at").defaultNow(),
+    updatedAt: timestamp("updated_at").defaultNow()
+  });
+  
+  export type Todo = typeof todosTable.$inferSelect;
+  export type NewTodo = typeof todosTable.$inferInsert;
+  ```
+  
+  ```typescript
+  // src/queries.ts
+  import { db } from "./db";
+  import { todosTable } from "./schema";
+  import { eq, and, desc } from "drizzle-orm";
+  
+  export async function getUserTodos(userId: string) {
+    return db
+      .select()
+      .from(todosTable)
+      .where(eq(todosTable.userId, userId))
+      .orderBy(desc(todosTable.createdAt));
+  }
+  
+  export async function createTodo(todo: NewTodo) {
+    return db.insert(todosTable).values(todo).returning();
+  }
+  
+  export async function toggleTodo(todoId: string) {
+    return db.transaction(async (tx) => {
+      const [todo] = await tx
+        .select()
+        .from(todosTable)
+        .where(eq(todosTable.id, todoId))
+        .limit(1);
+      
+      if (!todo) throw new Error("Todo not found");
+      
+      return tx
+        .update(todosTable)
+        .set({ 
+          completed: !todo.completed,
+          updatedAt: new Date()
+        })
+        .where(eq(todosTable.id, todoId))
+        .returning();
+    });
+  }
+  ```
+  
+  ```typescript
+  // drizzle.config.ts
+  import { defineConfig } from "drizzle-kit";
+  
+  export default defineConfig({
+    schema: "./src/schema.ts",
+    out: "./migrations",
+    dialect: "postgresql",
+    dbCredentials: {
+      url: process.env.DATABASE_URL!
+    }
+  });
+  ```
+</example>
+
+<example type="invalid">
+  Incorrect Neon setup without proper adapter:
+  
+  ```typescript
+  // WRONG: Using node-postgres instead of neon-http
+  import { drizzle } from "drizzle-orm/node-postgres";
+  import { Pool } from "pg";
+  
+  const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+  export const db = drizzle(pool);
+  
+  // WRONG: No error handling for connection
+  const sql = neon(process.env.DATABASE_URL);
+  export const db = drizzle({ client: sql });
+  
+  // WRONG: Not using prepared statements for repeated queries
+  export async function getUser(email: string) {
+    return db.select().from(users).where(eq(users.email, email));
+  }
+  
+  // WRONG: Not using batch operations
+  for (const user of users) {
+    await db.insert(usersTable).values(user);
+  }
+  ```
+  
+  This is invalid because:
+  - Using node-postgres instead of neon-http is not optimized for serverless
+  - No validation of DATABASE_URL environment variable
+  - Missing error handling for connection failures
+  - Not using prepared statements wastes query compilation time
+  - Individual inserts instead of batch operations are inefficient
+  - No transaction handling for related operations
+  - Missing timeout handling for serverless constraints
+</example>

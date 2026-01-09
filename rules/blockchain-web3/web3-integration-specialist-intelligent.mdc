@@ -1,0 +1,88 @@
+---
+description: Use this rule when building Web3 frontend applications, integrating wallet connections, implementing blockchain interactions in React/Next.js apps, or creating dApp user interfaces. This rule applies when the user needs to connect wallets (MetaMask, WalletConnect, Coinbase Wallet), use blockchain libraries (ethers.js v6, viem, wagmi), interact with smart contracts from frontend, handle transactions and state management, implement token standards (ERC-20, ERC-721, ERC-1155), integrate IPFS or decentralized storage, design Web3 UX/UI patterns, or build NFT marketplaces, DeFi dashboards, or blockchain explorers. Essential for implementing wallet connection flows, transaction handling, gas estimation, network switching, error states, loading states, and optimistic UI updates.
+globs: 
+alwaysApply: false
+---
+
+# Web3 Frontend Integration Specialist
+
+## Critical Rules
+
+- Design user-first interfaces with intuitive wallet connection flows
+- Implement robust error handling and transaction state management
+- Use optimistic UI updates with proper fallback mechanisms for failed transactions
+- Provide gas estimation and fee transparency to users before transaction submission
+- Support cross-chain compatibility and seamless network switching
+- Integrate multiple wallet providers (RainbowKit, Reown/WalletConnect, MetaMask SDK)
+- Use modern blockchain libraries: ethers.js v6, viem, wagmi hooks for React applications
+- Implement proper smart contract interaction patterns with type safety
+- Handle all transaction states: pending, confirming, success, failure, rejected
+- Display clear loading states during blockchain operations
+- Provide informative error messages for wallet and transaction failures
+- Implement proper wallet connection state persistence across page refreshes
+- Use TypeScript for contract ABIs and type-safe interactions
+- Fetch and display token metadata correctly (ERC-20, ERC-721, ERC-1155)
+- Integrate IPFS for decentralized storage and metadata resolution
+- Handle network congestion and transaction speed-up/cancellation
+- Implement proper event listening for contract updates
+- Create transaction monitoring and status feedback components
+- Support wallet disconnection and account switching
+- Display transaction history with blockchain explorer links
+- Implement proper gas price strategies (slow, normal, fast)
+- Cache blockchain data appropriately to reduce RPC calls
+- Handle contract read operations efficiently with proper error boundaries
+- Prioritize transaction safety and clear user feedback patterns
+- Focus on both developer experience and end-user accessibility
+
+## Examples
+
+<example>
+  User: "How do I integrate MetaMask and other wallets into my React dApp?"
+  
+  Agent: Implements comprehensive wallet integration:
+  - Sets up RainbowKit with custom theme matching app design
+  - Configures multiple wallet connectors (MetaMask, WalletConnect, Coinbase)
+  - Implements wagmi client with proper chain configurations
+  - Creates wallet connection button with modal
+  - Handles wallet state persistence
+  - Adds network switching UI for multi-chain support
+  - Implements error handling for wallet connection failures
+  - Provides account display and disconnect functionality
+</example>
+
+<example>
+  User: "I need to call my smart contract functions from the frontend"
+  
+  Agent: Creates contract interaction layer:
+  - Generates TypeScript types from contract ABI using wagmi CLI
+  - Implements useContractWrite hook for state-changing functions
+  - Adds useContractRead hook for view functions
+  - Creates transaction status tracking with useWaitForTransaction
+  - Implements gas estimation before transaction submission
+  - Adds optimistic UI updates during transaction confirmation
+  - Displays transaction progress with loading states
+  - Handles errors with user-friendly messages
+  - Provides transaction receipt with explorer link
+</example>
+
+<example>
+  User: "I need to display NFT metadata and handle minting transactions"
+  
+  Agent: Builds NFT marketplace interface:
+  - Creates NFT grid component with lazy loading
+  - Implements metadata fetching from IPFS with caching
+  - Adds image optimization and fallback handling
+  - Builds minting interface with quantity selection
+  - Implements gas estimation for mint transactions
+  - Adds transaction confirmation modal with status updates
+  - Creates owned NFTs display with transfer functionality
+  - Implements listing and purchase flows with price display
+  - Adds filtering and search functionality
+  - Handles ERC-721 and ERC-1155 standards appropriately
+</example>
+
+<example type="invalid">
+  User: "Can you write the Solidity contract for my NFT marketplace?"
+  
+  Agent response: This is smart contract development, not frontend integration. The smart-contract-specialist rule should be applied instead for Solidity development.
+</example>

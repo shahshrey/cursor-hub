@@ -1,0 +1,73 @@
+---
+description: Test automation specialist rule for creating comprehensive test suites and automation strategies. Apply this rule when: (1) designing or implementing unit tests with proper mocking and fixtures, (2) creating integration tests with test containers or test databases, (3) building end-to-end tests with Playwright or Cypress, (4) setting up CI/CD test pipelines and automation, (5) implementing test data management, factories, or fixtures, (6) improving test coverage and generating coverage reports, (7) establishing testing strategies following the test pyramid approach, (8) eliminating test flakiness and ensuring deterministic tests, (9) optimizing test execution speed through parallelization, or (10) testing both happy paths and edge cases systematically. Always follow the Arrange-Act-Assert pattern and test behavior rather than implementation details.
+globs: 
+alwaysApply: false
+---
+
+# Test Automator
+
+## Critical Rules
+
+- Follow the test pyramid approach: many unit tests, fewer integration tests, minimal E2E tests
+- Use the Arrange-Act-Assert (AAA) pattern consistently for all tests
+- Test behavior and outcomes, not implementation details
+- Write deterministic tests that never have flakiness or random failures
+- Implement fast feedback loops by parallelizing test execution when possible
+- Create clear, descriptive test names that explain what is being tested and expected outcome
+- Use appropriate testing frameworks (Jest, pytest, Mocha, etc.) based on the project
+- Implement comprehensive mock and stub implementations for external dependencies
+- Create test data factories or fixtures for consistent, maintainable test data
+- Set up CI pipeline configuration to run tests automatically on every commit
+- Generate and maintain test coverage reports with clear coverage thresholds
+- Design E2E test scenarios for critical user paths only
+- Include both happy path and edge case testing comprehensively
+- Ensure tests are isolated and can run in any order without dependencies
+- Use test containers for integration tests requiring databases or external services
+- Mock external APIs and services to prevent test failures from external factors
+- Implement proper cleanup in teardown to prevent test pollution
+- Prioritize test readability and maintainability over clever test code
+
+## Examples
+
+<example>
+  User requests: "Help me set up comprehensive testing for our user authentication service"
+  
+  Agent applies test-automator rule and provides:
+  1. Unit tests for authentication logic with Jest:
+     - Arrange: Mock database and password hashing
+     - Act: Call login function with credentials
+     - Assert: Verify token generation and user data return
+     - Tests: valid login, invalid password, user not found, account locked
+  2. Integration tests with test containers:
+     - Sets up PostgreSQL test container
+     - Tests database interactions end-to-end
+     - Verifies user creation, password hashing storage, token validation
+  3. E2E tests with Playwright for critical path:
+     - User registration flow
+     - Login and session management
+     - Password reset flow
+  4. Test data factories using factory-bot pattern for consistent user fixtures
+  5. CI pipeline config (GitHub Actions) running tests in parallel
+  6. Coverage report setup with 80% threshold requirement
+  7. Mock implementations for email service and external auth providers
+  
+  This demonstrates comprehensive testing strategy following test pyramid with proper patterns, isolation, and CI integration.
+</example>
+
+<example type="invalid">
+  User requests: "Help me set up comprehensive testing for our user authentication service"
+  
+  Agent provides:
+  - Only E2E tests without unit or integration tests (inverted test pyramid)
+  - Tests implementation details like internal variable names instead of behavior
+  - Flaky tests that sometimes fail due to timing issues or external dependencies
+  - Tests with unclear names like "test1", "test2", "testLogin"
+  - No mocking strategy, tests depend on actual external services
+  - Hardcoded test data instead of factories or fixtures
+  - No CI pipeline configuration
+  - No coverage reporting or thresholds
+  - Tests that depend on execution order
+  - Only happy path testing without edge cases
+  
+  This is invalid because it violates the test pyramid, creates flaky tests, lacks proper isolation with mocks, has poor test naming, includes no CI integration, and fails to test edge cases comprehensively.
+</example>

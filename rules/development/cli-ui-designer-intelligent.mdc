@@ -1,0 +1,347 @@
+---
+description: CLI/Terminal UI design specialist for creating terminal-inspired web interfaces with modern web technologies. Apply this rule when designing or implementing command-line interface aesthetics in web applications, terminal-themed user interfaces, CLI-style components, ASCII art integration, monospace typography systems, terminal color schemes, command-line UX patterns, or when building interfaces that need authentic terminal feel with modern web usability. Essential for projects requiring terminal emulation, developer tools interfaces, CLI documentation sites, or command-line inspired applications.
+alwaysApply: false
+---
+
+# CLI/Terminal UI Designer Specialist
+
+## Critical Rules
+
+- Use monospace typography exclusively with proper fallback fonts: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace
+- Implement terminal color schemes using CSS custom properties for consistent theming
+- Maintain authentic terminal feel while providing modern web usability
+- Ensure all text elements use monospace fonts for consistency
+- Use command-line visual patterns: prompts ($, >, ⎿), cursors, and status indicators
+- Follow 8px baseline grid for spacing consistency
+- Border radius: 4px for small elements, 8px for large containers
+- Include accessibility support with high contrast and keyboard navigation
+- Preserve terminal aesthetics across all device sizes with mobile-first approach
+- Format ASCII art properly with spacing and alignment
+
+## Terminal Aesthetic Principles
+
+### Core Styling Patterns
+
+#### Typography System
+- Primary font stack: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace
+- Consistent font sizing across all terminal elements
+- Proper line height for code readability
+- Fallback fonts for cross-platform compatibility
+
+#### Color System
+```css
+:root {
+  --bg-primary: #0f0f0f;
+  --bg-secondary: #1a1a1a;
+  --bg-tertiary: #2a2a2a;
+  
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0a0;
+  --text-accent: #d97706;
+  --text-success: #10b981;
+  --text-warning: #f59e0b;
+  --text-error: #ef4444;
+  
+  --border-primary: #404040;
+  --border-secondary: #606060;
+}
+```
+
+#### Terminal Container Base
+```css
+.terminal {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  border-radius: 8px;
+  border: 1px solid var(--border-primary);
+}
+```
+
+## Component Patterns
+
+### Terminal Header
+```html
+<div class="terminal-header">
+  <div class="ascii-title">
+    <pre class="ascii-art">[ASCII ART HERE]</pre>
+  </div>
+  <div class="terminal-subtitle">
+    <span class="status-dot"></span>
+    [Subtitle with status indicator]
+  </div>
+</div>
+```
+
+### Command Sections
+```html
+<div class="terminal-command">
+  <div class="header-content">
+    <h2 class="search-title">
+      <span class="terminal-dot"></span>
+      <strong>[Command Name]</strong>
+      <span class="title-params">([parameters])</span>
+    </h2>
+    <p class="search-subtitle">⎿ [Description]</p>
+  </div>
+</div>
+```
+
+### Interactive Command Input
+```html
+<div class="terminal-search-container">
+  <div class="terminal-search-wrapper">
+    <span class="terminal-prompt">></span>
+    <input type="text" class="terminal-search-input" placeholder="[placeholder]">
+  </div>
+</div>
+```
+
+### Filter Chips (Terminal Style)
+```html
+<div class="component-type-filters">
+  <div class="filter-group">
+    <span class="filter-group-label">type:</span>
+    <div class="filter-chips">
+      <button class="filter-chip active" data-filter="[type]">
+        <span class="chip-icon">[emoji]</span>[label]
+      </button>
+    </div>
+  </div>
+</div>
+```
+
+### Command Line Examples
+```html
+<div class="command-line">
+  <span class="prompt">$</span>
+  <code class="command">[command here]</code>
+  <button class="copy-btn">[Copy button]</button>
+</div>
+```
+
+## Interactive Elements
+
+### Buttons
+```css
+.terminal-btn {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-primary);
+  color: var(--text-primary);
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.terminal-btn:hover {
+  background: var(--text-accent);
+  border-color: var(--text-accent);
+  color: var(--bg-primary);
+}
+```
+
+### Form Inputs
+```css
+.terminal-input {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
+  color: var(--text-primary);
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  padding: 0.75rem;
+  border-radius: 4px;
+  outline: none;
+}
+
+.terminal-input:focus {
+  border-color: var(--text-accent);
+  box-shadow: 0 0 0 2px rgba(217, 119, 6, 0.2);
+}
+```
+
+### Status Indicators
+```css
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--text-success);
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+```
+
+## Layout Structures
+
+### Full Terminal Layout
+```html
+<main class="terminal">
+  <section class="terminal-section">
+    <!-- Content sections -->
+  </section>
+</main>
+```
+
+### Cards and Containers
+```html
+<div class="terminal-card">
+  <div class="card-header">
+    <span class="card-prompt">></span>
+    <h3>[Title]</h3>
+  </div>
+  <div class="card-content">
+    [Content]
+  </div>
+</div>
+```
+
+## CSS Architecture
+
+### Layer Organization
+1. CSS Custom Properties (terminal color scheme)
+2. Base Terminal Styles (main container)
+3. Component Patterns (command sections, inputs, buttons)
+4. Layout Utilities (grid and flex layouts)
+5. Responsive Design (mobile adaptations)
+
+### Responsive Design Strategy
+- Mobile-first approach maintained
+- Terminal aesthetics preserved across devices
+- Touch-friendly interactive elements
+- Readable font sizes on all screens
+
+## Advanced Features
+
+### Terminal Animations
+```css
+@keyframes terminal-cursor {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.terminal-cursor::after {
+  content: '_';
+  animation: terminal-cursor 1s infinite;
+}
+```
+
+### Theme Switching
+```css
+[data-theme="dark"] {
+  --bg-primary: #0f0f0f;
+  --text-primary: #ffffff;
+}
+
+[data-theme="light"] {
+  --bg-primary: #f8f9fa;
+  --text-primary: #1f2937;
+}
+```
+
+## Quality Standards Checklist
+
+### Visual Consistency
+- All text uses monospace fonts
+- Color scheme follows CSS custom properties
+- Spacing follows 8px baseline grid
+- Border radius consistent (4px small, 8px large)
+
+### Terminal Authenticity
+- Command prompts use proper symbols ($, >, ⎿)
+- Status indicators use appropriate colors
+- ASCII art is properly formatted
+- Interactive feedback mimics terminal behavior
+
+### Accessibility
+- High contrast terminal color schemes
+- Keyboard navigation support
+- Screen reader compatibility with semantic HTML
+- Focus indicators match terminal aesthetics
+
+### Performance
+- CSS optimized for fast rendering
+- Minimal JavaScript overhead
+- Efficient use of CSS custom properties
+- Proper asset loading strategies
+
+## Examples
+
+<example>
+  User Request: Create a terminal-style search interface
+
+  Response:
+  ```html
+  <div class="terminal">
+    <div class="terminal-header">
+      <pre class="ascii-art">
+   _____ _____ _____ _____ _____ _____ 
+  |   __|   __|  _  | __  |     |  |  |
+  |__   |   __|     |    -|   --|     |
+  |_____|_____|__|__|__|__|_____|__|__|
+      </pre>
+      <div class="terminal-subtitle">
+        <span class="status-dot"></span>
+        search engine v1.0
+      </div>
+    </div>
+    
+    <div class="terminal-search-container">
+      <div class="terminal-search-wrapper">
+        <span class="terminal-prompt">></span>
+        <input 
+          type="text" 
+          class="terminal-search-input" 
+          placeholder="enter search query..."
+        >
+      </div>
+    </div>
+  </div>
+  ```
+  
+  ```css
+  .terminal {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    border-radius: 8px;
+    border: 1px solid var(--border-primary);
+    padding: 2rem;
+  }
+  
+  .ascii-art {
+    color: var(--text-accent);
+    line-height: 1.2;
+    margin: 0;
+  }
+  
+  .terminal-prompt {
+    color: var(--text-accent);
+    margin-right: 0.5rem;
+  }
+  
+  .terminal-search-input {
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 1rem;
+    outline: none;
+    flex: 1;
+  }
+  ```
+</example>
+
+<example type="invalid">
+  User Request: Create a terminal-style search interface
+
+  Response:
+  ```html
+  <div class="search-box">
+    <input type="text" class="search-input" style="font-family: Arial">
+    <button class="search-btn">Search</button>
+  </div>
+  ```
+  
+  [This is invalid because it uses Arial instead of monospace fonts, lacks terminal styling elements (no prompt symbols, no terminal container, no ASCII art), doesn't use CSS custom properties for theming, missing border styling, no terminal color scheme, and doesn't provide authentic command-line aesthetics.]
+</example>

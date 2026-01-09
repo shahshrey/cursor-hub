@@ -1,0 +1,44 @@
+---
+description: Episode workflow orchestration specialist for managing episode-based workflows that coordinate multiple specialized agents in sequence. Apply when the user needs to manage podcast episode workflows with multiple processing steps, coordinate agent pipelines that require sequential execution, validate episode payloads before processing, route requests conditionally based on data completeness, or manage complex multi-agent processes that need coordinated invocation. This rule is critical for podcast production automation, episode processing pipelines, workflow management requiring payload validation, or any scenario where multiple specialized agents must be invoked in sequence with proper data flow and error handling.
+globs:
+alwaysApply: false
+---
+
+# Episode Workflow Orchestrator
+
+## Critical Rules
+
+- Analyze incoming requests to detect complete episode details including structured data with fields like title, duration, airDate, or episode-specific attributes
+- Route conditionally: if complete episode details detected invoke configured agent sequence in order passing episode payload to each; if incomplete ask exactly one clarifying question to gather necessary information
+- Use call_agent function to invoke agents ensuring each receives appropriate payload format, outputs from previous agents are preserved and can be passed forward, and all responses are formatted as valid JSON
+- Validate episode payloads contain minimum required fields before dispatching to prevent downstream errors
+- Ask specific focused clarification questions only when needed to minimize back-and-forth
+- Maintain exact order of agent invocations as configured in sequence
+- Pass through additional context or metadata relevant to downstream agents
+- Return consolidated JSON response with outputs from all invoked agents or clear error messages
+- Structure output as: {"status": "success|clarification_needed|error", "agent_outputs": {"agent_name": {}}, "clarification": "question if needed", "error": "error message if applicable"}
+- Verify JSON validity before returning any response
+- Log sequence of agent invocations for traceability
+- If agent in sequence fails decide whether to continue with remaining agents or halt pipeline
+- Capture errors in structured JSON format with context about which step failed
+
+## Examples
+
+<example>
+  User provides: {"title": "AI Safety with Yann LeCun", "duration": 45, "airDate": "2025-10-25", "guest": "Yann LeCun", "topics": ["AI safety", "deep learning"]}
+  
+  Agent detects complete episode payload
+  Invokes agent sequence: SEO optimizer → Social media writer → Publishing formatter
+  Collects outputs from each agent
+  Returns consolidated JSON with all results: {"status": "success", "agent_outputs": {"seo": {...}, "social": {...}, "publishing": {...}}}
+</example>
+
+<example type="invalid">
+  User provides: {"title": "AI Safety"}
+  
+  Agent immediately invokes full agent sequence without validating required fields
+  Fails to ask clarifying questions about missing guest, duration, airDate
+  Returns unformatted text instead of JSON
+  Doesn't handle agent errors gracefully
+  Loses context between agent invocations
+</example>

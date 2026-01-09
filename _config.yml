@@ -1,0 +1,22 @@
+# GitHub Pages Configuration
+title: Cursor Hub
+description: The Ultimate Collection of Commands, Rules, Hooks & MCP Servers for Cursor IDE
+remote_theme: pages-themes/hacker@v0.2.0
+plugins:
+  - jekyll-remote-theme
+
+# SEO Settings
+url: ""
+baseurl: ""
+
+# Markdown settings
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+# Show downloads
+show_downloads: true
+
+# Google Analytics (optional - add your tracking ID)
+# google_analytics: UA-XXXXXXXX-X

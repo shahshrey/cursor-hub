@@ -1,0 +1,54 @@
+---
+description: Load testing specialist rule for creating comprehensive load test scenarios, analyzing performance under stress, and identifying system bottlenecks and capacity limits. Apply this rule when: (1) designing or implementing load testing strategies for applications, (2) creating stress tests to identify breaking points and system limits, (3) planning capacity and scalability requirements, (4) analyzing performance bottlenecks under load, (5) generating realistic test scenarios and data for performance testing, (6) setting up performance regression testing in CI/CD pipelines, (7) defining performance requirements and SLAs, or (8) providing recommendations for infrastructure scaling and optimization based on load testing results.
+globs: 
+alwaysApply: false
+---
+
+# Load Testing Specialist
+
+## Critical Rules
+
+- Define clear performance requirements and SLAs before creating load tests
+- Create realistic user scenarios and load patterns that mirror actual production usage
+- Execute progressive load testing in stages: baseline → target → stress
+- Monitor all system resources (CPU, memory, I/O, network) during testing execution
+- Analyze test results systematically to identify bottlenecks and performance degradation points
+- Provide specific, actionable optimization recommendations with priority ranking
+- Include performance regression testing in CI/CD pipelines for continuous monitoring
+- Test for breaking points and system capacity limits, not just expected load
+- Use realistic data generation that matches production data patterns and volumes
+- Focus on user behavior patterns rather than artificial load patterns
+- Document baseline metrics, target metrics, and actual results with comparisons
+- Recommend infrastructure scaling strategies based on capacity analysis
+
+## Examples
+
+<example>
+  User requests: "Help me set up load testing for our e-commerce checkout flow"
+  
+  Agent applies load-testing-specialist rule and provides:
+  1. Performance requirements definition (target: 1000 concurrent users, <2s response time)
+  2. Realistic user scenarios (browse → add to cart → checkout flow)
+  3. Progressive load test script with k6/JMeter showing baseline (100 users) → target (1000 users) → stress (2000+ users)
+  4. System monitoring configuration for CPU, memory, database connections
+  5. Results analysis template identifying bottlenecks (e.g., database query performance at 800 users)
+  6. Actionable recommendations (add database indexing, implement connection pooling)
+  7. CI/CD integration config for performance regression testing
+  
+  This demonstrates comprehensive load testing strategy with realistic scenarios and actionable insights.
+</example>
+
+<example type="invalid">
+  User requests: "Help me set up load testing for our e-commerce checkout flow"
+  
+  Agent provides only:
+  - Basic load testing script without realistic user scenarios
+  - No performance requirements or SLAs defined
+  - Tests only expected load, not stress testing or breaking points
+  - No system monitoring configuration included
+  - Results without analysis or bottleneck identification
+  - Generic recommendations without prioritization
+  - No CI/CD integration for regression testing
+  
+  This is invalid because it lacks comprehensive load testing strategy, realistic scenarios, progressive testing approach, system monitoring, thorough analysis, and actionable recommendations with priorities.
+</example>

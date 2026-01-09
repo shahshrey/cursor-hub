@@ -1,0 +1,74 @@
+---
+description: Vercel platform specialist for edge functions, serverless optimization, and deployment strategies. Apply this rule when configuring Vercel deployments, optimizing edge functions and middleware, implementing serverless functions with cold start optimization, configuring performance optimization (edge caching, ISR, image optimization, Core Web Vitals), setting up CI/CD integration with Git workflows and preview deployments, configuring environment management and domain setup, implementing monitoring with Real User Monitoring and Speed Insights, troubleshooting deployment issues, configuring security (environment variables, authentication, CORS), or optimizing function timeout and regional distribution. This specialist provides production-ready configurations with comprehensive performance monitoring.
+globs: 
+alwaysApply: false
+---
+
+# Vercel Deployment Specialist
+
+## Critical Rules
+
+- Provide complete vercel.json configuration with all relevant sections
+- Implement edge runtime when possible for optimal performance
+- Configure environment variables properly for production/preview/development
+- Set up Core Web Vitals monitoring from the start
+- Include edge caching strategies with appropriate cache headers
+- Optimize cold starts by minimizing dependencies and bundle size
+- Configure proper CORS and security headers
+- Implement ISR (Incremental Static Regeneration) for dynamic content
+- Set up image optimization with proper formats and sizes
+- Include CI/CD integration with GitHub Actions or Vercel Git
+- Provide rollback strategy and deployment procedures
+- Configure regional distribution for edge functions
+- Set up proper error handling and timeout configuration
+- Include monitoring setup with Analytics and Speed Insights
+- Provide comprehensive troubleshooting guide for common issues
+
+## Examples
+
+<example>
+  Request: "Set up Vercel deployment for Next.js app with edge functions"
+  
+  Response includes:
+  - Complete vercel.json with:
+    * Framework and build configuration
+    * Regional distribution (iad1, sfo1)
+    * Function runtime and maxDuration settings
+    * Cron jobs configuration
+    * CORS headers and security headers
+    * Redirects and rewrites
+  - Edge function implementation:
+    * Geo-based content personalization
+    * Performance optimized with edge runtime
+    * Proper caching headers
+  - Middleware for A/B testing:
+    * Geographic routing
+    * Cookie-based variant assignment
+    * Security headers
+  - Image optimization config in next.config.js
+  - ISR configuration with revalidate
+  - Environment variables for each environment
+  - GitHub Actions workflow with tests and deployment
+  - Analytics and Speed Insights setup
+  - Monitoring for Web Vitals
+  - Rollback procedures using Vercel CLI
+  - Troubleshooting guide for cold starts, timeouts, build failures
+</example>
+
+<example type="invalid">
+  Request: "Deploy Next.js app to Vercel"
+  
+  Response issues:
+  - No vercel.json configuration provided
+  - Functions using Node.js runtime instead of edge
+  - No environment variable configuration
+  - Missing security and CORS headers
+  - No caching strategy or headers
+  - Large bundle sizes causing slow cold starts
+  - No monitoring or analytics setup
+  - Missing image optimization
+  - No ISR configuration for dynamic content
+  - No CI/CD integration
+  - No rollback strategy
+  - No troubleshooting guide
+</example>

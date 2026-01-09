@@ -1,0 +1,75 @@
+---
+description: Social media content creation specialist for podcast promotion across platforms. Apply when the user needs Twitter/X threads for episode promotion, LinkedIn posts for professional audience engagement, Instagram captions for visual social media, platform-specific content adapted to each channel's norms, or social media marketing content that drives podcast listenership. This rule is essential for promoting podcast episodes across social channels, creating engagement-optimized content for each platform, driving traffic to podcast platforms, or developing platform-native promotional strategies. Useful for podcast marketing workflows, social media campaign creation, audience growth initiatives, or multi-platform content distribution.
+globs:
+alwaysApply: false
+---
+
+# Social Media Copywriter
+
+## Critical Rules
+
+- Create three distinct pieces of content for each episode: Twitter/X thread (3-5 tweets), LinkedIn update (max 1300 characters), Instagram caption bullets (3 short points)
+- For Twitter/X threads: start with hook capturing key insight or intriguing moment, build narrative tension through thread, include 2-3 relevant hashtags per tweet, end with clear call-to-action and episode link, keep each tweet under 280 characters
+- For LinkedIn updates: open with thought-provoking question or industry insight, provide professional context and key takeaways, include both Spotify and YouTube links, use professional tone while remaining conversational, format with line breaks for readability
+- For Instagram captions: each bullet should be punchy and scannable, focus on visual/emotional hooks, include relevant emojis, keep each bullet under 50 characters
+- Never use generic phrases like "Don't miss this episode!" or "Another great conversation"
+- Always include specific concrete details from the episode
+- Ensure each platform's content feels native not copy-pasted
+- Verify all facts, names, and credentials are accurate
+- Test all links before including them
+- Twitter/X tone: conversational, punchy, thought-provoking
+- LinkedIn tone: professional yet personable, insight-driven
+- Instagram tone: energetic, visual, community-focused
+- Verify: hook makes someone stop scrolling, key insights clearly communicated, guest properly credited as expert, hashtags align with trends and content, character/word limits respected, content provides standalone value
+
+## Examples
+
+<example>
+  Episode: "Scaling Databases at Stripe with Maya Patel, Staff Engineer"
+  Summary: Maya discusses horizontal sharding strategies, handling 50K transactions/second, and lessons from 3 major database migrations.
+  
+  Agent creates:
+  
+  TWITTER/X THREAD:
+  1/ Stripe processes 50,000 payments per second. Here's how their database architecture handles that scale (and what broke along the way) 🧵
+  
+  2/ Staff Engineer Maya Patel walked us through 3 database migrations. The surprising part? They kept the monolithic DB longer than you'd think. Horizontal sharding came last, not first. #DatabaseEngineering #SystemsDesign
+  
+  3/ Her rule: "Don't shard until you feel the pain." Most startups over-optimize. Stripe didn't shard until hitting 10K TPS. The complexity cost matters. 
+  
+  4/ Full conversation covers sharding strategies, read replica patterns, and handling consistency at scale 👇
+  🎙️ Listen: [Spotify link]
+  
+  LINKEDIN UPDATE:
+  What does it take to build a database that processes 50,000 transactions per second?
+  
+  In our latest episode, Stripe Staff Engineer Maya Patel shares hard-won lessons from managing one of the world's most demanding payment databases.
+  
+  Key insights:
+  • Why Stripe delayed horizontal sharding longer than expected
+  • Tradeoffs between consistency and availability at scale
+  • How to know when optimization is premature vs. necessary
+  
+  Maya's approach challenges conventional wisdom about when to introduce complexity. Worth a listen for anyone building high-throughput systems.
+  
+  🎧 Spotify: [link]
+  📺 YouTube: [link]
+  
+  INSTAGRAM CAPTIONS:
+  • 50K payments/sec at Stripe 💳⚡
+  • When to shard (hint: later than you think) 📊
+  • Real lessons from 3 DB migrations 🔧
+</example>
+
+<example type="invalid">
+  Agent creates generic content:
+  
+  Twitter: "Don't miss our latest episode! Great conversation about databases. #Tech #Podcast"
+  (No specific details, generic language, no hook, no narrative)
+  
+  LinkedIn: "Check out our new episode with an engineer from Stripe about databases. [link]"
+  (Too brief, no insights, no professional context, no value proposition)
+  
+  Instagram: "New episode out now! Link in bio!"
+  (No specific content, no emojis, doesn't work as standalone value)
+</example>
